@@ -12,12 +12,19 @@ import { motion } from "framer-motion";
 import { SideBarItem } from "@/library/sidebaritem";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "@/redux/store";
 
 export default function Sidebar() {
   const pathname = usePathname();
 
+  const dispatch = useDispatch();
+  const sidebarButtonReducer = useAppSelector(
+    (state) => state.sidebarButtonReducer.value.sidebarButton
+  );
+
   return (
-    <div className="flex flex-col h-full justify-between items-start w-[227px] bg-white py-16 px-16 border-r border-input-border ">
+    <div className="flex-col h-full justify-between items-start w-[227px] bg-white py-16 px-16 border-r border-input-border hidden xl:flex ">
       <div className="flex flex-col gap-64 w-full">
         <div className="flex flex-row gap-8 items-end w-full">
           <div className="w-[40px] h-[40px]">

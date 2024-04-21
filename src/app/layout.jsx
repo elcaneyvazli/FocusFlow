@@ -2,6 +2,7 @@
 import Bg from "@/ui/layout/Bg/Bg";
 import "./globals.css";
 import { usePathname } from "next/navigation";
+import { ReduxProvider } from "@/redux/provider";
 
 const metadata = {
   title: "Focus Flow",
@@ -35,10 +36,12 @@ export default function RootLayout({ children }) {
         />
         <link rel="manifest" href="/site.webmanifest" />
       </head>
-      <body className="">
-        {showBg && <Bg/>}
-        {children}
-      </body>
+      <ReduxProvider>
+        <body className="" suppressHydrationWarning={true}>
+          {showBg && <Bg />}
+          {children}
+        </body>
+      </ReduxProvider>
     </html>
   );
 }

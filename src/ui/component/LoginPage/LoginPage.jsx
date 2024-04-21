@@ -8,8 +8,6 @@ import {
   EyeIcon,
   EyeSlashIcon,
 } from "@heroicons/react/24/outline";
-import { motion } from "framer-motion";
-import google from "@/ui/assert/google.png";
 import Link from "next/link";
 import PrimaryButton from "@/ui/block/button/primaryButton/primaryButton";
 import AuthorizeButton from "@/ui/block/button/AuthorizeButton/AuthorizeButton";
@@ -34,8 +32,8 @@ export default function LoginPage() {
         </div>
         <div className="flex flex-col gap-32 w-full">
           <div className="fle flex-col px-12 border-l-2 border-primary">
-            <h1 className="text-3xl font-semibold">Welcome Back</h1>
-            <p className="text-lg text-light font-light">
+            <h1 className="sm:text-3xl text:xl font-semibold">Welcome Back</h1>
+            <p className="sm:text-lg text-md text-light font-light">
               Please sign in to your account
             </p>
           </div>

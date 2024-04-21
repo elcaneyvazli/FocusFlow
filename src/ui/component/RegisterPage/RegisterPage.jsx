@@ -9,8 +9,6 @@ import {
   EyeSlashIcon,
   EnvelopeIcon,
 } from "@heroicons/react/24/outline";
-import { motion } from "framer-motion";
-import google from "@/ui/assert/google.png";
 import Link from "next/link";
 import PrimaryButton from "@/ui/block/button/primaryButton/primaryButton";
 import AuthorizeButton from "@/ui/block/button/AuthorizeButton/AuthorizeButton";
@@ -35,7 +33,7 @@ export default function RegisterPage() {
         <div className="flex flex-col gap-32 w-full">
           <div className="fle flex-col px-12 border-l-2 border-primary">
             <h1 className="sm:text-3xl text:xl font-semibold">Welcome to our platform</h1>
-            <p className=" sm:text-lg text-md text-light font-light">
+            <p className="sm:text-lg text-md text-light font-light">
               Please create an account to continue
             </p>
           </div>

@@ -1,4 +1,4 @@
-import React from "react";
+"use client";
 import Breadcrumb from "../../block/breadcrumb/breadcrumb";
 import {
   BellIcon,
@@ -8,22 +8,43 @@ import {
 } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import profile from "@/ui/assert/profile.jpg";
+import SidebarToggleButton from "@/ui/block/button/SidebarToggleButton/SidebarToggleButton";
+import { motion } from "framer-motion";
 
 export default function navbar() {
   return (
     <div className="px-16 py-12 flex flex-row justify-between items-center bg-white border-b border-input-border z-80">
-      <Breadcrumb />
       <div className="flex flex-row gap-16 items-center">
-        <button className="px-8 bg-input-bg border border-input-border rounded-main h-40">
+        <SidebarToggleButton />
+        <Breadcrumb />
+      </div>
+      <div className="flex flex-row gap-16 items-center">
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="px-8 bg-input-bg border border-input-border rounded-main h-40"
+        >
           <SunIcon className="h-24 w-24 text-primary" />
-        </button>
-        <button className="px-8 bg-input-bg border border-input-border rounded-main h-40">
+        </motion.button>
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="px-8 bg-input-bg border border-input-border rounded-main h-40"
+        >
           <BellIcon className="h-24 w-24 text-primary" />
-        </button>
-        <button className="px-8 bg-input-bg border border-input-border rounded-main h-40">
+        </motion.button>
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="px-8 bg-input-bg border border-input-border rounded-main h-40"
+        >
           <Cog8ToothIcon className="h-24 w-24 text-primary" />
-        </button>
-        <div className="flex flex-row gap-12 items-center">
+        </motion.button>
+        <motion.div
+          className="flex flex-row md:gap-12 gap-4 items-center cursor-pointer"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
           <div className="h-40 w-40 rounded-full">
             <Image
               src={profile}
@@ -33,12 +54,12 @@ export default function navbar() {
               className="w-full h-full rounded-full object-cover"
             />
           </div>
-          <div className="flex flex-col gap-0">
+          <div className="flex-col gap-0 md:flex hidden">
             <p className="text-xs font-medium text-primary">John Doe</p>
             <p className="text-xs font-normal text-light">johndoe@gmail.com</p>
           </div>
           <ChevronDownIcon className="h-[14px] w-[14px] text-primary" />
-        </div>
+        </motion.div>
       </div>
     </div>
   );
