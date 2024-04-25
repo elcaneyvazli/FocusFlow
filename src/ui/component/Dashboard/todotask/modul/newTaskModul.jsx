@@ -3,9 +3,10 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/redux/store";
 import ButtonWithIcon from "@/ui/block/button/ButtonWithIcon/ButtonWithIcon";
-import { XMarkIcon } from "@heroicons/react/24/outline";
+import { DocumentPlusIcon, DocumentTextIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { toggleTask } from "@/redux/features/NewTaskSlice/newTaskSlice";
 import AddTaskButton from "@/ui/block/button/AddTaskButton/AddTaskButton";
+import TextInput from "@/ui/block/input/TextInput/TextInput";
 
 export default function NewTaskModul() {
   const dispatch = useDispatch();
@@ -29,7 +30,16 @@ export default function NewTaskModul() {
           />
         </div>
         <div className="flex flex-col gap-12 ">
-
+          <TextInput
+            title="Task title"
+            placeholder="Add Task Title"
+            icon={<DocumentPlusIcon className="w-[18px] h-[18px] text-light" />}
+          />
+          <TextInput
+            title="Task description"
+            placeholder="Add Task Description"
+            icon={<DocumentTextIcon className="w-[18px] h-[18px] text-light" />}
+          />
         </div>
         <AddTaskButton />
       </div>
