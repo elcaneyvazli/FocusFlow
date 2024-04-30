@@ -25,12 +25,4 @@ export const taskcard = [
     trend: true,
     percentage: 10.6,
   },
-  {
-    id: 4,
-    title: "Overdue Task",
-    icon: <ClockIcon className="h-24 w-24 text-primary" />,
-    task: 8,
-    trend: false,
-    percentage: 3.5
-  },
 ];

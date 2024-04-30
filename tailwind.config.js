@@ -22,6 +22,12 @@ module.exports = {
         'success-primary-light': '#DEF7EC',
         'warning-primary': '#9B1C1C',
         'warning-primary-light': '#FDE8E8',
+        'red-bg': '#FDE8E8',
+        'red-text': '#9B1C1C',
+        'blue-bg': '#E8EDFF',
+        'blue-text': '#184BFE',
+        'green-bg': '#DEF7EC',
+        'green-text': '#046C4E',
       },
       fontSize: {
         'xs': '12px',

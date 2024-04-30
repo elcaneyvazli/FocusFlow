@@ -8,19 +8,15 @@ import {toggleTask} from "@/redux/features/NewTaskSlice/newTaskSlice";
 
 export default function NewTaskButton() {
   const dispatch = useDispatch();
-  
-
   return (
     <motion.button
-      className="bg-primary opacity-100 hover:opacity-95 text-bg text-sm font-bold rounded-[10px] px-32 py-8 relative overflow-hidden sm:w-fit w-full"
+      className="bg-primary opacity-100 hover:opacity-95 text-bg text-sm font-bold rounded-[10px] overflow-hidden sm:w-fit w-full h-[40px] flex flex-row items-center justify-center px-32"
       animate={{ scale: 1 }}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.95 }}
       onClick={() => dispatch(toggleTask())} 
     >
-      <Link href="/dashboard">
-        <p className="text-white text-sm font-medium">New Task</p>
-      </Link>
+        <p className="text-white text-sm font-medium flex flex-row w-full">New Task</p>
     </motion.button>
   );
 }

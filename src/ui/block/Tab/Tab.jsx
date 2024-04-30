@@ -9,7 +9,7 @@ export default function Tab() {
 
   return (
     <>
-      <div className="flex flex-col sm:flex-row items-center justify-between sm:gap-0 gap-12">
+      <div className="flex flex-col sm:flex-row items-center justify-between sm:gap-0 gap-12 ">
         <div className="flex flex-row gap-0 items-center w-full sm:w-fit">
           {Tasktab.map((tab) => (
             <div

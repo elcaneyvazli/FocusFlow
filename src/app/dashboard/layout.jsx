@@ -9,11 +9,11 @@ export default function DashLayout({ children }) {
       <div className="h-screen">
         <Sidebar />
       </div>
-      <div className="flex flex-col min-h-screen w-full overflow-y-auto relative">
+      <div className="flex flex-col max-h-screen w-full overflow-y-scroll bg-input-bg">
         <div className="sticky top-0 w-full">
           <Navbar />
         </div>
-        <div className="w-full h-full p-12 sm:p-16 xl:px-32 xl:py-16 bg-input-bg">
+        <div className="w-full min-h-full p-12 sm:p-16 xl:px-32 xl:py-16 ">
           {children}
         </div>
       </div>
