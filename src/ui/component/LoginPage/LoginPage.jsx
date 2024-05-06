@@ -9,7 +9,7 @@ import {
   EyeSlashIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import PrimaryButton from "@/ui/block/button/primaryButton/primaryButton";
+import PrimaryButton from "@/ui/block/button/PrimaryButton/PrimaryButton";
 import AuthorizeButton from "@/ui/block/button/AuthorizeButton/AuthorizeButton";
 
 export default function LoginPage() {

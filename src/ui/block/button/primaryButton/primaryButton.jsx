@@ -6,13 +6,13 @@ import Link from "next/link";
 export default function PrimaryButton({ text, link }) {
   return (
     <motion.button
-      className="bg-primary opacity-100 hover:opacity-95 text-bg text-sm font-bold rounded-[10px] px-16 py-12 w-full relative overflow-hidden"
+      className="hover:bg-primary bg-input-bg border border-input-border opacity-100 hover:opacity-95 rounded-main px-32 py-8 text-black hover:text-white"
       animate={{ scale: 1 }}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.95 }}
     >
       <Link href={link}>
-        <p className="text-white text-sm font-medium">{text}</p>
+        <p className=" text-sm font-medium">{text}</p>
       </Link>
     </motion.button>
   );
