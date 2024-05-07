@@ -10,7 +10,7 @@ import {
   EnvelopeIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import PrimaryButton from "@/ui/block/button/PrimaryButton/PrimaryButton";
+// import PrimaryButton from "@/ui/block/button/PrimaryButton/PrimaryButton";
 import AuthorizeButton from "@/ui/block/button/AuthorizeButton/AuthorizeButton";
 
 export default function RegisterPage() {
@@ -90,7 +90,7 @@ export default function RegisterPage() {
               </div>
             </div>
             <div className="flex flex-col gap-4 w-full items-start">
-              <PrimaryButton text="Sign up" link="/dashboard" />
+              {/* <PrimaryButton text="Sign up" link="/dashboard" /> */}
               <div className="flex flex-row gap-4">
                 <h1 className="font-light text-xs text-light">
                   Already have an account

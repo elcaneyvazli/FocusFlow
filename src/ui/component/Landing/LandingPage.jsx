@@ -2,7 +2,7 @@
 import React from "react";
 import Image from "next/image";
 import Logo from "@/ui/assert/Logowbg.svg";
-import PrimaryButton from "@/ui/block/button/PrimaryButton/PrimaryButton";
+// import PrimaryButton from "@/ui/block/button/PrimaryButton/PrimaryButton";
 import Page from "@/ui/assert/page.png";
 import { motion } from "framer-motion";
 import Tape from "./Tape";
@@ -30,8 +30,8 @@ export default function LandingPage() {
             <h1 className="text-xl text-black font-semibold z-50">FocusFlow</h1>
           </div>
           <div className="flex flex-row gap-16 items-center">
-            <PrimaryButton text="Login" link="/login" />
-            <PrimaryButton text="Register" link="/register" />
+            {/* <PrimaryButton text="Login" link="/login" /> */}
+            {/* <PrimaryButton text="Register" link="/register" /> */}
           </div>
         </div>
         <div className="flex flex-col gap-24 items-start">
@@ -44,7 +44,7 @@ export default function LandingPage() {
               access and unlock peak productivity.
             </p>
           </div>
-          <PrimaryButton text="Get Started" link="/register" />
+          {/* <PrimaryButton text="Get Started" link="/register" /> */}
         </div>
         <motion.div
           className="w-full border-8 border-black rounded-main"
