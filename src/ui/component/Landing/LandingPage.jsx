@@ -2,15 +2,13 @@
 import React from "react";
 import Image from "next/image";
 import Logo from "@/ui/assert/Logowbg.svg";
-// import PrimaryButton from "@/ui/block/button/PrimaryButton/PrimaryButton";
 import Page from "@/ui/assert/page.png";
 import { motion } from "framer-motion";
-import Tape from "./Tape";
 import About from "./About";
 import Header from "@/ui/block/header/Header";
 import Features from "./Features";
 import Footer from "./Footer";
-import Button from "@/ui/block/button/Button/Button";
+import FitButton from "@/ui/block/button/Button/FitButton";
 
 export default function LandingPage() {
   return (
@@ -31,8 +29,8 @@ export default function LandingPage() {
             <h1 className="text-xl text-black font-semibold z-50">FocusFlow</h1>
           </div>
           <div className="flex flex-row gap-16 items-center">
-            <Button text={"Login"} link={"/login"} />
-            <Button text={"Register"} link={"/dashboard"} />
+            <FitButton text={"Login"} link={"/login"} />
+            <FitButton text={"Register"} link={"/register"} />
           </div>
         </div>
         <div className="flex flex-col gap-24 items-start">
@@ -45,14 +43,9 @@ export default function LandingPage() {
               access and unlock peak productivity.
             </p>
           </div>
-          <Button text={"Get Started"} link={"/register"} />
+          <FitButton text={"Get Started"} link={"/register"} />
         </div>
-        <motion.div
-          className="w-full border-8 border-black rounded-main"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-        >
+        <motion.div className="w-full border-8 border-black rounded-main">
           <Image
             src={Page}
             alt="landing"
