@@ -10,6 +10,7 @@ import About from "./About";
 import Header from "@/ui/block/header/Header";
 import Features from "./Features";
 import Footer from "./Footer";
+import Button from "@/ui/block/button/Button/Button";
 
 export default function LandingPage() {
   return (
@@ -30,8 +31,8 @@ export default function LandingPage() {
             <h1 className="text-xl text-black font-semibold z-50">FocusFlow</h1>
           </div>
           <div className="flex flex-row gap-16 items-center">
-            {/* <PrimaryButton text="Login" link="/login" /> */}
-            {/* <PrimaryButton text="Register" link="/register" /> */}
+            <Button text={"Login"} link={"/login"} />
+            <Button text={"Register"} link={"/dashboard"} />
           </div>
         </div>
         <div className="flex flex-col gap-24 items-start">
@@ -44,7 +45,7 @@ export default function LandingPage() {
               access and unlock peak productivity.
             </p>
           </div>
-          {/* <PrimaryButton text="Get Started" link="/register" /> */}
+          <Button text={"Get Started"} link={"/register"} />
         </div>
         <motion.div
           className="w-full border-8 border-black rounded-main"
