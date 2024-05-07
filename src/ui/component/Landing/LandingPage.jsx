@@ -23,6 +23,7 @@ export default function LandingPage() {
                 alt="logo"
                 width={0}
                 height={0}
+                draggable="false"
                 className="w-full h-full object-cover bg-center z-50"
               />
             </div>
@@ -56,6 +57,7 @@ export default function LandingPage() {
             alt="landing"
             width={0}
             height={0}
+            draggable="false"
             className="w-full h-full object-cover bg-center rounded-main"
           />
         </motion.div>

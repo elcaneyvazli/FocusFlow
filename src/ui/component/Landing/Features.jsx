@@ -22,6 +22,7 @@ export default function Features() {
             alt="pomodoro"
             width={0}
             height={0}
+            draggable="false"
             className="overflow-hidden object-cover bg-center "
           />
         </div>
@@ -39,6 +40,7 @@ export default function Features() {
             alt="pomodoro"
             width={0}
             height={0}
+            draggable="false"
             className="overflow-hidden object-cover bg-center"
           />
         </div>
@@ -57,6 +59,7 @@ export default function Features() {
               alt="pomodoro"
               width={0}
               height={0}
+              draggable="false"
               className="overflow-hidden w-full object-cover bg-center"
             />
           </div>
@@ -71,7 +74,7 @@ export default function Features() {
           </p>
         </div>
         <div className="flex flex-col gap-0 w-full items-start justify-start">
-          <h1 className="text-black text-2xl">262</h1>
+          <h1 className="text-black font-bold text-4xl">262</h1>
           <p className="text-light text-lg">from the last month</p>
         </div>
         <div className="absolute bottom-12 right-12 ">
@@ -80,6 +83,7 @@ export default function Features() {
             alt="pomodoro"
             width={0}
             height={0}
+            draggable="false"
             className="overflow-hidden object-cover bg-center"
           />
         </div>
@@ -95,6 +99,7 @@ export default function Features() {
             alt="pomodoro"
             width={0}
             height={0}
+            draggable="false"
             className="overflow-hidden w-full object-cover bg-center"
           />
         </div>

@@ -17,6 +17,7 @@ export default function About() {
           alt="about"
           width={0}
           height={0}
+          draggable = "false"
           className="w-full h-full object-cover bg-center rounded-main"
         />
       </div>
