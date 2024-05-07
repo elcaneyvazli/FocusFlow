@@ -9,8 +9,10 @@ import image4 from "@/ui/assert/4.svg";
 
 export default function Footer() {
   return (
-    <div className="flex flex-col gap-32 items-start bg-black w-full px-80">
-      <h1 className="text-white text-[128px]">Want to Talk about a Project?</h1>
+    <div className="flex flex-col gap-32 items-start bg-black w-full px-16 xs:px-32 sm:px-48 lg:px-64 xl:px-80">
+      <h1 className="text-white text-4xl xs:text-[64px] md:text-[96px] lg:text-[128px]">
+        Want to Talk about a Project?
+      </h1>
       <div className="bg-white flex flex-row gap-24 pr-4 pl-16 py-4 rounded-full items-center">
         <p className="text-black text-xl">Lets Talk</p>
         <div className="flex items-center justify-center p-8 bg-black rounded-full">
@@ -57,7 +59,7 @@ export default function Footer() {
         </div>
         <div className="flex flex-row justify-between items-center pb-8 text-sm text-white w-full">
           <p>© Copyright 2022, All Rights Reserved</p>
-          <div className="flex flex-row items-center gap-16">
+          <div className="hidden sm:flex flex-row items-center gap-16">
             <p>Privacy Policy</p>
             <p> Terms & Conditions</p>
           </div>

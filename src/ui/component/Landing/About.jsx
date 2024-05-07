@@ -10,8 +10,8 @@ import {
 
 export default function About() {
   return (
-    <div className="grid grid-cols-3 gap-16">
-      <div className="row-span-2">
+    <div className="grid grid-cols-2 xl:grid-cols-3 gap-16">
+      <div className="col-span-2 lg:row-span-4 xl:row-span-2 lg:col-span-1">
         <Image
           src={AboutImg}
           alt="about"
@@ -21,7 +21,7 @@ export default function About() {
           className="w-full h-full object-cover bg-center rounded-main"
         />
       </div>
-      <div className="flex flex-col gap-16 items-start border border-input-border bg-input-bg rounded-main p-16">
+      <div className="flex flex-col gap-16 items-start border border-input-border bg-input-bg rounded-main p-16 col-span-2 sm:col-span-1">
         <div className="rounded-main p-12 bg-black text-white">
           <ClockIcon className="h-[30px] w-[30px] text-white" />
         </div>
@@ -33,7 +33,7 @@ export default function About() {
           </p>
         </div>
       </div>
-      <div className="flex flex-col gap-16 items-start border border-input-border bg-input-bg rounded-main p-16">
+      <div className="flex flex-col gap-16 items-start border border-input-border bg-input-bg rounded-main p-16 col-span-2 sm:col-span-1">
         <div className="rounded-main p-12 bg-black text-white">
           <PresentationChartBarIcon className="h-[30px] w-[30px] text-white" />
         </div>
@@ -45,7 +45,7 @@ export default function About() {
           </p>
         </div>
       </div>
-      <div className="flex flex-col gap-16 items-start border border-input-border bg-input-bg rounded-main p-16">
+      <div className="flex flex-col gap-16 items-start border border-input-border bg-input-bg rounded-main p-16 col-span-2 sm:col-span-1">
         <div className="rounded-main p-12 bg-black text-white">
           <UserGroupIcon className="h-[30px] w-[30px] text-white" />
         </div>
@@ -57,7 +57,7 @@ export default function About() {
           </p>
         </div>
       </div>
-      <div className="flex flex-col gap-16 items-start border border-input-border bg-input-bg rounded-main p-16">
+      <div className="flex flex-col gap-16 items-start border border-input-border bg-input-bg rounded-main p-16 col-span-2 sm:col-span-1">
         <div className="rounded-main p-12 bg-black text-white">
           <NoSymbolIcon className="h-[30px] w-[30px] text-white" />
         </div>
