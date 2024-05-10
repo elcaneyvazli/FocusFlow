@@ -2,8 +2,6 @@ import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import React from "react";
 import Logo from "@/ui/assert/Logo.svg";
-import image1 from "@/ui/assert/1.svg";
-import image2 from "@/ui/assert/2.svg";
 import image3 from "@/ui/assert/3.svg";
 import image4 from "@/ui/assert/4.svg";
 

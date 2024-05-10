@@ -51,19 +51,11 @@ export default function KanbanCardItem() {
             <p className="text-sm text-primary">Label</p>
           </div>
           <p className="text-sm text-primary">-</p>
-          <div className="flex flex-row gap-4 items-center w-full overflow-x-auto">
             <div className="px-8 py-4 flex items-center justify-center border border-input-border bg-input-bg rounded-main whitespace-nowrap">
               <p className="text-xs text-primary">Web Design</p>
-            </div>
-            <div className="px-8 py-4 flex items-center justify-center border border-input-border bg-input-bg rounded-main whitespace-nowrap">
-              <p className="text-xs text-primary">Frontend</p>
-            </div>
-            <div className="px-8 py-4 flex items-center justify-center border border-input-border bg-input-bg rounded-main whitespace-nowrap">
-              <p className="text-xs text-primary">Development</p>
             </div>
           </div>
         </div>
       </div>
-    </div>
   );
 }
