@@ -17,8 +17,7 @@ export default function SidebarToggleButton() {
   };
   return (
     <motion.button
-      className="border border-input-border bg-input-bg p-8 rounded-main block xl:hidden"
-
+      className="border border-input-border dark:border-dark-input-border dark:bg-dark-input-bg bg-input-bg p-8 rounded-main block xl:hidden"
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       onClick={toggleSidebarButton}

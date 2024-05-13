@@ -9,7 +9,7 @@ export default function TextInput({ title, placeholder, icon }) {
         <input
           type="text"
           placeholder={placeholder}
-          className="bg-[#f9fafb] border border-[#D1D5DB] text-gray-900 text-sm rounded-[10px] focus:ring-primary focus:border-primary focus:outline-none block w-full ps-40 px-16 py-12"
+          className="bg-input-bg dark:bg-dark-input-bg border border-input-border dark:border-dark-input-border text-primary dark:text-input-bg text-sm rounded-[10px] focus:ring-primary focus:border-primary focus:outline-none block w-full ps-40 px-16 py-12"
         />
       </div>
     </div>

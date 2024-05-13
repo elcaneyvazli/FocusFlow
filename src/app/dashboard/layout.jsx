@@ -9,7 +9,7 @@ export default function DashLayout({ children }) {
       <div className="h-screen">
         <Sidebar />
       </div>
-      <div className="flex flex-col max-h-screen w-full overflow-y-scroll bg-input-bg">
+      <div className="flex flex-col max-h-screen w-full overflow-y-scroll bg-input-bg dark:bg-primary">
         <div className="sticky top-0 w-full">
           <Navbar />
         </div>

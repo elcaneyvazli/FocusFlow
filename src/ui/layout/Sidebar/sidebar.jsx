@@ -14,6 +14,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/redux/store";
+import LogoContainer from "@/ui/block/Logo/Logo";
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -24,27 +25,18 @@ export default function Sidebar() {
   );
 
   return (
-    <div className="flex-col h-full justify-between items-start w-[227px] bg-white py-16 px-16 border-r border-input-border hidden xl:flex ">
+    <div className="flex-col h-full justify-between items-start w-[227px] bg-white dark:bg-primary py-16 px-16 border-r border-input-border dark:border-dark-input-border hidden xl:flex ">
       <div className="flex flex-col gap-64 w-full">
-        <div className="flex flex-row gap-8 items-end w-full">
-          <div className="w-[40px] h-[40px]">
-            <Image
-              src={Logo}
-              alt="logo"
-              width={0}
-              height={0}
-              className="w-full h-full object-cover bg-center"
-            />
-          </div>
-          <h1 className="text-xl text-black font-semibold">FocusFlow</h1>
-        </div>
+        <LogoContainer />
         <div className="flex flex-col gap-24 w-full">
-          <div className="w-full bg-input-bg border border-input-border px-12 py-12 rounded-main flex flex-row justify-between items-center">
+          <div className="w-full bg-input-bg dark:bg-dark-input-bg border border-input-border dark:border-dark-input-border px-12 py-12 rounded-main flex flex-row justify-between items-center">
             <div className="w-full flex flex-row gap-8 items-center">
-              <ClockIcon className="w-24 h-24 text-primary" />
+              <ClockIcon className="w-24 h-24 text-primary dark:text-input-bg" />
               <div className="flex flex-col gap-0 items-start">
                 <p className="text-light text-xs font-light">Time Tracker</p>
-                <p className="text-black text-xs font-medium">00:01:38</p>
+                <p className="text-black dark:text-input-bg text-xs font-medium">
+                  00:01:38
+                </p>
               </div>
             </div>
             <motion.button className="rounded-full px-4 py-4 border border-success-primary">
@@ -59,10 +51,10 @@ export default function Sidebar() {
                     key={index}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className={`border border-input-border px-12 py-12 w-full flex flex-row items-center justify-start gap-8 rounded-main ${
+                    className={`border border-input-border dark:border-dark-input-border px-12 py-12 w-full flex flex-row items-center justify-start gap-8 rounded-main ${
                       pathname === item.link
-                        ? "bg-primary text-white hover:opacity-95"
-                        : "bg-white text-primary border-0 hover:opacity-70"
+                        ? "bg-primary dark:bg-dark-input-bg text-white hover:opacity-95"
+                        : "bg-white dark:bg-primary text-primary dark:text-input-bg border-0 hover:opacity-70"
                     }`}
                   >
                     {item.icon}
@@ -76,11 +68,11 @@ export default function Sidebar() {
       </div>
       <Link href="/login" className="w-full">
         <motion.button
-          className="w-full border border-input-border bg-input-bg rounded-main flex flex-row items-center gap-4 px-12 py-12"
+          className="w-full border border-input-border dark:border-dark-input-border bg-input-bg dark:bg-dark-input-bg rounded-main flex flex-row items-center gap-4 px-12 py-12"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          <ArrowLeftStartOnRectangleIcon className="w-24 h-24 text-primary" />
+          <ArrowLeftStartOnRectangleIcon className="w-24 h-24 text-primary dark:text-input-bg" />
           <h1 className="text-md font-normal">Log Out</h1>
         </motion.button>
       </Link>

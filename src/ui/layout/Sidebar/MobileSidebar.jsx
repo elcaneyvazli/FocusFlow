@@ -15,6 +15,7 @@ import { usePathname } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/redux/store";
 import { toggleSidebar } from "@/redux/features/SidebarButtonSlice/SidebarButtonSlice";
+import LogoContainer from "@/ui/block/Logo/Logo";
 
 export default function MobileSidebar() {
   const pathname = usePathname();
@@ -34,18 +35,7 @@ export default function MobileSidebar() {
       <div className="flex-col h-full justify-between items-start w-[300px] bg-white py-16 px-16 border-r border-input-border flex">
         <div className="flex flex-col gap-64 w-full">
           <div className="flex flex-row justify-between items-center">
-            <div className="flex flex-row gap-8 items-end w-full">
-              <div className="w-[40px] h-[40px]">
-                <Image
-                  src={Logo}
-                  alt="logo"
-                  width={0}
-                  height={0}
-                  className="w-full h-full object-cover bg-center"
-                />
-              </div>
-              <h1 className="text-xl text-black font-semibold">FocusFlow</h1>
-            </div>
+            <LogoContainer />
             <motion.button
               className="border border-input-border bg-input-bg p-8 rounded-main"
               whileHover={{ scale: 1.05 }}

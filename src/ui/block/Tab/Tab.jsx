@@ -20,8 +20,8 @@ export default function Tab() {
                 className={`px-16 py-12 border-b w-full sm:w-fit
                                 ${
                                   activeTab.id === tab.id
-                                    ? "border-primary text-primary"
-                                    : "border-input-border text-input-text"
+                                    ? "border-primary dark:border-input-border text-primary dark:text-input-bg"
+                                    : "border-input-border dark:border-dark-input-border text-light"
                                 }
                         `}
                 onClick={() => setActiveTab(tab)}
@@ -30,7 +30,7 @@ export default function Tab() {
                   className={`text-md font-medium
                                 ${
                                   activeTab.id === tab.id
-                                    ? "text-primary"
+                                    ? "text-primary dark:text-input-bg"
                                     : "text-light"
                                 }
                         `}

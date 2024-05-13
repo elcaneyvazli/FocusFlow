@@ -12,91 +12,49 @@ import {
 import Link from "next/link";
 import AuthorizeButton from "@/ui/block/button/AuthorizeButton/AuthorizeButton";
 import Button from "@/ui/block/button/Button/Button";
+import LogoContainer from "@/ui/block/Logo/Logo";
+import TextInput from "@/ui/block/input/TextInput/TextInput";
+import PassInput from "@/ui/block/input/PassInput/PassInput";
 
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   return (
     <div className="lg:px-16 lg:py-16 px-0 py-0 2xl:w-[37%] xl:w-[37%] lg:w-[50%] h-screen z-90 relative">
-      <div className="bg-white h-full w-full items-start rounded-main flex flex-col sm:px-32 sm:py-32 xs:px-16 xs:py-16 px-12 py-12 gap-32 justify-between">
-        <div className="flex flex-row gap-8 items-end">
-          <div className="w-[40px] h-[40px]">
-            <Image
-              src={Logo}
-              alt="logo"
-              width={0}
-              height={0}
-              className="w-full h-full object-cover bg-center"
-            />
-          </div>
-          <h1 className="text-xl text-black font-bold">FocusFlow</h1>
-        </div>
+      <div className="bg-white dark:bg-primary h-full w-full items-start rounded-main flex flex-col sm:px-32 sm:py-32 xs:px-16 xs:py-16 px-12 py-12 gap-32 justify-between">
+        <LogoContainer />
         <div className="flex flex-col gap-32 w-full">
-          <div className="fle flex-col px-12 border-l-2 border-primary">
-            <h1 className="sm:text-3xl text:xl font-semibold">Welcome to our platform</h1>
+          <div className="fle flex-col px-12 border-l-2 border-primary dark:border-input-border">
+            <h1 className="sm:text-3xl text:xl font-semibold">
+              Welcome to our platform
+            </h1>
             <p className="sm:text-lg text-md text-light font-light">
               Please create an account to continue
             </p>
           </div>
           <div className="flex flex-col gap-16 w-full">
-            <div className="flex flex-col gap-8 w-full">
-              <h1 className="text-sm font-medium">Email:</h1>
-              <div className="relative w-full">
-                <div className="absolute inset-y-0 start-0 flex items-center ps-16 pointer-events-none">
-                  <EnvelopeIcon className="w-[18px] h-[18px] text-light" />
-                </div>
-                <input
-                  type="text"
-                  placeholder="johndoe@gmail.com"
-                  className="bg-[#f9fafb] border border-[#D1D5DB] text-gray-900 text-sm rounded-[10px] focus:ring-primary focus:border-primary focus:outline-none block w-full ps-40 px-16 py-12"
-                />
-              </div>
-            </div>
-            <div className="flex flex-col gap-8 w-full">
-              <h1 className="text-sm font-medium">Username:</h1>
-              <div className="relative w-full">
-                <div className="absolute inset-y-0 start-0 flex items-center ps-16 pointer-events-none">
-                  <UserIcon className="w-[18px] h-[18px] text-light" />
-                </div>
-                <input
-                  type="text"
-                  placeholder="John Doe"
-                  className="bg-[#f9fafb] border border-[#D1D5DB] text-gray-900 text-sm rounded-[10px] focus:ring-primary focus:border-primary focus:outline-none block w-full ps-40 px-16 py-12"
-                />
-              </div>
-            </div>
-            <div className="flex flex-col gap-4 w-full items-end">
-              <div className="flex flex-col gap-8 w-full">
-                <h1 className="text-sm font-medium">Password:</h1>
-                <div className="relative w-full">
-                  <div className="absolute inset-y-0 start-0 flex items-center ps-16 pointer-events-none">
-                    <ShieldCheckIcon className="w-[18px] h-[18px] text-[#9CA3AF]" />
-                  </div>
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    placeholder="123456789"
-                    className="bg-[#f9fafb] border border-[#D1D5DB] text-gray-900 text-sm rounded-[10px] focus:ring-primary focus:border-primary focus:outline-none block w-full ps-40 px-16 py-12"
-                  />
-                  <button
-                    className="absolute inset-y-0 end-0 flex items-center pe-16 z-50 pointer-events-auto"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {showPassword ? (
-                      <EyeIcon className="w-[18px] h-[18px] text-[#9CA3AF]" />
-                    ) : (
-                      <EyeSlashIcon className="w-[18px] h-[18px] text-[#9CA3AF]" />
-                    )}
-                  </button>
-                </div>
-              </div>
-            </div>
+            <TextInput
+              title={"Email:"}
+              placeholder={"johndoe@gmail.com"}
+              icon={<EnvelopeIcon className="w-[18px] h-[18px] text-light" />}
+            />
+            <TextInput
+              title={"Username:"}
+              placeholder={"John Doe"}
+              icon={<UserIcon className="w-[18px] h-[18px] text-light" />}
+            />
+            <PassInput />
             <div className="flex flex-col gap-4 w-full items-start">
-              <Button text={'Register'} link={'/dashboard'} className='w-full'/>
+              <Button
+                text={"Register"}
+                link={"/dashboard"}
+                className="w-full"
+              />
               <div className="flex flex-row gap-4">
                 <h1 className="font-light text-xs text-light">
                   Already have an account
                 </h1>
                 <Link
-                  className="text-primary text-xs font-bold cursor-pointer"
+                  className="text-primary dark:text-input-bg text-xs font-bold cursor-pointer"
                   href="/login"
                 >
                   Sign in
@@ -107,9 +65,9 @@ export default function RegisterPage() {
         </div>
         <div className="w-full flex flex-col gap-4">
           <div className="flex flex-row gap-12 items-center">
-            <div className="w-full bg-primary h-[1px]"></div>
-            <p className="text-primary text-sm font-semibold">or</p>
-            <div className="w-full bg-primary h-[1px]"></div>
+            <div className="w-full bg-primary dark:bg-input-bg h-[1px]"></div>
+            <p className="text-primary dark:text-input-bg text-sm font-semibold">or</p>
+            <div className="w-full bg-primary dark:bg-input-bg h-[1px]"></div>
           </div>
           <AuthorizeButton />
         </div>

@@ -3,6 +3,7 @@ import Bg from "@/ui/layout/Bg/Bg";
 import "./globals.css";
 import { usePathname } from "next/navigation";
 import { ReduxProvider } from "@/redux/provider";
+import { ThemeProvider } from "next-themes";
 
 const metadata = {
   title: "Focus Flow",
@@ -14,7 +15,7 @@ export default function RootLayout({ children }) {
   const showBg = pathname.includes("login") || pathname.includes("register");
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link
           rel="apple-touch-icon"
@@ -37,9 +38,16 @@ export default function RootLayout({ children }) {
         <link rel="manifest" href="/site.webmanifest" />
       </head>
       <ReduxProvider>
-        <body className="" suppressHydrationWarning={true}>
-          {showBg && <Bg />}
-          {children}
+        <body className="">
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem={true}
+            storageKey="theme"
+          >
+            {showBg && <Bg />}
+            {children}
+          </ThemeProvider>
         </body>
       </ReduxProvider>
     </html>
