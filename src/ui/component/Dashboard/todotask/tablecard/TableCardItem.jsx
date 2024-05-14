@@ -29,9 +29,15 @@ export default function TableCardItem() {
           <p className="text-sm w-fit">Must have</p>
         </div>
       </div>
-      <div className="flex p-16 min-w-[500px] lg:w-full border-r border-b border-input-border dark:border-dark-input-border h-[53px] bg-white dark:bg-dark-input-bg">
-        <h1 className="text-black dark:text-input-bg text-sm font-medium">
-          Description
+      <div className="flex flex-row items-center justify-center gap-8 px-16 min-w-[500px] lg:w-full border-r border-b border-input-border dark:border-dark-input-border h-[53px] bg-white dark:bg-dark-input-bg">
+        <div className="px-8 py-4 flex items-center justify-center border border-input-border dark:border-dark-input-border dark:bg-primary bg-input-bg rounded-main whitespace-nowrap">
+          <p className="text-xs text-primary dark:text-input-bg">Web Design</p>
+        </div>
+        <h1 className="text-black dark:text-input-bg text-sm font-medium line-clamp-1 w-full">
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ullam,
+          voluptates reprehenderit! Excepturi labore veritatis nesciunt quis
+          voluptatem consequuntur a. Maxime deleniti sapiente temporibus
+          explicabo impedit, mollitia pariatur tenetur. Magni, nostrum!
         </h1>
       </div>
       <div className="flex p-16 min-w-[150px] border-r border-b border-input-border dark:border-dark-input-border h-[53px] bg-white dark:bg-dark-input-bg">

@@ -8,7 +8,6 @@ export default function Bg() {
   const [quote, setQuote] = useState({ author: "", text: "" });
   const cleanedAuthor = quote.author.replace(", type.fit", "").trim();
   const baseUrl = process.env.NEXT_PUBLIC_API_KEY_QUOTESS;
-  console.log("API Key:", process.env.REACT_APP_API_KEY_QUOTESS);
 
   useEffect(() => {
     const fetchData = async () => {

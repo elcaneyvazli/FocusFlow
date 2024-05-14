@@ -13,7 +13,7 @@ import DarkModeButton from "@/ui/block/button/DarkModeButton/DarkModeButton";
 
 export default function LandingPage() {
   return (
-    <div className="flex flex-col gap-32 items-start w-full dark:bg-black">
+    <div className="flex flex-col gap-32 items-start w-full dark:bg-primary">
       <div className="flex flex-col gap-32 items-start w-full px-16 sm:px-32 md:px-48 lg:px-64 xl:px-80">
         <div className="flex flex-row justify-between items-center w-full py-16">
           <div className="flex flex-row gap-8 items-center">
@@ -27,11 +27,14 @@ export default function LandingPage() {
                 className="w-full h-full object-cover bg-center z-50"
               />
             </div>
-            <h1 className="text-xl text-black dark:text-white font-semibold z-50">FocusFlow</h1>
+            <h1 className="text-xl text-black dark:text-white font-semibold z-50">
+              FocusFlow
+            </h1>
           </div>
           <div className="hidden xs:flex flex-row gap-16 items-center">
             <FitButton text={"Login"} link={"/login"} />
             <FitButton text={"Register"} link={"/register"} />
+            <DarkModeButton />
           </div>
         </div>
         <div className="flex flex-col gap-24 items-start">

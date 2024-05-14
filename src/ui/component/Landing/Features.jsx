@@ -5,8 +5,20 @@ import Calendar from "@/ui/assert/calendar.svg";
 import Chart from "@/ui/assert/chart.svg";
 import Team from "@/ui/assert/team.svg";
 import Circle from "@/ui/assert/circle.svg";
+import Pomodorodark from "@/ui/assert/pomodorodark.svg";
+import Calendardark from "@/ui/assert/calendardark.svg";
+import Chartdark from "@/ui/assert/chartdark.svg";
+import Teamdark from "@/ui/assert/teamdark.svg";
+import Circledark from "@/ui/assert/circledark.svg";
+import { useAppSelector } from "@/redux/store";
 
 export default function Features() {
+  const darkModeButtonReducer = useAppSelector(
+    (state) => state.darkModeReducer.value.darkMode
+  );
+
+  console.log(darkModeButtonReducer);
+
   return (
     <div className="grid grid-cols-12 gap-16 w-full h-full">
       <div className="col-span-12 sm:col-span-6 lg:col-span-5 xl:col-span-3 border-input-border dark:border-dark-input-border bg-input-bg dark:bg-dark-input-bg border rounded-main flex flex-col gap-40 p-16 h-[270px] items-center relative">
@@ -18,7 +30,7 @@ export default function Features() {
         </div>
         <div className="absolute bottom-0">
           <Image
-            src={Pomodoro}
+            src={darkModeButtonReducer === false ? Pomodoro : Pomodorodark}
             alt="pomodoro"
             width={0}
             height={0}
@@ -34,7 +46,7 @@ export default function Features() {
         </div>
         <div className="absolute bottom-0 right-0">
           <Image
-            src={Calendar}
+            src={darkModeButtonReducer === false ? Calendar : Calendardark}
             alt="pomodoro"
             width={0}
             height={0}
@@ -53,7 +65,7 @@ export default function Features() {
         <div className="w-full h-full relative overflow-hidden">
           <div className="absolute bottom-0 left-0 w-full h-full overflow-hidden">
             <Image
-              src={Team}
+              src={darkModeButtonReducer === false ? Team : Teamdark}
               alt="pomodoro"
               width={0}
               height={0}
@@ -71,12 +83,14 @@ export default function Features() {
           </p>
         </div>
         <div className="flex flex-col gap-0 w-full items-start justify-start">
-          <h1 className="text-black dark:text-input-bg font-bold text-4xl">262</h1>
+          <h1 className="text-black dark:text-input-bg font-bold text-4xl">
+            262
+          </h1>
           <p className="text-light text-lg">from the last month</p>
         </div>
         <div className="absolute bottom-12 right-12 ">
           <Image
-            src={Circle}
+            src={darkModeButtonReducer === false ? Circle : Circledark}
             alt="pomodoro"
             width={0}
             height={0}
@@ -92,7 +106,7 @@ export default function Features() {
         </div>
         <div className="absolute bottom-0 right-0 w-full">
           <Image
-            src={Chart}
+            src={darkModeButtonReducer === false ? Chart : Chartdark}
             alt="pomodoro"
             width={0}
             height={0}

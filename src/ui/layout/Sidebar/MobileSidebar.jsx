@@ -25,7 +25,6 @@ export default function MobileSidebar() {
   const sidebarButtonReducer = useAppSelector(
     (state) => state.sidebarButtonReducer.value.sidebarButton
   );
-
   const toggleSidebarButton = () => {
     dispatch(toggleSidebar());
   };
