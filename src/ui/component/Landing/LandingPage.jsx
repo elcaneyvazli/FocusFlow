@@ -34,7 +34,6 @@ export default function LandingPage() {
           <div className="hidden xs:flex flex-row gap-16 items-center">
             <FitButton text={"Login"} link={"/login"} />
             <FitButton text={"Register"} link={"/register"} />
-            <DarkModeButton />
           </div>
         </div>
         <div className="flex flex-col gap-24 items-start">
@@ -60,7 +59,7 @@ export default function LandingPage() {
             draggable="false"
             className="w-full h-full object-cover bg-center rounded-[5px]"
           />
-          <div className="hidden sm:flex absolute -top-80 -right-80">
+          <div className="hidden xl:flex absolute -top-80 -right-80">
             <Image
               src={Sticker}
               alt="landing"

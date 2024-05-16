@@ -13,13 +13,13 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "primary": "#1A1A1A",
+        primary: "#1A1A1A",
         "input-bg": "#f9fafb",
         "dark-input-bg": "#232426",
         "input-border": "#E5E6EB",
         "dark-input-border": "#2D2D2D",
-        "light": "#9CA3AF",
-        "white": "#ffffff",
+        light: "#9CA3AF",
+        white: "#ffffff",
         "success-primary": "#046C4E",
         "success-primary-light": "#DEF7EC",
         "warning-primary": "#9B1C1C",
@@ -76,6 +76,6 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: ["tailwindcss", "autoprefixer", "postcss-100vh-fix"],
   darkMode: "class",
 };

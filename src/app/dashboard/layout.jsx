@@ -5,7 +5,7 @@ import MobileSidebar from "@/ui/layout/Sidebar/MobileSidebar";
 export default function DashLayout({ children }) {
   return (
     <div className="flex flex-row gap-0 relative">
-      <MobileSidebar />
+      {/* <MobileSidebar /> */}
       <div className="h-screen">
         <Sidebar />
       </div>

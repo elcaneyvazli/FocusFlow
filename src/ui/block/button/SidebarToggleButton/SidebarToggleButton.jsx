@@ -22,7 +22,7 @@ export default function SidebarToggleButton() {
       whileTap={{ scale: 0.95 }}
       onClick={toggleSidebarButton}
     >
-      <Bars3Icon className="h-24 w-24 text-primary" />
+      <Bars3Icon className="h-24 w-24 text-primary dark:text-input-bg" />
     </motion.button>
   );
 }
