@@ -10,10 +10,6 @@ export default function TableCard() {
       </div>
       <div className="flex flex-col gap-0 bg-white ">
         <TableCardItem className="w-full" />
-        <TableCardItem className="w-full" />
-        <TableCardItem className="w-full" />
-        <TableCardItem className="w-full" />
-        <TableCardItem className="w-full" />
       </div>
     </div>
   );

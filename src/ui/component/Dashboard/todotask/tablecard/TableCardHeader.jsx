@@ -5,7 +5,7 @@ export default function TableCardHeader() {
     <div className="flex flex-row gap-0 items-center rounded-t-main bg-[#F9FAFB] dark:bg-primary min-w-full">
       <div className="flex p-16 min-w-[250px] max-w-[250px] border-r border-b border-input-border dark:border-dark-input-border bg-[#F9FAFB] dark:bg-primary">
         <h1 className="text-black dark:text-input-bg text-sm font-medium">
-          Name
+          Title
         </h1>
       </div>
       <div className="flex p-16 min-w-[150px] border-r border-b  border-input-border dark:border-dark-input-border bg-[#F9FAFB] dark:bg-primary">

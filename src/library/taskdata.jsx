@@ -1,0 +1,98 @@
+export const TaskData = [
+  {
+    id: 1,
+    title: "Design Homepage Layout",
+    priority: 1,
+    description: "Create a modern and responsive design for the homepage.",
+    timeline: "2021-09-30",
+    status: false,
+    label: "Web Design",
+  },
+  {
+    id: 2,
+    title: "Develop User Authentication",
+    priority: 2,
+    description: "Implement secure user authentication using JWT.",
+    timeline: "2021-10-15",
+    status: true,
+    label: "Development",
+  },
+  {
+    id: 3,
+    title: "Test Payment Gateway Integration",
+    priority: 3,
+    description:
+      "Perform end-to-end testing of the payment gateway integration.",
+    timeline: "2021-11-01",
+    status: false,
+    label: "Testing",
+  },
+  {
+    id: 4,
+    title: "Create Marketing Brochure",
+    priority: 4,
+    description:
+      "Design and print the new marketing brochure for the upcoming event.",
+    timeline: "2021-12-05",
+    status: true,
+    label: "Design",
+  },
+  {
+    id: 5,
+    title: "Plan Social Media Campaign",
+    priority: 2,
+    description: "Develop a social media strategy for the product launch.",
+    timeline: "2022-01-20",
+    status: false,
+    label: "Marketing",
+  },
+  {
+    id: 6,
+    title: "Prepare Sales Presentation",
+    priority: 3,
+    description:
+      "Create a compelling sales presentation for the Q1 sales meeting.",
+    timeline: "2022-02-15",
+    status: true,
+    label: "Sales",
+  },
+  {
+    id: 7,
+    title: "Resolve Customer Support Tickets",
+    priority: 1,
+    description:
+      "Address all high-priority customer support tickets from the past week.",
+    timeline: "2022-03-10",
+    status: false,
+    label: "Customer Support",
+  },
+  {
+    id: 8,
+    title: "Budget Planning for Next Quarter",
+    priority: 2,
+    description: "Plan and allocate the budget for the next financial quarter.",
+    timeline: "2022-04-05",
+    status: true,
+    label: "Finance",
+  },
+  {
+    id: 9,
+    title: "Organize Team Building Activity",
+    priority: 4,
+    description:
+      "Plan a team-building activity to enhance team collaboration and morale.",
+    timeline: "2022-05-20",
+    status: false,
+    label: "HR",
+  },
+  {
+    id: 10,
+    title: "Optimize Warehouse Operations",
+    priority: 3,
+    description:
+      "Streamline processes to improve efficiency in warehouse operations.",
+    timeline: "2022-06-15",
+    status: true,
+    label: "Operations",
+  },
+];

@@ -1,4 +1,4 @@
-export default function TextInput({ title, placeholder, icon }) {
+export default function TextInput({ title, placeholder, icon , value, change }) {
   return (
     <div className="flex flex-col gap-8 w-full">
       <h1 className="text-sm font-medium">{title}</h1>
@@ -9,6 +9,8 @@ export default function TextInput({ title, placeholder, icon }) {
         <input
           type="text"
           placeholder={placeholder}
+          value={value}
+          onChange={change}
           className="bg-input-bg dark:bg-dark-input-bg border border-input-border dark:border-dark-input-border text-primary dark:text-input-bg text-sm rounded-[10px] focus:ring-primary focus:border-primary focus:outline-none block w-full ps-40 px-16 py-12"
         />
       </div>

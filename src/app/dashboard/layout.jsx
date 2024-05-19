@@ -1,11 +1,9 @@
 import Sidebar from "@/ui/layout/Sidebar/sidebar";
 import Navbar from "@/ui/layout/Navbar/navbar";
-import MobileSidebar from "@/ui/layout/Sidebar/MobileSidebar";
 
 export default function DashLayout({ children }) {
   return (
     <div className="flex flex-row gap-0 relative">
-      {/* <MobileSidebar /> */}
       <div className="h-screen">
         <Sidebar />
       </div>

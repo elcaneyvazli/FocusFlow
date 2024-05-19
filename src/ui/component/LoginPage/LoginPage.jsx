@@ -9,9 +9,36 @@ import Button from "@/ui/block/button/Button/Button";
 import TextInput from "@/ui/block/input/TextInput/TextInput";
 import PassInput from "@/ui/block/input/PassInput/PassInput";
 import LogoContainer from "@/ui/block/Logo/Logo";
+import { authLogin } from "@/services/auth/login.services";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
-  const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const router = useRouter();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      await authLogin(email, password);
+      router.push("/dashboard");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const baseUrl = process.env.NEXT_PUBLIC_API_KEY;
+
+  const handle = async () => {
+    try {
+      const response = await axios.get(baseUrl + "/Test/Admin", {
+        withCredentials: true,
+      });
+      console.log("response", response);
+    } catch (error) {
+      console.error("Error fetching data", error);
+    }
+  };
 
   return (
     <div className="lg:px-16 lg:py-16 px-0 py-0 2xl:w-[37%] xl:w-[37%] lg:w-[50%] h-screen z-90 relative">
@@ -24,14 +51,19 @@ export default function LoginPage() {
               Please sign in to your account
             </p>
           </div>
-          <div className="flex flex-col gap-16 w-full">
+          <form className="flex flex-col gap-16 w-full" onSubmit={handleLogin}>
             <TextInput
               title={"Email or username:"}
               placeholder={"Email or Username"}
+              value={email}
+              change={(e) => setEmail(e.target.value)}
               icon={<UserIcon className="w-[18px] h-[18px] text-light" />}
             />
             <div className="flex flex-col gap-4 w-full items-end">
-              <PassInput />
+              <PassInput
+                value={password}
+                change={(e) => setPassword(e.target.value)}
+              />
               <button>
                 <h1 className="text-primary dark:text-input-bg font-bold text-xs">
                   Forgot Password
@@ -39,7 +71,7 @@ export default function LoginPage() {
               </button>
             </div>
             <div className="flex flex-col gap-4 w-full items-start">
-              <Button text={"Login"} link={"/dashboard"} />
+              <Button text={"Login"} />
               <div className="flex flex-row gap-4">
                 <h1 className="font-light text-xs text-light">
                   Don&apos;t have an account?
@@ -52,8 +84,10 @@ export default function LoginPage() {
                 </Link>
               </div>
             </div>
-          </div>
+          </form>
         </div>
+
+        <button onClick={handle}>test</button>
         <div className="w-full flex flex-col gap-4">
           <div className="flex flex-row gap-12 items-center">
             <div className="w-full bg-primary dark:bg-input-bg h-[1px]"></div>

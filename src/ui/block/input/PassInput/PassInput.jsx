@@ -6,7 +6,7 @@ import {
   EyeSlashIcon,
 } from "@heroicons/react/24/outline";
 
-export default function PassInput() {
+export default function PassInput({ value, change }) {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -18,6 +18,8 @@ export default function PassInput() {
         </div>
         <input
           type={showPassword ? "text" : "password"}
+          value={value}
+          onChange={change}
           placeholder="123456789"
           className="bg-input-bg dark:bg-dark-input-bg border border-input-border dark:border-dark-input-border text-sm rounded-[10px] focus:ring-primary focus:border-primary focus:outline-none block w-full ps-40 px-16 py-12"
         />
