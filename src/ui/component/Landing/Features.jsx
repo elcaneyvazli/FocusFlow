@@ -17,8 +17,6 @@ export default function Features() {
     (state) => state.darkModeReducer.value.darkMode
   );
 
-  console.log(darkModeButtonReducer);
-
   return (
     <div className="grid grid-cols-12 gap-16 w-full h-full">
       <div className="col-span-12 sm:col-span-6 lg:col-span-5 xl:col-span-3 border-input-border dark:border-dark-input-border bg-input-bg dark:bg-dark-input-bg border rounded-main flex flex-col gap-40 p-16 h-[270px] items-center relative">

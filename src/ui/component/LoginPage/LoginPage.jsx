@@ -1,7 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import Image from "next/image";
-import Logo from "@/ui/assert/Logo.svg";
 import { UserIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import AuthorizeButton from "@/ui/block/button/AuthorizeButton/AuthorizeButton";
@@ -10,7 +8,6 @@ import TextInput from "@/ui/block/input/TextInput/TextInput";
 import PassInput from "@/ui/block/input/PassInput/PassInput";
 import LogoContainer from "@/ui/block/Logo/Logo";
 import { authLogin } from "@/services/auth/login.services";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
@@ -25,18 +22,6 @@ export default function LoginPage() {
       router.push("/dashboard");
     } catch (error) {
       console.log(error);
-    }
-  };
-  const baseUrl = process.env.NEXT_PUBLIC_API_KEY;
-
-  const handle = async () => {
-    try {
-      const response = await axios.get(baseUrl + "/Test/Admin", {
-        withCredentials: true,
-      });
-      console.log("response", response);
-    } catch (error) {
-      console.error("Error fetching data", error);
     }
   };
 
@@ -86,8 +71,6 @@ export default function LoginPage() {
             </div>
           </form>
         </div>
-
-        <button onClick={handle}>test</button>
         <div className="w-full flex flex-col gap-4">
           <div className="flex flex-row gap-12 items-center">
             <div className="w-full bg-primary dark:bg-input-bg h-[1px]"></div>

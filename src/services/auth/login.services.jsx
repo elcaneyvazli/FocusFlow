@@ -11,12 +11,9 @@ export const authLogin = async (email, password) => {
       isremember: true,
     },
     {
-      headers: {
-        withCredentials: true,
-      },
+      withCredentials: true,
     }
   );
-  console.log("response", response);
 
   return response.data;
 };
