@@ -11,17 +11,19 @@ import { authLogin } from "@/services/auth/login.services";
 import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
+  const [emailOrUsername, setEmailOrUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
   const router = useRouter();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setError(null);
     try {
-      await authLogin(email, password);
+      await authLogin(emailOrUsername, password);
       router.push("/dashboard");
     } catch (error) {
-      console.log(error);
+      setError("Login failed. Please check your credentials and try again.");
     }
   };
 
@@ -30,8 +32,8 @@ export default function LoginPage() {
       <div className="bg-white dark:bg-primary h-full w-full items-start rounded-main flex flex-col sm:px-32 sm:py-32 xs:px-16 xs:py-16 px-12 py-12 gap-32 justify-between">
         <LogoContainer />
         <div className="flex flex-col gap-32 w-full">
-          <div className="fle flex-col px-12 border-l-2 border-primary dark:border-input-bg">
-            <h1 className="sm:text-3xl text:xl font-semibold">Welcome Back</h1>
+          <div className="flex flex-col px-12 border-l-2 border-primary dark:border-input-bg">
+            <h1 className="sm:text-3xl text-xl font-semibold">Welcome Back</h1>
             <p className="sm:text-lg text-md text-light font-light">
               Please sign in to your account
             </p>
@@ -40,8 +42,8 @@ export default function LoginPage() {
             <TextInput
               title={"Email or username:"}
               placeholder={"Email or Username"}
-              value={email}
-              change={(e) => setEmail(e.target.value)}
+              value={emailOrUsername}
+              change={(e) => setEmailOrUsername(e.target.value)}
               icon={<UserIcon className="w-[18px] h-[18px] text-light" />}
             />
             <div className="flex flex-col gap-4 w-full items-end">
@@ -49,12 +51,17 @@ export default function LoginPage() {
                 value={password}
                 change={(e) => setPassword(e.target.value)}
               />
-              <button>
+              <button type="button">
                 <h1 className="text-primary dark:text-input-bg font-bold text-xs">
                   Forgot Password
                 </h1>
               </button>
             </div>
+            {error && (
+              <div className="text-red-500 text-xs">
+                {error}
+              </div>
+            )}
             <div className="flex flex-col gap-4 w-full items-start">
               <Button text={"Login"} />
               <div className="flex flex-row gap-4">

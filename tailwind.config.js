@@ -1,10 +1,7 @@
-/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/ui/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/ui/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -30,6 +27,8 @@ module.exports = {
         "blue-text": "#184BFE",
         "green-bg": "#DEF7EC",
         "green-text": "#046C4E",
+        "gray-bg": "#E5E6EB",
+        "gray-text": "#9CA3AF",
       },
       fontSize: {
         xs: "12px",
@@ -78,4 +77,14 @@ module.exports = {
   },
   plugins: ["tailwindcss", "autoprefixer", "postcss-100vh-fix"],
   darkMode: "class",
+  safelist: [
+    {
+      pattern: /bg-(red|blue|green|gray)-bg/,
+      variants: ['responsive', 'hover', 'focus', 'dark'],
+    },
+    {
+      pattern: /text-(red|blue|green|gray)-text/,
+      variants: ['responsive', 'hover', 'focus', 'dark'],
+    },
+  ],
 };

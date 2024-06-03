@@ -12,15 +12,15 @@ import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
   const [email, setEmail] = useState("");
-  const [fullname, setFullname] = useState("");
+  const [userName, setuserName] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
 
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      await authRegister(email, password, fullname);
-      router.push("/dashboard");
+      await authRegister(email, password, userName);
+      router.push("/login");
     } catch (error) {
       console.log(error);
     }
@@ -54,8 +54,8 @@ export default function RegisterPage() {
               title={"Username:"}
               placeholder={"John Doe"}
               icon={<UserIcon className="w-[18px] h-[18px] text-light" />}
-              value={fullname}
-              change={(e) => setFullname(e.target.value)}
+              value={userName}
+              change={(e) => setuserName(e.target.value)}
             />
             <PassInput
               value={password}
