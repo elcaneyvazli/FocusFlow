@@ -1,12 +1,7 @@
-import React from "react";
-import { useState } from "react";
-import {
-  ShieldCheckIcon,
-  EyeIcon,
-  EyeSlashIcon,
-} from "@heroicons/react/24/outline";
+import React, { useState } from "react";
+import { ShieldCheckIcon, EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 
-export default function PassInput({ value, change }) {
+export default function PassInput({ value, change, registername, error, register }) {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -21,9 +16,11 @@ export default function PassInput({ value, change }) {
           value={value}
           onChange={change}
           placeholder="123456789"
+          {...register(registername)}
           className="bg-input-bg dark:bg-dark-input-bg border border-input-border dark:border-dark-input-border text-sm rounded-[10px] focus:ring-primary focus:border-primary focus:outline-none block w-full ps-40 px-16 py-12"
         />
         <button
+          type="button"
           className="absolute inset-y-0 end-0 flex items-center pe-16 z-50 pointer-events-auto"
           onClick={() => setShowPassword(!showPassword)}
         >
@@ -34,6 +31,7 @@ export default function PassInput({ value, change }) {
           )}
         </button>
       </div>
+      {error && <p className="text-red-bg text-sm">{error}</p>}
     </div>
   );
 }

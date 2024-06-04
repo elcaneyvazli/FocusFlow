@@ -33,7 +33,7 @@ const CustomSelect = ({ options, onChange }) => {
           onClick={() => setIsOpen(!isOpen)}
         >
           {selectedOption || "Select Priority"}
-          <motion.div className="absolute inset-y-0 z-50 end-0 flex items-center pe-16 pointer-events-none">
+          <motion.div className="absolute inset-y-0 z-40 end-0 flex items-center pe-16 pointer-events-none">
             <motion.div animate={{ rotate: isOpen ? 90 : 0 }}>
               <ChevronRightIcon className="w-[18px] h-[18px] text-light" />
             </motion.div>

@@ -8,7 +8,7 @@ const isAuthPage = (url) => AUTH_PAGES.some((page) => url.startsWith(page));
 export default function middleware(request) {
   const { nextUrl , url} = request;
   const cookieStore = cookies();
-  const token = cookieStore.get("access_token");
+  const token = cookieStore.get("acc");
 
   const hasVerifiedToken = token !== undefined;
   const isAuthPageRequested = isAuthPage(nextUrl.pathname);

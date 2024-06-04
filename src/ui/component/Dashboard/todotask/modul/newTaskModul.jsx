@@ -13,6 +13,8 @@ import { toggleTask } from "@/redux/features/NewTaskSlice/newTaskSlice";
 import AddTaskButton from "@/ui/block/button/AddTaskButton/AddTaskButton";
 import TextInput from "@/ui/block/input/TextInput/TextInput";
 import CustomSelect from "@/ui/block/input/SelectInput/SelectInput";
+import { useForm } from "react-hook-form";
+import DateInput from "@/ui/block/input/Dueto/DateInput";
 
 export default function NewTaskModul() {
   const dispatch = useDispatch();
@@ -25,6 +27,8 @@ export default function NewTaskModul() {
     dispatch(toggleTask());
   };
 
+  const { register, handleSubmit } = useForm();
+
   const [selectedValue, setSelectedValue] = useState("");
 
   const handleSelectChange = (value) => {
@@ -33,12 +37,12 @@ export default function NewTaskModul() {
 
   return taskValue ? (
     <>
-      <div className="fixed top-0 left-0 w-full h-screen flex items-center justify-center z-50">
+      <div className="fixed top-0 left-0 w-full h-full md:h-screen  flex items-center justify-center z-50">
         <div
           className="fixed inset-0 bg-black bg-opacity-50 z-40"
           onClick={onClose}
         ></div>
-        <div className="relative w-full h-full md:w-[50%] md:h-auto xl:w-[30%] xl:h-auto bg-white dark:bg-primary px-16 py-16 rounded-main flex flex-col gap-16 justify-between z-50">
+        <div className="relative w-full h-full md:w-[70%] md:h-auto bg-white dark:bg-primary px-16 py-16 rounded-main flex flex-col gap-16 justify-between z-50">
           <div className="flex flex-row justify-between items-center">
             <h1 className="text-lg font-medium text-primary dark:text-input-bg">
               New Task
@@ -54,6 +58,8 @@ export default function NewTaskModul() {
             <TextInput
               title="Task title"
               placeholder="Add Task Title"
+              register={register}
+              registername={"taskTitle"}
               icon={
                 <DocumentPlusIcon className="w-[18px] h-[18px] text-light" />
               }
@@ -61,13 +67,18 @@ export default function NewTaskModul() {
             <TextInput
               title="Task description"
               placeholder="Add Task Description"
+              register={register}
+              registername={"taskDescription"}
               icon={
                 <DocumentTextIcon className="w-[18px] h-[18px] text-light" />
               }
             />
+            <DateInput />
             <TextInput
               title="Label"
               placeholder="Add Task Label"
+              register={register}
+              registername={"taskLabel"}
               icon={<TagIcon className="w-[18px] h-[18px] text-light" />}
             />
             <CustomSelect

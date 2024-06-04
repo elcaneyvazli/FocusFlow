@@ -9,20 +9,32 @@ import TextInput from "@/ui/block/input/TextInput/TextInput";
 import PassInput from "@/ui/block/input/PassInput/PassInput";
 import { authRegister } from "@/services/auth/register.services";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { RegisterSchema } from "@/schema/schema";
 
 export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [userName, setuserName] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
+
   const router = useRouter();
 
-  const handleRegister = async (e) => {
-    e.preventDefault();
+  const {
+    handleSubmit,
+    formState: { errors },
+    register,
+  } = useForm({
+    resolver: yupResolver(RegisterSchema),
+  });
+
+  const handleRegister = async (data) => {
     try {
-      await authRegister(email, password, userName);
+      await authRegister(data.email, data.password, data.userName);
       router.push("/login");
     } catch (error) {
-      console.log(error);
+      setError("Register failed. Please check your credentials and try again.");
     }
   };
 
@@ -41,26 +53,30 @@ export default function RegisterPage() {
           </div>
           <form
             className="flex flex-col gap-16 w-full"
-            onSubmit={handleRegister}
+            onSubmit={handleSubmit(handleRegister)}
           >
             <TextInput
               title={"Email:"}
               placeholder={"johndoe@gmail.com"}
               icon={<EnvelopeIcon className="w-[18px] h-[18px] text-light" />}
-              value={email}
-              change={(e) => setEmail(e.target.value)}
+              registername="email"
+              error={errors.email?.message}
+              register={register}
             />
             <TextInput
               title={"Username:"}
               placeholder={"John Doe"}
               icon={<UserIcon className="w-[18px] h-[18px] text-light" />}
-              value={userName}
-              change={(e) => setuserName(e.target.value)}
+              registername="userName"
+              error={errors.userName?.message}
+              register={register}
             />
             <PassInput
-              value={password}
-              change={(e) => setPassword(e.target.value)}
+              registername="password"
+              error={errors.password?.message}
+              register={register}
             />
+            {error && <div className="text-red-bg text-xs">{error}</div>}
             <div className="flex flex-col gap-4 w-full items-start">
               <Button text={"Register"} />
               <div className="flex flex-row gap-4">

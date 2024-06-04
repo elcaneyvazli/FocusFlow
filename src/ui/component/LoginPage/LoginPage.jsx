@@ -9,18 +9,26 @@ import PassInput from "@/ui/block/input/PassInput/PassInput";
 import LogoContainer from "@/ui/block/Logo/Logo";
 import { authLogin } from "@/services/auth/login.services";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { LoginSchema } from "@/schema/schema";
 
 export default function LoginPage() {
-  const [emailOrUsername, setEmailOrUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const router = useRouter();
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+  const {
+    handleSubmit,
+    formState: { errors },
+    register,
+  } = useForm({
+    resolver: yupResolver(LoginSchema),
+  });
+
+  const handleLogin = async (data) => {
     setError(null);
     try {
-      await authLogin(emailOrUsername, password);
+      await authLogin(data.emailOrUsername, data.password);
       router.push("/dashboard");
     } catch (error) {
       setError("Login failed. Please check your credentials and try again.");
@@ -38,18 +46,23 @@ export default function LoginPage() {
               Please sign in to your account
             </p>
           </div>
-          <form className="flex flex-col gap-16 w-full" onSubmit={handleLogin}>
+          <form
+            className="flex flex-col gap-16 w-full"
+            onSubmit={handleSubmit(handleLogin)}
+          >
             <TextInput
-              title={"Email or username:"}
-              placeholder={"Email or Username"}
-              value={emailOrUsername}
-              change={(e) => setEmailOrUsername(e.target.value)}
+              title="Email or username:"
+              placeholder="Email or Username"
               icon={<UserIcon className="w-[18px] h-[18px] text-light" />}
+              registername="emailOrUsername"
+              error={errors.emailOrUsername?.message}
+              register={register}
             />
             <div className="flex flex-col gap-4 w-full items-end">
               <PassInput
-                value={password}
-                change={(e) => setPassword(e.target.value)}
+                registername="password"
+                error={errors.password?.message}
+                register={register}
               />
               <button type="button">
                 <h1 className="text-primary dark:text-input-bg font-bold text-xs">
@@ -57,13 +70,9 @@ export default function LoginPage() {
                 </h1>
               </button>
             </div>
-            {error && (
-              <div className="text-red-500 text-xs">
-                {error}
-              </div>
-            )}
+            {error && <div className="text-red-bg text-xs">{error}</div>}
             <div className="flex flex-col gap-4 w-full items-start">
-              <Button text={"Login"} />
+              <Button text="Login" />
               <div className="flex flex-row gap-4">
                 <h1 className="font-light text-xs text-light">
                   Don&apos;t have an account?
