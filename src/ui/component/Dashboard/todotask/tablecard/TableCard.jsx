@@ -3,26 +3,7 @@ import TableCardHeader from "./TableCardHeader";
 import TableCardItem from "./TableCardItem";
 import { useEffect, useState } from "react";
 
-export default function TableCard() {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getTasks();
-        setData(response);
-        setLoading(false);
-      } catch (error) {
-        setError(error);
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
+export default function TableCard({ data, loading, error }) {
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -37,7 +18,7 @@ export default function TableCard() {
     "
     >
       <TableCardHeader />
-      {/* <TableCardItem className="w-full" data={data} /> */}
+      <TableCardItem className="w-full" data={data} />
     </div>
   );
 }

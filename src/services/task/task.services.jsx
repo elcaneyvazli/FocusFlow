@@ -16,9 +16,16 @@ export const getTasks = async () => {
 
 export const createTask = async (taskData) => {
   try {
-    const response = await axios.post(`${baseUrl}/UserTask`, taskData, {
-      withCredentials: true,
-    });
+    const response = await axios.post(
+      `${baseUrl}/UserTask`,
+      {
+        ...taskData,
+        isCompleted: false,
+      },
+      {
+        withCredentials: true,
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("Error creating task:", error);

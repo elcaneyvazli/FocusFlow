@@ -3,34 +3,7 @@ import KanbanColumn from "./KanbanColumn";
 import { TaskData } from "@/library/taskdata";
 import { getTasks } from "@/services/task/task.services";
 
-export default function KanbanBoard() {
-  const [columns, setColumns] = useState(TaskData);
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getTasks();
-        setColumns(response.tasks);
-        setLoading(false);
-      } catch (error) {
-        setError(error);
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
-
+export default function KanbanBoard({ columns, setColumns }) {
   const handleDragStart = (e, taskId, sourceColumnId) => {
     e.dataTransfer.setData("taskId", taskId);
     e.dataTransfer.setData("sourceColumnId", sourceColumnId);
@@ -63,7 +36,7 @@ export default function KanbanBoard() {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-16">
-      {columns.map((column) => (
+      {columns?.map((column) => (
         <KanbanColumn
           key={column.id}
           id={column.id}

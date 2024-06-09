@@ -14,7 +14,7 @@ import DarkModeButton from "@/ui/block/button/DarkModeButton/DarkModeButton";
 
 export default function navbar() {
   return (
-    <div className="px-16 py-12 flex flex-row justify-between items-center bg-white dark:bg-primary border-b border-input-border dark:border-dark-input-border z-80">
+    <div className="px-16 py-12 flex flex-row justify-between items-center bg-white dark:bg-primary border-b border-input-border dark:border-dark-input-border">
       <div className="flex flex-row gap-16 items-center">
         <SidebarToggleButton />
         <Breadcrumb />

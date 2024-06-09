@@ -8,7 +8,7 @@ export default function Tab({ tabs }) {
 
   return (
     <>
-      <div className="relative flex flex-col sm:flex-row items-center justify-between sm:gap-0 gap-12">
+      <div className="z-40 relative flex flex-col sm:flex-row items-center justify-between sm:gap-0 gap-12">
         <div className="flex flex-row gap-0 items-center w-full sm:w-fit relative">
           {tabs.map((tab) => (
             <div
