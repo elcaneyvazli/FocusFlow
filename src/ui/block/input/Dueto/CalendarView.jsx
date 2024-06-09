@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { generateDate, months } from "./calendar";
+import { generateDate, months } from "./Calendar.jsx";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 
 export default function CalendarView({
