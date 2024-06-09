@@ -38,7 +38,7 @@ export default function RootLayout({ children }) {
         <link rel="manifest" href="/site.webmanifest" />
       </head>
       <ReduxProvider>
-        <body className="">
+        <body>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"

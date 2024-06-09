@@ -26,7 +26,6 @@ export default function LoginPage() {
   });
 
   const handleLogin = async (data) => {
-    setError(null);
     try {
       await authLogin(data.emailOrUsername, data.password);
       router.push("/dashboard");

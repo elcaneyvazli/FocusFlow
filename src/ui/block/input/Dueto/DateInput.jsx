@@ -8,13 +8,19 @@ import { motion } from "framer-motion";
 import CalendarView from "./CalendarView";
 import dayjs from "dayjs";
 
-const DateInput = ({ options, onChange }) => {
+const DateInput = ({ onSelect }) => {
   const [isOpen, setIsOpen] = useState(false);
   const currentDate = dayjs();
   const [today, setToday] = useState(currentDate);
   const [selectedDate, setSelectedDate] = useState(currentDate);
 
-  console.log(today, selectedDate);
+  const handleDateSelect = (date) => {
+    setSelectedDate(date);
+    setIsOpen(false);
+    if (onSelect) {
+      onSelect(date);
+    }
+  }
 
   return (
     <motion.div className="flex flex-col gap-8 w-full">
@@ -43,7 +49,7 @@ const DateInput = ({ options, onChange }) => {
             today={today}
             setToday={setToday}
             selectedDate={selectedDate}
-            setSelectedDate={setSelectedDate}
+            setSelectedDate={handleDateSelect}
           />
         )}
       </div>

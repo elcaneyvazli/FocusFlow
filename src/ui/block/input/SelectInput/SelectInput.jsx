@@ -1,21 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
-  ChevronDownIcon,
   ChevronRightIcon,
   InformationCircleIcon,
 } from "@heroicons/react/24/outline";
 import { motion } from "framer-motion";
 
-const CustomSelect = ({ options, onChange }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState("");
+const options = ["Must Have", "Should Have", "Could Have", "Won't Have"];
 
-  const handleSelectOption = (option) => {
-    setSelectedOption(option);
-    setIsOpen(false);
+const CustomSelect = ({ onChange }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState(0);
+
+  useEffect(() => {
     if (onChange) {
-      onChange(option);
+      onChange(selectedOption);
     }
+  }, [selectedOption, onChange]);
+
+  const handleSelectOption = (index) => {
+    setSelectedOption(index);
+    setIsOpen(false);
   };
 
   return (
@@ -32,7 +36,7 @@ const CustomSelect = ({ options, onChange }) => {
           className="bg-input-bg dark:bg-dark-input-bg border border-input-border dark:border-dark-input-border text-primary dark:text-input-bg text-sm rounded-[10px] focus:ring-primary focus:border-primary focus:outline-none block w-full ps-40 px-16 py-12 cursor-pointer"
           onClick={() => setIsOpen(!isOpen)}
         >
-          {selectedOption || "Select Priority"}
+          {options[selectedOption]}
           <motion.div className="absolute inset-y-0 z-40 end-0 flex items-center pe-16 pointer-events-none">
             <motion.div animate={{ rotate: isOpen ? 90 : 0 }}>
               <ChevronRightIcon className="w-[18px] h-[18px] text-light" />
@@ -45,7 +49,7 @@ const CustomSelect = ({ options, onChange }) => {
               <div
                 key={index}
                 className="cursor-pointer text-sm text-primary dark:text-input-bg hover:bg-input-border dark:hover:bg-dark-input-border px-12 py-8"
-                onClick={() => handleSelectOption(option)}
+                onClick={() => handleSelectOption(index)}
               >
                 {option}
               </div>

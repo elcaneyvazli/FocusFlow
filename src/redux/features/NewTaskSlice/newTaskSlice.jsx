@@ -17,5 +17,4 @@ export const newTask = createSlice({
 
 export const { toggleTask  } = newTask.actions;
 export const newTaskReducer = newTask.reducer;
-
 export default newTaskReducer;

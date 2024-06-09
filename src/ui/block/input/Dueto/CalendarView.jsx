@@ -11,16 +11,15 @@ export default function CalendarView({
   const days = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
   const currentDate = dayjs();
 
-  console.log(today, selectedDate);
-
   return (
-    <div className="absolute z-50 h-[300px] md:h-[350px] w-[350px] md:w-[450px] mt-[10px] dark:bg-dark-input-bg bg-input-bg rounded-main border border-input-border dark:border-dark-input-border grid grid-cols-7 grid-rows-7 gap-12 p-12">
+    <div className="absolute z-50 h-[300px] md:h-[350px] w-full sm:w-[350px] md:w-[450px] mt-[10px] dark:bg-dark-input-bg bg-input-bg rounded-main border border-input-border dark:border-dark-input-border grid grid-cols-7 grid-rows-7 gap-12 p-12">
       <div className="col-span-7 flex flex-row justify-between items-center p-12 row-span-1 text-lg border-b border-input-border dark:border-dark-input-border">
         <button
           className="h-16 w-16 text-light cursor-pointer"
           onClick={() => {
             setToday(today.subtract(1, "month"));
           }}
+          type="button"
         >
           <ChevronLeftIcon className="text-light text-lg cursor-pointer" />
         </button>
@@ -28,6 +27,7 @@ export default function CalendarView({
           onClick={() => {
             setToday(currentDate);
           }}
+          type="button"
         >
           <h1 className="text-lg text-light cursor-pointer">
             {months[today.month()]}, {today.year()}
@@ -39,6 +39,7 @@ export default function CalendarView({
           onClick={() => {
             setToday(today.add(1, "month"));
           }}
+          type="button"
         >
           <ChevronRightIcon className="text-light text-lg" />
         </button>

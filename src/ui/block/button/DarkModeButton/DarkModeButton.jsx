@@ -1,30 +1,31 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { SunIcon, MoonIcon } from "@heroicons/react/24/outline";
 import { motion } from "framer-motion";
-import { useAppSelector } from "@/redux/store";
+import { useSelector, useDispatch } from "react-redux";
 import { setDarkMode } from "@/redux/features/DarkModeSlice/DarkModeSlice";
-import { useDispatch } from "react-redux";
 
 export default function DarkModeButton() {
   const dispatch = useDispatch();
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, resolvedTheme } = useTheme(); // add resolvedTheme
+  const [isDarkMode, setIsDarkMode] = useState(false); // set initial state to false
+  const darkModeRedux = useSelector((state) => state.darkModeReducer.darkMode);
 
   useEffect(() => {
-    dispatch(setDarkMode(theme === "dark"));
-  }, [theme, dispatch]);
+    setIsDarkMode(darkModeRedux);
+  }, [darkModeRedux]);
+
+  useEffect(() => {
+    setIsDarkMode(resolvedTheme === "dark");
+  }, [resolvedTheme]);
 
   const toggleDarkMode = () => {
     const newTheme = theme === "dark" ? "light" : "dark";
     setTheme(newTheme);
-    const themevalue = newTheme === "dark" ? true : false;
-    dispatch(setDarkMode(themevalue));
+    dispatch(setDarkMode(newTheme === "dark"));
+    setIsDarkMode(newTheme === "dark");
   };
 
-  const darkModeButtonReducer = useAppSelector(
-    (state) => state.darkModeReducer.value.darkMode
-  );
-  
   return (
     <motion.button
       onClick={toggleDarkMode}
@@ -32,7 +33,7 @@ export default function DarkModeButton() {
       whileTap={{ scale: 0.95 }}
       className="px-8 bg-input-bg border dark:border-dark-input-border dark:bg-dark-input-bg border-input-border rounded-main h-40"
     >
-      {darkModeButtonReducer ? (
+      {isDarkMode ? (
         <MoonIcon className="h-24 w-24 text-primary dark:text-input-bg" />
       ) : (
         <SunIcon className="h-24 w-24 text-primary dark:text-input-bg" />

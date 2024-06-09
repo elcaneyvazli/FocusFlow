@@ -34,7 +34,7 @@ export default function KanbanCardItem({ task, onDragStart, columnId }) {
           <EllipsisHorizontalIcon className="h-[20px] w-[20px] text-primary dark:text-input-bg" />
         </div>
         <div className="flex flex-col gap-0">
-          <h1 className="text-md font-bold text-primary dark:text-input-bg">
+          <h1 className="text-md font-bold text-primary dark:text-input-bg w-full">
             {task.title}
           </h1>
           <p className="text-xs text-light line-clamp-1">{task.description}</p>
@@ -45,7 +45,9 @@ export default function KanbanCardItem({ task, onDragStart, columnId }) {
             <p className="text-sm text-primary dark:text-input-bg">Due To</p>
           </div>
           <p className="text-sm text-primary dark:text-input-bg">-</p>
-          <p className="text-sm text-light">{task.timeline}</p>
+          <p className="text-sm text-light">
+            {new Date(task.dueDate).toLocaleDateString()}
+          </p>
         </div>
         <div className="flex flex-row gap-8 items-center">
           <div className="flex flex-row gap-2 items-center">

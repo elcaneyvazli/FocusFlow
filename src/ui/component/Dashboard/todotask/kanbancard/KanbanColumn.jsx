@@ -19,7 +19,6 @@ const colorClasses = {
     bg: "bg-gray-bg",
     text: "text-gray-text",
   },
-  // Add other colors as needed
 };
 
 export default function KanbanColumn({ column, onDragStart, onDrop }) {
@@ -27,7 +26,16 @@ export default function KanbanColumn({ column, onDragStart, onDrop }) {
     e.preventDefault();
   };
 
-  const columnColors = colorClasses[column.color] || {};
+  const columnColor =
+    column.id === 0
+      ? colorClasses.red
+      : column.id === 1
+      ? colorClasses.blue
+      : column.id === 2
+      ? colorClasses.green
+      : column.id === 3
+      ? colorClasses.gray
+      : null;
 
   return (
     <div
@@ -36,14 +44,9 @@ export default function KanbanColumn({ column, onDragStart, onDrop }) {
       onDrop={(e) => onDrop(e, column.id)}
     >
       <div
-        className={classNames(
-          "px-12 py-8 flex flex-row justify-between items-center w-full rounded-main",
-          columnColors.bg
-        )}
+        className={`px-12 py-8 flex flex-row justify-between items-center w-full rounded-main ${columnColor.bg}`}
       >
-        <p className={classNames("text-sm", columnColors.text)}>
-          {column.title}
-        </p>
+        <p className={`text-sm ${columnColor.text}`}>{column.title} Have</p>
       </div>
       {column.items.map((task) => (
         <KanbanCardItem

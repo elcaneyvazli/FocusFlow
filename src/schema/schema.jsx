@@ -17,3 +17,17 @@ export const RegisterSchema = yup.object({
     .min(3, "Username is too short min 3 characters")
     .max(30, "Username is too long max 30 characters"),
 });
+
+export const TaskSchema = yup.object({
+  taskTitle: yup
+    .string()
+    .required("Title is required")
+    .min(3, "Title is too short, minimum 3 characters")
+    .max(100, "Title is too long, maximum 100 characters"),
+  taskDescription: yup.string().required("Description is required"),
+  taskLabel: yup
+    .string()
+    .required("Label is required")
+    .min(3, "Label is too short, minimum 3 characters")
+    .max(30, "Label is too long, maximum 30 characters"),
+});

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Pomodoro from "@/ui/assert/pomodoro.svg";
 import Calendar from "@/ui/assert/calendar.svg";
@@ -10,12 +10,10 @@ import Calendardark from "@/ui/assert/calendardark.svg";
 import Chartdark from "@/ui/assert/chartdark.svg";
 import Teamdark from "@/ui/assert/teamdark.svg";
 import Circledark from "@/ui/assert/circledark.svg";
-import { useAppSelector } from "@/redux/store";
+import { useSelector } from "react-redux";
 
 export default function Features() {
-  const darkModeButtonReducer = useAppSelector(
-    (state) => state.darkModeReducer.value.darkMode
-  );
+  const DarkMode = useSelector((state) => state.darkModeReducer).darkMode;
 
   return (
     <div className="grid grid-cols-12 gap-16 w-full h-full">
@@ -28,12 +26,12 @@ export default function Features() {
         </div>
         <div className="absolute bottom-0">
           <Image
-            src={darkModeButtonReducer === false ? Pomodoro : Pomodorodark}
+            src={DarkMode ? Pomodorodark : Pomodoro}
             alt="pomodoro"
             width={0}
             height={0}
             draggable="false"
-            className="overflow-hidden object-cover bg-center "
+            className="overflow-hidden object-cover bg-center"
           />
         </div>
       </div>
@@ -44,8 +42,8 @@ export default function Features() {
         </div>
         <div className="absolute bottom-0 right-0">
           <Image
-            src={darkModeButtonReducer === false ? Calendar : Calendardark}
-            alt="pomodoro"
+            src={DarkMode ? Calendardark : Calendar}
+            alt="calendar"
             width={0}
             height={0}
             draggable="false"
@@ -63,8 +61,8 @@ export default function Features() {
         <div className="w-full h-full relative overflow-hidden">
           <div className="absolute bottom-0 left-0 w-full h-full overflow-hidden">
             <Image
-              src={darkModeButtonReducer === false ? Team : Teamdark}
-              alt="pomodoro"
+              src={DarkMode ? Teamdark : Team}
+              alt="team"
               width={0}
               height={0}
               draggable="false"
@@ -88,8 +86,8 @@ export default function Features() {
         </div>
         <div className="absolute bottom-12 right-12 ">
           <Image
-            src={darkModeButtonReducer === false ? Circle : Circledark}
-            alt="pomodoro"
+            src={DarkMode ? Circledark : Circle}
+            alt="circle"
             width={0}
             height={0}
             draggable="false"
@@ -97,15 +95,15 @@ export default function Features() {
           />
         </div>
       </div>
-      <div className="col-span-12 sm:col-span-6 lg:col-span-5 xl:col-span-3  border-input-border dark:border-dark-input-border border bg-input-bg dark:bg-dark-input-bg rounded-main flex flex-col gap-40 p-16 h-[270px] items-end relative">
+      <div className="col-span-12 sm:col-span-6 lg:col-span-5 xl:col-span-3 border-input-border dark:border-dark-input-border bg-input-bg dark:bg-dark-input-bg border rounded-main flex flex-col gap-40 p-16 h-[270px] items-end relative">
         <div className="flex flex-col gap-0 w-full items-start justify-start">
           <h1 className="text-black dark:text-input-bg text-2xl">Statistics</h1>
           <p className="text-light text-lg">Keep track of your statistic</p>
         </div>
         <div className="absolute bottom-0 right-0 w-full">
           <Image
-            src={darkModeButtonReducer === false ? Chart : Chartdark}
-            alt="pomodoro"
+            src={DarkMode ? Chartdark : Chart}
+            alt="chart"
             width={0}
             height={0}
             draggable="false"
