@@ -10,13 +10,13 @@ import { useState } from "react";
 import dynamic from "next/dynamic";
 import KanbanBoardSkeleton from "@/ui/component/Dashboard/todotask/kanbancard/KanbanBoardSkeleton";
 import TaskCardSkeleton from "@/ui/component/Dashboard/todotask/taskcard/TaskCardSkeleton";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 const Taskcard = dynamic(
   () => import("@/ui/component/Dashboard/todotask/taskcard/taskcard"),
   {
-    loading: () => (
-      <TaskCardSkeleton />
-    ),
+    loading: () => <TaskCardSkeleton />,
     ssr: false,
   }
 );
@@ -30,6 +30,8 @@ const KanbanBoard = dynamic(
 );
 
 export default function Home() {
+  const router = useRouter();
+
   const [columns, setColumns] = useState();
   const [total, setTotal] = useState();
   const [pending, setPending] = useState();
@@ -49,10 +51,15 @@ export default function Home() {
       } catch (error) {
         setError(error);
         setLoading(false);
+        // const authError = error.response?.status;
+        // if (authError === 401) {
+        //   Cookies.remove("acc");
+        //   router.push("/login");
+        // }
       }
     };
     fetchData();
-  }, []);
+  }, [router]);
 
   const dispatch = useDispatch();
 
