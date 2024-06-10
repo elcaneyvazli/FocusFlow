@@ -5,7 +5,7 @@ import {
   ClipboardDocumentListIcon,
   DocumentMagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
-import TaskCardItem from "./taskcarditem";
+import TaskCardItem from "./TaskCardItem.jsx";
 
 export default function Taskcard({ total, pending, completed }) {
   return (
