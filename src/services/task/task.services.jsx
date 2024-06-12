@@ -38,3 +38,34 @@ export const createTask = async (taskData) => {
     throw error;
   }
 };
+
+export const deleteTask = async (taskId) => {
+  try {
+    const response = await axios.delete(`${baseUrl}/UserTask/${taskId}`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting task:", error);
+    throw error;
+  }
+};
+
+export const updateTask = async (taskId, updatedData) => {
+  try {
+    const response = await axios.put(
+      `${baseUrl}/UserTask`,
+      {
+        id: taskId,
+        ...updatedData,
+      },
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error updating task:", error);
+    throw error;
+  }
+};

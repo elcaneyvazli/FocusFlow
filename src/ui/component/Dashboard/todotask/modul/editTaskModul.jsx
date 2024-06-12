@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/redux/store";
 import ButtonWithIcon from "@/ui/block/button/ButtonWithIcon/ButtonWithIcon";
@@ -8,27 +8,26 @@ import {
   TagIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { toggleTask } from "@/redux/features/NewTaskSlice/newTaskSlice";
 import TextInput from "@/ui/block/input/TextInput/TextInput";
-import CustomSelect from "@/ui/block/input/SelectInput/SelectInput";
 import { useForm } from "react-hook-form";
-import DateInput from "@/ui/block/input/Dueto/DateInput";
-import { TaskSchema } from "@/schema/schema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Button from "@/ui/block/button/Button/Button";
-import { createTask } from "@/services/task/task.services";
-import dayjs from "dayjs";
+import { updateTask } from "@/services/task/task.services";
+import { toggleEditTask } from "@/redux/features/EditTaskSlice/EditTaskSlice";
+import { TaskSchema } from "@/schema/schema";
+import DateInput from "@/ui/block/input/Dueto/DateInput";
+import CustomSelect from "@/ui/block/input/SelectInput/SelectInput";
 
-export default function NewTaskModul() {
+export default function EditTaskModul({ task, edit, setEdit }) {
   const dispatch = useDispatch();
+  const taskValue = useAppSelector((state) => state.editTask.editTask);
 
-  const taskValue = useAppSelector(
-    (state) => state.newTaskReducer.value.newTask
-  );
-
-  const onClose = () => {
-    dispatch(toggleTask());
+  const onEditTask = () => {
+    dispatch(toggleEditTask());
+    setEdit(null);
   };
+
+  console.log("Task Edit Value:", task.taskPriority);
 
   const {
     handleSubmit,
@@ -36,63 +35,71 @@ export default function NewTaskModul() {
     register,
   } = useForm({
     resolver: yupResolver(TaskSchema),
+    defaultValues: {
+      taskTitle: task?.title || "",
+      taskDescription: task?.description || "",
+      taskLabel: task?.label || "",
+    },
   });
 
-  const [selectedDate, setSelectedDate] = useState(dayjs());
-  const [selectedPriority, setSelectedPriority] = useState(0);
-
-  const handleSelectChange = (value) => {
-    setSelectedPriority(value);
-  };
-
-  const onTaskCreated = async (data, e) => {
+  const onTaskEdited = async (data, e) => {
     e.preventDefault();
 
-    const taskData = {
+    const updatedTaskData = {
+      ...task,
       title: data.taskTitle,
       description: data.taskDescription,
       label: data.taskLabel,
-      dueDate: selectedDate.format("YYYY-MM-DD"),
+      dueDate: selectedDate,
       taskPriority: selectedPriority,
-      isCompleted: false,
     };
 
-    console.log("Task Data:", taskData);
-
     try {
-      const response = await createTask(taskData);
-      onClose();
+      await updateTask(task.id, updatedTaskData);
+      onEditTask();
     } catch (error) {
-      console.error("Error creating task:", error);
+      console.error("Error editing task:", error);
     }
   };
+
+  const [selectedDate, setSelectedDate] = useState(task.dueDate || null);
+  const [selectedPriority, setSelectedPriority] = useState(
+    task.taskPriority || 0
+  );
+
+  useEffect(() => {
+    setSelectedPriority(task.taskPriority);
+  }, [task.taskPriority]);
+
+  console.log("Selected Date:", selectedDate);
+  console.log("Selected Priority:", selectedPriority);
 
   return taskValue ? (
     <>
       <div className="fixed top-0 left-0 w-full h-full md:h-screen flex items-center justify-center z-50">
         <div
           className="fixed inset-0 bg-black bg-opacity-50 z-40"
-          onClick={onClose}
+          onClick={onEditTask}
         ></div>
         <div className="relative w-full h-full md:w-[70%] md:h-auto bg-white dark:bg-primary px-16 py-16 rounded-main flex flex-col gap-16 justify-between z-50">
           <div className="flex flex-row justify-between items-center">
             <h1 className="text-lg font-medium text-primary dark:text-input-bg">
-              New Task
+              Edit Task
             </h1>
             <ButtonWithIcon
               icon={
                 <XMarkIcon className="h-24 w-24 text-primary dark:text-input-bg" />
               }
-              onClick={onClose}
+              onClick={onEditTask}
             />
           </div>
           <form
             className="flex flex-col gap-12"
-            onSubmit={handleSubmit(onTaskCreated)}
+            onSubmit={handleSubmit(onTaskEdited)}
           >
             <TextInput
-              title="Task title"
-              placeholder="Add Task Title"
+              title="Task Title"
+              placeholder="Task Title"
               register={register}
               registername={"taskTitle"}
               error={errors.taskTitle?.message}
@@ -101,8 +108,8 @@ export default function NewTaskModul() {
               }
             />
             <TextInput
-              title="Task description"
-              placeholder="Add Task Description"
+              title="Task Description"
+              placeholder="Task Description"
               register={register}
               registername={"taskDescription"}
               error={errors.taskDescription?.message}
@@ -110,30 +117,27 @@ export default function NewTaskModul() {
                 <DocumentTextIcon className="w-[18px] h-[18px] text-light" />
               }
             />
-            <DateInput
-              title="Due date"
-              onSelect={(date) => {
-                setSelectedDate(date);
-              }}
-            />
             <TextInput
-              title="Label"
-              placeholder="Add Task Label"
+              title="Task Label"
+              placeholder="Task Label"
               register={register}
               registername={"taskLabel"}
               error={errors.taskLabel?.message}
               icon={<TagIcon className="w-[18px] h-[18px] text-light" />}
             />
+            <DateInput onSelect={setSelectedDate} defaultValue={task.dueDate} />
             <CustomSelect
-              options={["Must Have", "Should Have", "Could Have", "Won't Have"]}
-              onChange={handleSelectChange}
+              onChange={setSelectedPriority}
+              defaultValue={task.taskPriority}
             />
-            <Button text="Add Task" />
+            <Button
+              text={"Edit Task"}
+              onClick={handleSubmit(onTaskEdited)}
+              type={"submit"}
+            />
           </form>
         </div>
       </div>
     </>
-  ) : (
-    <div></div>
-  );
+  ) : null;
 }

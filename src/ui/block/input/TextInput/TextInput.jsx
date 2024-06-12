@@ -7,6 +7,7 @@ export default function TextInput({
   error,
   registername,
   register,
+  value,
 }) {
   return (
     <div className="flex flex-col gap-8 w-full">

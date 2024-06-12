@@ -1,30 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   CalendarIcon,
   ChevronRightIcon,
-  InformationCircleIcon,
 } from "@heroicons/react/24/outline";
 import { motion } from "framer-motion";
 import CalendarView from "./CalendarView";
 import dayjs from "dayjs";
 
-const DateInput = ({ onSelect }) => {
+const DateInput = ({ onSelect, defaultValue }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const currentDate = dayjs();
-  const [today, setToday] = useState(currentDate);
-  const [selectedDate, setSelectedDate] = useState(currentDate);
+  const [today, setToday] = useState(dayjs());
+  const [selectedDate, setSelectedDate] = useState(dayjs(defaultValue));
+
+  useEffect(() => {
+    if (onSelect) {
+      onSelect(selectedDate);
+    }
+  }, [selectedDate, onSelect]);
 
   const handleDateSelect = (date) => {
-    setSelectedDate(date);
+    const selectedDayjsDate = dayjs(date);
+    setSelectedDate(selectedDayjsDate);
     setIsOpen(false);
     if (onSelect) {
-      onSelect(date);
+      onSelect(selectedDayjsDate);
     }
-  }
+  };
 
   return (
     <motion.div className="flex flex-col gap-8 w-full">
-      <h1 className="text-sm font-medium">Priority</h1>
+      <h1 className="text-sm font-medium">Due Date</h1>
       <div className="relative w-full">
         <div className="absolute inset-y-0 start-0 flex items-center ps-16 pointer-events-none">
           <CalendarIcon className="w-[18px] h-[18px] text-light" />

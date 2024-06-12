@@ -11,7 +11,7 @@ import dynamic from "next/dynamic";
 import KanbanBoardSkeleton from "@/ui/component/Dashboard/todotask/kanbancard/KanbanBoardSkeleton";
 import TaskCardSkeleton from "@/ui/component/Dashboard/todotask/taskcard/TaskCardSkeleton";
 import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
+import EditTaskModul from "@/ui/component/Dashboard/todotask/modul/editTaskModul";
 
 const Taskcard = dynamic(
   () => import("@/ui/component/Dashboard/todotask/taskcard/taskcard"),
@@ -48,18 +48,14 @@ export default function Home() {
         setCompleted(response.completed);
         setColumns(response.tasks);
         setLoading(false);
+        
       } catch (error) {
         setError(error);
         setLoading(false);
-        // const authError = error.response?.status;
-        // if (authError === 401) {
-        //   Cookies.remove("acc");
-        //   router.push("/login");
-        // }
       }
     };
     fetchData();
-  }, [router]);
+  }, []);
 
   const dispatch = useDispatch();
 

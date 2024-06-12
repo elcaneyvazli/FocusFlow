@@ -22,7 +22,7 @@ export default function TaskCardItem({ title, icon, data }) {
           <h1 className="font-medium  text-sm cursor-pointer">View Details</h1>
         </Link>
 
-        <h1 className="text-light text-xs">From the last month</h1>
+        <h1 className="text-light text-xs">From the last week</h1>
       </div>
     </div>
   );

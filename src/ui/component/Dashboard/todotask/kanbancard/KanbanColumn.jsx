@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import KanbanCardItem from "./KanbanCardItem";
+import EditTaskModul from "../modul/editTaskModul";
 
 const colorClasses = {
   red: {
@@ -21,6 +22,10 @@ const colorClasses = {
 };
 
 export default function KanbanColumn({ column, onDragStart, onDrop }) {
+  const [editTask, setEditTask] = useState(null);
+
+  const tasks = column.items.filter((task) => task.isCompleted === false);
+
   const handleDragOver = (e) => {
     e.preventDefault();
   };
@@ -47,14 +52,22 @@ export default function KanbanColumn({ column, onDragStart, onDrop }) {
       >
         <p className={`text-sm ${columnColor.text}`}>{column.title} Have</p>
       </div>
-      {column.items.map((task) => (
+      {tasks.map((task) => (
         <KanbanCardItem
           key={task.id}
           task={task}
           onDragStart={onDragStart}
           columnId={column.id}
+          setEditTask={setEditTask}
         />
       ))}
+      {editTask && (
+        <EditTaskModul
+          task={editTask}
+          edit={editTask !== null}
+          setEdit={setEditTask}
+        />
+      )}
     </div>
   );
 }

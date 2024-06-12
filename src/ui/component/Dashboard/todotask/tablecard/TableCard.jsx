@@ -1,24 +1,36 @@
-import { getTasks } from "@/services/task/task.services";
+import React, { useState } from "react";
 import TableCardHeader from "./TableCardHeader";
 import TableCardItem from "./TableCardItem";
-import { useEffect, useState } from "react";
+import EditTaskModul from "@/ui/component/Dashboard/todotask/modul/editTaskModul";
 
 export default function TableCard({ data, loading, error }) {
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  const [editTask, setEditTask] = useState(false);
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
+  const handleEditTask = (task) => {
+    setEditTask(task, !editTask);
+  };
+
+  const handleCloseEditTask = () => {
+    setEditTask(null);
+  };
+
+  console.log(editTask);
+
   return (
-    <div
-      className="flex flex-col gap-0 border border-input-border dark:border-dark-input-border rounded-main w-full overflow-y-scroll
-      bg-white dark:bg-dark-input-bg
-    "
-    >
+    <div className="flex flex-col gap-0 border border-input-border dark:border-dark-input-border rounded-main w-full overflow-y-scroll bg-white dark:bg-dark-input-bg relative z-10">
       <TableCardHeader />
-      <TableCardItem className="w-full" data={data} />
+      <TableCardItem
+        className="w-full"
+        data={data}
+        onEditTask={handleEditTask}
+      />
+      {editTask && (
+        <EditTaskModul
+          task={editTask}
+          edit={editTask !== null}
+          setEdit={handleCloseEditTask}
+        />
+      )}
     </div>
   );
 }

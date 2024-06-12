@@ -1,6 +1,9 @@
 import dayjs from "dayjs";
 
-export const generateDate = (month = dayjs().month(), year = dayjs().year()) => {
+export const generateDate = (
+  month = dayjs().month(),
+  year = dayjs().year()
+) => {
   const firstDateofMonth = dayjs().year(year).month(month).startOf("month");
   const lastDateofMonth = dayjs().year(year).month(month).endOf("month");
 
@@ -44,5 +47,5 @@ export const months = [
   "September",
   "October",
   "November",
-  "December"
+  "December",
 ];
