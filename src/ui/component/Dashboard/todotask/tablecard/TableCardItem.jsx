@@ -1,4 +1,3 @@
-"use client";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import {
@@ -29,19 +28,19 @@ export default function TableCardItem({ data, onEditTask }) {
     }
   };
 
-  const handleToggleMenu = () => {
-    setShowMenu(!showMenu);
+  const handleToggleMenu = (taskId) => {
+    setShowMenu((prevMenu) => (prevMenu === taskId ? null : taskId));
   };
 
   return (
     <>
       {data?.map((task) => (
         <div
-          className="flex flex-col gap-0 bg-white dark:bg-dark-input-bg w-full"
+          className="flex flex-col gap-0 bg-white dark:bg-dark-input-bg w-full relative"
           key={task.id}
         >
           {task?.items
-            .filter((task) => !task.isCompleted) // Filter out completed tasks
+            .filter((task) => !task.isCompleted)
             .map((task) => (
               <div
                 className="flex flex-row gap-0 items-center bg-white dark:bg-dark-input-bg relative"
@@ -108,18 +107,22 @@ export default function TableCardItem({ data, onEditTask }) {
                     </p>
                   </div>
                 </div>
-                <div className="flex p-16 min-w-[150px] border-r border-b border-input-border dark:border-dark-input-border h-[53px] bg-white dark:bg-dark-input-bg">
-                  <h1 className="text-black dark:text-input-bg text-sm font-medium">
-                    {new Date(task.dueDate).toLocaleDateString()}
-                  </h1>
+                <div className="flex p-16 min-w-[150px] border-r border-b border-input-border dark:border-dark-input-border h-[53px] bg-white dark:bg-dark-input-bg items-center justify-center">
+                  <p className="text-sm text-black dark:text-input-bg whitespace-nowrap line-clamp-1">
+                    {new Date(task.dueDate).toLocaleDateString("en-UK", {
+                      day: "numeric",
+                      month: "numeric",
+                      year: "numeric",
+                    })}
+                  </p>
                 </div>
-                <div className="flex items-center justify-center px-16 h-[53px] min-w-[50px] bg-white dark:bg-dark-input-bg border-b border-input-border dark:border-dark-input-border relative">
+                <div className="border-b border-input-border dark:border-dark-input-border h-[53px] flex items-center justify-center min-w-[50px] bg-white dark:bg-dark-input-bg">
                   <EllipsisHorizontalIcon
-                    className="h-[24px] w-[24px] text-primary dark:text-input-bg cursor-pointer"
+                    className="w-[24px] h-[24px] text-primary dark:text-input-bg mx-12 cursor-pointer"
                     onClick={() => handleToggleMenu(task.id)}
                   />
-                  {showMenu && (
-                    <div className="absolute top-10 right-0 flex flex-col bg-input-bg rounded-main border border-input-border z-40 dark:bg-primary dark:border-dark-input-border shadow-sm">
+                  {showMenu === task.id && (
+                    <div className="absolute top-12 right-32 flex flex-col bg-input-bg rounded-main border border-input-border z-50 dark:bg-primary dark:border-dark-input-border shadow-sm">
                       <div
                         className="flex flex-row gap-8 items-center py-12 pl-16 pr-80 border-b border-input-border dark:border-dark-input-border"
                         onClick={() => onEditTask(task)}
@@ -129,6 +132,7 @@ export default function TableCardItem({ data, onEditTask }) {
                           Edit
                         </h1>
                       </div>
+
                       <div
                         className="flex flex-row gap-8 items-center py-12 pl-16 pr-80"
                         onClick={() => handleDelete(task.id)}

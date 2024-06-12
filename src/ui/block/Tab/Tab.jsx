@@ -8,12 +8,12 @@ export default function Tab({ tabs }) {
 
   return (
     <>
-      <div className="z-40 relative flex flex-col sm:flex-row items-center justify-between sm:gap-0 gap-12">
+      <div className="z-30 relative flex flex-col sm:flex-row items-center justify-between sm:gap-0 gap-12">
         <div className="flex flex-row gap-0 items-center w-full sm:w-fit relative">
           {tabs.map((tab) => (
             <div
               key={tab.id}
-              className="flex flex-col gap-16 items-start w-full sm:w-fit"
+              className="flex flex-col gap-16 items-start w-full sm:w-fit z-30"
             >
               <motion.button
                 className={`px-16 py-12 border-b w-full sm:w-fit ${

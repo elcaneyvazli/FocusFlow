@@ -93,7 +93,11 @@ export default function KanbanCardItem({
             </div>
             <p className="text-sm text-primary dark:text-input-bg">-</p>
             <p className="text-sm text-light">
-              {new Date(task.dueDate).toLocaleDateString()}
+              {new Date(task.dueDate).toLocaleDateString("en-UK", {
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+              })}
             </p>
           </div>
           <div className="flex flex-row gap-8 items-center">

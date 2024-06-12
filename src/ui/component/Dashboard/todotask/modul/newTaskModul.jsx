@@ -127,7 +127,7 @@ export default function NewTaskModul() {
             <CustomSelect
               options={["Must Have", "Should Have", "Could Have", "Won't Have"]}
               onChange={handleSelectChange}
-            />
+            />≈
             <Button text="Add Task" />
           </form>
         </div>
