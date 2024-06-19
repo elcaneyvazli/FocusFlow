@@ -116,7 +116,7 @@ export default function TableCardItem({ data, onEditTask }) {
                     })}
                   </p>
                 </div>
-                <div className="border-b border-input-border dark:border-dark-input-border h-[53px] flex items-center justify-center min-w-[50px] bg-white dark:bg-dark-input-bg">
+                <div className="border-b border-input-border dark:border-dark-input-border h-[53px] flex items-center justify-center min-w-[50px] bg-white dark:bg-dark-input-bg relative">
                   <EllipsisHorizontalIcon
                     className="w-[24px] h-[24px] text-primary dark:text-input-bg mx-12 cursor-pointer"
                     onClick={() => handleToggleMenu(task.id)}
@@ -124,7 +124,7 @@ export default function TableCardItem({ data, onEditTask }) {
                   {showMenu === task.id && (
                     <div className="absolute top-12 right-32 flex flex-col bg-input-bg rounded-main border border-input-border z-50 dark:bg-primary dark:border-dark-input-border shadow-sm">
                       <div
-                        className="flex flex-row gap-8 items-center py-12 pl-16 pr-80 border-b border-input-border dark:border-dark-input-border"
+                        className="flex flex-row gap-8 items-center py-12 pl-16 pr-80 border-b border-input-border dark:border-dark-input-border cursor-pointer"
                         onClick={() => onEditTask(task)}
                       >
                         <PencilIcon className="h-[16px] w-[16px] text-primary dark:text-input-bg" />
@@ -132,9 +132,8 @@ export default function TableCardItem({ data, onEditTask }) {
                           Edit
                         </h1>
                       </div>
-
                       <div
-                        className="flex flex-row gap-8 items-center py-12 pl-16 pr-80"
+                        className="flex flex-row gap-8 items-center py-12 pl-16 pr-80 cursor-pointer"
                         onClick={() => handleDelete(task.id)}
                       >
                         <TrashIcon className="h-[16px] w-[16px] text-primary dark:text-input-bg" />

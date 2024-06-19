@@ -15,5 +15,4 @@ export const editTaskSlice = createSlice({
 });
 
 export const { toggleEditTask } = editTaskSlice.actions;
-
 export default editTaskSlice.reducer;

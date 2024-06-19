@@ -27,7 +27,7 @@ export default function TableCard({ data, loading, error }) {
   }, [editTask]);
 
   return (
-    <div className="flex flex-col gap-0 border border-input-border dark:border-dark-input-border rounded-main w-full bg-white dark:bg-dark-input-bg relative z-10 overflow-y-hidden overflow-x-scroll">
+    <div className="flex flex-col gap-0 border border-input-border dark:border-dark-input-border rounded-main w-full bg-white dark:bg-dark-input-bg z-10 overflow-y-scroll overflow-x-scroll">
       <TableCardHeader />
       <TableCardItem
         className="w-full"

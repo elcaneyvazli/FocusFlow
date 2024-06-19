@@ -10,8 +10,7 @@ import { useState } from "react";
 import dynamic from "next/dynamic";
 import KanbanBoardSkeleton from "@/ui/component/Dashboard/todotask/kanbancard/KanbanBoardSkeleton";
 import TaskCardSkeleton from "@/ui/component/Dashboard/todotask/taskcard/TaskCardSkeleton";
-import { useRouter } from "next/navigation";
-import EditTaskModul from "@/ui/component/Dashboard/todotask/modul/editTaskModul";
+import PomodoroModal from "@/ui/layout/Pomodoro/PomodoroModal/PomodoroModal";
 
 const Taskcard = dynamic(
   () => import("@/ui/component/Dashboard/todotask/taskcard/taskcard"),
@@ -30,7 +29,6 @@ const KanbanBoard = dynamic(
 );
 
 export default function Home() {
-  const router = useRouter();
 
   const [columns, setColumns] = useState();
   const [total, setTotal] = useState();
@@ -48,7 +46,6 @@ export default function Home() {
         setCompleted(response.completed);
         setColumns(response.tasks);
         setLoading(false);
-        
       } catch (error) {
         setError(error);
         setLoading(false);

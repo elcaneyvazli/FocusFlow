@@ -19,7 +19,9 @@ export default function TaskCardItem({ title, icon, data }) {
       </div>
       <div className="flex flex-row justify-between w-full pt-8 items-center border-t border-input-border ">
         <Link href={"/dashboard/timeanalysis"}>
-          <h1 className="font-medium  text-sm cursor-pointer">View Details</h1>
+          <h1 className="font-medium  text-sm cursor-pointer text-primary dark:text-input-bg hover:opacity-70">
+            View Details
+          </h1>
         </Link>
 
         <h1 className="text-light text-xs">From the last week</h1>

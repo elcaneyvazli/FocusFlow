@@ -16,6 +16,7 @@ import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/redux/store";
 import LogoContainer from "@/ui/block/Logo/Logo";
 import { toggleSidebar } from "@/redux/features/SidebarButtonSlice/SidebarButtonSlice";
+import PomodoroButton from "../Pomodoro/PomodoroButton/PomodoroButton";
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -33,7 +34,7 @@ export default function Sidebar() {
   return (
     <>
       <div
-        className={`flex-col h-full justify-between items-start w-[227px] bg-white dark:bg-primary py-16 px-16 border-r border-input-border dark:border-dark-input-border xl:flex 
+        className={`flex-col h-full justify-between items-start w-[227px] bg-white dark:bg-primary py-16 px-16 border-x border-input-border dark:border-dark-input-border xl:flex z-50
         ${
           sidebarButtonReducer
             ? "flex fixed top-0 left-0 z-50 h-screen bg-primary w-[250px]"
@@ -54,20 +55,7 @@ export default function Sidebar() {
             </motion.button>
           </div>
           <div className="flex flex-col gap-24 w-full">
-            <div className="w-full bg-input-bg dark:bg-dark-input-bg border border-input-border dark:border-dark-input-border px-12 py-12 rounded-main flex flex-row justify-between items-center">
-              <div className="w-full flex flex-row gap-8 items-center">
-                <ClockIcon className="w-24 h-24 text-primary dark:text-input-bg" />
-                <div className="flex flex-col gap-0 items-start">
-                  <p className="text-light text-xs font-light">Time Tracker</p>
-                  <p className="text-black dark:text-input-bg text-xs font-medium">
-                    00:01:38
-                  </p>
-                </div>
-              </div>
-              <motion.button className="rounded-full px-4 py-4 border border-success-primary">
-                <PauseIcon className="w-16 h-16 font-bold text-success-primary" />
-              </motion.button>
-            </div>
+            <PomodoroButton />
             <div className="flex flex-col gap-12 w-full">
               {SideBarItem.map((item, index) => (
                 <Link href={item.link} key={index}>
@@ -82,7 +70,15 @@ export default function Sidebar() {
                     }`}
                   >
                     {item.icon}
-                    <h1 className="text-md font-normal">{item.title}</h1>
+                    <h1
+                      className={`text-md font-normal ${
+                        pathname === item.link
+                          ? "text-white dark:text-input-bg hover:opacity-95"
+                          : "text-primary dark:text-input-bg hover:opacity-70"
+                      }`}
+                    >
+                      {item.title}
+                    </h1>
                   </motion.button>
                 </Link>
               ))}

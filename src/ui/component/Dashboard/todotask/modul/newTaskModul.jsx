@@ -18,8 +18,14 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Button from "@/ui/block/button/Button/Button";
 import { createTask } from "@/services/task/task.services";
 import dayjs from "dayjs";
+import { useRouter } from "next/navigation";
 
 export default function NewTaskModul() {
+  const router = useRouter();
+
+  // useEffect(() => {
+  //   router.refresh();
+  // }, [router]);
   const dispatch = useDispatch();
 
   const taskValue = useAppSelector(
@@ -61,12 +67,13 @@ export default function NewTaskModul() {
 
     try {
       const response = await createTask(taskData);
+      
       onClose();
     } catch (error) {
       console.error("Error creating task:", error);
     }
   };
-
+useEffect(() => {router.refresh()}, [taskValue]);
   return taskValue ? (
     <>
       <div className="fixed top-0 left-0 w-full h-full md:h-screen flex items-center justify-center z-50">
@@ -127,7 +134,7 @@ export default function NewTaskModul() {
             <CustomSelect
               options={["Must Have", "Should Have", "Could Have", "Won't Have"]}
               onChange={handleSelectChange}
-            />≈
+            />
             <Button text="Add Task" />
           </form>
         </div>
