@@ -1,25 +1,22 @@
 "use client";
-import Image from "next/image";
 import React from "react";
-import Logo from "@/ui/assert/Logowbg.svg";
 import {
   ArrowLeftOnRectangleIcon,
-  ClockIcon,
-  PauseIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { motion } from "framer-motion";
 import { SideBarItem } from "@/library/sidebaritem";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/redux/store";
 import LogoContainer from "@/ui/block/Logo/Logo";
 import { toggleSidebar } from "@/redux/features/SidebarButtonSlice/SidebarButtonSlice";
-import PomodoroButton from "../Pomodoro/PomodoroButton/PomodoroButton";
+import Cookies from "js-cookie";
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
 
   const dispatch = useDispatch();
 
@@ -42,7 +39,7 @@ export default function Sidebar() {
         }
       `}
       >
-        <div className="flex flex-col gap-64 w-full">
+        <div className="flex flex-col gap-96 w-full">
           <div className="flex flex-row justify-between items-center">
             <LogoContainer />
             <motion.button
@@ -55,7 +52,7 @@ export default function Sidebar() {
             </motion.button>
           </div>
           <div className="flex flex-col gap-24 w-full">
-            <PomodoroButton />
+            {/* <PomodoroButton /> */}
             <div className="flex flex-col gap-12 w-full">
               {SideBarItem.map((item, index) => (
                 <Link href={item.link} key={index}>
@@ -90,6 +87,11 @@ export default function Sidebar() {
             className="w-full border border-input-border dark:border-dark-input-border bg-input-bg dark:bg-dark-input-bg rounded-main flex flex-row items-center gap-4 px-12 py-12"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            onClick={() => {
+              Cookies.remove("acc");
+              router.push("/login");
+              window.location.reload();
+            }}
           >
             <ArrowLeftOnRectangleIcon className="w-24 h-24 text-primary dark:text-input-bg" />
             <h1 className="text-md font-normal">Log Out</h1>

@@ -68,12 +68,12 @@ export default function EditTaskModul({ task, edit, setEdit }) {
   }, [task.taskPriority]);
 
   return edit ? (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <div className="fixed inset-0 z-50 flex items-center justify-end">
       <div
         className="fixed inset-0 bg-black bg-opacity-50"
         onClick={onEditTask}
       ></div>
-      <div className="relative w-full h-full md:w-[70%] md:h-auto  bg-white dark:bg-primary px-16 py-16 rounded-main flex flex-col gap-16 z-50">
+      <div className="relative w-full sm:w-[70%] lg:w-[50%] h-full bg-white dark:bg-primary p-16 rounded-main flex flex-col justify-between gap-16 z-50">
         <div className="flex flex-row justify-between items-center">
           <h1 className="text-lg font-medium text-primary dark:text-input-bg">
             Edit Task
@@ -86,38 +86,45 @@ export default function EditTaskModul({ task, edit, setEdit }) {
           />
         </div>
         <form
-          className="flex flex-col gap-12"
+          className="flex flex-col justify-between gap-12 h-full"
           onSubmit={handleSubmit(onTaskEdited)}
         >
-          <TextInput
-            title="Task Title"
-            placeholder="Task Title"
-            register={register}
-            registername={"taskTitle"}
-            error={errors.taskTitle?.message}
-            icon={<DocumentPlusIcon className="w-[18px] h-[18px] text-light" />}
-          />
-          <TextInput
-            title="Task Description"
-            placeholder="Task Description"
-            register={register}
-            registername={"taskDescription"}
-            error={errors.taskDescription?.message}
-            icon={<DocumentTextIcon className="w-[18px] h-[18px] text-light" />}
-          />
-          <TextInput
-            title="Task Label"
-            placeholder="Task Label"
-            register={register}
-            registername={"taskLabel"}
-            error={errors.taskLabel?.message}
-            icon={<TagIcon className="w-[18px] h-[18px] text-light" />}
-          />
-          <DateInput onSelect={setSelectedDate} defaultValue={task.dueDate} />
-          <CustomSelect
-            onChange={setSelectedPriority}
-            defaultValue={task.taskPriority}
-          />
+          <div className="flex flex-col gap-12 items justify-center h-full">
+            <TextInput
+              title="Task Title"
+              placeholder="Task Title"
+              register={register}
+              registername={"taskTitle"}
+              error={errors.taskTitle?.message}
+              icon={
+                <DocumentPlusIcon className="w-[18px] h-[18px] text-light" />
+              }
+            />
+            <TextInput
+              title="Task Description"
+              placeholder="Task Description"
+              register={register}
+              registername={"taskDescription"}
+              error={errors.taskDescription?.message}
+              icon={
+                <DocumentTextIcon className="w-[18px] h-[18px] text-light" />
+              }
+            />
+            <TextInput
+              title="Task Label"
+              placeholder="Task Label"
+              register={register}
+              registername={"taskLabel"}
+              error={errors.taskLabel?.message}
+              icon={<TagIcon className="w-[18px] h-[18px] text-light" />}
+            />
+            <DateInput onSelect={setSelectedDate} defaultValue={task.dueDate} />
+            <CustomSelect
+              onChange={setSelectedPriority}
+              defaultValue={task.taskPriority}
+            />
+          </div>
+
           <Button text={"Edit Task"} type={"submit"} />
         </form>
       </div>

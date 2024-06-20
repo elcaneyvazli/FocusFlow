@@ -1,11 +1,8 @@
 "use client";
 import Sidebar from "@/ui/layout/Sidebar/sidebar";
 import Navbar from "@/ui/layout/Navbar/navbar";
-import { useAppSelector } from "@/redux/store";
-import PomodoroModal from "@/ui/layout/Pomodoro/PomodoroModal/PomodoroModal";
-
+  
 export default function DashLayout({ children }) {
-  const pomoValue = useAppSelector((state) => state.pomodoro.pomodoro);
   return (
     <div className="flex flex-row gap-0 relative ">
       <div className="h-screen">
@@ -18,7 +15,6 @@ export default function DashLayout({ children }) {
         <div className="w-full min-h-full p-12 sm:p-16 xl:px-32 xl:py-16 ">
           {children}
         </div>
-        {pomoValue && <PomodoroModal />}
       </div>
     </div>
   );

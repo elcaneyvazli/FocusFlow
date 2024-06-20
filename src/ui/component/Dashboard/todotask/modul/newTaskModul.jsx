@@ -67,21 +67,21 @@ export default function NewTaskModul() {
 
     try {
       const response = await createTask(taskData);
-      
+
       onClose();
+      router.refresh(); // Sayfayı yenile
     } catch (error) {
       console.error("Error creating task:", error);
     }
   };
-useEffect(() => {router.refresh()}, [taskValue]);
   return taskValue ? (
     <>
-      <div className="fixed top-0 left-0 w-full h-full md:h-screen flex items-center justify-center z-50">
+      <div className="fixed top-0 left-0 w-full h-full md:h-screen flex items-center justify-end z-50">
         <div
           className="fixed inset-0 bg-black bg-opacity-50 z-40"
           onClick={onClose}
         ></div>
-        <div className="relative w-full h-full md:w-[70%] md:h-auto bg-white dark:bg-primary px-16 py-16 rounded-main flex flex-col gap-16 justify-between z-50">
+        <div className="relative w-full sm:w-[70%] lg:w-[50%] h-full bg-white dark:bg-primary px-16 py-16 rounded-l-main flex flex-col gap-16 justify-between z-50">
           <div className="flex flex-row justify-between items-center">
             <h1 className="text-lg font-medium text-primary dark:text-input-bg">
               New Task
@@ -94,47 +94,55 @@ useEffect(() => {router.refresh()}, [taskValue]);
             />
           </div>
           <form
-            className="flex flex-col gap-12"
+            className="flex flex-col gap-12 h-full justify-between"
             onSubmit={handleSubmit(onTaskCreated)}
           >
-            <TextInput
-              title="Task title"
-              placeholder="Add Task Title"
-              register={register}
-              registername={"taskTitle"}
-              error={errors.taskTitle?.message}
-              icon={
-                <DocumentPlusIcon className="w-[18px] h-[18px] text-light" />
-              }
-            />
-            <TextInput
-              title="Task description"
-              placeholder="Add Task Description"
-              register={register}
-              registername={"taskDescription"}
-              error={errors.taskDescription?.message}
-              icon={
-                <DocumentTextIcon className="w-[18px] h-[18px] text-light" />
-              }
-            />
-            <DateInput
-              title="Due date"
-              onSelect={(date) => {
-                setSelectedDate(date);
-              }}
-            />
-            <TextInput
-              title="Label"
-              placeholder="Add Task Label"
-              register={register}
-              registername={"taskLabel"}
-              error={errors.taskLabel?.message}
-              icon={<TagIcon className="w-[18px] h-[18px] text-light" />}
-            />
-            <CustomSelect
-              options={["Must Have", "Should Have", "Could Have", "Won't Have"]}
-              onChange={handleSelectChange}
-            />
+            <div className="flex flex-col gap-12 items justify-center h-full">
+              <TextInput
+                title="Task title"
+                placeholder="Add Task Title"
+                register={register}
+                registername={"taskTitle"}
+                error={errors.taskTitle?.message}
+                icon={
+                  <DocumentPlusIcon className="w-[18px] h-[18px] text-light" />
+                }
+              />
+              <TextInput
+                title="Task description"
+                placeholder="Add Task Description"
+                register={register}
+                registername={"taskDescription"}
+                error={errors.taskDescription?.message}
+                icon={
+                  <DocumentTextIcon className="w-[18px] h-[18px] text-light" />
+                }
+              />
+              <DateInput
+                title="Due date"
+                onSelect={(date) => {
+                  setSelectedDate(date);
+                }}
+              />
+              <TextInput
+                title="Label"
+                placeholder="Add Task Label"
+                register={register}
+                registername={"taskLabel"}
+                error={errors.taskLabel?.message}
+                icon={<TagIcon className="w-[18px] h-[18px] text-light" />}
+              />
+              <CustomSelect
+                options={[
+                  "Must Have",
+                  "Should Have",
+                  "Could Have",
+                  "Won't Have",
+                ]}
+                onChange={handleSelectChange}
+              />
+            </div>
+
             <Button text="Add Task" />
           </form>
         </div>

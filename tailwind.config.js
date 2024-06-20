@@ -73,6 +73,20 @@ module.exports = {
       borderRadius: {
         main: "10px",
       },
+      keyframes: {
+        flipTop: {
+          "0%": { transform: "rotateX(0deg)" },
+          "100%": { transform: "rotateX(-90deg)" },
+        },
+        flipBottom: {
+          "0%": { transform: "rotateX(90deg)" },
+          "100%": { transform: "rotateX(0deg)" },
+        },
+      },
+      animation: {
+        flipTop: "flipTop 0.6s ease-in-out forwards",
+        flipBottom: "flipBottom 0.6s ease-in-out forwards",
+      },
     },
   },
   plugins: ["tailwindcss", "autoprefixer", "postcss-100vh-fix"],
@@ -80,11 +94,11 @@ module.exports = {
   safelist: [
     {
       pattern: /bg-(red|blue|green|gray)-bg/,
-      variants: ['responsive', 'hover', 'focus', 'dark'],
+      variants: ["responsive", "hover", "focus", "dark"],
     },
     {
       pattern: /text-(red|blue|green|gray)-text/,
-      variants: ['responsive', 'hover', 'focus', 'dark'],
+      variants: ["responsive", "hover", "focus", "dark"],
     },
   ],
 };

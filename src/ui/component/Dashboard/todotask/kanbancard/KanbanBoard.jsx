@@ -35,6 +35,7 @@ export default function KanbanBoard({ columns, setColumns, edit }) {
 
     try {
       await updateTask(taskId, task);
+      router.refresh();
     } catch (error) {
       console.error("Error updating task:", error);
     }

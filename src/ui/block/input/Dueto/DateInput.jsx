@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  CalendarIcon,
-  ChevronRightIcon,
-} from "@heroicons/react/24/outline";
+import { CalendarIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import { motion } from "framer-motion";
 import CalendarView from "./CalendarView";
 import dayjs from "dayjs";
@@ -28,7 +25,15 @@ const DateInput = ({ onSelect, defaultValue }) => {
   };
 
   return (
-    <motion.div className="flex flex-col gap-8 w-full">
+    <motion.div className="flex flex-col gap-8 w-full relative">
+      {isOpen && (
+        <CalendarView
+          today={today}
+          setToday={setToday}
+          selectedDate={selectedDate}
+          setSelectedDate={handleDateSelect}
+        />
+      )}
       <h1 className="text-sm font-medium">Due Date</h1>
       <div className="relative w-full">
         <div className="absolute inset-y-0 start-0 flex items-center ps-16 pointer-events-none">
@@ -49,14 +54,6 @@ const DateInput = ({ onSelect, defaultValue }) => {
             </motion.div>
           </motion.div>
         </motion.div>
-        {isOpen && (
-          <CalendarView
-            today={today}
-            setToday={setToday}
-            selectedDate={selectedDate}
-            setSelectedDate={handleDateSelect}
-          />
-        )}
       </div>
     </motion.div>
   );
