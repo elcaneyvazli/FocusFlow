@@ -74,6 +74,10 @@ module.exports = {
         main: "10px",
       },
       keyframes: {
+        flip: {
+          "0%": { transform: "rotateX(0deg)" },
+          "100%": { transform: "rotateX(180deg)" },
+        },
         flipTop: {
           "0%": { transform: "rotateX(0deg)" },
           "100%": { transform: "rotateX(-90deg)" },
@@ -84,6 +88,7 @@ module.exports = {
         },
       },
       animation: {
+        flip: "flip 0.6s ease-in-out forwards",
         flipTop: "flipTop 0.6s ease-in-out forwards",
         flipBottom: "flipBottom 0.6s ease-in-out forwards",
       },

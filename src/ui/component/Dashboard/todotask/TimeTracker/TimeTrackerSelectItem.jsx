@@ -63,7 +63,10 @@ export default function TimeTrackerSelectItem({
                   ? colorClasses.gray
                   : null;
               return (
-                <div key={category.id} className="px-8 py-8 flex flex-col gap-4">
+                <div
+                  key={category.id}
+                  className="px-8 py-8 flex flex-col gap-4"
+                >
                   <div
                     className={`flex px-8 py-4 ${columnColor.bg} rounded-main`}
                   >
@@ -71,7 +74,7 @@ export default function TimeTrackerSelectItem({
                   </div>
                   <div className="relative flex flex-col gap-4">
                     {category.items.map((task) => {
-                      if (!task.isCompleted) {
+                      if (!task.isCompleted && task.length > 0) {
                         return (
                           <div
                             key={task.id}

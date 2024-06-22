@@ -1,37 +1,8 @@
 import React, { useState, useEffect } from "react";
+import FlipUnit from "./FlipUnit";
+import './test.css'
 
-const FlipUnit = ({ digit, prevDigit }) => {
-  const [flipping, setFlipping] = useState(false);
-
-  useEffect(() => {
-    if (digit !== prevDigit) {
-      setFlipping(true);
-      const timeout = setTimeout(() => setFlipping(false), 600);
-      return () => clearTimeout(timeout);
-    }
-  }, [digit, prevDigit]);
-
-  return (
-    <div className="relative w-[350px] h-[350px] perspective flex flex-row">
-      <div
-        className={`absolute w-full h-full bg-primary text-input-bg flex items-center justify-center rounded-main ${
-          flipping ? "animate-flipTop" : ""
-        }`}
-      >
-        {prevDigit}
-      </div>
-      <div
-        className={`absolute w-full h-full bg-primary text-input-bg flex items-center justify-center rounded-main ${
-          flipping ? "animate-flipBottom" : ""
-        }`}
-      >
-        {digit}
-      </div>
-    </div>
-  );
-};
-
-const FlipClock = ({ time }) => {
+export default function FlipClock ({ time }) {
   const formatTimeUnit = (unit) => unit.toString().padStart(2, "0").split("");
 
   const minutes = formatTimeUnit(Math.floor(time / 60));
@@ -51,5 +22,3 @@ const FlipClock = ({ time }) => {
     </div>
   );
 };
-
-export default FlipClock;

@@ -11,6 +11,7 @@ import {
 import { deleteTask, updateTask } from "@/services/task/task.services";
 import { useDispatch } from "react-redux";
 import { toggleEditTask } from "@/redux/features/EditTaskSlice/EditTaskSlice";
+import { toggleTaskModul } from "@/redux/features/TaskSlice/TaskSlice";
 
 export default function KanbanCardItem({
   task,
@@ -46,6 +47,10 @@ export default function KanbanCardItem({
     setEditTaskState(!editTask);
   };
 
+  const toggleSelect = () => {
+    dispatch(toggleTaskModul(task));
+  };
+
   return (
     <>
       <motion.div
@@ -78,7 +83,7 @@ export default function KanbanCardItem({
               <EllipsisHorizontalIcon className="h-[18px] w-[18px] text-primary dark:text-input-bg" />
             </div>
           </div>
-          <div className="flex flex-col gap-0">
+          <div className="flex flex-col gap-0 cursor-pointer" onClick={toggleSelect}>
             <h1 className="text-md font-bold text-primary dark:text-input-bg w-full">
               {task.title}
             </h1>

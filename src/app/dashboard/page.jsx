@@ -12,6 +12,7 @@ import KanbanBoardSkeleton from "@/ui/component/Dashboard/todotask/kanbancard/Ka
 import TaskCardSkeleton from "@/ui/component/Dashboard/todotask/taskcard/TaskCardSkeleton";
 import PomodoroModal from "@/ui/layout/Pomodoro/PomodoroModal/PomodoroModal";
 import TimeTrackerContainer from "@/ui/component/Dashboard/todotask/TimeTracker/TimeTrackerContainer";
+import SelectedTaskModul from "@/ui/component/Dashboard/todotask/modul/SelectedTaskModul";
 
 const Taskcard = dynamic(
   () => import("@/ui/component/Dashboard/todotask/taskcard/taskcard"),
@@ -30,7 +31,6 @@ const KanbanBoard = dynamic(
 );
 
 export default function Home() {
-
   const [columns, setColumns] = useState();
   const [total, setTotal] = useState();
   const [pending, setPending] = useState();
@@ -102,9 +102,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col gap-16 w-full">
-      <TimeTrackerContainer 
-        data={columns}
-      />
+      <TimeTrackerContainer data={columns} />
       <Taskcard
         total={total}
         pending={pending}
@@ -114,6 +112,7 @@ export default function Home() {
       />
       <Tab tabs={tabs} />
       <NewTaskModul />
+      <SelectedTaskModul />
     </div>
   );
 }
