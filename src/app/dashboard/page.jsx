@@ -13,6 +13,7 @@ import TaskCardSkeleton from "@/ui/component/Dashboard/todotask/taskcard/TaskCar
 import PomodoroModal from "@/ui/layout/Pomodoro/PomodoroModal/PomodoroModal";
 import TimeTrackerContainer from "@/ui/component/Dashboard/todotask/TimeTracker/TimeTrackerContainer";
 import SelectedTaskModul from "@/ui/component/Dashboard/todotask/modul/SelectedTaskModul";
+import NewTaskButton from "@/ui/block/button/NewTaskButton/NewTaskButton";
 
 const Taskcard = dynamic(
   () => import("@/ui/component/Dashboard/todotask/taskcard/taskcard"),
@@ -110,7 +111,7 @@ export default function Home() {
         loading={loading}
         error={error}
       />
-      <Tab tabs={tabs} />
+      <Tab tabs={tabs} component={<NewTaskButton />} />
       <NewTaskModul />
       <SelectedTaskModul />
     </div>

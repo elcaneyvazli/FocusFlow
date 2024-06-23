@@ -1,9 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React, { Component, useState } from "react";
 import { motion } from "framer-motion";
 import NewTaskButton from "../button/NewTaskButton/NewTaskButton";
 
-export default function Tab({ tabs }) {
+export default function Tab({ tabs, component }) {
   const [activeTab, setActiveTab] = useState(tabs[0]);
 
   return (
@@ -37,7 +37,7 @@ export default function Tab({ tabs }) {
           ))}
         </div>
 
-        <NewTaskButton />
+        {component}
       </div>
 
       <div className="flex flex-col gap-16 w-full">
