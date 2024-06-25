@@ -14,7 +14,7 @@ export default function HeroSection() {
       style={{
         perspective: "1000px",
       }}
-      className="flex flex-col gap-32 items-center justify-center bg-primary relative"
+      className="flex flex-col gap-32 relative"
     >
       <motion.div className="flex flex-col gap-16 overflow-hidden items-center justify-center">
         <div className="flex flex-col gap-0">
