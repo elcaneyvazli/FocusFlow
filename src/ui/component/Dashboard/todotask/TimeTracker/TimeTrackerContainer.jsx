@@ -1,13 +1,13 @@
-import ButtonWithIcon from "@/ui/block/button/ButtonWithIcon/ButtonWithIcon";
-import { ArrowsPointingOutIcon } from "@heroicons/react/24/outline";
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import TimeTrackerTimer from "./TimeTrackerTimer";
-import TimeTrackerSelectItem from "./TimeTrackerSelectItem";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/redux/store";
 import { toggleTask } from "@/redux/features/PomodoroSlice/PomodoroSlice";
-import PomodoroModal from "@/ui/layout/Pomodoro/PomodoroModal/PomodoroModal";
+import ButtonWithIcon from "@/ui/block/button/ButtonWithIcon/ButtonWithIcon";
+import { ArrowsPointingOutIcon } from "@heroicons/react/24/outline";
+import TimeTrackerTimer from "./TimeTrackerTimer";
+import TimeTrackerSelectItem from "./TimeTrackerSelectItem";
+import PomodoroModal from "@/ui/component/Dashboard/todotask/modul/PomodoroModal";
 
 export default function TimeTrackerContainer({ data }) {
   const dispatch = useDispatch();
@@ -15,24 +15,44 @@ export default function TimeTrackerContainer({ data }) {
   const onClose = () => {
     dispatch(toggleTask());
   };
+
   const [isWorking, setIsWorking] = useState(true);
-  const [timeRemaining, setTimeRemaining] = useState(25 * 60);
+  const [timeRemaining, setTimeRemaining] = useState(
+    () => Number(localStorage.getItem("timeRemaining")) || 25 * 60
+  );
   const [isRunning, setIsRunning] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(
+    () => JSON.parse(localStorage.getItem("selectedTask")) || null
+  );
+  const [isOpen, setIsOpen] = useState(false);
+
   useEffect(() => {
     let interval;
     if (isRunning) {
       interval = setInterval(() => {
-        setTimeRemaining((prevTime) => prevTime - 1);
+        setTimeRemaining((prevTime) => {
+          const newTime = prevTime - 1;
+          localStorage.setItem("timeRemaining", newTime);
+          return newTime;
+        });
       }, 1000);
     }
     return () => clearInterval(interval);
   }, [isRunning]);
+
   useEffect(() => {
     if (timeRemaining === 0) {
       setIsWorking((prevState) => !prevState);
-      setTimeRemaining(isWorking ? 5 * 60 : 25 * 60);
+      const newTime = isWorking ? 5 * 60 : 25 * 60;
+      setTimeRemaining(newTime);
+      localStorage.setItem("timeRemaining", newTime);
     }
   }, [timeRemaining, isWorking]);
+
+  useEffect(() => {
+    localStorage.setItem("selectedTask", JSON.stringify(selectedTask));
+  }, [selectedTask]);
+
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
@@ -40,6 +60,7 @@ export default function TimeTrackerContainer({ data }) {
       .toString()
       .padStart(2, "0")}`;
   };
+
   const handleStart = () => {
     setIsRunning(true);
   };
@@ -48,10 +69,11 @@ export default function TimeTrackerContainer({ data }) {
   };
   const handleReset = () => {
     setIsRunning(false);
-    setTimeRemaining(isWorking ? 25 * 60 : 5 * 60);
+    const newTime = isWorking ? 25 * 60 : 5 * 60;
+    setTimeRemaining(newTime);
+    localStorage.setItem("timeRemaining", newTime);
   };
-  const [selectedTask, setSelectedTask] = useState(null);
-  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <>
       <motion.div className="w-full bg-white dark:bg-dark-input-bg border border-input-border dark:border-dark-input-border p-16 flex flex-col md:flex-row justify-between rounded-main gap-32 cursor-pointer">
@@ -69,7 +91,7 @@ export default function TimeTrackerContainer({ data }) {
             setIsOpen={setIsOpen}
           />
         </div>
-        <div className="flex flex-col xs:flex-row items-center justify-between md:justify-center  gap-8">
+        <div className="flex flex-col xs:flex-row items-center justify-between md:justify-center gap-8">
           <h1 className="text-primary dark:text-input-bg text-4xl sm:text-3xl font-bold">
             {formatTime(timeRemaining)}
           </h1>
@@ -81,7 +103,9 @@ export default function TimeTrackerContainer({ data }) {
           />
         </div>
       </motion.div>
-      {pomodoro && <PomodoroModal time={formatTime(timeRemaining)} />}
+      {pomodoro && (
+        <PomodoroModal time={formatTime(timeRemaining)} isRunning={isRunning} />
+      )}
     </>
   );
 }

@@ -74,7 +74,7 @@ export default function TimeTrackerSelectItem({
                   </div>
                   <div className="relative flex flex-col gap-4">
                     {category.items.map((task) => {
-                      if (!task.isCompleted && task.length > 0) {
+                      if (!task.isCompleted ) {
                         return (
                           <div
                             key={task.id}

@@ -10,14 +10,29 @@ import {
   ArrowsPointingOutIcon,
   BookmarkIcon,
   ClockIcon,
+  DocumentCheckIcon,
+  PlusIcon,
   TagIcon,
+  UserIcon,
   UsersIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import Tab from "@/ui/block/Tab/Tab";
+import TextInput from "@/ui/block/input/TextInput/TextInput";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { motion } from "framer-motion";
 
 export default function SelectedTaskModul() {
   const dispatch = useDispatch();
+
+  const {
+    handleSubmit,
+    formState: { errors },
+    register,
+  } = useForm({
+    // resolver: yupResolver(LoginSchema),
+  });
 
   const selectedTaskValue = useAppSelector(
     (state) => state.selectedTaskReducer.value.modul
@@ -36,8 +51,6 @@ export default function SelectedTaskModul() {
     dispatch(toggleTaskFullScreen());
   };
 
-  console.log(selectedTask, selectedTaskValue);
-
   const tabs = [
     {
       id: 1,
@@ -47,7 +60,7 @@ export default function SelectedTaskModul() {
     {
       id: 2,
       title: "Subtask",
-      content: <div>test</div>,
+      content: <SelectedTaskSubtask />,
     },
   ];
 
@@ -177,6 +190,40 @@ function SelectedTaskDesc({ selectedTask }) {
   return (
     <div className="bg-input-bg dark:bg-dark-input-bg border border-input-border dark:border-dark-input-border p-12 rounded-main">
       {selectedTask.description}
+    </div>
+  );
+}
+
+function SelectedTaskSubtask() {
+  const {
+    handleSubmit,
+    formState: { errors },
+    register,
+  } = useForm({
+    // resolver: yupResolver(LoginSchema),
+  });
+
+
+  return (
+    <div className="min-h-full overflow-y-auto flex flex-col gap-16">
+      <div className="flex flex-row items-end justify-between gap-16">
+        <TextInput
+          title="Enter Subtask:"
+          placeholder="Enter Subtask"
+          icon={<DocumentCheckIcon className="w-[18px] h-[18px] text-light" />}
+          registername="emailOrUsername"
+          error={errors.emailOrUsername?.message}
+          register={register}
+        />
+         <motion.button
+            className="px-8 bg-input-bg dark:bg-dark-input-bg dark:border-dark-input-border border border-input-border rounded-main h-[47px] w-[47px] flex items-center justify-center cursor-pointer"
+            animate={{ scale: 1 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.95 }}
+        >
+            <PlusIcon className="w-[24px] h-[24px] text-light" />
+        </motion.button>
+      </div>
     </div>
   );
 }

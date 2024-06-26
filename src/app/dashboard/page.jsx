@@ -10,7 +10,6 @@ import { useState } from "react";
 import dynamic from "next/dynamic";
 import KanbanBoardSkeleton from "@/ui/component/Dashboard/todotask/kanbancard/KanbanBoardSkeleton";
 import TaskCardSkeleton from "@/ui/component/Dashboard/todotask/taskcard/TaskCardSkeleton";
-import PomodoroModal from "@/ui/layout/Pomodoro/PomodoroModal/PomodoroModal";
 import TimeTrackerContainer from "@/ui/component/Dashboard/todotask/TimeTracker/TimeTrackerContainer";
 import SelectedTaskModul from "@/ui/component/Dashboard/todotask/modul/SelectedTaskModul";
 import NewTaskButton from "@/ui/block/button/NewTaskButton/NewTaskButton";

@@ -13,6 +13,7 @@
     "@hookform/resolvers": "^3.4.2",
     "@reduxjs/toolkit": "^2.2.3",
     "@splinetool/react-spline": "^2.2.6",
+    "avvvatars-react": "^0.4.2",
     "axios": "^1.6.8",
     "classnames": "^2.5.1",
     "dayjs": "^1.11.10",

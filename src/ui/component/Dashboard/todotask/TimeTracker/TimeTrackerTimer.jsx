@@ -6,7 +6,6 @@ import {
   PauseIcon,
   PlayIcon,
 } from "@heroicons/react/24/outline";
-import PomodoroModal from "@/ui/layout/Pomodoro/PomodoroModal/PomodoroModal";
 
 export default function TimeTrackerTimer({
   isRunning,
@@ -17,7 +16,7 @@ export default function TimeTrackerTimer({
   return (
     <div className="flex flex-row items-center gap-4 relative">
       <motion.button
-        className="px-8 bg-green-bg  dark:border-dark-input-border border border-input-border rounded-full h-40 w-40 flex items-center justify-center cursor-pointer"
+        className="px-8 bg-green-bg dark:border-dark-input-border border border-input-border rounded-full h-40 w-40 flex items-center justify-center cursor-pointer"
         animate={{ scale: 1 }}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
@@ -26,7 +25,7 @@ export default function TimeTrackerTimer({
         <PlayIcon className="w-24 h-24 text-green-text" />
       </motion.button>
       <motion.button
-        className="px-8 bg-gray-bg  dark:border-dark-input-border border border-input-border rounded-full h-40 w-40 flex items-center justify-center cursor-pointer"
+        className="px-8 bg-gray-bg dark:border-dark-input-border border border-input-border rounded-full h-40 w-40 flex items-center justify-center cursor-pointer"
         animate={{ scale: 1 }}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
@@ -35,7 +34,7 @@ export default function TimeTrackerTimer({
         <PauseIcon className="w-24 h-24 text-gray-text" />
       </motion.button>
       <motion.button
-        className="px-8 bg-red-bg  dark:border-dark-input-border border border-input-border rounded-full h-40 w-40 flex items-center justify-center cursor-pointer"
+        className="px-8 bg-red-bg dark:border-dark-input-border border border-input-border rounded-full h-40 w-40 flex items-center justify-center cursor-pointer"
         animate={{ scale: 1 }}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
