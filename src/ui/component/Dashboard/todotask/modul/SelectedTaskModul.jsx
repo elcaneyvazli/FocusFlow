@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/redux/store";
 import {
@@ -22,6 +22,7 @@ import TextInput from "@/ui/block/input/TextInput/TextInput";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { motion } from "framer-motion";
+import { createSubTask, getSubTasks } from "@/services/task/subtask.services";
 
 export default function SelectedTaskModul() {
   const dispatch = useDispatch();
@@ -60,7 +61,7 @@ export default function SelectedTaskModul() {
     {
       id: 2,
       title: "Subtask",
-      content: <SelectedTaskSubtask />,
+      content: <SelectedTaskSubtask selectedTask={selectedTask} />,
     },
   ];
 
@@ -194,7 +195,7 @@ function SelectedTaskDesc({ selectedTask }) {
   );
 }
 
-function SelectedTaskSubtask() {
+function SelectedTaskSubtask({ selectedTask }) {
   const {
     handleSubmit,
     formState: { errors },
@@ -203,26 +204,84 @@ function SelectedTaskSubtask() {
     // resolver: yupResolver(LoginSchema),
   });
 
+  const taskid = selectedTask.id;
+  const [subtask, setSubtask] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getSubTasks(taskid);
+        setSubtask(response);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching subtasks:", error); // Log the error
+        setError(error);
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [taskid]);
+
+  const onSubTaskCreated = async (data, e) => {
+    e.preventDefault();
+
+    const subTaskData = {
+      description: data.subTask,
+    };
+
+    console.log("Task Data:", subTaskData);
+
+    try {
+      const response = await createSubTask(subTaskData);
+    } catch (error) {
+      console.error("Error creating task:", error);
+    }
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error loading subtasks: {error.message}</div>;
+  }
 
   return (
     <div className="min-h-full overflow-y-auto flex flex-col gap-16">
-      <div className="flex flex-row items-end justify-between gap-16">
+      <form
+        onSubmit={handleSubmit(onSubTaskCreated)}
+        className="flex flex-row items-end justify-between gap-16"
+      >
         <TextInput
           title="Enter Subtask:"
           placeholder="Enter Subtask"
           icon={<DocumentCheckIcon className="w-[18px] h-[18px] text-light" />}
-          registername="emailOrUsername"
-          error={errors.emailOrUsername?.message}
+          registername="subTask"
+          error={errors.subTask?.message}
           register={register}
         />
-         <motion.button
-            className="px-8 bg-input-bg dark:bg-dark-input-bg dark:border-dark-input-border border border-input-border rounded-main h-[47px] w-[47px] flex items-center justify-center cursor-pointer"
-            animate={{ scale: 1 }}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.95 }}
+        <motion.button
+          className="px-8 bg-input-bg dark:bg-dark-input-bg dark:border-dark-input-border border border-input-border rounded-main h-[47px] w-[47px] flex items-center justify-center cursor-pointer"
+          animate={{ scale: 1 }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.95 }}
         >
-            <PlusIcon className="w-[24px] h-[24px] text-light" />
+          <PlusIcon className="w-[24px] h-[24px] text-light" />
         </motion.button>
+      </form>
+      <div className="flex flex-col gap-12">
+        {subtask.map((tasks) => (
+          <div
+            className="flex px-16 py-8 border border-input-border dark:border-dark-input-border bg-input-bg dark:bg-dark-input-bg rounded-main"
+            key={tasks.id}
+          >
+            <h1 className="text-lg text-primary dark:text-input-bg">
+              {tasks.description}
+            </h1>
+          </div>
+        ))}
       </div>
     </div>
   );

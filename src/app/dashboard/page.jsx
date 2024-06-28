@@ -71,7 +71,7 @@ export default function Home() {
       window.removeEventListener("storage", handleStorageChange);
     };
   }, [dispatch]);
-
+  
   const tabs = [
     {
       id: 1,
