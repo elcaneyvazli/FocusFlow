@@ -13,7 +13,7 @@ export const getTasks = async () => {
     console.error("Error fetching tasks:", error);
     const authError = error.response?.status;
     if (authError === 401) {
-      Cookies.remove("acc");
+      Cookies?.remove("acc");
       window.location.href = "/login";
     }
     throw error;

@@ -13,6 +13,7 @@
     "@hookform/resolvers": "^3.4.2",
     "@reduxjs/toolkit": "^2.2.3",
     "@splinetool/react-spline": "^2.2.6",
+    "autoprefixer": "^10.4.19",
     "avvvatars-react": "^0.4.2",
     "axios": "^1.6.8",
     "classnames": "^2.5.1",
@@ -25,12 +26,13 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.51.5",
+    "sharp": "^0.33.4",
     "yup": "^1.4.0"
   },
   "devDependencies": {
     "eslint": "^8",
     "eslint-config-next": "14.2.2",
-    "postcss": "^8",
-    "tailwindcss": "^3.4.1"
+    "postcss": "^8.4.39",
+    "tailwindcss": "^3.4.4"
   }
 }

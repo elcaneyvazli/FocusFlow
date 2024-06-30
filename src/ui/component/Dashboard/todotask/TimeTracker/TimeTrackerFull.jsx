@@ -1,6 +1,5 @@
 import React from "react";
 import { motion } from "framer-motion";
-import "tailwindcss/tailwind.css";
 
 const circleVariants = {
   hidden: { scale: 0, opacity: 0 },

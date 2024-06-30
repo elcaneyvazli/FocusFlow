@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/redux/store";
-import {
-  toggleTaskFullScreen,
-  toggleTaskModul,
-} from "@/redux/features/TaskSlice/TaskSlice";
+import { toggleTaskFullScreen, toggleTaskModul } from "@/redux/features/TaskSlice/TaskSlice";
 import ButtonWithIcon from "@/ui/block/button/ButtonWithIcon/ButtonWithIcon";
 import {
   ArrowsPointingOutIcon,
@@ -13,7 +10,7 @@ import {
   DocumentCheckIcon,
   PlusIcon,
   TagIcon,
-  UserIcon,
+  TrashIcon,
   UsersIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
@@ -22,7 +19,7 @@ import TextInput from "@/ui/block/input/TextInput/TextInput";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { motion } from "framer-motion";
-import { createSubTask, getSubTasks } from "@/services/task/subtask.services";
+import { createSubTask, deleteSubTask, getSubTasks } from "@/services/task/subtask.services";
 
 export default function SelectedTaskModul() {
   const dispatch = useDispatch();
@@ -31,9 +28,7 @@ export default function SelectedTaskModul() {
     handleSubmit,
     formState: { errors },
     register,
-  } = useForm({
-    // resolver: yupResolver(LoginSchema),
-  });
+  } = useForm();
 
   const selectedTaskValue = useAppSelector(
     (state) => state.selectedTaskReducer.value.modul
@@ -123,31 +118,31 @@ export default function SelectedTaskModul() {
 
               <div
                 className={`px-12 py-4 flex flex-row justify-between items-center w-fit rounded-main bg-${
-                  selectedTask.taskPriority == 0
+                  selectedTask.taskPriority === 0
                     ? "red"
-                    : 1
+                    : selectedTask.taskPriority === 1
                     ? "blue"
-                    : 2
+                    : selectedTask.taskPriority === 2
                     ? "green"
                     : "gray"
                 }-bg`}
               >
                 <p
                   className={`text-sm text-${
-                    selectedTask.taskPriority == 0
+                    selectedTask.taskPriority === 0
                       ? "red"
-                      : 1
+                      : selectedTask.taskPriority === 1
                       ? "blue"
-                      : 2
+                      : selectedTask.taskPriority === 2
                       ? "green"
                       : "gray"
                   }-text`}
                 >
-                  {selectedTask.taskPriority == 0
+                  {selectedTask.taskPriority === 0
                     ? "Must Have"
-                    : 1
+                    : selectedTask.taskPriority === 1
                     ? "Should Have"
-                    : 2
+                    : selectedTask.taskPriority === 2
                     ? "Could Have"
                     : "Won't Have"}
                 </p>
@@ -200,9 +195,7 @@ function SelectedTaskSubtask({ selectedTask }) {
     handleSubmit,
     formState: { errors },
     register,
-  } = useForm({
-    // resolver: yupResolver(LoginSchema),
-  });
+  } = useForm();
 
   const taskid = selectedTask.id;
   const [subtask, setSubtask] = useState([]);
@@ -213,10 +206,10 @@ function SelectedTaskSubtask({ selectedTask }) {
     const fetchData = async () => {
       try {
         const response = await getSubTasks(taskid);
-        setSubtask(response);
+        setSubtask(response.filter((task) => task.isCompleted === false));
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching subtasks:", error); // Log the error
+        console.error("Error fetching subtasks:", error);
         setError(error);
         setLoading(false);
       }
@@ -229,14 +222,24 @@ function SelectedTaskSubtask({ selectedTask }) {
 
     const subTaskData = {
       description: data.subTask,
+      userTaskId: taskid,
     };
-
-    console.log("Task Data:", subTaskData);
-
     try {
       const response = await createSubTask(subTaskData);
+      setSubtask((prevSubtasks) => [...prevSubtasks, response]);
     } catch (error) {
       console.error("Error creating task:", error);
+    }
+  };
+
+  const handleDelete = async (subTaskId) => {
+    try {
+      await deleteSubTask(subTaskId);
+      setSubtask((prevSubtasks) =>
+        prevSubtasks.filter((subtask) => subtask.id !== subTaskId)
+      );
+    } catch (error) {
+      console.error("Error deleting task:", error);
     }
   };
 
@@ -274,12 +277,16 @@ function SelectedTaskSubtask({ selectedTask }) {
       <div className="flex flex-col gap-12">
         {subtask.map((tasks) => (
           <div
-            className="flex px-16 py-8 border border-input-border dark:border-dark-input-border bg-input-bg dark:bg-dark-input-bg rounded-main"
+            className="flex flex-row justify-between items-center px-16 py-8 border border-input-border dark:border-dark-input-border bg-input-bg dark:bg-dark-input-bg rounded-main"
             key={tasks.id}
           >
-            <h1 className="text-lg text-primary dark:text-input-bg">
+            <h1 className="text-md text-primary dark:text-input-bg">
               {tasks.description}
             </h1>
+            <TrashIcon
+              className="h-[18px] w-[18px] text-primary dark:text-input-bg cursor-pointer"
+              onClick={() => handleDelete(tasks.id)}
+            />
           </div>
         ))}
       </div>

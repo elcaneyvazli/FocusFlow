@@ -8,15 +8,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-
-@layer utilities {
-  .perspective {
-    perspective: 1000px;
-  }
-}
-@layer components {
-  .perspective {
-    perspective: 1000px;
-  }
-}

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import FlipUnit from "./FlipUnit";
-import './test.css'
 
 export default function FlipClock ({ time }) {
   const formatTimeUnit = (unit) => unit.toString().padStart(2, "0").split("");

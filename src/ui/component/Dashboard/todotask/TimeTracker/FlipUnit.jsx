@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import "./test.css";
 
 export default function FlipUnit({ digit, prevDigit }) {
   const [flipping, setFlipping] = useState(false);

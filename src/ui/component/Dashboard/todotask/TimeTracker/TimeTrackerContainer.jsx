@@ -17,14 +17,20 @@ export default function TimeTrackerContainer({ data }) {
   };
 
   const [isWorking, setIsWorking] = useState(true);
-  const [timeRemaining, setTimeRemaining] = useState(
-    () => Number(localStorage.getItem("timeRemaining")) || 25 * 60
-  );
+  const [timeRemaining, setTimeRemaining] = useState(25 * 60);
   const [isRunning, setIsRunning] = useState(false);
-  const [selectedTask, setSelectedTask] = useState(
-    () => JSON.parse(localStorage.getItem("selectedTask")) || null
-  );
+  const [selectedTask, setSelectedTask] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedTimeRemaining = Number(localStorage.getItem("timeRemaining")) || 25 * 60;
+      const storedSelectedTask = JSON.parse(localStorage.getItem("selectedTask")) || null;
+
+      setTimeRemaining(storedTimeRemaining);
+      setSelectedTask(storedSelectedTask);
+    }
+  }, []);
 
   useEffect(() => {
     let interval;
@@ -32,7 +38,9 @@ export default function TimeTrackerContainer({ data }) {
       interval = setInterval(() => {
         setTimeRemaining((prevTime) => {
           const newTime = prevTime - 1;
-          localStorage.setItem("timeRemaining", newTime);
+          if (typeof window !== "undefined") {
+            localStorage.setItem("timeRemaining", newTime);
+          }
           return newTime;
         });
       }, 1000);
@@ -45,12 +53,16 @@ export default function TimeTrackerContainer({ data }) {
       setIsWorking((prevState) => !prevState);
       const newTime = isWorking ? 5 * 60 : 25 * 60;
       setTimeRemaining(newTime);
-      localStorage.setItem("timeRemaining", newTime);
+      if (typeof window !== "undefined") {
+        localStorage.setItem("timeRemaining", newTime);
+      }
     }
   }, [timeRemaining, isWorking]);
 
   useEffect(() => {
-    localStorage.setItem("selectedTask", JSON.stringify(selectedTask));
+    if (typeof window !== "undefined") {
+      localStorage.setItem("selectedTask", JSON.stringify(selectedTask));
+    }
   }, [selectedTask]);
 
   const formatTime = (seconds) => {
@@ -71,7 +83,9 @@ export default function TimeTrackerContainer({ data }) {
     setIsRunning(false);
     const newTime = isWorking ? 25 * 60 : 5 * 60;
     setTimeRemaining(newTime);
-    localStorage.setItem("timeRemaining", newTime);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("timeRemaining", newTime);
+    }
   };
 
   return (
