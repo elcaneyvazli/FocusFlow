@@ -9,7 +9,6 @@ export default function middleware(request) {
   const { nextUrl, url } = request;
   const cookieStore = cookies();
   const token = cookieStore.get("acc");
-  console.log(token);
   const hasVerifiedToken = token !== undefined;
   const isAuthPageRequested = isAuthPage(nextUrl.pathname);
   if (!hasVerifiedToken && !isAuthPageRequested) {

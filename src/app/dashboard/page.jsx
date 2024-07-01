@@ -13,6 +13,7 @@ import TaskCardSkeleton from "@/ui/component/Dashboard/todotask/taskcard/TaskCar
 import TimeTrackerContainer from "@/ui/component/Dashboard/todotask/TimeTracker/TimeTrackerContainer";
 import SelectedTaskModul from "@/ui/component/Dashboard/todotask/modul/SelectedTaskModul";
 import NewTaskButton from "@/ui/block/button/NewTaskButton/NewTaskButton";
+import Toast from "@/ui/block/Toast/Toast";
 
 const Taskcard = dynamic(
   () => import("@/ui/component/Dashboard/todotask/taskcard/taskcard"),
@@ -71,7 +72,7 @@ export default function Home() {
       window.removeEventListener("storage", handleStorageChange);
     };
   }, [dispatch]);
-  
+
   const tabs = [
     {
       id: 1,
@@ -101,7 +102,7 @@ export default function Home() {
   ];
 
   return (
-    <div className="flex flex-col gap-16 w-full">
+    <div className="flex flex-col gap-16 w-full relative">
       <TimeTrackerContainer data={columns} />
       <Taskcard
         total={total}
@@ -113,6 +114,7 @@ export default function Home() {
       <Tab tabs={tabs} component={<NewTaskButton />} />
       <NewTaskModul />
       <SelectedTaskModul />
+      <Toast />
     </div>
   );
 }
