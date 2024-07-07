@@ -26,6 +26,7 @@ export const createTask = async (taskData) => {
       `${baseUrl}/UserTask`,
       {
         ...taskData,
+        status: 0,
         isCompleted: false,
       },
       {

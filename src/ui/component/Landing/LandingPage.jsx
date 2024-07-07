@@ -8,6 +8,7 @@ import Features from "./Features";
 import Footer from "./Footer";
 import FitButton from "@/ui/block/button/Button/FitButton";
 import HeroSection from "./HeroSection";
+import Button from "@/ui/block/button/Button/Button";
 
 export default function LandingPage() {
   return (
@@ -35,8 +36,8 @@ export default function LandingPage() {
             </h1>
           </div>
           <div className="hidden xs:flex flex-row gap-16 items-center">
-            <FitButton text={"Login"} link={"/login"} />
-            <FitButton text={"Register"} link={"/register"} />
+            <Button text={"Login"} link={"/login"} width={"fit"}/>
+            <Button text={"Register"} link={"/register"} width={"fit"}/>
           </div>
         </div>
         <HeroSection />

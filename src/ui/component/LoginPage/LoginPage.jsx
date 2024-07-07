@@ -71,7 +71,7 @@ export default function LoginPage() {
             </div>
             {error && <div className="text-red-bg text-xs">{error}</div>}
             <div className="flex flex-col gap-4 w-full items-start">
-              <Button text="Login" />
+              <Button text="Login" width={'full'}/>
               <div className="flex flex-row gap-4">
                 <h1 className="font-light text-xs text-light">
                   Don&apos;t have an account?

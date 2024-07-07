@@ -24,8 +24,10 @@ export default function TimeTrackerContainer({ data }) {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const storedTimeRemaining = Number(localStorage.getItem("timeRemaining")) || 25 * 60;
-      const storedSelectedTask = JSON.parse(localStorage.getItem("selectedTask")) || null;
+      const storedTimeRemaining =
+        Number(localStorage.getItem("timeRemaining")) || 25 * 60;
+      const storedSelectedTask =
+        JSON.parse(localStorage.getItem("selectedTask")) || null;
 
       setTimeRemaining(storedTimeRemaining);
       setSelectedTask(storedSelectedTask);

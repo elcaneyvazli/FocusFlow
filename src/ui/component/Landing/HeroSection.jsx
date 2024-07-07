@@ -3,7 +3,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import Page from "@/ui/assert/page.png";
 import Sticker from "@/ui/assert/sticker.svg";
 import Image from "next/image";
-import FitButton from "@/ui/block/button/Button/FitButton";
+import Button from "@/ui/block/button/Button/Button";
 
 export default function HeroSection() {
   const { scrollYProgress } = useScroll();
@@ -16,7 +16,7 @@ export default function HeroSection() {
       }}
       className="flex flex-col gap-32 relative"
     >
-      <motion.div className="flex flex-col gap-16 overflow-hidden items-center justify-center">
+      <motion.div className="flex flex-col gap-16 overflow-hidden items-start justify-start">
         <div className="flex flex-col gap-0">
           <h1 className="font-bold text-black dark:text-white text-[48px] sm:text-[96px]">
             Win Your Day
@@ -28,7 +28,7 @@ export default function HeroSection() {
             access and unlock peak productivity.
           </p>
         </div>
-        <FitButton text={"Get Started"} link={"/register"} />
+        <Button text={"Get Started"} link={"/register"} width={"fit"} />
       </motion.div>
       <motion.div
         className="w-full border-8 border-dark-input-border rounded-main relative"

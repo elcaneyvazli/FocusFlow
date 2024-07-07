@@ -78,7 +78,7 @@ export default function RegisterPage() {
             />
             {error && <div className="text-red-bg text-xs">{error}</div>}
             <div className="flex flex-col gap-4 w-full items-start">
-              <Button text={"Register"} />
+              <Button text={"Register"} width={"full"}/>
               <div className="flex flex-row gap-4">
                 <h1 className="font-light text-xs text-light">
                   Already have an account

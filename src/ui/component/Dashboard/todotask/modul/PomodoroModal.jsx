@@ -39,9 +39,11 @@ export default function PomodoroModal({ time, isRunning }) {
         <div className="h-full w-full z-50 flex items-center justify-center">
           <TimeTrackerFull time={time} isRunning={isRunning} />
         </div>
-        <Vowfm time={time}/>
+        {/* <Vowfm time={time}/> */}
       </div>
-      <Bg />
+      <div className="w-full h-full">
+        <Bg />
+      </div>
     </div>
   );
 }

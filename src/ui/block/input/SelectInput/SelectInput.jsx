@@ -5,9 +5,8 @@ import {
 } from "@heroicons/react/24/outline";
 import { motion } from "framer-motion";
 
-const options = ["Must Have", "Should Have", "Could Have", "Won't Have"];
 
-const CustomSelect = ({ onChange, defaultValue }) => {
+const CustomSelect = ({ onChange, defaultValue,options }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(defaultValue || 0);
 
@@ -24,13 +23,12 @@ const CustomSelect = ({ onChange, defaultValue }) => {
 
   return (
     <motion.div className="flex flex-col gap-8 w-full">
-      <h1 className="text-sm font-medium">Priority</h1>
       <div className="relative w-full">
         <div className="absolute inset-y-0 start-0 flex items-center ps-16 pointer-events-none">
           <InformationCircleIcon className="w-[18px] h-[18px] text-light" />
         </div>
         <motion.div
-          className="bg-input-bg dark:bg-dark-input-bg border border-input-border dark:border-dark-input-border text-primary dark:text-input-bg text-sm rounded-[10px] focus:ring-primary focus:border-primary focus:outline-none block w-full ps-40 px-16 py-12 cursor-pointer"
+          className="bg-input-bg dark:bg-dark-input-bg border border-input-border dark:border-dark-input-border text-primary dark:text-input-bg text-sm rounded-[10px] focus:ring-primary focus:border-primary focus:outline-none block w-full ps-40 px-16 py-8 cursor-pointer"
           onClick={() => setIsOpen(!isOpen)}
         >
           <h1 className="text-sm">{options[selectedOption]}</h1>

@@ -34,13 +34,12 @@ const DateInput = ({ onSelect, defaultValue }) => {
           setSelectedDate={handleDateSelect}
         />
       )}
-      <h1 className="text-sm font-medium">Due Date</h1>
       <div className="relative w-full">
         <div className="absolute inset-y-0 start-0 flex items-center ps-16 pointer-events-none">
           <CalendarIcon className="w-[18px] h-[18px] text-light" />
         </div>
         <motion.div
-          className="bg-input-bg dark:bg-dark-input-bg border border-input-border dark:border-dark-input-border text-primary dark:text-input-bg text-sm rounded-[10px] focus:ring-primary focus:border-primary focus:outline-none block w-full ps-40 px-16 py-12 cursor-pointer"
+          className="bg-input-bg dark:bg-dark-input-bg border border-input-border dark:border-dark-input-border text-primary dark:text-input-bg text-sm rounded-[10px] focus:ring-primary focus:border-primary focus:outline-none block w-full ps-40 px-16 py-8 cursor-pointer"
           onClick={() => setIsOpen(!isOpen)}
         >
           {selectedDate ? (
