@@ -51,18 +51,24 @@ export default function KanbanCardItem({
     dispatch(toggleTaskModul(task));
   };
 
+  const [isHovered, setIsHovered] = useState(false);
+  const handleMouseEnter = () => setIsHovered(true);
+  const handleMouseLeave = () => setIsHovered(false);
+
   return (
     <>
       <motion.div
         className="flex flex-col gap-16 cursor-pointer relative"
         draggable
-        onDragStart={(e) => onDragStart(e, task.id, columnId)}
+        onDragStart={(e) => onDragStart(e, task.id, columnId, task)}
         whileHover={{ scale: 1.01 }}
         whileTap={{ scale: 0.95 }}
         layoutId={task.id}
         layout
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
-        <div className="flex flex-col gap-8 bg-white dark:bg-dark-input-bg border border-input-border dark:border-dark-input-border p-16 rounded-main z-10">
+        <div className="flex flex-col gap-8 bg-white dark:bg-dark-input-bg border border-input-border dark:border-dark-input-border p-16 rounded-main z-10 relative">
           <div className="flex flex-row justify-between items-center">
             <motion.div
               className={`flex items-center justify-center border border-input-border dark:border-0 h-[20px] w-[20px] rounded-main cursor-pointer ${
@@ -83,7 +89,10 @@ export default function KanbanCardItem({
               <EllipsisHorizontalIcon className="h-[18px] w-[18px] text-primary dark:text-input-bg" />
             </div>
           </div>
-          <div className="flex flex-col gap-0 cursor-pointer" onClick={toggleSelect}>
+          <div
+            className="flex flex-col gap-0 cursor-pointer"
+            onClick={toggleSelect}
+          >
             <h1 className="text-md font-bold text-primary dark:text-input-bg w-full">
               {task.title}
             </h1>

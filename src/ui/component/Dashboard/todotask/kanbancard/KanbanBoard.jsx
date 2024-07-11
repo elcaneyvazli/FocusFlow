@@ -5,9 +5,13 @@ import { updateTask } from "@/services/task/task.services";
 export default function KanbanBoard({ columns, setColumns, edit }) {
   const router = useRouter();
 
-  const handleDragStart = (e, taskId, sourceColumnId) => {
+  const handleDragStart = (e, taskId, sourceColumnId, task) => {
     e.dataTransfer.setData("taskId", taskId);
     e.dataTransfer.setData("sourceColumnId", sourceColumnId);
+    e.dataTransfer.setData("task", task);
+    console.log("Task ID:", taskId);
+    console.log("Source Column ID:", sourceColumnId);
+    console.log("Task:", task);
   };
 
   const handleDrop = async (e, targetColumnId) => {

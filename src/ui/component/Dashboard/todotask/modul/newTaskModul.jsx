@@ -19,6 +19,7 @@ import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
 import TextInputWithoutBg from "@/ui/block/input/TextInput/TextInputWithoutBg";
+import TextInput from "@/ui/block/input/TextInput/TextInput";
 
 export default function NewTaskModul() {
   const router = useRouter();
@@ -42,7 +43,6 @@ export default function NewTaskModul() {
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const [selectedPriority, setSelectedPriority] = useState(0);
   const [selectedStatus, setSelectedStatus] = useState(0);
-
   const handleSelectChange = (value) => {
     setSelectedPriority(value);
   };
@@ -58,10 +58,10 @@ export default function NewTaskModul() {
     const taskData = {
       title: data.taskTitle,
       description: data.taskDescription,
-      label: data.taskTitle,
-      status: selectedStatus,
+      label: data.taskLabel,
       dueDate: selectedDate.format("YYYY-MM-DD"),
       taskPriority: selectedPriority,
+      status: selectedStatus,
       isCompleted: false,
     };
 
@@ -110,7 +110,7 @@ export default function NewTaskModul() {
             <TextInputWithoutBg
               title="Task description"
               placeholder="Add Task Description"
-              text={"md"}
+              text={"lg"}
               color={"light"}
               register={register}
               registername={"taskDescription"}
@@ -138,10 +138,20 @@ export default function NewTaskModul() {
           </div>
         </div>
         <div className="flex flex-col xs:flex-row items-center justify-between border-t border-input-border dark:border-dark-input-border px-16 py-16 xs:gap-32 gap-16 w-full">
-          <div className="flex flex-row items-center justify-start border border-input-bg dark:border-dark-input-border px-32 py-8 gap-4 rounded-main w-full xs:w-fit">
+          <TextInput
+            title="Task label"
+            placeholder="Add Task labek"
+            text={"md"}
+            color={"light"}
+            register={register}
+            registername={"taskLabel"}
+            error={errors.taskLabel?.message}
+            icon={<DocumentTextIcon className="w-[18px] h-[18px] text-light" />}
+          />
+          {/* <div className="flex flex-row items-center justify-start border border-input-bg dark:border-dark-input-border px-32 py-8 gap-4 rounded-main w-full xs:w-fit">
             <h1 className="text-sm text-primary dark:text-input-bg">Label</h1>
             <ChevronDownIcon className="h-16 w-16 text-primary dark:text-input-bg" />
-          </div>
+          </div> */}
           <div className="flex flex-row items-center justify-between xs:justify-normal gap-16 w-full xs:w-fit">
             <Button text="Cancel" width="fit" onClick={onClose} />
             <Button text="New Task" color={"green"} width="fit" type="submit" />
