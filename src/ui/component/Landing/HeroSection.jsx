@@ -4,6 +4,7 @@ import Page from "@/ui/assert/page.png";
 import Sticker from "@/ui/assert/sticker.svg";
 import Image from "next/image";
 import Button from "@/ui/block/button/Button/Button";
+import FitButton from "@/ui/block/button/Button/FitButton";
 
 export default function HeroSection() {
   const { scrollYProgress } = useScroll();
@@ -28,7 +29,7 @@ export default function HeroSection() {
             access and unlock peak productivity.
           </p>
         </div>
-        <Button text={"Get Started"} link={"/register"} width={"fit"} />
+        <FitButton text={"Get Started"} link={"/register"} />
       </motion.div>
       <motion.div
         className="w-full border-8 border-dark-input-border rounded-main relative"

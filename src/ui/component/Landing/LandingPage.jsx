@@ -36,8 +36,8 @@ export default function LandingPage() {
             </h1>
           </div>
           <div className="hidden xs:flex flex-row gap-16 items-center">
-            <Button text={"Login"} link={"/login"} width={"fit"}/>
-            <Button text={"Register"} link={"/register"} width={"fit"}/>
+            <FitButton text={"Login"} link={"/login"}/>
+            <FitButton text={"Register"} link={"/register"}/>
           </div>
         </div>
         <HeroSection />

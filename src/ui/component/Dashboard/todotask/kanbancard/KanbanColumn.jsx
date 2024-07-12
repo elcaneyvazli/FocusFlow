@@ -30,6 +30,8 @@ export default function KanbanColumn({ column, onDragStart, onDrop }) {
     e.preventDefault();
   };
 
+
+
   const columnColor =
     column.id === 0
       ? colorClasses.red
