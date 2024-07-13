@@ -32,9 +32,9 @@ export default function Toast() {
           <motion.div
             key={toast.id}
             className="relative dark:bg-dark-input-bg bg-white border border-input-border dark:border-dark-input-border rounded-main z-40"
-            initial={{ opacity: 0, y: 100, x: 0 }}
-            animate={{ opacity: 1, y: 100, x: 0 }}
-            exit={{ opacity: 0, y: 0, x: 100 }}
+            initial={{ opacity: 0, y: 100 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 100 }}
           >
             <div className="py-8 px-16 flex flex-row justify-between items-center gap-64">
               <div className="flex flex-col gap-0">

@@ -4,7 +4,7 @@ import Image from "next/image";
 import Logo from "@/ui/assert/Logo.svg";
 import About from "./About";
 import Header from "@/ui/block/header/Header";
-import Features from "./Features";
+import Features from "./Features/Features";
 import Footer from "./Footer";
 import FitButton from "@/ui/block/button/Button/FitButton";
 import HeroSection from "./HeroSection";

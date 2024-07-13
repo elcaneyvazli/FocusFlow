@@ -14,6 +14,9 @@ import TimeTrackerContainer from "@/ui/component/Dashboard/todotask/TimeTracker/
 import SelectedTaskModul from "@/ui/component/Dashboard/todotask/modul/SelectedTaskModul";
 import NewTaskButton from "@/ui/block/button/NewTaskButton/NewTaskButton";
 import Toast from "@/ui/block/Toast/Toast";
+import TableTest from "@/ui/component/Dashboard/todotask/tablecard/TableTest";
+import { useRouter } from "next/navigation";
+import NewTable from "@/ui/component/Dashboard/todotask/tablecard/NewTable";
 
 const Taskcard = dynamic(
   () => import("@/ui/component/Dashboard/todotask/taskcard/taskcard"),
@@ -32,12 +35,15 @@ const KanbanBoard = dynamic(
 );
 
 export default function Home() {
+  const router = useRouter();
   const [columns, setColumns] = useState();
   const [total, setTotal] = useState();
   const [pending, setPending] = useState();
   const [completed, setCompleted] = useState();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  console.log("Columns:", columns);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,6 +54,7 @@ export default function Home() {
         setCompleted(response.completed);
         setColumns(response.tasks);
         setLoading(false);
+        router.refresh();
       } catch (error) {
         setError(error);
         setLoading(false);
@@ -89,20 +96,13 @@ export default function Home() {
     },
     {
       id: 2,
-      title: "Table",
-      content: (
-        <TableCard
-          classname="w-full"
-          data={columns}
-          loading={loading}
-          error={error}
-        />
-      ),
+      title: "List",
+      content: <NewTable data={columns} />,
     },
   ];
 
   return (
-    <div className="flex flex-col gap-16 w-full relative">
+    <div className="flex flex-col gap-16 w-full relative h-full overflow-y-scroll">
       <TimeTrackerContainer data={columns} />
       <Taskcard
         total={total}

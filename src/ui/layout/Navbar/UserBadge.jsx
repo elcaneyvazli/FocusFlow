@@ -20,13 +20,6 @@ export default function UserBadge({ user }) {
           size={40}
           style="shape"
         />
-        {/* <Image
-          src={profile}
-          alt="avatar"
-          width={0}
-          height={0}
-          className="w-full h-full rounded-full object-cover"
-        /> */}
       </div>
       <div className="flex-col gap-0 md:flex hidden">
         <p className="text-xs font-medium text-primary dark:text-input-bg">
