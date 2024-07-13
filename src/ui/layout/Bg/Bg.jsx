@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useEffect, useState } from "react";
 import Spline from "@splinetool/react-spline";
 import axios from "axios";
@@ -24,7 +24,7 @@ export default function Bg() {
   }, [baseUrl]);
 
   return (
-    <div className="h-[100%] w-full absolute top-0 bottom-0 right-0 left-0 hidden lg:block">
+    <div className="h-[100%] w-full absolute top-0 bottom-0 right-0 left-0 hidden lg:block bg-white">
       <Spline scene="https://prod.spline.design/AATno58HgLu96KZQ/scene.splinecode" />
       <div className="absolute top-0 bottom-0 right-0 left-0 bg-gradient-to-b from-transparent to-[#0000008e] bg-opacity-70 h-full w-full flex flex-col justify-end items-end p-32">
         <div className="w-[40%] xl:w-[50%] flex items-end justify-end h-full flex-col gap-8">
@@ -54,3 +54,5 @@ export default function Bg() {
     </div>
   );
 }
+
+//https://prod.spline.design/AATno58HgLu96KZQ/scene.splinecode

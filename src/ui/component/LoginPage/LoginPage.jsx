@@ -1,17 +1,44 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { UserIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import AuthorizeButton from "@/ui/block/button/AuthorizeButton/AuthorizeButton";
-import Button from "@/ui/block/button/Button/Button";
-import TextInput from "@/ui/block/input/TextInput/TextInput";
-import PassInput from "@/ui/block/input/PassInput/PassInput";
-import LogoContainer from "@/ui/block/Logo/Logo";
 import { authLogin } from "@/services/auth/login.services";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { LoginSchema } from "@/schema/schema";
+import dynamic from "next/dynamic";
+import Skeleton from "@/ui/block/Sekeleton/Skeleton";
+
+const Button = dynamic(() => import("@/ui/block/button/Button/Button"), {
+  loading: () => <Skeleton className="w-full h-[40px]" />,
+  ssr: false,
+});
+const AuthorizeButton = dynamic(
+  () => import("@/ui/block/button/AuthorizeButton/AuthorizeButton"),
+  {
+    loading: () => <Skeleton className="w-full h-[40px]" />,
+    ssr: false,
+  }
+);
+const TextInput = dynamic(
+  () => import("@/ui/block/input/TextInput/TextInput"),
+  {
+    loading: () => <Skeleton className="w-full h-[40px]" />,
+    ssr: false,
+  }
+);
+const PassInput = dynamic(
+  () => import("@/ui/block/input/PassInput/PassInput"),
+  {
+    loading: () => <Skeleton className="w-full h-[40px]" />,
+    ssr: false,
+  }
+);
+const LogoContainer = dynamic(() => import("@/ui/block/Logo/Logo"), {
+  loading: () => <Skeleton className="w-[40px] h-[40px]" />,
+  ssr: false,
+});
 
 export default function LoginPage() {
   const [error, setError] = useState(null);
@@ -25,14 +52,15 @@ export default function LoginPage() {
     resolver: yupResolver(LoginSchema),
   });
 
-  const handleLogin = async (data) => {
+  const handleLogin = useCallback(async (data) => {
     try {
       await authLogin(data.emailOrUsername, data.password);
       router.push("/dashboard");
     } catch (error) {
+      console.error('Login error:', error);
       setError("Login failed. Please check your credentials and try again.");
     }
-  };
+  }, [router]);
 
   return (
     <div className="lg:px-16 lg:py-16 px-0 py-0 2xl:w-[37%] xl:w-[37%] lg:w-[50%] h-screen z-90 relative">
@@ -71,7 +99,7 @@ export default function LoginPage() {
             </div>
             {error && <div className="text-red-bg text-xs">{error}</div>}
             <div className="flex flex-col gap-4 w-full items-start">
-              <Button text="Login" width={'full'}/>
+              <Button text="Login" width={"full"} />
               <div className="flex flex-row gap-4">
                 <h1 className="font-light text-xs text-light">
                   Don&apos;t have an account?

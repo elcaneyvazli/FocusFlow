@@ -43,8 +43,6 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  console.log("Columns:", columns);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -102,7 +100,7 @@ export default function Home() {
   ];
 
   return (
-    <div className="flex flex-col gap-16 w-full relative h-full overflow-y-scroll">
+    <div className="flex flex-col gap-16 w-full relative h-full pb-32">
       <TimeTrackerContainer data={columns} />
       <Taskcard
         total={total}

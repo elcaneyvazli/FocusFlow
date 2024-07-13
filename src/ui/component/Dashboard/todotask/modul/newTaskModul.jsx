@@ -60,7 +60,7 @@ export default function NewTaskModul() {
       description: data.taskDescription,
       label: data.taskLabel,
       dueDate: selectedDate.format("YYYY-MM-DD"),
-      taskPriority: selectedPriority,
+      priority: selectedPriority,
       status: selectedStatus,
       isCompleted: false,
     };
@@ -140,7 +140,6 @@ export default function NewTaskModul() {
         </div>
         <div className="flex flex-col xs:flex-row items-center justify-between border-t border-input-border dark:border-dark-input-border px-16 py-16 xs:gap-32 gap-16 w-full">
           <TextInput
-            title="Task label"
             placeholder="Add Task labek"
             text={"md"}
             color={"light"}
@@ -155,7 +154,7 @@ export default function NewTaskModul() {
           </div> */}
           <div className="flex flex-row items-center justify-between xs:justify-normal gap-16 w-full xs:w-fit">
             <Button text="Cancel" width="fit" onClick={onClose} />
-            <Button text="New Task" color={"green"} width="fit" type="submit" />
+            <Button text="New Task" color={"green"} width="fit" />
           </div>
         </div>
       </form>

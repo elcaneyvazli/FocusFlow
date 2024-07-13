@@ -2,7 +2,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-export default function Button({ text, color, width, onClick, link, type }) {
+export default function Button({ text, color, width, onClick }) {
   return (
     <motion.button
       className={`${
@@ -13,6 +13,7 @@ export default function Button({ text, color, width, onClick, link, type }) {
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       type="submit"
+      onClick={onClick}
     >
       <p className="text-sm">{text}</p>
     </motion.button>

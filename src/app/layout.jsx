@@ -1,9 +1,14 @@
 "use client";
-import Bg from "@/ui/layout/Bg/Bg";
 import "./globals.css";
 import { usePathname } from "next/navigation";
 import { ReduxProvider } from "@/redux/provider";
 import { ThemeProvider } from "next-themes";
+import dynamic from "next/dynamic";
+import Skeleton from "@/ui/block/Sekeleton/Skeleton";
+const Bg = dynamic(() => import("@/ui/layout/Bg/Bg"), {
+  loading: () => <Skeleton className="w-full h-full" />,
+  ssr: false,
+});
 
 const metadata = {
   title: "Focus Flow",

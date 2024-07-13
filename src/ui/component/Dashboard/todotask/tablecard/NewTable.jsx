@@ -88,10 +88,10 @@ export default function NewTable({ data }) {
                       key={task.id}
                     >
                       <div
-                        className="flex flex-row gap-0 items-center bg-white dark:bg-dark-input-bg relative w-full"
+                        className="flex flex-row gap-0 items-center bg-white dark:bg-dark-input-bg relative w-full rounded-main"
                         key={task.id}
                       >
-                        <div className="flex flex-row gap-8 p-16 max-w-[250px] min-w-[250px] border-r border-input-border dark:border-dark-input-border h-[53px] bg-white dark:bg-dark-input-bg ">
+                        <div className="flex flex-row gap-8 p-16 max-w-[250px] min-w-[250px] border-r border-input-border dark:border-dark-input-border h-[53px] bg-white dark:bg-dark-input-bg rounded-l-main">
                           <motion.div
                             className={`flex items-center justify-center border border-input-border dark:border-dark-input-border min-h-[20px] min-w-[20px] rounded-[5px] cursor-pointer ${
                               task.isCompleted ? "bg-primary" : "bg-white"
@@ -119,7 +119,7 @@ export default function NewTable({ data }) {
                             {task.description}
                           </h1>
                         </div>
-                        <div className="flex items-center px-16 justify-center min-w-[150px] max-w-[150px] border-r border-b border-input-border dark:border-dark-input-border h-[53px] bg-white dark:bg-dark-input-bg">
+                        <div className="flex items-center px-16 justify-center min-w-[150px] max-w-[150px] border-r border-input-border dark:border-dark-input-border h-[53px] bg-white dark:bg-dark-input-bg">
                           <div
                             className={`flex w-full items-center justify-center py-8 bg-${
                               task.status === 0
@@ -146,7 +146,7 @@ export default function NewTable({ data }) {
                             </p>
                           </div>
                         </div>
-                        <div className="flex p-16 min-w-[150px] border-r border-b border-input-border dark:border-dark-input-border h-[53px] bg-white dark:bg-dark-input-bg items-center justify-center">
+                        <div className="flex p-16 min-w-[150px] border-r border-input-border dark:border-dark-input-border h-[53px] bg-white dark:bg-dark-input-bg items-center justify-center">
                           <p className="text-sm text-black dark:text-input-bg whitespace-nowrap line-clamp-1">
                             {new Date(task.dueDate).toLocaleDateString(
                               "en-UK",
@@ -158,7 +158,7 @@ export default function NewTable({ data }) {
                             )}
                           </p>
                         </div>
-                        <div className="border-b border-input-border dark:border-dark-input-border h-[53px] flex items-center justify-center min-w-[50px] bg-white dark:bg-dark-input-bg rounded-main relative">
+                        <div className="border-input-border dark:border-dark-input-border h-[53px] flex items-center justify-center min-w-[50px] bg-white dark:bg-dark-input-bg rounded-r-main relative">
                           <EllipsisHorizontalIcon
                             className="w-[24px] h-[24px] text-primary dark:text-input-bg mx-12 cursor-pointer"
                             onClick={() => handleToggleMenu(task.id)}

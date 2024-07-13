@@ -5,8 +5,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { motion } from "framer-motion";
 
-
-const CustomSelect = ({ onChange, defaultValue,options }) => {
+const CustomSelect = ({ onChange, defaultValue, options }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(defaultValue || 0);
 

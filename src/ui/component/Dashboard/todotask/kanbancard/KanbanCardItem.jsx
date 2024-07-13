@@ -7,6 +7,7 @@ import {
   CheckIcon,
   PencilIcon,
   TrashIcon,
+  CalendarDaysIcon,
 } from "@heroicons/react/24/outline";
 import { deleteTask, updateTask } from "@/services/task/task.services";
 import { useDispatch } from "react-redux";
@@ -90,10 +91,10 @@ export default function KanbanCardItem({
             </div>
           </div>
           <div
-            className="flex flex-col gap-0 cursor-pointer"
+            className="flex flex-col gap-0 cursor-pointer w-full h-full"
             onClick={toggleSelect}
           >
-            <h1 className="text-md font-bold text-primary dark:text-input-bg w-full">
+            <h1 className="text-md font-bold text-primary dark:text-input-bg max-w-full line-clamp-3">
               {task.title}
             </h1>
             <p className="text-xs text-light line-clamp-1">
@@ -103,6 +104,40 @@ export default function KanbanCardItem({
           <div className="flex flex-row gap-8 items-center">
             <div className="flex flex-row gap-2 items-center">
               <ClockIcon className="h-[16px] w-[16px] text-primary dark:text-input-bg" />
+              <p className="text-sm text-primary dark:text-input-bg">
+                Activity
+              </p>
+            </div>
+            <p className="text-sm text-primary dark:text-input-bg">-</p>
+            <div
+              className={`px-8 py-4 flex items-center justify-center border border-input-border dark:border-dark-input-border rounded-main whitespace-nowrap  bg-${
+                task.status === 0
+                  ? "gray"
+                  : task.status === 1
+                  ? "blue"
+                  : "green"
+              }-bg`}
+            >
+              <p
+                className={`text-xs text-${
+                  task.status === 0
+                    ? "gray"
+                    : task.status === 1
+                    ? "blue"
+                    : "green"
+                }-text `}
+              >
+                {task.status == 0
+                  ? "To do"
+                  : task.status == 1
+                  ? "In Progress"
+                  : "Done"}
+              </p>
+            </div>
+          </div>
+          <div className="flex flex-row gap-8 items-center">
+            <div className="flex flex-row gap-2 items-center">
+              <CalendarDaysIcon className="h-[16px] w-[16px] text-primary dark:text-input-bg" />
               <p className="text-sm text-primary dark:text-input-bg">Due To</p>
             </div>
             <p className="text-sm text-primary dark:text-input-bg">-</p>

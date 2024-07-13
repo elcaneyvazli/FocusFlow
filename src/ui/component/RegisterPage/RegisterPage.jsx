@@ -2,16 +2,47 @@
 import React, { useState } from "react";
 import { UserIcon, EnvelopeIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import AuthorizeButton from "@/ui/block/button/AuthorizeButton/AuthorizeButton";
-import Button from "@/ui/block/button/Button/Button";
-import LogoContainer from "@/ui/block/Logo/Logo";
-import TextInput from "@/ui/block/input/TextInput/TextInput";
-import PassInput from "@/ui/block/input/PassInput/PassInput";
+import dynamic from "next/dynamic";
 import { authRegister } from "@/services/auth/register.services";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { RegisterSchema } from "@/schema/schema";
+
+// Skeleton loading components
+const Skeleton = ({ className }) => (
+  <div className={`animate-pulse bg-gray-500 rounded-main ${className}`}></div>
+);
+
+const AuthorizeButton = dynamic(
+  () => import("@/ui/block/button/AuthorizeButton/AuthorizeButton"),
+  {
+    loading: () => <Skeleton className="w-full h-[40px]" />,
+    ssr: false,
+  }
+);
+const Button = dynamic(() => import("@/ui/block/button/Button/Button"), {
+  loading: () => <Skeleton className="w-full h-[40px]" />,
+  ssr: false,
+});
+const LogoContainer = dynamic(() => import("@/ui/block/Logo/Logo"), {
+  loading: () => <Skeleton className="w-[40px] h-[40px]" />,
+  ssr: false,
+});
+const TextInput = dynamic(
+  () => import("@/ui/block/input/TextInput/TextInput"),
+  {
+    loading: () => <Skeleton className="w-full h-[40px]" />,
+    ssr: false,
+  }
+);
+const PassInput = dynamic(
+  () => import("@/ui/block/input/PassInput/PassInput"),
+  {
+    loading: () => <Skeleton className="w-full h-[40px]" />,
+    ssr: false,
+  }
+);
 
 export default function RegisterPage() {
   const [email, setEmail] = useState("");
@@ -78,7 +109,7 @@ export default function RegisterPage() {
             />
             {error && <div className="text-red-bg text-xs">{error}</div>}
             <div className="flex flex-col gap-4 w-full items-start">
-              <Button text={"Register"} width={"full"}/>
+              <Button text={"Register"} width={"full"} />
               <div className="flex flex-row gap-4">
                 <h1 className="font-light text-xs text-light">
                   Already have an account
