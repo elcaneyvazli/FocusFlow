@@ -9,9 +9,9 @@ const GaugeChart = () => {
     datasets: [
       {
         data: [180, 240 - 180],
-        backgroundColor: ["#184BFE", "#f9fafb"],
+        backgroundColor: ["#184BFE", "#ffffff"],
         borderWidth: 0,
-        borderColor: "#1a1a1a",
+        borderColor: "#E5E6EB",
         cutout: "85%",
         rotation: -90,
         circumference: 180,

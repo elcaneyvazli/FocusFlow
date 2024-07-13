@@ -94,7 +94,7 @@ module.exports = {
       },
     },
   },
-  plugins: ["tailwindcss", "autoprefixer", "postcss-100vh-fix"],
+  plugins: ["tailwindcss", "postcss-100vh-fix"],
   darkMode: "class",
   safelist: [
     {

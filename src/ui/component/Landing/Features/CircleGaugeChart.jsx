@@ -9,7 +9,7 @@ const CircleGaugeChart = () => {
     datasets: [
       {
         data: [160, 262 - 160],
-        backgroundColor: ["#184BFE", "#f9fafb"],
+        backgroundColor: ["#184BFE", "#ffffff"],
         borderWidth: 0,
         borderColor: "#1a1a1a",
         cutout: "85%",
@@ -21,10 +21,10 @@ const CircleGaugeChart = () => {
 
   const options = {
     responsive: false,
-    maintainAspectRatio: false,
+    maintainAspectRatio: true,
     plugins: {
       legend: {
-        display: true,
+        display: false,
       },
       tooltip: {
         enabled: false,
@@ -35,7 +35,7 @@ const CircleGaugeChart = () => {
   };
 
   return (
-    <div className="relative flex items-center justify-center w-[250px] h-[250px] rounded-main">
+    <div className="absolute bottom-0 flex items-center justify-center">
       <Doughnut data={data} options={options} />
       <div className="absolute flex flex-col gap-0 items-center justify-center">
         <h1 className="text-4xl font-bold text-primary dark:text-input-bg">

@@ -5,7 +5,7 @@ const nextConfig = {
     NEXT_PUBLIC_API_KEY_QUOTESS: process.env.NEXT_PUBLIC_API_KEY_QUOTESS,
   },
   output: "standalone",
-  reactStrictMode: "false",
+  reactStrictMode: false,
 };
 
 export default nextConfig;

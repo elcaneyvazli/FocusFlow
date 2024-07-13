@@ -18,6 +18,7 @@ import GaugeChart from "./GaugeChart";
 import CircularChart from "./CircularChart";
 import CircleGaugeChart from "./CircleGaugeChart";
 import TeamFeatures from "./TeamFeatures";
+import { motion } from "framer-motion";
 
 export default function Features() {
   const DarkMode = useSelector((state) => state.darkModeReducer).darkMode;
@@ -34,7 +35,10 @@ export default function Features() {
 
   return (
     <div className="grid grid-cols-12 gap-16 w-full h-full">
-      <div className="col-span-12 sm:col-span-6 lg:col-span-5 xl:col-span-3 border-input-border dark:border-dark-input-border bg-input-bg dark:bg-dark-input-bg border rounded-main flex flex-col gap-40 p-16 h-[270px] items-center relative overflow-hidden">
+      <motion.div
+        className="col-span-12 sm:col-span-6 lg:col-span-5 xl:col-span-3 border-input-border dark:border-dark-input-border bg-input-bg dark:bg-dark-input-bg border rounded-main flex flex-col gap-40 p-16 h-[270px] items-center relative overflow-hidden"
+        whileHover={{ rotate: -2 }}
+      >
         <div className="flex flex-col gap-0 w-full items-start justify-start">
           <h1 className="text-black dark:text-input-bg text-2xl">Pomodoro</h1>
           <p className="text-light text-lg">
@@ -44,8 +48,11 @@ export default function Features() {
         <div className="absolute bottom-0">
           <GaugeChart />
         </div>
-      </div>
-      <div className="col-span-12 sm:col-span-6 lg:col-span-7 xl:col-span-5 border-input-border dark:border-dark-input-border bg-input-bg dark:bg-dark-input-bg border rounded-main flex flex-col p-16 h-[270px] overflow-hidden">
+      </motion.div>
+      <motion.div
+        className="col-span-12 sm:col-span-6 lg:col-span-7 xl:col-span-5 border-input-border dark:border-dark-input-border bg-input-bg dark:bg-dark-input-bg border rounded-main flex flex-col p-16 h-[270px] overflow-hidden"
+        whileHover={{ rotate: 2 }}
+      >
         <div className="flex flex-col gap-0 w-full items-start justify-start h-fit">
           <h1 className="text-black dark:text-input-bg text-2xl">Calendar</h1>
           <p className="text-light text-lg">Keep track of you day</p>
@@ -60,8 +67,11 @@ export default function Features() {
             />
           </div>
         </div>
-      </div>
-      <div className="col-span-12 md:col-span-6 lg:col-span-5 xl:col-span-4 row-span-2 border-input-border dark:border-dark-input-border bg-input-bg dark:bg-dark-input-bg border rounded-main flex flex-col justify-between p-16 items-end relative min-h-[450px]">
+      </motion.div>
+      <motion.div
+        className="col-span-12 md:col-span-6 lg:col-span-5 xl:col-span-4 row-span-2 border-input-border dark:border-dark-input-border bg-input-bg dark:bg-dark-input-bg border rounded-main flex flex-col justify-between p-16 items-end relative min-h-[450px]"
+        whileHover={{ rotate: 2 }}
+      >
         <div className="flex flex-col gap-0 w-full items-start justify-start">
           <h1 className="text-black dark:text-input-bg text-2xl">Team</h1>
           <p className="text-light text-lg">
@@ -73,8 +83,11 @@ export default function Features() {
             <TeamFeatures />
           </div>
         </div>
-      </div>
-      <div className="col-span-12 sm:col-span-6 lg:col-span-7 xl:col-span-5 border-input-border dark:border-dark-input-border bg-input-bg dark:bg-dark-input-bg border rounded-main flex flex-col justify-between p-16 h-[270px] items-end relative overflow-hidden">
+      </motion.div>
+      <motion.div
+        className="col-span-12 sm:col-span-6 lg:col-span-7 xl:col-span-5 border-input-border dark:border-dark-input-border bg-input-bg dark:bg-dark-input-bg border rounded-main flex flex-col justify-between p-16 h-[270px] items-end relative overflow-hidden"
+        whileHover={{ rotate: 2 }}
+      >
         <div className="flex flex-col gap-0 w-full items-start justify-start">
           <h1 className="text-black dark:text-input-bg text-2xl">Tasks</h1>
           <p className="text-light text-lg">
@@ -87,11 +100,12 @@ export default function Features() {
           </h1>
           <p className="text-light text-lg">from the last month</p>
         </div>
-        <div className="absolute bottom-0 right-0 ">
-          <CircleGaugeChart />
-        </div>
-      </div>
-      <div className="col-span-12 sm:col-span-6 lg:col-span-7 xl:col-span-3 border-input-border dark:border-dark-input-border bg-input-bg dark:bg-dark-input-bg border rounded-main flex flex-col gap-40 p-16 h-[270px] items-end relative">
+        <CircleGaugeChart />
+      </motion.div>
+      <motion.div
+        className="col-span-12 sm:col-span-6 lg:col-span-7 xl:col-span-3 border-input-border dark:border-dark-input-border bg-input-bg dark:bg-dark-input-bg border rounded-main flex flex-col gap-40 p-16 h-[270px] items-end relative"
+        whileHover={{ rotate: 2 }}
+      >
         <div className="flex flex-col gap-0 w-full items-start justify-start">
           <h1 className="text-black dark:text-input-bg text-2xl">Statistics</h1>
           <p className="text-light text-lg">Keep track of your statistic</p>
@@ -106,7 +120,7 @@ export default function Features() {
             className="overflow-hidden w-full object-cover bg-center"
           />
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }

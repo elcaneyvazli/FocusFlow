@@ -13,6 +13,7 @@
     "@hookform/resolvers": "^3.4.2",
     "@reduxjs/toolkit": "^2.2.3",
     "@splinetool/react-spline": "^2.2.6",
+    "autoprefixer": "^10.4.19",
     "avvvatars-react": "^0.4.2",
     "axios": "^1.6.8",
     "chart.js": "^4.4.3",
@@ -25,6 +26,7 @@
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18",
     "react-hook-form": "^7.51.5",
+    "sharp": "^0.33.4",
     "uuid": "^10.0.0",
     "yup": "^1.4.0"
   },
