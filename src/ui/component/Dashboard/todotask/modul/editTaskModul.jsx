@@ -54,6 +54,7 @@ export default function EditTaskModul({ task, edit, setEdit }) {
       label: data.taskLabel,
       dueDate: selectedDate,
       priority: selectedPriority,
+      status: selectedStatus,
     };
 
     try {
@@ -214,7 +215,7 @@ export default function EditTaskModul({ task, edit, setEdit }) {
           </div> */}
           <div className="flex flex-row items-center justify-between xs:justify-normal gap-16 w-full xs:w-fit">
             <Button text="Cancel" width="fit" onClick={onEditTask} />
-            <Button text="New Task" color={"green"} width="fit" type="submit" />
+            <Button text="Edit Task" color={"blue"} width="fit" type="submit" />
           </div>
         </div>
       </form>
