@@ -494,17 +494,13 @@ export default function KanbanCardItem({ task, columnId, setEditTask }) {
               <p className="text-sm text-primary dark:text-input-bg">Date</p>
             </div>
             <p className="text-sm text-primary dark:text-input-bg">-</p>
-            <div
-              className={`px-8 py-4 flex items-center justify-center border border-input-border dark:border-dark-input-border rounded-main whitespace-nowrap bg-${
-                task.date ? "green" : "gray"
-              }-bg`}
-            >
-              <p
-                className={`text-xs text-${task.date ? "green" : "gray"}-text`}
-              >
-                {task.date ? task.date : "No Date"}
-              </p>
-            </div>
+            <p className="text-sm text-light">
+              {new Date(task.dueDate).toLocaleDateString("en-UK", {
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+              })}
+            </p>
           </div>
         </div>
         {editTask && (

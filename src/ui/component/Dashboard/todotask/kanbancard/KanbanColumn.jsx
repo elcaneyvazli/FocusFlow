@@ -147,7 +147,6 @@
 //   );
 // }
 
-
 import React, { useState } from "react";
 import KanbanCardItem from "./KanbanCardItem";
 import EditTaskModul from "../modul/editTaskModul";
@@ -188,6 +187,16 @@ export default function KanbanColumn({ column }) {
       ? colorClasses.gray
       : null;
 
+  function getStyle(style, snapshot) {
+    if (!snapshot.isDropAnimating) {
+      return style;
+    }
+    return {
+      ...style,
+      transitionDuration: `0.001s`,
+    };
+  }
+
   return (
     <div className="flex flex-col gap-8">
       <div
@@ -197,15 +206,16 @@ export default function KanbanColumn({ column }) {
       </div>
       {tasks.map((task, index) => (
         <Draggable key={task.id} draggableId={String(task.id)} index={index}>
-          {(provided) => (
+          {(provided, snapshot) => (
             <div
               ref={provided.innerRef}
               {...provided.draggableProps}
               {...provided.dragHandleProps}
+              style={getStyle(provided.draggableProps.style, snapshot)}
             >
               <KanbanCardItem
                 task={task}
-                columnId={column.id}
+                columnId={column.id}zz
                 setEditTask={setEditTask}
               />
             </div>
@@ -222,4 +232,3 @@ export default function KanbanColumn({ column }) {
     </div>
   );
 }
-

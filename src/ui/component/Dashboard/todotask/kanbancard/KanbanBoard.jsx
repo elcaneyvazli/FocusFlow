@@ -177,7 +177,7 @@ export default function KanbanBoard({ columns, setColumns, edit }) {
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className="flex flex-col gap-8 min-h-[500px]" // Ensure minimum height
+                className="flex flex-col gap-8"
               >
                 <KanbanColumn column={column} />
                 {provided.placeholder}
