@@ -504,28 +504,23 @@ export default function KanbanCardItem({ task, columnId, setEditTask }) {
           </div>
         </div>
         {editTask && (
-          <motion.div
-            className="flex flex-col gap-8 bg-white dark:bg-dark-input-bg border border-input-border dark:border-dark-input-border p-16 rounded-main z-20 absolute top-[48px] right-0 w-[200px]"
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.2 }}
-          >
+          <div className="absolute top-40 right-40 flex flex-col bg-input-bg rounded-main border border-input-border z-50 dark:bg-primary dark:border-dark-input-border shadow-sm">
             <div
-              className="flex items-center justify-between cursor-pointer"
+              className="flex flex-row gap-8 items-center py-12 pl-16 pr-80 border-b border-input-border dark:border-dark-input-border"
               onClick={handleEditTask}
             >
-              <PencilIcon className="h-[18px] w-[18px] text-primary dark:text-input-bg" />
-              <p className="text-sm text-primary dark:text-input-bg">Edit</p>
+              <PencilIcon className="h-[16px] w-[16px] text-primary dark:text-input-bg" />
+              <h1 className="text-primary dark:text-white text-sm">Edit</h1>
             </div>
+
             <div
-              className="flex items-center justify-between cursor-pointer"
+              className="flex flex-row gap-8 items-center py-12 pl-16 pr-80"
               onClick={handleDelete}
             >
-              <TrashIcon className="h-[18px] w-[18px] text-primary dark:text-input-bg" />
-              <p className="text-sm text-primary dark:text-input-bg">Delete</p>
+              <TrashIcon className="h-[16px] w-[16px] text-primary dark:text-input-bg" />
+              <h1 className="text-primary dark:text-white text-sm">Delete</h1>
             </div>
-          </motion.div>
+          </div>
         )}
       </motion.div>
     </>
