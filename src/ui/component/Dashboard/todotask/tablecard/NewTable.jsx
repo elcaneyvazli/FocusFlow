@@ -7,8 +7,9 @@ import {
 } from "@heroicons/react/24/outline";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { deleteTask, updateTask } from "@/services/task/task.services";
 
-export default function NewTable({ data }) {
+export default function NewTable({ data, onEditTask }) {
   const [show, setShow] = useState({});
   const [showMenu, setShowMenu] = useState(null);
 
@@ -19,25 +20,34 @@ export default function NewTable({ data }) {
     }));
   };
 
-  const handleToggleMenu = (id) => {
-    setShowMenu((prevShowMenu) => (prevShowMenu === id ? null : id));
+  const handleToggleCompleted = async (task) => {
+    task.isCompleted = !task.isCompleted;
+    try {
+      await updateTask(task.id, task);
+    } catch (error) {
+      console.error("Error updating task:", error);
+    }
   };
 
-  const handleToggleCompleted = (task) => {
-    // Your logic to toggle task completion
+  const handleDelete = async (taskId) => {
+    try {
+      await deleteTask(taskId);
+    } catch (error) {
+      console.error("Error deleting task:", error);
+    }
   };
 
-  const handleDelete = (id) => {
-    // Your logic to delete the task
+  const handleToggleMenu = (taskId) => {
+    setShowMenu((prevMenu) => (prevMenu === taskId ? null : taskId));
   };
 
-  const onEditTask = (task) => {
-    // Your logic to edit the task
-  };
+  if (!data || data.length === 0) {
+    return null; // Or return a placeholder message if needed
+  }
 
   return (
-    <div className="flex flex-col gap-16 items-start">
-      {data?.map((tasks) => {
+    <div className="flex flex-col gap-16 items-start overflow-x-auto">
+      {data.map((tasks) => {
         const isExpanded = show[tasks.id];
 
         return (
@@ -78,13 +88,13 @@ export default function NewTable({ data }) {
               </div>
             </div>
 
-            {isExpanded && (
-              <div className="flex flex-col gap-4 w-full rounded-main overflow-x-scroll">
-                {tasks?.items
-                  ?.filter((task) => !task.isCompleted)
+            {isExpanded && tasks.items && tasks.items.length > 0 && (
+              <div className="flex flex-col gap-4 w-full rounded-main overflow-x-auto">
+                {tasks.items
+                  .filter((task) => !task.isCompleted)
                   .map((task) => (
                     <div
-                      className="flex flex-col gap-0 bg-white dark:bg-dark-input-bg w-full relative  rounded-main border border-input-bg dark:border-dark-input-border"
+                      className="flex flex-col gap-0 bg-white dark:bg-dark-input-bg w-full relative rounded-main border border-input-bg dark:border-dark-input-border"
                       key={task.id}
                     >
                       <div
@@ -158,34 +168,20 @@ export default function NewTable({ data }) {
                             )}
                           </p>
                         </div>
-                        <div className="border-input-border dark:border-dark-input-border h-[53px] flex items-center justify-center min-w-[50px] bg-white dark:bg-dark-input-bg rounded-r-main relative">
-                          <EllipsisHorizontalIcon
-                            className="w-[24px] h-[24px] text-primary dark:text-input-bg mx-12 cursor-pointer"
-                            onClick={() => handleToggleMenu(task.id)}
-                          />
-                          {showMenu === task.id && (
-                            <div className="absolute top-12 right-32 flex flex-col bg-input-bg rounded-main border border-input-border z-50 dark:bg-primary dark:border-dark-input-border shadow-sm">
-                              <div
-                                className="flex flex-row gap-8 items-center py-12 pl-16 pr-80 border-b border-input-border dark:border-dark-input-border cursor-pointer"
-                                onClick={() => onEditTask(task)}
-                              >
-                                <PencilIcon className="h-[16px] w-[16px] text-primary dark:text-input-bg" />
-                                <h1 className="text-primary dark:text-white text-sm">
-                                  Edit
-                                </h1>
-                              </div>
-                              <div
-                                className="flex flex-row gap-8 items-center py-12 pl-16 pr-80 cursor-pointer"
-                                onClick={() => handleDelete(task.id)}
-                              >
-                                <TrashIcon className="h-[16px] w-[16px] text-primary dark:text-input-bg" />
-                                <h1 className="text-primary dark:text-white text-sm">
-                                  Delete
-                                </h1>
-                              </div>
-                            </div>
-                          )}
-                        </div>
+                        <motion.button
+                          className="border-r border-input-border dark:border-dark-input-border h-[53px] flex items-center justify-center min-w-[50px] bg-white dark:bg-dark-input-bg cursor-pointer"
+                          onClick={() => onEditTask(task)}
+                          whileTap={{ scale: 0.9 }}
+                        >
+                          <PencilIcon className="h-[16px] w-[16px] text-primary dark:text-input-bg" />
+                        </motion.button>
+                        <motion.button
+                          className="border-input-border dark:border-dark-input-border h-[53px] flex items-center justify-center min-w-[50px] bg-white dark:bg-dark-input-bg rounded-r-main cursor-pointer"
+                          onClick={() => handleDelete(task.id)}
+                          whileTap={{ scale: 0.9 }}
+                        >
+                          <TrashIcon className="h-[16px] w-[16px] text-primary dark:text-input-bg" />
+                        </motion.button>
                       </div>
                     </div>
                   ))}

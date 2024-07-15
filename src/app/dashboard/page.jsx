@@ -95,7 +95,7 @@ export default function Home() {
     {
       id: 2,
       title: "List",
-      content: <NewTable data={columns} />,
+      content: <TableCard data={columns} />,
     },
   ];
 
