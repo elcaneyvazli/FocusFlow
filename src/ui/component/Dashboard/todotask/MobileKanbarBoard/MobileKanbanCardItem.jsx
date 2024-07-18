@@ -141,7 +141,7 @@ export default function KanbanCardItem({ task, columnId, setEditTask }) {
             </div>
             <div className="px-8 py-4 flex items-center justify-center border border-input-border dark:border-dark-input-border dark:bg-primary bg-input-bg rounded-main whitespace-nowrap">
               <p className="text-xs text-primary dark:text-input-bg">
-                {task.label}
+                {task.label.toLowerCase()}
               </p>
             </div>
           </div>

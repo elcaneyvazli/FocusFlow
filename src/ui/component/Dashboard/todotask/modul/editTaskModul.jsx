@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/redux/store";
-import ButtonWithIcon from "@/ui/block/button/ButtonWithIcon/ButtonWithIcon";
+import { useRouter } from "next/navigation";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+import dayjs from "dayjs";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   ChevronDownIcon,
   DocumentPlusIcon,
@@ -9,33 +13,32 @@ import {
   TagIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import TextInput from "@/ui/block/input/TextInput/TextInput";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import Button from "@/ui/block/button/Button/Button";
 import { updateTask } from "@/services/task/task.services";
 import { toggleEditTask } from "@/redux/features/EditTaskSlice/EditTaskSlice";
 import { TaskSchema } from "@/schema/schema";
+import Button from "@/ui/block/button/Button/Button";
 import DateInput from "@/ui/block/input/Dueto/DateInput";
 import CustomSelect from "@/ui/block/input/SelectInput/SelectInput";
 import TextInputWithoutBg from "@/ui/block/input/TextInput/TextInputWithoutBg";
-import { useRouter } from "next/navigation";
+import LabelInput from "@/ui/block/input/LabelInput/LabelInput";
+import { getLabel } from "@/services/task/label.services";
 
 export default function EditTaskModul({ task, edit, setEdit }) {
   const router = useRouter();
-
   const dispatch = useDispatch();
-  const taskValue = useAppSelector((state) => state.editTask.editTask);
-
-  const onEditTask = () => {
-    dispatch(toggleEditTask());
-    setEdit(null);
-  };
+  const [label, setLabel] = useState([]);
+  const [error, setError] = useState(null);
+  const [labelShow, setLabelShow] = useState(false);
+  const [labelValue, setLabelValue] = useState(task?.label || "");
+  const [selectedDate, setSelectedDate] = useState(task.dueDate || null);
+  const [selectedPriority, setSelectedPriority] = useState(task.priority || 0);
+  const [selectedStatus, setSelectedStatus] = useState(task.status || 0);
 
   const {
     handleSubmit,
     formState: { errors },
     register,
+    setValue,
   } = useForm({
     resolver: yupResolver(TaskSchema),
     defaultValues: {
@@ -45,8 +48,28 @@ export default function EditTaskModul({ task, edit, setEdit }) {
     },
   });
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getLabel();
+        setLabel(response);
+      } catch (error) {
+        setError(error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    setValue("taskLabel", labelValue);
+  }, [labelValue, setValue]);
+
+  const onEditTask = () => {
+    dispatch(toggleEditTask());
+    setEdit(null);
+  };
+
   const onTaskEdited = async (data) => {
-    console.log("Data:", data);
     const updatedTaskData = {
       ...task,
       title: data.taskTitle,
@@ -66,85 +89,7 @@ export default function EditTaskModul({ task, edit, setEdit }) {
     }
   };
 
-  const [selectedDate, setSelectedDate] = useState(task.dueDate || null);
-  const [selectedPriority, setSelectedPriority] = useState(task.priority || 0);
-  const [selectedStatus, setSelectedStatus] = useState(task.status || 0);
-
-  useEffect(() => {
-    setSelectedPriority(task.priority);
-  }, [task.priority]);
-
-  useEffect(() => {
-    setSelectedDate(task.dueDate);
-  }, [task.dueDate]);
-
-  useEffect(() => {
-    setSelectedStatus(task.status);
-  }, [task.status]);
-
   return edit ? (
-    // <div className="fixed inset-0 z-50 flex items-center justify-end">
-    //   <div
-    //     className="fixed inset-0 bg-black bg-opacity-50"
-    //     onClick={onEditTask}
-    //   ></div>
-    //   <div className="relative w-full sm:w-[70%] lg:w-[50%] h-full bg-white dark:bg-primary p-16 rounded-main flex flex-col justify-between gap-16 z-50">
-    //     <div className="flex flex-row justify-between items-center">
-    //       <h1 className="text-lg font-medium text-primary dark:text-input-bg">
-    //         Edit Task
-    //       </h1>
-    //       <ButtonWithIcon
-    //         icon={
-    //           <XMarkIcon className="h-24 w-24 text-primary dark:text-input-bg" />
-    //         }
-    //         onClick={onEditTask}
-    //       />
-    //     </div>
-    //     <form
-    //       className="flex flex-col justify-between gap-12 h-full"
-    //       onSubmit={handleSubmit(onTaskEdited)}
-    //     >
-    //       <div className="flex flex-col gap-12 items justify-center h-full">
-    //         <TextInput
-    //           title="Task Title"
-    //           placeholder="Task Title"
-    //           register={register}
-    //           registername={"taskTitle"}
-    //           error={errors.taskTitle?.message}
-    //           icon={
-    //             <DocumentPlusIcon className="w-[18px] h-[18px] text-light" />
-    //           }
-    //         />
-    //         <TextInput
-    //           title="Task Description"
-    //           placeholder="Task Description"
-    //           register={register}
-    //           registername={"taskDescription"}
-    //           error={errors.taskDescription?.message}
-    //           icon={
-    //             <DocumentTextIcon className="w-[18px] h-[18px] text-light" />
-    //           }
-    //         />
-    //         <TextInput
-    //           title="Task Label"
-    //           placeholder="Task Label"
-    //           register={register}
-    //           registername={"taskLabel"}
-    //           error={errors.taskLabel?.message}
-    //           icon={<TagIcon className="w-[18px] h-[18px] text-light" />}
-    //         />
-    //         <DateInput onSelect={setSelectedDate} defaultValue={task.dueDate} />
-    //         <CustomSelect
-    //           options={["Must Have", "Should Have", "Could Have", "Won't Have"]}
-    //           onChange={setSelectedPriority}
-    //           defaultValue={task.taskPriority}
-    //         />
-    //       </div>
-
-    //       <Button text={"Edit Task"} type={"submit"} />
-    //     </form>
-    //   </div>
-    // </div>
     <div className="fixed top-0 left-0 w-full h-full md:h-screen flex justify-center z-50">
       <div
         className="fixed inset-0 bg-black bg-opacity-20 dark:bg-opacity-40 z-40"
@@ -154,16 +99,16 @@ export default function EditTaskModul({ task, edit, setEdit }) {
         className="fixed top-[40%] md:top-64 w-[100%] md:w-[70%] xl:w-[50%] h-[60%] md:h-fit bg-input-bg dark:bg-primary z-50 rounded-t-main md:rounded-main border border-input-border dark:border-dark-input-border shadow-lg flex flex-col md:justify-normal justify-between"
         onSubmit={handleSubmit(onTaskEdited)}
       >
-        <div className="flex flex-col gap-16 px-16 py-16 ">
+        <div className="flex flex-col gap-16 px-16 py-16">
           <div className="flex flex-col gap-0 items-start">
             <TextInputWithoutBg
               title="Task title"
               placeholder="Add Task Title"
-              text={"2xl"}
-              color={"primary"}
-              darkcolor={"input-bg"}
+              text="2xl"
+              color="primary"
+              darkcolor="input-bg"
               register={register}
-              registername={"taskTitle"}
+              registername="taskTitle"
               error={errors.taskTitle?.message}
               icon={
                 <DocumentPlusIcon className="w-[18px] h-[18px] text-light" />
@@ -172,10 +117,10 @@ export default function EditTaskModul({ task, edit, setEdit }) {
             <TextInputWithoutBg
               title="Task description"
               placeholder="Add Task Description"
-              text={"lg"}
-              color={"light"}
+              text="lg"
+              color="light"
               register={register}
-              registername={"taskDescription"}
+              registername="taskDescription"
               error={errors.taskDescription?.message}
               icon={
                 <DocumentTextIcon className="w-[18px] h-[18px] text-light" />
@@ -196,26 +141,20 @@ export default function EditTaskModul({ task, edit, setEdit }) {
             />
           </div>
         </div>
-        <div
-          className="flex flex-col xs:flex-row items-center justify-between border-t border-input-border dark:border-dark-input-border px-16 py-16 xs:gap-32 gap-16 w-full"
-          onClick={() => console.log("Clicked")}
-        >
-          <TextInput
-            placeholder="Add Task labek"
-            text={"md"}
-            color={"light"}
+        <div className="flex flex-col md:flex-row items-center justify-between border-t border-input-border dark:border-dark-input-border px-16 py-16 xs:gap-32 gap-16 w-full">
+          <LabelInput
             register={register}
-            registername={"taskLabel"}
-            error={errors.taskLabel?.message}
-            icon={<DocumentTextIcon className="w-[18px] h-[18px] text-light" />}
+            errors={errors}
+            setValue={setValue}
+            labels={label}
+            labelValue={labelValue}
+            setLabelValue={setLabelValue}
+            labelShow={labelShow}
+            setLabelShow={setLabelShow}
           />
-          {/* <div className="flex flex-row items-center justify-start border border-input-bg dark:border-dark-input-border px-32 py-8 gap-4 rounded-main w-full xs:w-fit">
-            <h1 className="text-sm text-primary dark:text-input-bg">Label</h1>
-            <ChevronDownIcon className="h-16 w-16 text-primary dark:text-input-bg" />
-          </div> */}
-          <div className="flex flex-row items-center justify-between xs:justify-normal gap-16 w-full xs:w-fit">
+          <div className="flex flex-row items-center justify-between md:justify-normal gap-16 w-full md:w-fit">
             <Button text="Cancel" width="fit" onClick={onEditTask} />
-            <Button text="Edit Task" color={"blue"} width="fit" type="submit" />
+            <Button text="Edit Task" color="blue" width="fit" type="submit" />
           </div>
         </div>
       </form>
