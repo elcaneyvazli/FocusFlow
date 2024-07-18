@@ -20,6 +20,7 @@ import NewTable from "@/ui/component/Dashboard/todotask/tablecard/NewTable";
 import useScreenWidth from "@/utils/useScreenWidth";
 import useDarkTheme from "@/utils/useDarkTheme";
 import AiButton from "@/ui/block/button/AiButton/AiButton";
+import AiModul from "@/ui/component/Dashboard/todotask/modul/AiModul";
 
 const Taskcard = dynamic(
   () => import("@/ui/component/Dashboard/todotask/taskcard/taskcard"),
@@ -135,6 +136,7 @@ export default function Home() {
       <NewTaskModul />
       <SelectedTaskModul />
       <Toast />
+      <AiModul />
     </div>
   );
 }

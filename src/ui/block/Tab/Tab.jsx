@@ -37,7 +37,9 @@ export default function Tab({ tabs, component }) {
           ))}
         </div>
 
-        <div className="flex flex-row gap-16 items-center">{component}</div>
+        <div className="flex flex-row gap-16 items-end justify-end w-full">
+          {component}
+        </div>
       </div>
 
       <div className="flex flex-col gap-16 w-full">

@@ -7,6 +7,7 @@ import editTaskReducer from "./features/EditTaskSlice/EditTaskSlice";
 import pomodoroReducer from "./features/PomodoroSlice/PomodoroSlice";
 import selectedTaskReducer from "./features/TaskSlice/TaskSlice";
 import toastMessageReducer from "./features/ToastSlice/ToastSlice";
+import askaiReducer from "./features/AiSlice/AiSlice";
 
 export const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
     darkModeReducer,
     editTask: editTaskReducer,
     pomodoro: pomodoroReducer,
+    askai: askaiReducer,
     selectedTaskReducer,
     toastMessageReducer,
   },
