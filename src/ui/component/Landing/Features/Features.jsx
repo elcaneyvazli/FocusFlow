@@ -21,6 +21,7 @@ import TeamFeatures from "./TeamFeatures";
 import { motion } from "framer-motion";
 import CircularProgressBar from "./CircularProgressBar";
 import HalfCircularProgressBar from "./HalfCircularProgressBar";
+import useDarkTheme from "@/utils/useDarkTheme";
 
 export default function Features() {
   const DarkMode = useSelector((state) => state.darkModeReducer).darkMode;
@@ -34,6 +35,8 @@ export default function Features() {
     setSelectedDate(selectedDayjsDate);
     setIsCalendarOpen(false);
   };
+
+  const isDarkMode = useDarkTheme();
 
   return (
     <div className="grid grid-cols-12 gap-16 w-full h-full">
@@ -128,4 +131,3 @@ export default function Features() {
     </div>
   );
 }
-

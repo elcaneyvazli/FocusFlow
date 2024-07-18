@@ -9,6 +9,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { AnimatePresence, motion } from "framer-motion";
 import { useAppSelector } from "@/redux/store";
+import useDarkTheme from "@/utils/useDarkTheme";
 
 export default function About() {
   const [hoveredCard, setHoveredCard] = useState(null);
@@ -31,6 +32,8 @@ export default function About() {
   const handleMouseLeave = () => {
     setHoveredCard(null);
   };
+
+  const isDarkMode = useDarkTheme();
 
   const cards = [
     {
@@ -86,7 +89,7 @@ export default function About() {
                   style={{
                     background: DarkMode
                       ? `radial-gradient(circle at ${mousePosition.x} ${mousePosition.y}, rgba(255,255,255,0.3) 0%, transparent 100%)`
-                      : `radial-gradient(circle at ${mousePosition.x} ${mousePosition.y}, rgba(0,0,0,0.3) 0%, transparent 100%)`,
+                      : `radial-gradient(circle at ${mousePosition.x} ${mousePosition.y}, # 0%, transparent 100%)`,
                     opacity: 0.2,
                   }}
                   initial={{ opacity: 0 }}

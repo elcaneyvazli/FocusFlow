@@ -17,6 +17,9 @@ import Toast from "@/ui/block/Toast/Toast";
 import TableTest from "@/ui/component/Dashboard/todotask/tablecard/TableTest";
 import { useRouter } from "next/navigation";
 import NewTable from "@/ui/component/Dashboard/todotask/tablecard/NewTable";
+import useScreenWidth from "@/utils/useScreenWidth";
+import useDarkTheme from "@/utils/useDarkTheme";
+import AiButton from "@/ui/block/button/AiButton/AiButton";
 
 const Taskcard = dynamic(
   () => import("@/ui/component/Dashboard/todotask/taskcard/taskcard"),
@@ -33,6 +36,16 @@ const KanbanBoard = dynamic(
     ssr: false,
   }
 );
+const MobileKanbanBoard = dynamic(
+  () =>
+    import(
+      "@/ui/component/Dashboard/todotask/MobileKanbarBoard/MobileKanbanBoard"
+    ),
+  {
+    loading: () => <KanbanBoardSkeleton />,
+    ssr: false,
+  }
+);
 
 export default function Home() {
   const router = useRouter();
@@ -42,6 +55,8 @@ export default function Home() {
   const [completed, setCompleted] = useState();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const isDark = useDarkTheme();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -78,12 +93,14 @@ export default function Home() {
     };
   }, [dispatch]);
 
+  const isScreenSmall = useScreenWidth(1024);
+
   const tabs = [
     {
       id: 1,
       title: "Board",
       content: (
-        <KanbanBoard
+        <MobileKanbanBoard
           classname="w-full"
           columns={columns}
           loading={loading}
@@ -99,6 +116,11 @@ export default function Home() {
     },
   ];
 
+  const tabComponent = [
+    <AiButton key="aiButton" />,
+    <NewTaskButton key="newTaskButton" />,
+  ];
+
   return (
     <div className="flex flex-col gap-16 w-full relative h-full pb-32">
       <TimeTrackerContainer data={columns} />
@@ -109,7 +131,7 @@ export default function Home() {
         loading={loading}
         error={error}
       />
-      <Tab tabs={tabs} component={<NewTaskButton />} />
+      <Tab tabs={tabs} component={tabComponent} />
       <NewTaskModul />
       <SelectedTaskModul />
       <Toast />

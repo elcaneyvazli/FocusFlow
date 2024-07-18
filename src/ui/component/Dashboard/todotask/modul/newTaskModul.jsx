@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/redux/store";
 import {
-  ChevronDownIcon,
+  BookmarkIcon,
+  ChevronRightIcon,
   DocumentPlusIcon,
   DocumentTextIcon,
 } from "@heroicons/react/24/outline";
@@ -19,7 +20,9 @@ import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
 import TextInputWithoutBg from "@/ui/block/input/TextInput/TextInputWithoutBg";
-import TextInput from "@/ui/block/input/TextInput/TextInput";
+import { motion, AnimatePresence } from "framer-motion";
+import useScreenWidth from "@/utils/useScreenWidth";
+import { getLabel } from "@/services/task/label.services";
 
 export default function NewTaskModul() {
   const router = useRouter();
@@ -32,17 +35,25 @@ export default function NewTaskModul() {
     dispatch(toggleTask());
   };
 
+  const [labelShow, setLabelShow] = useState(false);
+  const [labelValue, setLabelValue] = useState("");
   const {
     handleSubmit,
     formState: { errors },
     register,
+    setValue,
   } = useForm({
     resolver: yupResolver(TaskSchema),
   });
 
+  useEffect(() => {
+    setValue("taskLabel", labelValue); // Set the default value for taskLabel
+  }, [labelValue, setValue]);
+
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const [selectedPriority, setSelectedPriority] = useState(0);
   const [selectedStatus, setSelectedStatus] = useState(0);
+
   const handleSelectChange = (value) => {
     setSelectedPriority(value);
   };
@@ -52,7 +63,6 @@ export default function NewTaskModul() {
   };
 
   const onTaskCreated = async (data, e) => {
-    console.log("Data:", data);
     e.preventDefault();
 
     const taskData = {
@@ -65,10 +75,8 @@ export default function NewTaskModul() {
       isCompleted: false,
     };
 
-    console.log("Task Data:", taskData);
-
     try {
-      const response = await createTask(taskData);
+      await createTask(taskData);
       dispatch(
         addToast({
           id: uuidv4(),
@@ -77,88 +85,156 @@ export default function NewTaskModul() {
       );
       onClose();
       router.refresh();
-      // window.location.reload();
     } catch (error) {
       console.error("Error creating task:", error);
     }
   };
 
+  const [label, setLabel] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getLabel();
+        setLabel(response);
+      } catch (error) {
+        setError(error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const isMobile = useScreenWidth(768);
+  const formMotionProps = isMobile
+    ? {
+        initial: { y: "100%", opacity: 0 },
+        animate: { y: "0%", opacity: 1 },
+        exit: { y: "100%", opacity: 0 },
+        transition: { duration: 0.2 },
+      }
+    : {
+        initial: { scale: 0, rotate: "8.5deg" },
+        animate: { scale: 1, rotate: "0deg" },
+        exit: { scale: 0, rotate: "0deg" },
+      };
+
   return taskValue ? (
-    <div className="fixed top-0 left-0 w-full h-full md:h-screen flex justify-center z-50">
-      <div
-        className="fixed inset-0 bg-black bg-opacity-20 dark:bg-opacity-40 z-40"
-        onClick={onClose}
-      ></div>
-      <form
-        className="fixed top-[40%] md:top-64 w-[100%] md:w-[70%] xl:w-[50%] h-[60%] md:h-fit bg-input-bg dark:bg-primary z-50 rounded-t-main md:rounded-main border border-input-border dark:border-dark-input-border shadow-lg flex flex-col md:justify-normal justify-between"
-        onSubmit={handleSubmit(onTaskCreated)}
-      >
-        <div className="flex flex-col gap-16 px-16 py-16 ">
-          <div className="flex flex-col gap-0 items-start">
-            <TextInputWithoutBg
-              title="Task title"
-              placeholder="Add Task Title"
-              text={"2xl"}
-              color={"primary"}
-              darkcolor={"input-bg"}
-              register={register}
-              registername={"taskTitle"}
-              error={errors.taskTitle?.message}
-              icon={
-                <DocumentPlusIcon className="w-[18px] h-[18px] text-light" />
-              }
-            />
-            <TextInputWithoutBg
-              title="Task description"
-              placeholder="Add Task Description"
-              text={"lg"}
-              color={"light"}
-              register={register}
-              registername={"taskDescription"}
-              error={errors.taskDescription?.message}
-              icon={
-                <DocumentTextIcon className="w-[18px] h-[18px] text-light" />
-              }
-            />
+    <AnimatePresence>
+      <div className="fixed top-0 left-0 w-full h-full md:h-screen flex justify-center z-50">
+        <motion.div
+          className="fixed inset-0 bg-black bg-opacity-20 dark:bg-opacity-40 z-40"
+          onClick={onClose}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        ></motion.div>
+        <motion.form
+          className="fixed top-[40%] md:top-64 w-[100%] md:w-[70%] xl:w-[50%] h-[60%] md:h-fit bg-input-bg dark:bg-primary z-50 rounded-t-main md:rounded-main border border-input-border dark:border-dark-input-border shadow-lg flex flex-col md:justify-normal justify-between"
+          onSubmit={handleSubmit(onTaskCreated)}
+          {...formMotionProps}
+        >
+          <div className="flex flex-col gap-16 px-16 py-16 ">
+            <div className="flex flex-col gap-0 items-start">
+              <TextInputWithoutBg
+                title="Task title"
+                placeholder="Add Task Title"
+                text={"2xl"}
+                color={"primary"}
+                darkcolor={"input-bg"}
+                register={register}
+                registername={"taskTitle"}
+                error={errors.taskTitle?.message}
+                icon={
+                  <DocumentPlusIcon className="w-[18px] h-[18px] text-light" />
+                }
+              />
+              <TextInputWithoutBg
+                title="Task description"
+                placeholder="Add Task Description"
+                text={"lg"}
+                color={"light"}
+                register={register}
+                registername={"taskDescription"}
+                error={errors.taskDescription?.message}
+                icon={
+                  <DocumentTextIcon className="w-[18px] h-[18px] text-light" />
+                }
+              />
+            </div>
+            <div className="flex flex-col md:flex-row justify-center gap-16">
+              <CustomSelect
+                options={[
+                  "Must Have",
+                  "Should Have",
+                  "Could Have",
+                  "Won't Have",
+                ]}
+                onChange={handleSelectChange}
+              />
+              <DateInput
+                title="Due date"
+                onSelect={(date) => {
+                  setSelectedDate(date);
+                }}
+              />
+              <CustomSelect
+                options={["Todo", "In Progress", "Done"]}
+                onChange={handleSelectChangeStatus}
+              />
+            </div>
           </div>
-          <div className="flex flex-col md:flex-row justify-center gap-16">
-            <CustomSelect
-              options={["Must Have", "Should Have", "Could Have", "Won't Have"]}
-              onChange={handleSelectChange}
-            />
-            <DateInput
-              title="Due date"
-              onSelect={(date) => {
-                setSelectedDate(date);
-              }}
-            />
-            <CustomSelect
-              options={["Todo", "In Progress", "Done"]}
-              onChange={handleSelectChangeStatus}
-            />
+          <div className="flex flex-col xs:flex-row items-center justify-between border-t border-input-border dark:border-dark-input-border px-16 py-16 xs:gap-32 gap-16 min-w-full">
+            <div className="w-full relative">
+              <div
+                className="flex h-[40px] gap-64 w-full items-center justify-between bg-white dark:bg-dark-input-bg border border-input-border dark:border-dark-input-border p-8 py-4 rounded-main"
+                onClick={() => setLabelShow(!labelShow)}
+              >
+                <div className="flex gap-4 items-center">
+                  <BookmarkIcon className="w-[18px] h-[18px] text-light" />
+                  <TextInputWithoutBg
+                    title="Task Label"
+                    placeholder="Add Task label"
+                    text={"md"}
+                    color={"primary"}
+                    darkcolor={"input-bg"}
+                    register={register}
+                    registername={"taskLabel"}
+                    error={errors.taskLabel?.message}
+                    value={labelValue}
+                    onChange={(e) => setLabelValue(e.target.value)}
+                  />
+                </div>
+                <motion.div animate={{ rotate: labelShow ? 90 : 0 }}>
+                  <ChevronRightIcon className="w-[18px] h-[18px] text-light" />
+                </motion.div>
+              </div>
+              {labelShow && (
+                <div className="absolute top-48 left-0 w-full bg-white dark:bg-dark-input-bg border border-input-border dark:border-dark-input-border rounded-main z-50 min-h-[100px]">
+                  {label?.map((item, index) => (
+                    <div
+                      key={index}
+                      className="cursor-pointer text-sm text-primary dark:text-input-bg hover:bg-input-border dark:hover:bg-dark-input-border px-12 py-8"
+                      onClick={() => {
+                        setLabelValue(item);
+                        setLabelShow(false);
+                      }}
+                    >
+                      <p className="text-sm">{item}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div className="flex flex-row items-center justify-between xs:justify-normal gap-16 w-full xs:w-fit">
+              <Button text="Cancel" width="fit" onClick={onClose} />
+              <Button text="New Task" color="green" width="fit" />
+            </div>
           </div>
-        </div>
-        <div className="flex flex-col xs:flex-row items-center justify-between border-t border-input-border dark:border-dark-input-border px-16 py-16 xs:gap-32 gap-16 w-full">
-          <TextInput
-            placeholder="Add Task labek"
-            text={"md"}
-            color={"light"}
-            register={register}
-            registername={"taskLabel"}
-            error={errors.taskLabel?.message}
-            icon={<DocumentTextIcon className="w-[18px] h-[18px] text-light" />}
-          />
-          {/* <div className="flex flex-row items-center justify-start border border-input-bg dark:border-dark-input-border px-32 py-8 gap-4 rounded-main w-full xs:w-fit">
-            <h1 className="text-sm text-primary dark:text-input-bg">Label</h1>
-            <ChevronDownIcon className="h-16 w-16 text-primary dark:text-input-bg" />
-          </div> */}
-          <div className="flex flex-row items-center justify-between xs:justify-normal gap-16 w-full xs:w-fit">
-            <Button text="Cancel" width="fit" onClick={onClose} />
-            <Button text="New Task" color={"green"} width="fit" />
-          </div>
-        </div>
-      </form>
-    </div>
+        </motion.form>
+      </div>
+    </AnimatePresence>
   ) : (
     <div></div>
   );

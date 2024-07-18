@@ -2,33 +2,46 @@ import React, { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { SunIcon, MoonIcon } from "@heroicons/react/24/outline";
 import { motion } from "framer-motion";
-import { useSelector, useDispatch } from "react-redux";
-import { setDarkMode } from "@/redux/features/DarkModeSlice/DarkModeSlice";
+import useDarkTheme from "@/utils/useDarkTheme";
 
 export default function DarkModeButton() {
-  const dispatch = useDispatch();
-  const { theme, setTheme, resolvedTheme } = useTheme(); // add resolvedTheme
-  const [isDarkMode, setIsDarkMode] = useState(false); // set initial state to false
-  const darkModeRedux = useSelector((state) => state.darkModeReducer.darkMode);
+  const { theme, setTheme } = useTheme();
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
-    setIsDarkMode(darkModeRedux);
-  }, [darkModeRedux]);
+    const localTheme = localStorage.getItem("theme");
+    const systemPrefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
 
-  useEffect(() => {
-    setIsDarkMode(resolvedTheme === "dark");
-  }, [resolvedTheme]);
+    if (localTheme === "dark" || (!localTheme && systemPrefersDark)) {
+      document.documentElement.classList.add("dark");
+      setTheme("dark");
+      setIsDarkMode(true);
+    } else {
+      document.documentElement.classList.remove("dark");
+      setTheme("light");
+      setIsDarkMode(false);
+    }
+  }, [setTheme]);
 
-  const toggleDarkMode = () => {
-    const newTheme = theme === "dark" ? "light" : "dark";
-    setTheme(newTheme);
-    dispatch(setDarkMode(newTheme === "dark"));
-    setIsDarkMode(newTheme === "dark");
+  const toggleTheme = () => {
+    if (theme === "light") {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+      setTheme("dark");
+      setIsDarkMode(true);
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+      setTheme("light");
+      setIsDarkMode(false);
+    }
   };
 
   return (
     <motion.button
-      onClick={toggleDarkMode}
+      onClick={toggleTheme}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       className="px-8 bg-input-bg border dark:border-dark-input-border dark:bg-dark-input-bg border-input-border rounded-main h-40"

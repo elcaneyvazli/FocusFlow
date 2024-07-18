@@ -14,12 +14,7 @@ import { useDispatch } from "react-redux";
 import { toggleEditTask } from "@/redux/features/EditTaskSlice/EditTaskSlice";
 import { toggleTaskModul } from "@/redux/features/TaskSlice/TaskSlice";
 
-export default function KanbanCardItem({
-  task,
-  onDragStart,
-  columnId,
-  setEditTask,
-}) {
+export default function KanbanCardItem({ task, columnId, setEditTask }) {
   const dispatch = useDispatch();
 
   const handleEditTask = () => {
@@ -36,9 +31,9 @@ export default function KanbanCardItem({
   };
 
   const handleToggleCompleted = async (task) => {
-    task.isCompleted = !task.isCompleted;
+    const updatedTask = { ...task, isCompleted: !task.isCompleted };
     try {
-      await updateTask(task.id, task);
+      await updateTask(updatedTask.id, updatedTask);
     } catch (error) {
       console.error("Error updating task:", error);
     }
@@ -52,22 +47,12 @@ export default function KanbanCardItem({
     dispatch(toggleTaskModul(task));
   };
 
-  const [isHovered, setIsHovered] = useState(false);
-  const handleMouseEnter = () => setIsHovered(true);
-  const handleMouseLeave = () => setIsHovered(false);
-
   return (
     <>
       <motion.div
         className="flex flex-col gap-16 cursor-pointer relative"
-        draggable
-        onDragStart={(e) => onDragStart(e, task.id, columnId, task)}
         whileHover={{ scale: 1.01 }}
         whileTap={{ scale: 0.95 }}
-        layoutId={task.id}
-        layout
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
       >
         <div className="flex flex-col gap-8 bg-white dark:bg-dark-input-bg border border-input-border dark:border-dark-input-border p-16 rounded-main z-10 relative">
           <div className="flex flex-row justify-between items-center">
@@ -110,7 +95,7 @@ export default function KanbanCardItem({
             </div>
             <p className="text-sm text-primary dark:text-input-bg">-</p>
             <div
-              className={`px-8 py-4 flex items-center justify-center border border-input-border dark:border-dark-input-border rounded-main whitespace-nowrap  bg-${
+              className={`px-8 py-4 flex items-center justify-center border border-input-border dark:border-dark-input-border rounded-main whitespace-nowrap bg-${
                 task.status === 0
                   ? "gray"
                   : task.status === 1
@@ -125,7 +110,7 @@ export default function KanbanCardItem({
                     : task.status === 1
                     ? "blue"
                     : "green"
-                }-text `}
+                }-text`}
               >
                 {task.status == 0
                   ? "To do"
@@ -138,7 +123,7 @@ export default function KanbanCardItem({
           <div className="flex flex-row gap-8 items-center">
             <div className="flex flex-row gap-2 items-center">
               <CalendarDaysIcon className="h-[16px] w-[16px] text-primary dark:text-input-bg" />
-              <p className="text-sm text-primary dark:text-input-bg">Due To</p>
+              <p className="text-sm text-primary dark:text-input-bg">Date</p>
             </div>
             <p className="text-sm text-primary dark:text-input-bg">-</p>
             <p className="text-sm text-light">
@@ -149,12 +134,11 @@ export default function KanbanCardItem({
               })}
             </p>
           </div>
-          <div className="flex flex-row gap-8 items-center">
+          <div className="flex flex-row items-center gap-8">
             <div className="flex flex-row gap-2 items-center">
               <BookmarkIcon className="h-[16px] w-[16px] text-primary dark:text-input-bg" />
               <p className="text-sm text-primary dark:text-input-bg">Label</p>
             </div>
-            <p className="text-sm text-primary dark:text-input-bg">-</p>
             <div className="px-8 py-4 flex items-center justify-center border border-input-border dark:border-dark-input-border dark:bg-primary bg-input-bg rounded-main whitespace-nowrap">
               <p className="text-xs text-primary dark:text-input-bg">
                 {task.label}

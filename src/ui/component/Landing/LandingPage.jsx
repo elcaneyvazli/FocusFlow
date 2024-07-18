@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import Image from "next/image";
 import Logo from "@/ui/assert/Logo.svg";
 import About from "./About";
@@ -9,8 +9,14 @@ import Footer from "./Footer";
 import FitButton from "@/ui/block/button/Button/FitButton";
 import HeroSection from "./HeroSection";
 import Button from "@/ui/block/button/Button/Button";
+import DarkModeButton from "@/ui/block/button/DarkModeButton/DarkModeButton";
 
 export default function LandingPage() {
+  const [darkMode, setDarkMode] = useState(false);
+  useEffect(() => {
+    setDarkMode(localStorage.getItem("theme") === "dark");
+  }, [darkMode]);
+  console.log(darkMode)
   return (
     <div className="flex flex-col gap-32 items-start w-full dark:bg-primary">
       <div
@@ -35,9 +41,12 @@ export default function LandingPage() {
               FocusFlow
             </h1>
           </div>
-          <div className="hidden xs:flex flex-row gap-16 items-center">
-            <FitButton text={"Login"} link={"/login"}/>
-            <FitButton text={"Register"} link={"/register"}/>
+          <div className="flex flex-row gap-16 items-center">
+            <DarkModeButton />
+            <div className="hidden sm:flex flex-row gap-16 items-center">
+              <FitButton text={"Login"} link={"/login"} />
+              <FitButton text={"Register"} link={"/register"} />
+            </div>
           </div>
         </div>
         <HeroSection />

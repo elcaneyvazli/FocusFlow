@@ -4,6 +4,7 @@ import React from "react";
 import Logo from "@/ui/assert/Logo.svg";
 import image3 from "@/ui/assert/3.svg";
 import image4 from "@/ui/assert/4.svg";
+import dayjs from "dayjs";
 
 export default function Footer() {
   return (
@@ -56,7 +57,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="flex flex-row justify-between items-center pb-8 text-sm text-white w-full">
-          <p>© Copyright 2022, All Rights Reserved</p>
+          <p>© Copyright {dayjs().format("YYYY")}, All Rights Reserved</p>
           <div className="hidden sm:flex flex-row items-center gap-16">
             <p>Privacy Policy</p>
             <p> Terms & Conditions</p>
