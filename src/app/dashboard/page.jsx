@@ -1,7 +1,7 @@
 "use client";
 
 import Tab from "@/ui/block/Tab/Tab";
-import NewTaskModul from "@/ui/component/Dashboard/todotask/modul/NewTaskModul";
+import NewTaskModul from "@/ui/component/Dashboard/todotask/modul/newTaskModul";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setDarkMode } from "@/redux/features/DarkModeSlice/DarkModeSlice";
@@ -54,7 +54,7 @@ export default function Home() {
   const [completed, setCompleted] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
+
   useEffect(() => {
     const fetchData = async () => {
       try {
