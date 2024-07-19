@@ -33,7 +33,7 @@ export default function AiModul() {
         onClick={onClose}
       ></div>
       <motion.div
-        className="fixed top-[20%] lg:w-[100%] w-[50%] 2xl:w-[40%] bg-input-bg dark:bg-primary z-50 rounded-main border border-input-border dark:border-dark-input-border shadow-lg flex flex-row justify-between px-32 py-12"
+        className="fixed top-[20%] lg:w-[100%] w-[50%] 2xl:w-[40%] bg-input-bg dark:bg-primary z-50 rounded-main border border-input-border dark:border-dark-input-border shadow-lg flex flex-row justify-between px-8 py-4"
         initial={{ scale: 0, rotate: "8.5deg" }}
         animate={{ scale: 1, rotate: "0deg" }}
         exit={{ scale: 0, rotate: "0deg" }}

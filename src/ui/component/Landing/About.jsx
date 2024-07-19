@@ -9,7 +9,6 @@ import {
 } from "@heroicons/react/24/outline";
 import { AnimatePresence, motion } from "framer-motion";
 import { useAppSelector } from "@/redux/store";
-import useDarkTheme from "@/utils/useDarkTheme";
 
 export default function About() {
   const [hoveredCard, setHoveredCard] = useState(null);
@@ -32,8 +31,6 @@ export default function About() {
   const handleMouseLeave = () => {
     setHoveredCard(null);
   };
-
-  const isDarkMode = useDarkTheme();
 
   const cards = [
     {

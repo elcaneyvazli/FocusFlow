@@ -12,11 +12,6 @@ import Button from "@/ui/block/button/Button/Button";
 import DarkModeButton from "@/ui/block/button/DarkModeButton/DarkModeButton";
 
 export default function LandingPage() {
-  const [darkMode, setDarkMode] = useState(false);
-  useEffect(() => {
-    setDarkMode(localStorage.getItem("theme") === "dark");
-  }, [darkMode]);
-  console.log(darkMode)
   return (
     <div className="flex flex-col gap-32 items-start w-full dark:bg-primary">
       <div

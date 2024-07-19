@@ -1,12 +1,12 @@
 "use client";
+
 import Tab from "@/ui/block/Tab/Tab";
-import NewTaskModul from "@/ui/component/Dashboard/todotask/modul/newTaskModul";
-import { useEffect } from "react";
+import NewTaskModul from "@/ui/component/Dashboard/todotask/modul/NewTaskModul";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setDarkMode } from "@/redux/features/DarkModeSlice/DarkModeSlice";
 import TableCard from "@/ui/component/Dashboard/todotask/tablecard/TableCard";
 import { getTasks } from "@/services/task/task.services";
-import { useState } from "react";
 import dynamic from "next/dynamic";
 import KanbanBoardSkeleton from "@/ui/component/Dashboard/todotask/kanbancard/KanbanBoardSkeleton";
 import TaskCardSkeleton from "@/ui/component/Dashboard/todotask/taskcard/TaskCardSkeleton";
@@ -14,11 +14,8 @@ import TimeTrackerContainer from "@/ui/component/Dashboard/todotask/TimeTracker/
 import SelectedTaskModul from "@/ui/component/Dashboard/todotask/modul/SelectedTaskModul";
 import NewTaskButton from "@/ui/block/button/NewTaskButton/NewTaskButton";
 import Toast from "@/ui/block/Toast/Toast";
-import TableTest from "@/ui/component/Dashboard/todotask/tablecard/TableTest";
 import { useRouter } from "next/navigation";
-import NewTable from "@/ui/component/Dashboard/todotask/tablecard/NewTable";
 import useScreenWidth from "@/utils/useScreenWidth";
-import useDarkTheme from "@/utils/useDarkTheme";
 import AiButton from "@/ui/block/button/AiButton/AiButton";
 import AiModul from "@/ui/component/Dashboard/todotask/modul/AiModul";
 
@@ -37,6 +34,7 @@ const KanbanBoard = dynamic(
     ssr: false,
   }
 );
+
 const MobileKanbanBoard = dynamic(
   () =>
     import(
@@ -50,15 +48,13 @@ const MobileKanbanBoard = dynamic(
 
 export default function Home() {
   const router = useRouter();
-  const [columns, setColumns] = useState();
-  const [total, setTotal] = useState();
-  const [pending, setPending] = useState();
-  const [completed, setCompleted] = useState();
+  const [columns, setColumns] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [pending, setPending] = useState(0);
+  const [completed, setCompleted] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  const isDark = useDarkTheme();
-
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -75,7 +71,7 @@ export default function Home() {
       }
     };
     fetchData();
-  }, []);
+  }, [router]);
 
   const dispatch = useDispatch();
 

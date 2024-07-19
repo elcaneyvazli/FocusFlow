@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { SunIcon, MoonIcon } from "@heroicons/react/24/outline";
 import { motion } from "framer-motion";
-import useDarkTheme from "@/utils/useDarkTheme";
 
 export default function DarkModeButton() {
   const { theme, setTheme } = useTheme();

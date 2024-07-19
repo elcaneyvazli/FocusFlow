@@ -1,27 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import Pomodoro from "@/ui/assert/pomodoro.svg";
-import Calendar from "@/ui/assert/calendar.svg";
 import Chart from "@/ui/assert/chart.svg";
-import Team from "@/ui/assert/team.svg";
-import Circle from "@/ui/assert/circle.svg";
-import Pomodorodark from "@/ui/assert/pomodorodark.svg";
-import Calendardark from "@/ui/assert/calendardark.svg";
-import Chartdark from "@/ui/assert/chartdark.svg";
-import Teamdark from "@/ui/assert/teamdark.svg";
-import Circledark from "@/ui/assert/circledark.svg";
 import { useSelector } from "react-redux";
-import CalendarView from "@/ui/block/input/Dueto/CalendarView";
 import dayjs from "dayjs";
 import OnlyViewCalendar from "@/ui/block/input/Dueto/OnlyviewCalendar";
-import GaugeChart from "./GaugeChart";
-import CircularChart from "./CircularChart";
-import CircleGaugeChart from "./CircleGaugeChart";
 import TeamFeatures from "./TeamFeatures";
 import { motion } from "framer-motion";
 import CircularProgressBar from "./CircularProgressBar";
 import HalfCircularProgressBar from "./HalfCircularProgressBar";
-import useDarkTheme from "@/utils/useDarkTheme";
 
 export default function Features() {
   const DarkMode = useSelector((state) => state.darkModeReducer).darkMode;
@@ -35,9 +21,6 @@ export default function Features() {
     setSelectedDate(selectedDayjsDate);
     setIsCalendarOpen(false);
   };
-
-  const isDarkMode = useDarkTheme();
-
   return (
     <div className="grid grid-cols-12 gap-16 w-full h-full">
       <motion.div
