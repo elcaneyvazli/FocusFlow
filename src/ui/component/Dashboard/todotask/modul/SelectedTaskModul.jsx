@@ -1,41 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/redux/store";
-import {
-  toggleTaskFullScreen,
-  toggleTaskModul,
-} from "@/redux/features/TaskSlice/TaskSlice";
-import ButtonWithIcon from "@/ui/block/button/ButtonWithIcon/ButtonWithIcon";
-import {
-  ArrowsPointingOutIcon,
-  BookmarkIcon,
-  ClockIcon,
-  DocumentCheckIcon,
-  PlusIcon,
-  TagIcon,
-  TrashIcon,
-  UsersIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
-import Tab from "@/ui/block/Tab/Tab";
-import TextInput from "@/ui/block/input/TextInput/TextInput";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { motion } from "framer-motion";
-import {
-  createSubTask,
-  deleteSubTask,
-  getSubTasks,
-} from "@/services/task/subtask.services";
+import { toggleTaskModul } from "@/redux/features/TaskSlice/TaskSlice";
+import { AnimatePresence, motion } from "framer-motion";
+import useScreenWidth from "@/utils/useScreenWidth";
 
 export default function SelectedTaskModul() {
   const dispatch = useDispatch();
-
-  const {
-    handleSubmit,
-    formState: { errors },
-    register,
-  } = useForm();
 
   const selectedTaskValue = useAppSelector(
     (state) => state.selectedTaskReducer.value.modul
@@ -50,168 +21,123 @@ export default function SelectedTaskModul() {
   const toggleSelect = () => {
     dispatch(toggleTaskModul());
   };
-  const toggleFullScreen = () => {
-    dispatch(toggleTaskFullScreen());
-  };
 
-  const tabs = [
-    {
-      id: 1,
-      title: "Description",
-      content: <SelectedTaskDesc selectedTask={selectedTask} />,
-    },
-    {
-      id: 2,
-      title: "Subtask",
-      content: <SelectedTaskSubtask selectedTask={selectedTask} />,
-    },
-  ];
+  console.log(selectedTask);
+
+  const isMobile = useScreenWidth(768);
+  const formMotionProps = isMobile
+    ? {
+        initial: { y: "100%", opacity: 0 },
+        animate: { y: "0%", opacity: 1 },
+        exit: { y: "100%", opacity: 0 },
+        transition: { duration: 0.2 },
+      }
+    : {
+        initial: { scale: 0, rotate: "8.5deg" },
+        animate: { scale: 1, rotate: "0deg" },
+        exit: { scale: 0, rotate: "0deg" },
+      };
 
   return selectedTaskValue ? (
-    <div className="fixed top-0 left-0 w-full h-screen min-h-screen max-h-screen flex items-center justify-center z-50">
-      <div
-        className="fixed inset-0 bg-black bg-opacity-50 z-40"
-        onClick={toggleSelect}
-      ></div>
-      <div
-        className={`relative ${
-          fullScreen
-            ? "w-[100%] h-full justify-between"
-            : " w-[100%] h-full max-h-screen min-h-fit sm:w-[80%] lg:w-[50%] justify-center"
-        } bg-white dark:bg-primary px-32 py-32 rounded-main flex flex-col gap-16 z-50`}
-      >
-        <div className="flex flex-row justify-between items-center">
-          <ButtonWithIcon
-            icon={
-              <ArrowsPointingOutIcon className="h-24 w-24 text-primary dark:text-input-bg" />
-            }
-            onClick={toggleFullScreen}
-          />
-          <h1 className="text-lg font-medium text-primary dark:text-input-bg">
-            Task Detail
-          </h1>
-
-          <ButtonWithIcon
-            icon={
-              <XMarkIcon className="h-24 w-24 text-primary dark:text-input-bg" />
-            }
-            onClick={toggleSelect}
-          />
-        </div>
-        <Tab tabs={tabs} />
-      </div>
-    </div>
-  ) : null;
-}
-
-function SelectedTaskDesc({ selectedTask }) {
-  return (
-    <div className="bg-input-bg dark:bg-dark-input-bg border border-input-border dark:border-dark-input-border p-12 rounded-main">
-      {selectedTask.description}
-    </div>
-  );
-}
-
-function SelectedTaskSubtask({ selectedTask }) {
-  const {
-    handleSubmit,
-    formState: { errors },
-    register,
-  } = useForm();
-
-  const taskid = selectedTask.id;
-  const [subtask, setSubtask] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getSubTasks(taskid);
-        setSubtask(response.filter((task) => task.isCompleted === false));
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching subtasks:", error);
-        setError(error);
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, [taskid]);
-
-  const onSubTaskCreated = async (data, e) => {
-    e.preventDefault();
-
-    const subTaskData = {
-      description: data.subTask,
-      userTaskId: taskid,
-    };
-    try {
-      const response = await createSubTask(subTaskData);
-      setSubtask((prevSubtasks) => [...prevSubtasks, response]);
-    } catch (error) {
-      console.error("Error creating task:", error);
-    }
-  };
-
-  const handleDelete = async (subTaskId) => {
-    try {
-      await deleteSubTask(subTaskId);
-      setSubtask((prevSubtasks) =>
-        prevSubtasks.filter((subtask) => subtask.id !== subTaskId)
-      );
-    } catch (error) {
-      console.error("Error deleting task:", error);
-    }
-  };
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error loading subtasks: {error.message}</div>;
-  }
-
-  return (
-    <div className="overflow-y-scroll flex flex-col gap-16 h-full">
-      <form
-        onSubmit={handleSubmit(onSubTaskCreated)}
-        className="flex flex-row items-end justify-between gap-16"
-      >
-        <TextInput
-          title="Enter Subtask:"
-          placeholder="Enter Subtask"
-          icon={<DocumentCheckIcon className="w-[18px] h-[18px] text-light" />}
-          registername="subTask"
-          error={errors.subTask?.message}
-          register={register}
-        />
-        <motion.button
-          className="px-8 bg-input-bg dark:bg-dark-input-bg dark:border-dark-input-border border border-input-border rounded-main h-[47px] w-[47px] flex items-center justify-center cursor-pointer"
-          animate={{ scale: 1 }}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.95 }}
+    <AnimatePresence>
+      <div className="fixed top-0 left-0 w-full h-full md:h-screen flex justify-center z-50">
+        <motion.div
+          className="fixed inset-0 bg-black bg-opacity-20 dark:bg-opacity-40 z-40"
+          onClick={toggleSelect}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        ></motion.div>
+        <motion.div
+          className="fixed top-[40%] md:top-64 w-[100%] md:w-[70%] xl:w-[50%] h-[60%] md:h-fit bg-input-bg dark:bg-primary z-50 rounded-t-main md:rounded-main border border-input-border dark:border-dark-input-border shadow-lg flex flex-col p-16 gap-16"
+          {...formMotionProps}
         >
-          <PlusIcon className="w-[24px] h-[24px] text-light" />
-        </motion.button>
-      </form>
-      <div className="flex flex-col gap-12 h-full overflow-auto">
-        {subtask.map((tasks) => (
-          <div
-            className="flex flex-row justify-between items-center px-16 py-8 border border-input-border dark:border-dark-input-border bg-input-bg dark:bg-dark-input-bg rounded-main"
-            key={tasks.id}
-          >
-            <h1 className="text-md text-primary dark:text-input-bg">
-              {tasks.description}
+          <div className="flex flex-col gap-0 ">
+            <h1 className="text-primary dark:text-input-bg text-3xl font-bold">
+              {selectedTask.title}
             </h1>
-            <TrashIcon
-              className="h-[18px] w-[18px] text-primary dark:text-input-bg cursor-pointer"
-              onClick={() => handleDelete(tasks.id)}
-            />
+            <p className="text-primary dark:text-input-bg text-md">
+              {selectedTask.description}
+            </p>
           </div>
-        ))}
+          <div className="flex flex-col md:flex-row gap-16 items-center justify-between">
+            <div
+              className={`px-8 py-8 flex items-center justify-center border border-input-border dark:border-dark-input-border rounded-main whitespace-nowrap w-full bg-${
+                selectedTask.priority === 0
+                  ? "red"
+                  : selectedTask.priority === 1
+                  ? "blue"
+                  : selectedTask.priority === 2
+                  ? "green"
+                  : "gray"
+              }-bg`}
+            >
+              <p
+                className={`text-xs text-${
+                  selectedTask.priority === 0
+                    ? "red"
+                    : selectedTask.priority === 1
+                    ? "blue"
+                    : selectedTask.priority === 2
+                    ? "green"
+                    : "gray"
+                }-text`}
+              >
+                {selectedTask.priority === 0
+                  ? "Must"
+                  : selectedTask.priority === 1
+                  ? "Should"
+                  : selectedTask.priority === 2
+                  ? "Could"
+                  : "Won't"}
+              </p>
+            </div>
+            <div
+              className={`px-8 py-8 flex items-center justify-center border border-input-border dark:border-dark-input-border rounded-main whitespace-nowrap w-full bg-${
+                selectedTask.status === 0
+                  ? "gray"
+                  : selectedTask.status === 1
+                  ? "blue"
+                  : "green"
+              }-bg`}
+            >
+              <p
+                className={`text-xs text-${
+                  selectedTask.status === 0
+                    ? "gray"
+                    : selectedTask.status === 1
+                    ? "blue"
+                    : "green"
+                }-text`}
+              >
+                {selectedTask.status == 0
+                  ? "To do"
+                  : selectedTask.status == 1
+                  ? "In Progress"
+                  : "Done"}
+              </p>
+            </div>
+            <div
+              className={`px-8 py-8 flex items-center justify-center border border-input-border dark:border-dark-input-border rounded-main whitespace-nowrap w-full bg-input-bg dark:bg-dark-input-bg`}
+            >
+              <p className={`text-xs text-primary dark:text-input-bg`}>
+                {selectedTask.label}
+              </p>
+            </div>
+            <div
+              className={`px-8 py-8 flex items-center justify-center border border-input-border dark:border-dark-input-border rounded-main whitespace-nowrap w-full bg-input-bg dark:bg-dark-input-bg`}
+            >
+              <p className={`text-xs text-primary dark:text-input-bg`}>
+                {new Date(selectedTask.dueDate).toLocaleDateString("en-UK", {
+                  day: "numeric",
+                  month: "short",
+                  year: "numeric",
+                })}
+              </p>
+            </div>
+          </div>
+        </motion.div>
       </div>
-    </div>
-  );
+    </AnimatePresence>
+  ) : null;
 }

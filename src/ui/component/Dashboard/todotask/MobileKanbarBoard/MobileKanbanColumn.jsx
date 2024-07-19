@@ -267,7 +267,7 @@ export default function MobileKanbanColumn({ column = {} }) {
           <div
             className={`flex flex-col flex-1 gap-8 p-4 ${
               snapshot.isDraggingOver
-                ? "bg-input-bg dark:bg-dark-input-bg opacity-80 rounded-main border border-input-border dark:border-dark-input-border"
+                ? "bg-white dark:bg-dark-input-bg opacity-80 rounded-main border border-input-border dark:border-dark-input-border"
                 : ""
             }`}
             ref={provided.innerRef}

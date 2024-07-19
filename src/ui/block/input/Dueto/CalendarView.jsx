@@ -12,7 +12,7 @@ export default function CalendarView({
   const currentDate = dayjs();
 
   return (
-    <div className="absolute z-50 h-[300px] md:h-[350px] w-full sm:w-[350px] md:w-[450px] 2xl:w-full mt-[10px] dark:bg-dark-input-bg bg-input-bg rounded-main border border-input-border dark:border-dark-input-border grid grid-cols-7 grid-rows-7 gap-12 p-12 top-40">
+    <div className="absolute z-50 h-[300px] md:h-[350px] w-full sm:w-[350px] md:w-[450px] mt-[10px] dark:bg-dark-input-bg bg-input-bg rounded-main border border-input-border dark:border-dark-input-border grid grid-cols-7 grid-rows-7 gap-12 p-12 top-40">
       <div className="col-span-7 flex flex-row justify-between items-center p-12 row-span-1 text-lg border-b border-input-border dark:border-dark-input-border">
         <button
           className="h-16 w-16 text-light cursor-pointer"

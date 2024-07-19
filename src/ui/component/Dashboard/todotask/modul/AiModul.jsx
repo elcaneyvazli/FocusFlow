@@ -27,13 +27,13 @@ export default function AiModul() {
   } = useForm({});
 
   return AiValue ? (
-    <div className="fixed top-0 left-0 w-full h-full md:h-screen flex justify-center z-50 p-32">
+    <div className="fixed top-0 left-0 w-full h-full md:h-screen flex justify-center z-50 px-32">
       <div
         className="fixed inset-0 bg-black bg-opacity-20 dark:bg-opacity-40 z-40"
         onClick={onClose}
       ></div>
       <motion.div
-        className="fixed top-[20%] lg:w-[100%] w-[50%] 2xl:w-[40%] bg-input-bg dark:bg-primary z-50 rounded-main border border-input-border dark:border-dark-input-border shadow-lg flex flex-row justify-between px-8 py-4"
+        className="fixed top-[20%] w-[80%] lg:w-[50%] 2xl:w-[40%] bg-input-bg dark:bg-primary z-50 rounded-main border border-input-border dark:border-dark-input-border shadow-lg flex flex-row justify-between px-8 py-4"
         initial={{ scale: 0, rotate: "8.5deg" }}
         animate={{ scale: 1, rotate: "0deg" }}
         exit={{ scale: 0, rotate: "0deg" }}
