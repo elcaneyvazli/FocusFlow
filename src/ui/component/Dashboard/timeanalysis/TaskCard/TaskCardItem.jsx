@@ -18,7 +18,7 @@ export default function TaskCardItem({ title, icon, data, activity }) {
         <h1 className="font-bold text-4xl text-primary dark:text-input-bg">
           {data}
         </h1>
-        <div className="flex flex-row gap-4 items-end">
+        {/* <div className="flex flex-row gap-4 items-end">
           <div
             className={`w-[10px] h-[45px] rounded-t-[2px]
               ${activity ? "bg-green-bg" : "bg-red-bg"}
@@ -54,7 +54,7 @@ export default function TaskCardItem({ title, icon, data, activity }) {
               ${activity ? "bg-green-text" : "bg-red-text"}
               `}
           ></div>
-        </div>
+        </div> */}
       </div>
       <div className="flex flex-row justify-between w-full pt-8 items-center border-t border-input-border ">
         <h1 className="text-light text-xs">From the last week</h1>

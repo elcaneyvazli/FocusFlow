@@ -25,7 +25,7 @@ const chartData = [
 const chartConfig = {
   desktop: {
     label: "Desktop",
-    color: "#184bfe",
+    color: "#E2C541",
   },
 };
 

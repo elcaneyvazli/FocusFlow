@@ -61,8 +61,8 @@ const BarChartUi = () => {
             />
             <Bar
               dataKey="desktop"
-              fill={"#184bfe"}
-              stroke={chartConfig.desktop.color}
+              fill={"#76D0EB"}
+              stroke={"#76D0EB"}
               strokeWidth={2}
               radius={[10, 10, 0, 0]}
               cursor="pointer"
