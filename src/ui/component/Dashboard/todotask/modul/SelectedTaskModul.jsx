@@ -49,7 +49,7 @@ export default function SelectedTaskModul() {
           exit={{ opacity: 0 }}
         ></motion.div>
         <motion.div
-          className="fixed top-[40%] md:top-64 w-[100%] md:w-[70%] xl:w-[50%] h-[60%] md:h-fit bg-input-bg dark:bg-primary z-50 rounded-t-main md:rounded-main border border-input-border dark:border-dark-input-border shadow-lg flex flex-col p-16 gap-16"
+          className="fixed top-[40%] md:top-64 w-[100%] md:w-[70%] xl:w-[50%] h-[60%] md:h-fit bg-input-bg dark:bg-primary z-50 rounded-t-main md:rounded-main border border-input-border dark:border-dark-input-border shadow-lg flex flex-col p-16 gap-16 overflow-auto"
           {...formMotionProps}
         >
           <div className="flex flex-col gap-0 ">
@@ -135,6 +135,18 @@ export default function SelectedTaskModul() {
                 })}
               </p>
             </div>
+          </div>
+          <div className="flex flex-col gap-8">
+            {selectedTask.stepDtos.map((step, index) => (
+              <div
+                key={index}
+                className={`flex items-center gap-4 px-8 py-8 border border-input-border dark:border-dark-input-border rounded-main whitespace-nowrap w-full bg-input-bg dark:bg-dark-input-bg`}
+              >
+                <p className={`text-md text-primary dark:text-input-bg`}>
+                  {step.description}
+                </p>
+              </div>
+            ))}
           </div>
         </motion.div>
       </div>
