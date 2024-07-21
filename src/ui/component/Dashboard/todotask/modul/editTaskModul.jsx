@@ -84,6 +84,7 @@ export default function EditTaskModul({ task, edit, setEdit }) {
       await updateTask(task.id, updatedTaskData);
       onEditTask();
       router.refresh();
+      window.location.reload();
     } catch (error) {
       console.error("Error editing task:", error);
     }

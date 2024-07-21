@@ -86,6 +86,7 @@ export default function NewTaskModul() {
       );
       onClose();
       router.refresh();
+      window.location.reload();
     } catch (error) {
       console.error("Error creating task:", error);
     }

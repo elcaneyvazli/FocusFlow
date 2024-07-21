@@ -38,13 +38,13 @@ export default function AiModul() {
     setLoading(false);
   };
 
-  const baseUrl = process.env.NEXT_PUBLIC_API_KEY_Gemini_AI;
+  const aiUrl = process.env.NEXT_PUBLIC_API_KEY_Gemini_AI;
 
   const sendRequest = useCallback(
     async (text) => {
       try {
         const response = await axios.post(
-          `${baseUrl}`,
+          `${aiUrl}`,
           { text },
           {
             headers: {
@@ -63,12 +63,6 @@ export default function AiModul() {
     [setTasks, tasks]
   );
 
-  useEffect(() => {
-    if (taskTitle) {
-      sendRequest(taskTitle);
-    }
-  }, [taskTitle]);
-
   const extractTasks = (data) => {
     return data.reduce((acc, obj) => {
       if (obj.items) {
@@ -82,7 +76,28 @@ export default function AiModul() {
 
   const taskslist = extractTasks(tasks);
 
-  console.log(taskslist);
+  const baseUrl = process.env.NEXT_PUBLIC_API_KEY;
+  const sendTaskList = async (tasksList) => {
+    try {
+      const response = await axios.post(`${baseUrl}/UserTask/list`, tasksList, {
+        withCredentials: true,
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error sending task list:", error);
+      throw error;
+    }
+  };
+
+  const handleConfirm = async () => {
+    try {
+      await sendTaskList(taskslist);
+      console.log("Tasks successfully sent to the server");
+      window.location.reload(); // Refresh the page
+    } catch (error) {
+      console.error("Error sending tasks to the server:", error);
+    }
+  };
 
   return AiValue ? (
     <div className="fixed top-0 left-0 w-full h-full flex justify-center z-50 px-4 py-16 md:px-32 md:py-16">
@@ -137,12 +152,7 @@ export default function AiModul() {
             </div>
             <div className="w-full flex flex-row gap-4 md:gap-16 pb-4 fixed bottom-0 left-0 right-0 px-4 md:px-32 z-50">
               <Button onClick={onClose} text="Cancel" width="full" />
-              <Button
-                onClick={onClose}
-                text="Confirm"
-                width="full"
-                color="green"
-              />
+              <Button text="Confirm" width="full" color="green" onClick={handleConfirm} />
             </div>
           </div>
         )}
