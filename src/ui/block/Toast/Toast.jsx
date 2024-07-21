@@ -39,7 +39,7 @@ export default function Toast() {
             <div className="py-8 px-16 flex flex-row justify-between items-center gap-64">
               <div className="flex flex-col gap-0">
                 <h1 className="text-primary dark:text-input-bg text-lg font-medium">
-                  Task Created
+                  Task
                 </h1>
                 <p className="text-light text-md line-clamp-1 w-full">
                   {toast.message}

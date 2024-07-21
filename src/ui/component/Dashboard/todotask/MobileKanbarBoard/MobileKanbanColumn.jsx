@@ -232,7 +232,8 @@ export default function MobileKanbanColumn({ column = {} }) {
   const { id, items, title } = column;
   const [editTask, setEditTask] = useState(null);
 
-  const tasks = items?.filter((task) => task.isCompleted === false) || [];
+  // const tasks = items?.filter((task) => task.isCompleted === false) || [];
+  const tasks = items;
 
   const columnColor =
     id === 0

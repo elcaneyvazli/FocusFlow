@@ -21,6 +21,7 @@
     "avvvatars-react": "^0.4.2",
     "axios": "^1.6.8",
     "chart.js": "^4.4.3",
+    "date-fns": "^3.6.0",
     "dayjs": "^1.11.10",
     "framer-motion": "^11.1.5",
     "js-cookie": "^3.0.5",

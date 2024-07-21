@@ -41,9 +41,9 @@ export default function PomodoroModal({ time, isRunning }) {
         </div>
         {/* <Vowfm time={time}/> */}
       </div>
-      {/* <div className="w-full h-full">
+      <div className="w-full h-full">
         <Bg />
-      </div> */}
+      </div>
     </div>
   );
 }
