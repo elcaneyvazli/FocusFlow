@@ -5,9 +5,10 @@ import sidebarButtonReducer from "./features/SidebarButtonSlice/SidebarButtonSli
 import darkModeReducer from "./features/DarkModeSlice/DarkModeSlice";
 import editTaskReducer from "./features/EditTaskSlice/EditTaskSlice";
 import pomodoroReducer from "./features/PomodoroSlice/PomodoroSlice";
-import selectedTaskReducer from "./features/TaskSlice/TaskSlice";
+import selectedTaskReducer from "./features/SelectedTaskSlice/SelectedTaskSlice";
 import toastMessageReducer from "./features/ToastSlice/ToastSlice";
 import askaiReducer from "./features/AiSlice/AiSlice";
+import tasksReducer from "./features/TaskSlice/TaskSlice";
 
 export const store = configureStore({
   reducer: {
@@ -19,6 +20,7 @@ export const store = configureStore({
     askai: askaiReducer,
     selectedTaskReducer,
     toastMessageReducer,
+    tasks: tasksReducer,
   },
 });
 

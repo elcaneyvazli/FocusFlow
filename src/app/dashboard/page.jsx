@@ -3,10 +3,9 @@
 import Tab from "@/ui/block/Tab/Tab";
 import NewTaskModul from "@/ui/component/Dashboard/todotask/modul/newTaskModul";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import { setDarkMode } from "@/redux/features/DarkModeSlice/DarkModeSlice";
 import TableCard from "@/ui/component/Dashboard/todotask/tablecard/TableCard";
-import { getTasks } from "@/services/task/task.services";
+// import { getTasks } from "@/services/task/task.services";
 import dynamic from "next/dynamic";
 import KanbanBoardSkeleton from "@/ui/component/Dashboard/todotask/kanbancard/KanbanBoardSkeleton";
 import TaskCardSkeleton from "@/ui/component/Dashboard/timeanalysis/TaskCard/TaskCardSkeleton";
@@ -18,6 +17,9 @@ import { useRouter } from "next/navigation";
 import useScreenWidth from "@/utils/useScreenWidth";
 import AiButton from "@/ui/block/button/AiButton/AiButton";
 import AiModul from "@/ui/component/Dashboard/todotask/modul/AiModul";
+import { getTasks } from "@/redux/features/TaskSlice/TaskSlice";
+import { useAppSelector } from "@/redux/store";
+import { useDispatch } from "react-redux";
 
 const Taskcard = dynamic(
   () => import("@/ui/component/Dashboard/todotask/taskcard/taskcard"),
@@ -48,33 +50,32 @@ const MobileKanbanBoard = dynamic(
 
 export default function Home() {
   const router = useRouter();
+
+  const dispatch = useDispatch();
+  const { tasks, status, error } = useAppSelector((state) => state.tasks);
+
+  useEffect(() => {
+    dispatch(getTasks());
+  }, [dispatch]);
+
   const [columns, setColumns] = useState([]);
   const [total, setTotal] = useState(0);
   const [pending, setPending] = useState(0);
   const [completed, setCompleted] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getTasks();
-        setTotal(response.total);
-        setPending(response.pending);
-        setCompleted(response.completed);
-        setColumns(response.tasks);
-        setLoading(false);
-        router.refresh();
-      } catch (error) {
-        setError(error);
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, [router]);
+    if (status === "succeeded") {
+      setTotal(tasks.total);
+      setPending(tasks.pending);
+      setCompleted(tasks.completed);
+      setColumns(tasks.tasks);
+      router.refresh();
+    } else if (status === "failed") {
+      setError(error);
+    }
+  }, [status, tasks, error, router]);
 
-  const dispatch = useDispatch();
+  console.log("tasks", columns);
 
   useEffect(() => {
     const handleStorageChange = () => {
@@ -101,7 +102,6 @@ export default function Home() {
         <MobileKanbanBoard
           classname="w-full"
           columns={columns}
-          loading={loading}
           error={error}
           setColumns={setColumns}
         />
@@ -126,7 +126,6 @@ export default function Home() {
         total={total}
         pending={pending}
         completed={completed}
-        loading={loading}
         error={error}
       />
       <Tab tabs={tabs} component={tabComponent} />
