@@ -5,7 +5,7 @@ const baseUrl = process.env.NEXT_PUBLIC_API_KEY;
 export const authRegister = async (email, password, userName) => {
   try {
     const response = await axios.post(
-      `${baseUrl}/auth/signup`,
+      `${baseUrl}/api/auth/signup`,
       {
         email: email,
         password: password,

@@ -13,6 +13,7 @@ import { useAppSelector } from "@/redux/store";
 import LogoContainer from "@/ui/block/Logo/Logo";
 import { toggleSidebar } from "@/redux/features/SidebarButtonSlice/SidebarButtonSlice";
 import Cookies from "js-cookie";
+import { authLogout } from "@/services/auth/logout.services";
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -26,6 +27,15 @@ export default function Sidebar() {
 
   const toggleSidebarButton = () => {
     dispatch(toggleSidebar());
+  };
+
+  const handleLogout = async () => {
+    try {
+      await authLogout();
+      router.push("/login");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
 
   return (
@@ -82,21 +92,15 @@ export default function Sidebar() {
             </div>
           </div>
         </div>
-        <Link href="/login" className="w-full">
-          <motion.button
-            className="w-full border border-input-border dark:border-dark-input-border bg-input-bg dark:bg-dark-input-bg rounded-main flex flex-row items-center gap-4 px-12 py-12"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => {
-              Cookies.remove("acc");
-              router.push("/login");
-              window.location.reload();
-            }}
-          >
-            <ArrowLeftOnRectangleIcon className="w-24 h-24 text-primary dark:text-input-bg" />
-            <h1 className="text-md font-normal">Log Out</h1>
-          </motion.button>
-        </Link>
+        <motion.button
+          className="w-full border border-input-border dark:border-dark-input-border bg-input-bg dark:bg-dark-input-bg rounded-main flex flex-row items-center gap-4 px-12 py-12"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={handleLogout}
+        >
+          <ArrowLeftOnRectangleIcon className="w-24 h-24 text-primary dark:text-input-bg" />
+          <h1 className="text-md font-normal">Log Out</h1>
+        </motion.button>
       </div>
 
       {sidebarButtonReducer && (
