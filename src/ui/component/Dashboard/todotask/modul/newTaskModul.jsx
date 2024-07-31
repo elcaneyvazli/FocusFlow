@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/redux/store";
 import {
-  BookmarkIcon,
-  ChevronRightIcon,
   DocumentPlusIcon,
   DocumentTextIcon,
 } from "@heroicons/react/24/outline";
@@ -15,7 +13,6 @@ import DateInput from "@/ui/block/input/Dueto/DateInput";
 import { TaskSchema } from "@/schema/schema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Button from "@/ui/block/button/Button/Button";
-import { createTask } from "@/services/task/task.services";
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
@@ -24,6 +21,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import useScreenWidth from "@/utils/useScreenWidth";
 import { getLabel } from "@/services/task/label.services";
 import LabelInput from "@/ui/block/input/LabelInput/LabelInput";
+import { createTask } from "@/redux/features/TaskSlice/TaskSlice";
 
 export default function NewTaskModul() {
   const router = useRouter();
@@ -48,7 +46,7 @@ export default function NewTaskModul() {
   });
 
   useEffect(() => {
-    setValue("taskLabel", labelValue); // Set the default value for taskLabel
+    setValue("taskLabel", labelValue);
   }, [labelValue, setValue]);
 
   const [selectedDate, setSelectedDate] = useState(dayjs());
@@ -70,14 +68,14 @@ export default function NewTaskModul() {
       title: data.taskTitle,
       description: data.taskDescription,
       label: data.taskLabel,
-      dueDate: selectedDate.format("YYYY-MM-DD"),
+      dueDate: selectedDate.toISOString(),
       priority: selectedPriority,
       status: selectedStatus,
       isCompleted: false,
     };
 
     try {
-      await createTask(taskData);
+      await dispatch(createTask(taskData)).unwrap();
       dispatch(
         addToast({
           id: uuidv4(),

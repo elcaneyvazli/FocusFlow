@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-
 import axios from "axios";
 import Cookies from "js-cookie";
 
@@ -80,6 +79,27 @@ export const updateTask = createAsyncThunk(
   }
 );
 
+export const updateTaskPriority = createAsyncThunk(
+  "tasks/updateTaskPriority",
+  async ({ taskId, priority }, { rejectWithValue }) => {
+    try {
+      const response = await axios.patch(
+        `${baseUrl}/UserTask`,
+        {
+          id: taskId,
+          priority: priority,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
 const initialState = {
   tasks: [],
   status: "idle",
@@ -98,24 +118,27 @@ const tasksSlice = createSlice({
       .addCase(getTasks.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.tasks = action.payload;
+        console.log(action.payload);
       })
       .addCase(getTasks.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
       })
-      .addCase(createTask.fulfilled, (state, action) => {
-        state.tasks.push(action.payload);
+      .addCase(createTask.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
       })
-      .addCase(deleteTask.fulfilled, (state, action) => {
-        state.tasks = state.tasks.filter((task) => task.id !== action.meta.arg);
+      .addCase(deleteTask.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
       })
-      .addCase(updateTask.fulfilled, (state, action) => {
-        const index = state.tasks.findIndex(
-          (task) => task.id === action.meta.arg.taskId
-        );
-        if (index !== -1) {
-          state.tasks[index] = { ...state.tasks[index], ...action.payload };
-        }
+      .addCase(updateTask.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      .addCase(updateTaskPriority.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
       });
   },
 });

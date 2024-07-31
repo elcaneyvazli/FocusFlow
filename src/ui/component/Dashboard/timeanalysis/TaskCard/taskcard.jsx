@@ -6,6 +6,9 @@ import {
 } from "@heroicons/react/24/outline";
 import TaskCardItem from "./TaskCardItem.jsx";
 import { getTasks } from "@/services/task/task.services.jsx";
+import card1 from "@/ui/assert/card1.png";
+import card2 from "@/ui/assert/card2.png";
+import card3 from "@/ui/assert/card3.png";
 
 export default function Taskcard() {
   const [total, setTotal] = useState(0);
@@ -34,6 +37,7 @@ export default function Taskcard() {
         }
         data={total}
         activity={true}
+        img={card2}
       />
       <TaskCardItem
         title={"Completed Task"}
@@ -42,6 +46,7 @@ export default function Taskcard() {
         }
         data={completed}
         activity={false}
+        img={card1}
       />
       <TaskCardItem
         title={"Pending Task"}
@@ -50,6 +55,7 @@ export default function Taskcard() {
         }
         data={pending}
         activity={true}
+        img={card3}
       />
     </div>
   );

@@ -1,11 +1,14 @@
 import { DragDropContext } from "react-beautiful-dnd";
-import { updateTask } from "@/services/task/task.services";
+import { useDispatch } from "react-redux";
+import { updateTaskPriority } from "@/redux/features/TaskSlice/TaskSlice";
 import { useCallback } from "react";
 import MobileKanbanColumn from "./MobileKanbanColumn";
 
 export default function MobileKanbanBoard({ columns, setColumns }) {
+  const dispatch = useDispatch();
+
   const onDragEnd = useCallback(
-    async (result) => {
+    (result) => {
       const { source, destination } = result;
 
       if (!destination) return;
@@ -48,15 +51,21 @@ export default function MobileKanbanBoard({ columns, setColumns }) {
 
       setColumns(updatedColumns);
 
-      const updatedTask = { ...movedTask, priority: destinationColumn.id };
+      const updatedTask = { id: movedTask.id, priority: destinationColumn.id };
 
+      console.log(updatedTask);
       try {
-        await updateTask(updatedTask.id, updatedTask);
+        dispatch(
+          updateTaskPriority({
+            taskId: updatedTask.id,
+            priority: updatedTask.priority,
+          })
+        );
       } catch (error) {
-        console.error("Error updating task:", error);
+        console.error("Error updating task priority:", error);
       }
     },
-    [columns, setColumns]
+    [columns, setColumns, dispatch]
   );
 
   return (

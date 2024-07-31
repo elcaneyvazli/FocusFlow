@@ -62,7 +62,7 @@ export default function Home() {
   const [total, setTotal] = useState(0);
   const [pending, setPending] = useState(0);
   const [completed, setCompleted] = useState(0);
-
+  const [errorMessage, setErrorMessage] = useState(null);
   useEffect(() => {
     if (status === "succeeded") {
       setTotal(tasks.total);
@@ -71,11 +71,9 @@ export default function Home() {
       setColumns(tasks.tasks);
       router.refresh();
     } else if (status === "failed") {
-      setError(error);
+      setErrorMessage(error);
     }
   }, [status, tasks, error, router]);
-
-  console.log("tasks", columns);
 
   useEffect(() => {
     const handleStorageChange = () => {
@@ -91,8 +89,6 @@ export default function Home() {
       window.removeEventListener("storage", handleStorageChange);
     };
   }, [dispatch]);
-
-  const isScreenSmall = useScreenWidth(1024);
 
   const tabs = [
     {
