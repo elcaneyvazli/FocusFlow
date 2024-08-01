@@ -1,15 +1,16 @@
 "use client";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { UserIcon, EnvelopeIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { authRegister } from "@/services/auth/register.services";
+import { authRegister } from "@/redux/features/AuthSlice/AuthSlice";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { RegisterSchema } from "@/schema/schema";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "@/redux/store";
 
-// Skeleton loading components
 const Skeleton = ({ className }) => (
   <div className={`animate-pulse bg-gray-500 rounded-main ${className}`}></div>
 );
@@ -45,12 +46,8 @@ const PassInput = dynamic(
 );
 
 export default function RegisterPage() {
-  const [email, setEmail] = useState("");
-  const [userName, setuserName] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
-
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const {
     handleSubmit,
@@ -60,14 +57,17 @@ export default function RegisterPage() {
     resolver: yupResolver(RegisterSchema),
   });
 
-  const handleRegister = async (data) => {
-    try {
-      await authRegister(data.email, data.password, data.userName);
-      router.push("/login");
-    } catch (error) {
-      setError("Register failed. Please check your credentials and try again.");
-    }
-  };
+  const handleRegister = useCallback(
+    async (data) => {
+      try {
+        await dispatch(authRegister(data));
+        router.push("/dashboard");
+      } catch (error) {
+        console.error("Login error:", error);
+      }
+    },
+    [router, dispatch]
+  );
 
   return (
     <div className="lg:px-16 lg:py-16 px-0 py-0 2xl:w-[37%] xl:w-[37%] lg:w-[50%] h-screen z-90 relative">
@@ -107,7 +107,6 @@ export default function RegisterPage() {
               error={errors.password?.message}
               register={register}
             />
-            {error && <div className="text-red-bg text-xs">{error}</div>}
             <div className="flex flex-col gap-4 w-full items-start">
               <Button text={"Register"} width={"full"} />
               <div className="flex flex-row gap-4">

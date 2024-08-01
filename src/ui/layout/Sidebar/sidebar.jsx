@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useCallback } from "react";
 import {
   ArrowLeftOnRectangleIcon,
   XMarkIcon,
@@ -13,7 +13,7 @@ import { useAppSelector } from "@/redux/store";
 import LogoContainer from "@/ui/block/Logo/Logo";
 import { toggleSidebar } from "@/redux/features/SidebarButtonSlice/SidebarButtonSlice";
 import Cookies from "js-cookie";
-import { authLogout } from "@/services/auth/logout.services";
+import { authLogout } from "@/redux/features/AuthSlice/AuthSlice";
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -25,17 +25,18 @@ export default function Sidebar() {
     (state) => state.sidebarButtonReducer.value.sidebarButton
   );
 
-  const toggleSidebarButton = () => {
-    dispatch(toggleSidebar());
-  };
-
-  const handleLogout = async () => {
+  const handleLogout = useCallback(async () => {
     try {
-      await authLogout();
+      await dispatch(authLogout());
       router.push("/login");
+      console.log("Logout successful");
     } catch (error) {
       console.error("Logout failed:", error);
     }
+  }, [dispatch, router]);
+
+  const toggleSidebarButton = () => {
+    dispatch(toggleSidebar());
   };
 
   return (

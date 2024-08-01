@@ -9,6 +9,7 @@ import selectedTaskReducer from "./features/SelectedTaskSlice/SelectedTaskSlice"
 import toastMessageReducer from "./features/ToastSlice/ToastSlice";
 import askaiReducer from "./features/AiSlice/AiSlice";
 import tasksReducer from "./features/TaskSlice/TaskSlice";
+import userReducer from "./features/UserSlice/UserSlice";
 
 export const store = configureStore({
   reducer: {
@@ -21,6 +22,7 @@ export const store = configureStore({
     selectedTaskReducer,
     toastMessageReducer,
     tasks: tasksReducer,
+    user: userReducer,
   },
 });
 

@@ -2,7 +2,6 @@
 import React, { useState, useCallback } from "react";
 import { UserIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import { authLogin } from "@/services/auth/login.services";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -40,9 +39,12 @@ const LogoContainer = dynamic(() => import("@/ui/block/Logo/Logo"), {
   ssr: false,
 });
 
+import { authLogin } from "@/redux/features/AuthSlice/AuthSlice";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "@/redux/store";
 export default function LoginPage() {
-  const [error, setError] = useState(null);
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const {
     handleSubmit,
@@ -52,15 +54,17 @@ export default function LoginPage() {
     resolver: yupResolver(LoginSchema),
   });
 
-  const handleLogin = useCallback(async (data) => {
-    try {
-      await authLogin(data.emailOrUsername, data.password);
-      router.push("/dashboard");
-    } catch (error) {
-      console.error('Login error:', error);
-      setError("Login failed. Please check your credentials and try again.");
-    }
-  }, [router]);
+  const handleLogin = useCallback(
+    async (data) => {
+      try {
+        await dispatch(authLogin(data));
+        router.push("/dashboard");
+      } catch (error) {
+        console.error("Login error:", error);
+      }
+    },
+    [router, dispatch]
+  );
 
   return (
     <div className="lg:px-16 lg:py-16 px-0 py-0 2xl:w-[37%] xl:w-[37%] lg:w-[50%] h-screen z-90 relative">
@@ -97,7 +101,6 @@ export default function LoginPage() {
                 </h1>
               </button>
             </div>
-            {error && <div className="text-red-bg text-xs">{error}</div>}
             <div className="flex flex-col gap-4 w-full items-start">
               <Button text="Login" width={"full"} />
               <div className="flex flex-row gap-4">

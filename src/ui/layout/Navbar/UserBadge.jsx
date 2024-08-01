@@ -1,8 +1,6 @@
 "use client";
 import React from "react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
-import Image from "next/image";
-import profile from "@/ui/assert/profile.jpg";
 import { motion } from "framer-motion";
 import Avvvatars from "avvvatars-react";
 

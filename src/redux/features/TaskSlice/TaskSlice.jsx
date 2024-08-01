@@ -118,7 +118,6 @@ const tasksSlice = createSlice({
       .addCase(getTasks.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.tasks = action.payload;
-        console.log(action.payload);
       })
       .addCase(getTasks.rejected, (state, action) => {
         state.status = "failed";

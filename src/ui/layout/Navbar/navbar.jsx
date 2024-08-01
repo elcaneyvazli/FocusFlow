@@ -3,9 +3,11 @@ import Breadcrumb from "../../block/breadcrumb/breadcrumb";
 import SidebarToggleButton from "@/ui/block/button/SidebarToggleButton/SidebarToggleButton";
 import DarkModeButton from "@/ui/block/button/DarkModeButton/DarkModeButton";
 import { useEffect, useState } from "react";
-import { getUser } from "@/services/user/user.services";
 import dynamic from "next/dynamic";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "@/redux/store";
+import { getUser } from "@/redux/features/UserSlice/UserSlice";
 
 const UserBadge = dynamic(() => import("./UserBadge"), {
   loading: () => (
@@ -22,20 +24,12 @@ const UserBadge = dynamic(() => import("./UserBadge"), {
 });
 
 export default function Navbar() {
-  const [user, setUser] = useState();
+  const dispatch = useDispatch();
+  const { user, status, error } = useAppSelector((state) => state.user);
 
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await getUser();
-        setUser(response);
-      } catch (error) {
-        console.error("Error fetching user:", error);
-      }
-    };
-
-    fetchUser();
-  }, []);
+    dispatch(getUser());
+  }, [dispatch]);
 
   return (
     <div className="px-16 py-12 flex flex-row justify-between items-center bg-white dark:bg-primary border-b border-input-border dark:border-dark-input-border z-40">

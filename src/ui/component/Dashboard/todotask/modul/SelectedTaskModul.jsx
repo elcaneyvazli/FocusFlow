@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/redux/store";
-import { toggleTaskModul } from "@/redux/features/TaskSlice/TaskSlice";
+import { toggleTaskModul } from "@/redux/features/SelectedTaskSlice/SelectedTaskSlice";
 import { AnimatePresence, motion } from "framer-motion";
 import useScreenWidth from "@/utils/useScreenWidth";
 
@@ -21,8 +21,6 @@ export default function SelectedTaskModul() {
   const toggleSelect = () => {
     dispatch(toggleTaskModul());
   };
-
-  console.log(selectedTask);
 
   const isMobile = useScreenWidth(768);
   const formMotionProps = isMobile

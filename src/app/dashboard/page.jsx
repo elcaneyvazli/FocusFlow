@@ -62,7 +62,8 @@ export default function Home() {
   const [total, setTotal] = useState(0);
   const [pending, setPending] = useState(0);
   const [completed, setCompleted] = useState(0);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null); 
+
   useEffect(() => {
     if (status === "succeeded") {
       setTotal(tasks.total);
@@ -89,6 +90,7 @@ export default function Home() {
       window.removeEventListener("storage", handleStorageChange);
     };
   }, [dispatch]);
+
 
   const tabs = [
     {
