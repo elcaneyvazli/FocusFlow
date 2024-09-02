@@ -12,6 +12,8 @@ export default function SidebarToggleButton() {
     (state) => state.sidebarButtonReducer.value.sidebarButton
   );
 
+  console.log(sidebarButtonReducer)
+
   const toggleSidebarButton = () => {
     dispatch(toggleSidebar());
   };

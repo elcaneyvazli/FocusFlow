@@ -1,25 +1,18 @@
 "use client";
 
 import Tab from "@/ui/block/Tab/Tab";
-import NewTaskModul from "@/ui/component/Dashboard/todotask/modul/newTaskModul";
 import { useEffect, useState } from "react";
 import { setDarkMode } from "@/redux/features/DarkModeSlice/DarkModeSlice";
 import TableCard from "@/ui/component/Dashboard/todotask/tablecard/TableCard";
-// import { getTasks } from "@/services/task/task.services";
 import dynamic from "next/dynamic";
 import KanbanBoardSkeleton from "@/ui/component/Dashboard/todotask/kanbancard/KanbanBoardSkeleton";
 import TaskCardSkeleton from "@/ui/component/Dashboard/timeanalysis/TaskCard/TaskCardSkeleton";
-import TimeTrackerContainer from "@/ui/component/Dashboard/todotask/TimeTracker/TimeTrackerContainer";
-import SelectedTaskModul from "@/ui/component/Dashboard/todotask/modul/SelectedTaskModul";
 import NewTaskButton from "@/ui/block/button/NewTaskButton/NewTaskButton";
-import Toast from "@/ui/block/Toast/Toast";
-import { useRouter } from "next/navigation";
-import useScreenWidth from "@/utils/useScreenWidth";
 import AiButton from "@/ui/block/button/AiButton/AiButton";
-import AiModul from "@/ui/component/Dashboard/todotask/modul/AiModul";
 import { getTasks } from "@/redux/features/TaskSlice/TaskSlice";
 import { useAppSelector } from "@/redux/store";
 import { useDispatch } from "react-redux";
+import { ListBulletIcon, Squares2X2Icon } from "@heroicons/react/24/outline";
 
 const Taskcard = dynamic(
   () => import("@/ui/component/Dashboard/todotask/taskcard/taskcard"),
@@ -49,8 +42,6 @@ const MobileKanbanBoard = dynamic(
 );
 
 export default function Home() {
-  const router = useRouter();
-
   const dispatch = useDispatch();
   const { tasks, status, error } = useAppSelector((state) => state.tasks);
 
@@ -62,7 +53,7 @@ export default function Home() {
   const [total, setTotal] = useState(0);
   const [pending, setPending] = useState(0);
   const [completed, setCompleted] = useState(0);
-  const [errorMessage, setErrorMessage] = useState(null); 
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     if (status === "succeeded") {
@@ -70,11 +61,10 @@ export default function Home() {
       setPending(tasks.pending);
       setCompleted(tasks.completed);
       setColumns(tasks.tasks);
-      router.refresh();
     } else if (status === "failed") {
       setErrorMessage(error);
     }
-  }, [status, tasks, error, router]);
+  }, [status, tasks, error]);
 
   useEffect(() => {
     const handleStorageChange = () => {
@@ -91,11 +81,11 @@ export default function Home() {
     };
   }, [dispatch]);
 
-
   const tabs = [
     {
       id: 1,
       title: "Board",
+      icons: <Squares2X2Icon className="w-[20px] h-[20px]" />,
       content: (
         <MobileKanbanBoard
           classname="w-full"
@@ -108,18 +98,19 @@ export default function Home() {
     {
       id: 2,
       title: "List",
+      icons: <ListBulletIcon className="w-[20px] h-[20px]" />,
       content: <TableCard data={columns} />,
     },
   ];
 
   const tabComponent = [
-    <AiButton key="aiButton" />,
+    // <AiButton key="aiButton" />,
     <NewTaskButton key="newTaskButton" />,
   ];
 
   return (
-    <div className="flex flex-col gap-16 w-full relative h-full pb-32">
-      <TimeTrackerContainer data={columns} />
+    <div className="flex flex-col gap-16 w-full relative h-full">
+      {/* <TimeTrackerContainer data={columns} /> */}
       <Taskcard
         total={total}
         pending={pending}
@@ -127,10 +118,6 @@ export default function Home() {
         error={error}
       />
       <Tab tabs={tabs} component={tabComponent} />
-      <NewTaskModul />
-      <SelectedTaskModul />
-      <Toast />
-      <AiModul />
     </div>
   );
 }

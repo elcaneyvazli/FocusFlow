@@ -16,13 +16,14 @@ export default function Tab({ tabs, component }) {
               className="flex flex-col gap-16 items-start w-full sm:w-fit z-30"
             >
               <motion.button
-                className={`px-16 py-12 border-b w-full sm:w-fit ${
+                className={`flex flex-row items-center gap-8 px-16 py-12 w-full sm:w-fit relative ${
                   activeTab.id === tab.id
-                    ? "border-b border-primary dark:border-input-border dark:border-b text-primary dark:text-input-bg"
-                    : "border-input-border dark:border-dark-input-border text-light"
+                    ? "border-0 text-primary dark:text-input-bg"
+                    : "border-b border-input-border dark:border-dark-input-border text-light"
                 }`}
                 onClick={() => setActiveTab(tab)}
               >
+                {tab.icons}
                 <h1
                   className={`text-md font-medium ${
                     activeTab.id === tab.id
@@ -32,6 +33,16 @@ export default function Tab({ tabs, component }) {
                 >
                   {tab.title}
                 </h1>
+                {activeTab.id === tab.id && (
+                  <motion.div
+                    className="absolute inset-0 z-10 border-b-2 border-primary dark:border-input-border"
+                    layoutId="underline"
+                    initial={{ opacity: 1 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 1 }}
+                    transition={{ duration: 0.2, ease: "easeInOut" }}
+                  />
+                )}
               </motion.button>
             </div>
           ))}

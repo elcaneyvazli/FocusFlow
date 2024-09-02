@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
   const showBg = pathname.includes("login") || pathname.includes("register");
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning={false}>
       <head>
         <link
           rel="apple-touch-icon"

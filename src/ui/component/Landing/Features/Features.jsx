@@ -39,7 +39,7 @@ export default function Features() {
       </motion.div>
       <motion.div
         className="col-span-12 sm:col-span-6 lg:col-span-7 xl:col-span-5 border-input-border dark:border-dark-input-border bg-input-bg dark:bg-dark-input-bg border rounded-main flex flex-col p-16 h-[270px] overflow-hidden"
-        whileHover={{ rotate: 2 }}
+        whileHover={{ rotate: 2, scale: 1.01 }}
       >
         <div className="flex flex-col gap-0 w-full items-start justify-start h-fit">
           <h1 className="text-black dark:text-input-bg text-2xl">Calendar</h1>

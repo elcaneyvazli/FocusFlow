@@ -13,7 +13,7 @@ import {
   TagIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { updateTask } from "@/services/task/task.services";
+import { updateTask } from "@/redux/features/TaskSlice/TaskSlice";
 import { toggleEditTask } from "@/redux/features/EditTaskSlice/EditTaskSlice";
 import { TaskSchema } from "@/schema/schema";
 import Button from "@/ui/block/button/Button/Button";
@@ -30,9 +30,9 @@ export default function EditTaskModul({ task, edit, setEdit }) {
   const [error, setError] = useState(null);
   const [labelShow, setLabelShow] = useState(false);
   const [labelValue, setLabelValue] = useState(task?.label || "");
-  const [selectedDate, setSelectedDate] = useState(task.dueDate || null);
-  const [selectedPriority, setSelectedPriority] = useState(task.priority || 0);
-  const [selectedStatus, setSelectedStatus] = useState(task.status || 0);
+  const [selectedDate, setSelectedDate] = useState(task?.dueDate || null);
+  const [selectedPriority, setSelectedPriority] = useState(task?.priority || 0);
+  const [selectedStatus, setSelectedStatus] = useState(task?.status || 0);
 
   const {
     handleSubmit,
@@ -81,7 +81,9 @@ export default function EditTaskModul({ task, edit, setEdit }) {
     };
 
     try {
-      await updateTask(task.id, updatedTaskData);
+      await dispatch(
+        updateTask({ taskId: task.id, updatedData: updatedTaskData })
+      );
       onEditTask();
       router.refresh();
       window.location.reload();
@@ -90,10 +92,12 @@ export default function EditTaskModul({ task, edit, setEdit }) {
     }
   };
 
+  if (!task) return null;
+
   return edit ? (
-    <div className="fixed top-0 left-0 w-full h-full md:h-screen flex justify-center z-50">
+    <div className="fixed top-0 left-0 w-full h-full md:h-screen flex justify-center z-[70]">
       <div
-        className="fixed inset-0 bg-black bg-opacity-20 dark:bg-opacity-40 z-40"
+        className="fixed inset-0 bg-black bg-opacity-20 dark:bg-opacity-40 z-50"
         onClick={onEditTask}
       ></div>
       <form

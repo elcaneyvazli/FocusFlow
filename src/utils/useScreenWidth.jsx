@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-function useScreenWidth(maxWidth = 991) {
+function useScreenWidth(maxWidth) {
   const [isScreenSmall, setIsScreenSmall] = useState(false);
 
   useEffect(() => {

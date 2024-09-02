@@ -38,7 +38,7 @@ export default function LabelInput({
         </motion.div>
       </div>
       {labelShow && labels.length > 0 && (
-        <div className="absolute bottom-48 md:top-48 left-0 w-full bg-white dark:bg-dark-input-bg border border-input-border dark:border-dark-input-border rounded-main z-50 min-h-[80px]">
+        <div className="absolute bottom-48 md:top-48 left-0 w-full bg-white dark:bg-dark-input-bg border border-input-border dark:border-dark-input-border rounded-main z-50 min-h-[80px] h-fit">
           {labels?.map((item, index) => (
             <div
               key={index}

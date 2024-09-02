@@ -26,7 +26,7 @@ export default function MobileKanbanColumn({ column }) {
   const { id, items, title } = column;
   const [editTask, setEditTask] = useState(null);
 
-  const tasks = items.filter((task) => task.isCompleted === false);
+  const tasks = items.filter((task) => !task.isCompleted);
 
   const columnColor =
     id === 0
@@ -68,28 +68,36 @@ export default function MobileKanbanColumn({ column }) {
             {...provided.droppableProps}
           >
             {tasks.length > 0 ? (
-              items.map((task, index) => (
-                <Draggable
-                  key={task.id}
-                  draggableId={String(task.id)}
-                  index={index}
-                >
-                  {(provided, snapshot) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      style={getStyle(provided.draggableProps.style, snapshot)}
-                    >
-                      <MobileKanbanCardItem
-                        task={task}
-                        columnId={id}
-                        setEditTask={setEditTask}
-                      />
-                    </div>
-                  )}
-                </Draggable>
-              ))
+              tasks.map(
+                (
+                  task,
+                  index // Changed items to tasks
+                ) => (
+                  <Draggable
+                    key={task.id}
+                    draggableId={String(task.id)}
+                    index={index}
+                  >
+                    {(provided, snapshot) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        style={getStyle(
+                          provided.draggableProps.style,
+                          snapshot
+                        )}
+                      >
+                        <MobileKanbanCardItem
+                          task={task}
+                          columnId={id}
+                          setEditTask={setEditTask}
+                        />
+                      </div>
+                    )}
+                  </Draggable>
+                )
+              )
             ) : (
               <div className="p-4 text-center text-gray-500">No tasks</div>
             )}

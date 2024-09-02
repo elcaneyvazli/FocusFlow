@@ -31,7 +31,7 @@ export default function TimeTrackerSelectItem({
   return (
     <motion.div className="relative w-full">
       <motion.button
-        className="flex flex-row items-center justify-between gap-8 w-full bg-input-bg dark:bg-primary px-12 py-8 rounded-main border border-input-border dark:border-dark-input-border"
+        className="flex flex-row items-center justify-between gap-8 w-full bg-white dark:bg-dark-input-bg px-12 py-8 rounded-main border border-input-border dark:border-dark-input-border"
         animate={{ scale: 1 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(!isOpen)}

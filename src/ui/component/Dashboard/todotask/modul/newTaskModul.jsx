@@ -19,7 +19,7 @@ import { v4 as uuidv4 } from "uuid";
 import TextInputWithoutBg from "@/ui/block/input/TextInput/TextInputWithoutBg";
 import { motion, AnimatePresence } from "framer-motion";
 import useScreenWidth from "@/utils/useScreenWidth";
-import { getLabel } from "@/services/task/label.services";
+import { getLabel } from "@/redux/features/TaskSlice/TaskSlice";
 import LabelInput from "@/ui/block/input/LabelInput/LabelInput";
 import { createTask } from "@/redux/features/TaskSlice/TaskSlice";
 
@@ -90,20 +90,11 @@ export default function NewTaskModul() {
     }
   };
 
-  const [label, setLabel] = useState([]);
-  const [error, setError] = useState(null);
-
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getLabel();
-        setLabel(response);
-      } catch (error) {
-        setError(error);
-      }
-    };
-    fetchData();
-  }, []);
+    dispatch(getLabel());
+  }, [dispatch]);
+
+  const { labels } = useAppSelector((state) => state.tasks);
 
   const isMobile = useScreenWidth(768);
   const formMotionProps = isMobile
@@ -117,17 +108,19 @@ export default function NewTaskModul() {
         initial: { scale: 0, rotate: "8.5deg" },
         animate: { scale: 1, rotate: "0deg" },
         exit: { scale: 0, rotate: "0deg" },
-      };
+      };  
+
 
   return taskValue ? (
     <AnimatePresence>
-      <div className="fixed top-0 left-0 w-full h-full md:h-screen flex justify-center z-50">
+      <div className="fixed top-0 left-0 w-full h-full md:h-screen flex justify-center z-[100]">
         <motion.div
-          className="fixed inset-0 bg-black bg-opacity-20 dark:bg-opacity-40 z-40"
+          className="fixed inset-0 bg-black bg-opacity-20 dark:bg-opacity-40 z-40 backdrop-blur-sm"
           onClick={onClose}
-          initial={{ opacity: 0 }}
+          initial={{ opacity: 0,  }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
         ></motion.div>
         <motion.form
           className="fixed top-[40%] md:top-64 w-[100%] md:w-[70%] xl:w-[50%] h-[60%] md:h-fit bg-input-bg dark:bg-primary z-50 rounded-t-main md:rounded-main border border-input-border dark:border-dark-input-border shadow-lg flex flex-col md:justify-normal justify-between"
@@ -189,7 +182,7 @@ export default function NewTaskModul() {
               register={register}
               errors={errors}
               setValue={setValue}
-              labels={label}
+              labels={labels}
               labelValue={labelValue}
               setLabelValue={setLabelValue}
               labelShow={labelShow}

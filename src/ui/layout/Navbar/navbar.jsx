@@ -1,6 +1,4 @@
 "use client";
-import Breadcrumb from "../../block/breadcrumb/breadcrumb";
-import SidebarToggleButton from "@/ui/block/button/SidebarToggleButton/SidebarToggleButton";
 import DarkModeButton from "@/ui/block/button/DarkModeButton/DarkModeButton";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
@@ -8,6 +6,9 @@ import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/redux/store";
 import { getUser } from "@/redux/features/UserSlice/UserSlice";
+import LogoContainer from "@/ui/block/Logo/Logo";
+import NavMenu from "./NavMenu";
+import useScreenWidth from "@/utils/useScreenWidth";
 
 const UserBadge = dynamic(() => import("./UserBadge"), {
   loading: () => (
@@ -31,15 +32,20 @@ export default function Navbar() {
     dispatch(getUser());
   }, [dispatch]);
 
+
   return (
-    <div className="px-16 py-12 flex flex-row justify-between items-center bg-white dark:bg-primary border-b border-input-border dark:border-dark-input-border z-40">
-      <div className="flex flex-row gap-16 items-center">
-        <SidebarToggleButton />
-        <Breadcrumb />
-      </div>
-      <div className="flex flex-row gap-16 items-center">
-        <DarkModeButton />
-        <UserBadge user={user} />
+    <div className="bg-white dark:bg-primary container border-b border-input-border dark:border-dark-input-border z-50 min-w-full">
+      <div className="h-80 flex flex-row justify-between items-center z-50 relative">
+        <div className="flex flex-row gap-16 items-center">
+          <LogoContainer />
+        </div>
+        <div className="w-full hidden lg:flex justify-center items-center">
+          <NavMenu />
+        </div>
+        <div className="flex flex-row gap-16 items-center">
+          <DarkModeButton />
+          <UserBadge user={user} />
+        </div>
       </div>
     </div>
   );

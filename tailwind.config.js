@@ -8,6 +8,17 @@ module.exports = {
     "./src/ui/block/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    container: {
+      padding: {
+        DEFAULT: "16px",
+        xs: "16px",
+        sm: "32px",
+        md: "32px",
+        lg: "32px ",
+        xl: "32px ",
+        "2xl": "32px ",
+      },
+    },
     extend: {
       colors: {
         primary: "#1A1A1A",

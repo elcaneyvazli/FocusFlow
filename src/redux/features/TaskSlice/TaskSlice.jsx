@@ -23,6 +23,20 @@ export const getTasks = createAsyncThunk(
   }
 );
 
+export const getLabel = createAsyncThunk(
+  "tasks/getLabel",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${baseUrl}/UserTask/labels`, {
+        withCredentials: true,
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
 export const createTask = createAsyncThunk(
   "tasks/createTask",
   async (taskData, { rejectWithValue }) => {
@@ -102,6 +116,7 @@ export const updateTaskPriority = createAsyncThunk(
 
 const initialState = {
   tasks: [],
+  labels: [],
   status: "idle",
   error: null,
 };
@@ -120,6 +135,17 @@ const tasksSlice = createSlice({
         state.tasks = action.payload;
       })
       .addCase(getTasks.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      .addCase(getLabel.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getLabel.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.labels = action.payload;
+      })
+      .addCase(getLabel.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
       })

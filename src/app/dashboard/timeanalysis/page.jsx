@@ -9,7 +9,7 @@ import { Pie } from "react-chartjs-2";
 
 export default function TimeAnalysis() {
   return (
-    <div className="flex flex-col gap-16">
+    <div className="flex flex-col gap-16 z-30">
       <Taskcard />
       <div className="grid grid-cols-12 gap-16">
         <div className="col-span-7">

@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import {
@@ -10,7 +9,7 @@ import {
   TrashIcon,
   CalendarDaysIcon,
 } from "@heroicons/react/24/outline";
-import { deleteTask, updateTask } from "@/services/task/task.services";
+import { deleteTask, updateTask } from "@/redux/features/TaskSlice/TaskSlice";
 import { useDispatch } from "react-redux";
 import { toggleEditTask } from "@/redux/features/EditTaskSlice/EditTaskSlice";
 import { toggleTaskModul } from "@/redux/features/SelectedTaskSlice/SelectedTaskSlice";
@@ -97,7 +96,7 @@ export default function KanbanCardItem({ task, columnId, setEditTask }) {
   const [editTask, setEditTaskState] = useState(false);
 
   const handleDelete = async () => {
-    await deleteTask(task.id);
+    await dispatch(deleteTask(task.id));
     toggleMenu();
     window.location.reload();
   };
@@ -105,7 +104,7 @@ export default function KanbanCardItem({ task, columnId, setEditTask }) {
   const handleToggleCompleted = async (task) => {
     const updatedTask = { ...task, isCompleted: !task.isCompleted };
     try {
-      await updateTask(updatedTask.id, updatedTask);
+      await dispatch(updateTask({ taskId: task.id, updatedData: updatedTask }));
       toggleMenu();
       window.location.reload();
     } catch (error) {
