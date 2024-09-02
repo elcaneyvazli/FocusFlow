@@ -10,33 +10,33 @@ export const SideBarItem = [
   {
     title: "To-do Task",
     icon: (
-      <DocumentCheckIcon className="w-[24px] h-[24px] sm:w-[16px] sm:h-[16px]" />
+      <DocumentCheckIcon className="w-[20px] h-[20px] sm:w-[16px] sm:h-[16px]" />
     ),
     link: "/dashboard",
   },
   {
     title: "Pomodoro",
-    icon: <ClockIcon className="w-[24px] h-[24px] sm:w-[16px] sm:h-[16px]" />,
+    icon: <ClockIcon className="w-[20px] h-[20px] sm:w-[16px] sm:h-[16px]" />,
     link: "/dashboard/pomodoro",
   },
   {
     title: "Time Analysis",
     icon: (
-      <PresentationChartLineIcon className="w-[24px] h-[24px] sm:w-[16px] sm:h-[16px]" />
+      <PresentationChartLineIcon className="w-[20px] h-[20px] sm:w-[16px] sm:h-[16px]" />
     ),
     link: "/dashboard/timeanalysis",
   },
   {
     title: "Calendar",
     icon: (
-      <CalendarDaysIcon className="w-[24px] h-[24px] sm:w-[16px] sm:h-[16px]" />
+      <CalendarDaysIcon className="w-[20px] h-[20px] sm:w-[16px] sm:h-[16px]" />
     ),
     link: "/dashboard/calendar",
   },
   {
     title: "Group",
     icon: (
-      <UserGroupIcon className="w-[24px] h-[24px] sm:w-[16px] sm:h-[16px]" />
+      <UserGroupIcon className="w-[20px] h-[20px] sm:w-[16px] sm:h-[16px]" />
     ),
     link: "/dashboard/group",
   },

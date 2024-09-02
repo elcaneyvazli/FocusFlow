@@ -71,7 +71,7 @@ export default function MobileKanbanColumn({ column }) {
               tasks.map(
                 (
                   task,
-                  index // Changed items to tasks
+                  index
                 ) => (
                   <Draggable
                     key={task.id}
@@ -105,13 +105,13 @@ export default function MobileKanbanColumn({ column }) {
           </div>
         )}
       </Droppable>
-      {editTask && (
+      {/* {editTask && (
         <EditTaskModul
           task={editTask}
           edit={editTask !== null}
           setEdit={setEditTask}
         />
-      )}
+      )} */}
     </div>
   );
 }

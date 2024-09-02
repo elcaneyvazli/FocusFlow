@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { Edit } from "lucide-react";
 
 const baseUrl = process.env.NEXT_PUBLIC_API_KEY;
 
@@ -119,12 +120,21 @@ const initialState = {
   labels: [],
   status: "idle",
   error: null,
+  editTask: null,
+  editTaskButton: false,
 };
 
 const tasksSlice = createSlice({
   name: "tasks",
   initialState,
-  reducers: {},
+  reducers: {
+    toggleEditTask: (state) => {
+      state.editTaskButton = !state.editTaskButton;
+    },
+    addEditTask: (state, action) => {
+      state.editTask = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getTasks.pending, (state) => {
@@ -169,4 +179,5 @@ const tasksSlice = createSlice({
 });
 
 export const tasksReducer = tasksSlice.reducer;
+export const { toggleEditTask, addEditTask } = tasksSlice.actions;
 export default tasksReducer;

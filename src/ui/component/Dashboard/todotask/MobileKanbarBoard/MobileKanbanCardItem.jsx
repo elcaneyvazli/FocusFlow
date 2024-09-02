@@ -9,9 +9,13 @@ import {
   TrashIcon,
   CalendarDaysIcon,
 } from "@heroicons/react/24/outline";
-import { deleteTask, updateTask } from "@/redux/features/TaskSlice/TaskSlice";
+import {
+  addEditTask,
+  deleteTask,
+  updateTask,
+} from "@/redux/features/TaskSlice/TaskSlice";
 import { useDispatch } from "react-redux";
-import { toggleEditTask } from "@/redux/features/EditTaskSlice/EditTaskSlice";
+import { toggleEditTask } from "@/redux/features/TaskSlice/TaskSlice";
 import { toggleTaskModul } from "@/redux/features/SelectedTaskSlice/SelectedTaskSlice";
 import { addToast } from "@/redux/features/ToastSlice/ToastSlice";
 import { v4 as uuidv4 } from "uuid";
@@ -22,74 +26,10 @@ import { CheckCheckIcon } from "lucide-react";
 export default function KanbanCardItem({ task, columnId, setEditTask }) {
   const dispatch = useDispatch();
   const [isCompleted, setIsCompleted] = useState(task.isCompleted);
-  const [predictedData, setPredictedData] = useState();
-
-  const getRandomDate = (start, end) => {
-    const date = new Date(
-      start.getTime() + Math.random() * (end.getTime() - start.getTime())
-    );
-    return format(date, "yyyy-MM-dd");
-  };
-
-  const postCompletionData = async (task) => {
-    const startDate = new Date();
-    const dueDate = addDays(startDate, 5);
-    const finishDate = addDays(dueDate, 2);
-
-    const postData = {
-      StartDate: getRandomDate(subDays(startDate, 10), startDate),
-      DueDate: getRandomDate(startDate, dueDate),
-      FinishDate: getRandomDate(dueDate, finishDate),
-      Priority: task.priority,
-      Steps: task.stepDtos.length,
-    };
-
-    try {
-      const response = await axios.post(
-        `https://himate-ats.dadashussein.tech/xg/predict`,
-        postData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      console.log("API Response:", response.data);
-      const prediction = Math.round(response.data.predictions * 100) / 100;
-      setPredictedData(prediction);
-
-      dispatch(
-        addToast({
-          id: uuidv4(),
-          message: `Congratulations! Your predicted task value is ${prediction}`,
-        })
-      );
-    } catch (error) {
-      console.error(
-        "Error posting data:",
-        error.response ? error.response.data : error.message
-      );
-    }
-  };
-
-  const handleisCompleted = async () => {
-    const newStatus = !isCompleted;
-    setIsCompleted(newStatus);
-    if (newStatus) {
-      await postCompletionData(task);
-    } else {
-      dispatch(
-        addToast({
-          id: uuidv4(),
-          message: `Task "${task.title}" marked as incomplete.`,
-        })
-      );
-    }
-  };
 
   const handleEditTask = () => {
     dispatch(toggleEditTask());
-    setEditTask(task);
+    dispatch(addEditTask(task));
     toggleMenu();
   };
 
@@ -105,7 +45,6 @@ export default function KanbanCardItem({ task, columnId, setEditTask }) {
     const updatedTask = { ...task, isCompleted: !task.isCompleted };
     try {
       await dispatch(updateTask({ taskId: task.id, updatedData: updatedTask }));
-      toggleMenu();
       window.location.reload();
     } catch (error) {
       console.error("Error updating task:", error);
@@ -135,7 +74,7 @@ export default function KanbanCardItem({ task, columnId, setEditTask }) {
               }`}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              onClick={handleisCompleted}
+              onClick={() => handleToggleCompleted(task)}
             >
               {isCompleted && (
                 <CheckIcon className="h-[12px] w-[12px] text-white" />
@@ -221,13 +160,6 @@ export default function KanbanCardItem({ task, columnId, setEditTask }) {
         </div>
         {editTask && (
           <div className="absolute top-40 right-40 flex flex-col bg-input-bg rounded-main border border-input-border z-50 dark:bg-primary dark:border-dark-input-border shadow-sm">
-            <div
-              className="flex flex-row gap-8 items-center py-12 pl-16 pr-80 border-b border-input-border dark:border-dark-input-border"
-              onClick={() => handleToggleCompleted(task)}
-            >
-              <CheckCheckIcon className="h-[16px] w-[16px] text-primary dark:text-input-bg" />
-              <h1 className="text-primary dark:text-white text-sm">Confirm</h1>
-            </div>
             <div
               className="flex flex-row gap-8 items-center py-12 pl-16 pr-80 border-b border-input-border dark:border-dark-input-border"
               onClick={handleEditTask}

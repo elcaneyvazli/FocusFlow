@@ -4,17 +4,13 @@ import { useAppSelector } from "@/redux/store";
 import { useRouter } from "next/navigation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import dayjs from "dayjs";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
-  ChevronDownIcon,
   DocumentPlusIcon,
   DocumentTextIcon,
-  TagIcon,
-  XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { updateTask } from "@/redux/features/TaskSlice/TaskSlice";
-import { toggleEditTask } from "@/redux/features/EditTaskSlice/EditTaskSlice";
+import { toggleEditTask } from "@/redux/features/TaskSlice/TaskSlice";
 import { TaskSchema } from "@/schema/schema";
 import Button from "@/ui/block/button/Button/Button";
 import DateInput from "@/ui/block/input/Dueto/DateInput";
@@ -22,8 +18,12 @@ import CustomSelect from "@/ui/block/input/SelectInput/SelectInput";
 import TextInputWithoutBg from "@/ui/block/input/TextInput/TextInputWithoutBg";
 import LabelInput from "@/ui/block/input/LabelInput/LabelInput";
 import { getLabel } from "@/services/task/label.services";
+import useScreenWidth from "@/utils/useScreenWidth";
 
-export default function EditTaskModul({ task, edit, setEdit }) {
+export default function EditTaskModul() {
+  const editValue = useAppSelector((state) => state.tasks.editTaskButton);
+  const task = useAppSelector((state) => state.tasks.editTask);
+
   const router = useRouter();
   const dispatch = useDispatch();
   const [label, setLabel] = useState([]);
@@ -61,12 +61,18 @@ export default function EditTaskModul({ task, edit, setEdit }) {
   }, []);
 
   useEffect(() => {
-    setValue("taskLabel", labelValue);
-  }, [labelValue, setValue]);
+    if (task) {
+      setValue("taskTitle", task.title || "");
+      setValue("taskDescription", task.description || "");
+      setLabelValue(task.label || "");
+      setSelectedDate(task.dueDate || null);
+      setSelectedPriority(task.priority || 0);
+      setSelectedStatus(task.status || 0);
+    }
+  }, [task, setValue]);
 
   const onEditTask = () => {
     dispatch(toggleEditTask());
-    setEdit(null);
   };
 
   const onTaskEdited = async (data) => {
@@ -92,17 +98,31 @@ export default function EditTaskModul({ task, edit, setEdit }) {
     }
   };
 
+  const isMobile = useScreenWidth(768);
+  const formMotionProps = isMobile
+    ? {
+        initial: { y: "100%", opacity: 0 },
+        animate: { y: "0%", opacity: 1 },
+        exit: { y: "100%", opacity: 0 },
+        transition: { duration: 0.2 },
+      }
+    : {
+        initial: { scale: 0, rotate: "8.5deg" },
+        animate: { scale: 1, rotate: "0deg" },
+        exit: { scale: 0, rotate: "0deg" },
+      };
   if (!task) return null;
 
-  return edit ? (
+  return editValue ? (
     <div className="fixed top-0 left-0 w-full h-full md:h-screen flex justify-center z-[70]">
       <div
-        className="fixed inset-0 bg-black bg-opacity-20 dark:bg-opacity-40 z-50"
+        className="fixed inset-0 bg-black bg-opacity-20 dark:bg-opacity-40 z-50 backdrop-blur-sm"
         onClick={onEditTask}
       ></div>
-      <form
+      <motion.form
         className="fixed top-[40%] md:top-64 w-[100%] md:w-[70%] xl:w-[50%] h-[60%] md:h-fit bg-input-bg dark:bg-primary z-50 rounded-t-main md:rounded-main border border-input-border dark:border-dark-input-border shadow-lg flex flex-col md:justify-normal justify-between"
         onSubmit={handleSubmit(onTaskEdited)}
+        {...formMotionProps}
       >
         <div className="flex flex-col gap-16 px-16 py-16">
           <div className="flex flex-col gap-0 items-start">
@@ -162,7 +182,7 @@ export default function EditTaskModul({ task, edit, setEdit }) {
             <Button text="Edit Task" color="blue" width="fit" type="submit" />
           </div>
         </div>
-      </form>
+      </motion.form>
     </div>
   ) : null;
 }
