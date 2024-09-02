@@ -122,6 +122,9 @@ const initialState = {
   error: null,
   editTask: null,
   editTaskButton: false,
+  newTask: false,
+  selectTaskValue: false,
+  selectTask: null,
 };
 
 const tasksSlice = createSlice({
@@ -133,6 +136,13 @@ const tasksSlice = createSlice({
     },
     addEditTask: (state, action) => {
       state.editTask = action.payload;
+    },
+    toggleTask: (state) => {
+      state.newTask = !state.newTask;
+    },
+    toggleSelectTask: (state, action) => {
+      state.selectTaskValue = !state.selectTaskValue;
+      state.selectTask = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -179,5 +189,6 @@ const tasksSlice = createSlice({
 });
 
 export const tasksReducer = tasksSlice.reducer;
-export const { toggleEditTask, addEditTask } = tasksSlice.actions;
+export const { toggleEditTask, addEditTask, toggleTask, toggleSelectTask } =
+  tasksSlice.actions;
 export default tasksReducer;

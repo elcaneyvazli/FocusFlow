@@ -1,25 +1,19 @@
-import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/redux/store";
-import { toggleTaskModul } from "@/redux/features/SelectedTaskSlice/SelectedTaskSlice";
 import { AnimatePresence, motion } from "framer-motion";
 import useScreenWidth from "@/utils/useScreenWidth";
+import { toggleSelectTask } from "@/redux/features/TaskSlice/TaskSlice";
 
 export default function SelectedTaskModul() {
   const dispatch = useDispatch();
 
   const selectedTaskValue = useAppSelector(
-    (state) => state.selectedTaskReducer.value.modul
+    (state) => state.tasks.selectTaskValue
   );
-  const fullScreen = useAppSelector(
-    (state) => state.selectedTaskReducer.value.fullscreen
-  );
-  const selectedTask = useAppSelector(
-    (state) => state.selectedTaskReducer.value.selectedTask
-  );
+  const selectedTask = useAppSelector((state) => state.tasks.selectTask);
 
   const toggleSelect = () => {
-    dispatch(toggleTaskModul());
+    dispatch(toggleSelectTask());
   };
 
   const isMobile = useScreenWidth(768);
@@ -40,7 +34,7 @@ export default function SelectedTaskModul() {
     <AnimatePresence>
       <div className="fixed top-0 left-0 w-full h-full md:h-screen flex justify-center z-50">
         <motion.div
-          className="fixed inset-0 bg-black bg-opacity-20 dark:bg-opacity-40 z-40"
+          className="fixed inset-0 bg-black bg-opacity-20 dark:bg-opacity-40 z-40 backdrop-blur-sm"
           onClick={toggleSelect}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

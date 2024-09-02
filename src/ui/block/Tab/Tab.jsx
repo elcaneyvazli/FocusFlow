@@ -16,7 +16,7 @@ export default function Tab({ tabs, component }) {
               className="flex flex-col gap-16 items-start w-full sm:w-fit z-30"
             >
               <motion.button
-                className={`flex flex-row items-center gap-8 px-16 py-12 w-full sm:w-fit relative ${
+                className={`flex flex-row items-center justify-center gap-8 px-16 py-12 w-full sm:w-fit relative ${
                   activeTab.id === tab.id
                     ? "border-0 text-primary dark:text-input-bg"
                     : "border-b border-input-border dark:border-dark-input-border text-light"

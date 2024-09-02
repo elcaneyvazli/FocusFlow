@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/redux/store";
-import { toggleTask } from "@/redux/features/NewTaskSlice/newTaskSlice";
+import { toggleTask } from "@/redux/features/TaskSlice/TaskSlice";
 
 export default function NewTaskButton() {
   const dispatch = useDispatch();

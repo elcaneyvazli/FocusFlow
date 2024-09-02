@@ -11,8 +11,6 @@ import {
 } from "@heroicons/react/24/outline";
 import { deleteTask, updateTask } from "@/services/task/task.services";
 import { useDispatch } from "react-redux";
-import { toggleEditTask } from "@/redux/features/EditTaskSlice/EditTaskSlice";
-import { toggleTaskModul } from "@/redux/features/SelectedTaskSlice/SelectedTaskSlice";
 
 export default function KanbanCardItem({
   task,

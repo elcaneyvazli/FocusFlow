@@ -5,7 +5,6 @@ import {
   DocumentPlusIcon,
   DocumentTextIcon,
 } from "@heroicons/react/24/outline";
-import { toggleTask } from "@/redux/features/NewTaskSlice/newTaskSlice";
 import { addToast } from "@/redux/features/ToastSlice/ToastSlice";
 import CustomSelect from "@/ui/block/input/SelectInput/SelectInput";
 import { useForm } from "react-hook-form";
@@ -19,7 +18,7 @@ import { v4 as uuidv4 } from "uuid";
 import TextInputWithoutBg from "@/ui/block/input/TextInput/TextInputWithoutBg";
 import { motion, AnimatePresence } from "framer-motion";
 import useScreenWidth from "@/utils/useScreenWidth";
-import { getLabel } from "@/redux/features/TaskSlice/TaskSlice";
+import { getLabel, toggleTask } from "@/redux/features/TaskSlice/TaskSlice";
 import LabelInput from "@/ui/block/input/LabelInput/LabelInput";
 import { createTask } from "@/redux/features/TaskSlice/TaskSlice";
 
@@ -27,7 +26,7 @@ export default function NewTaskModul() {
   const router = useRouter();
   const dispatch = useDispatch();
   const taskValue = useAppSelector(
-    (state) => state.newTaskReducer.value.newTask
+    (state) => state.tasks.newTask
   );
 
   const onClose = () => {

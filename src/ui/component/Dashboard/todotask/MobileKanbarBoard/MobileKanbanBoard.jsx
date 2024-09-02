@@ -53,7 +53,6 @@ export default function MobileKanbanBoard({ columns, setColumns }) {
 
       const updatedTask = { id: movedTask.id, priority: destinationColumn.id };
 
-      console.log(updatedTask);
       try {
         dispatch(
           updateTaskPriority({

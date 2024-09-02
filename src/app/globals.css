@@ -18,7 +18,7 @@ body {
   font-family: "DM Sans", sans-serif;
 }
 
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
   width: 0;
 }
 
@@ -40,6 +40,21 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background-color: transparent;
+} */
+
+@supports (scrollbar-color: auto) {
+  .scrollbox {
+    scrollbar-color: aquamarine cornflowerblue;
+  }
+}
+
+@supports selector(::-webkit-scrollbar) {
+  .scrollbox::-webkit-scrollbar {
+    background: aquamarine;
+  }
+  .scrollbox::-webkit-scrollbar-thumb {
+    background: cornflowerblue;
+  }
 }
 
 @tailwind base;

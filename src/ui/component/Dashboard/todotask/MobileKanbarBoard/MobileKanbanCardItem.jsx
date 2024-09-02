@@ -12,16 +12,11 @@ import {
 import {
   addEditTask,
   deleteTask,
+  toggleSelectTask,
   updateTask,
 } from "@/redux/features/TaskSlice/TaskSlice";
 import { useDispatch } from "react-redux";
 import { toggleEditTask } from "@/redux/features/TaskSlice/TaskSlice";
-import { toggleTaskModul } from "@/redux/features/SelectedTaskSlice/SelectedTaskSlice";
-import { addToast } from "@/redux/features/ToastSlice/ToastSlice";
-import { v4 as uuidv4 } from "uuid";
-import axios from "axios";
-import { format, addDays, subDays } from "date-fns";
-import { CheckCheckIcon } from "lucide-react";
 
 export default function KanbanCardItem({ task, columnId, setEditTask }) {
   const dispatch = useDispatch();
@@ -56,7 +51,7 @@ export default function KanbanCardItem({ task, columnId, setEditTask }) {
   };
 
   const toggleSelect = () => {
-    dispatch(toggleTaskModul(task));
+    dispatch(toggleSelectTask(task));
   };
 
   return (
