@@ -33,7 +33,7 @@ export default function Taskcard() {
       <TaskCardItem
         title={"Total Task"}
         icon={
-          <ClipboardDocumentListIcon className="h-24 w-24 text-primary dark:text-input-bg" />
+          <ClipboardDocumentListIcon className="h-full w-full text-primary dark:text-input-bg" />
         }
         data={total}
         activity={true}
@@ -42,7 +42,7 @@ export default function Taskcard() {
       <TaskCardItem
         title={"Completed Task"}
         icon={
-          <ClipboardDocumentCheckIcon className="h-24 w-24 text-primary dark:text-input-bg" />
+          <ClipboardDocumentCheckIcon className="h-full w-full text-primary dark:text-input-bg" />
         }
         data={completed}
         activity={false}
@@ -51,7 +51,7 @@ export default function Taskcard() {
       <TaskCardItem
         title={"Pending Task"}
         icon={
-          <DocumentMagnifyingGlassIcon className="h-24 w-24 text-primary dark:text-input-bg" />
+          <DocumentMagnifyingGlassIcon className="h-full w-full text-primary dark:text-input-bg" />
         }
         data={pending}
         activity={true}
