@@ -23,7 +23,9 @@ export default function DashLayout({ children }) {
             </div>
           </div>
         ) : (
-          <Navbar />
+          <div className="z-[60]">
+            <Navbar />
+          </div>
         )}
         <div className="min-w-full h-full py-12 xl:py-16 z-50 container pb-[80px]">
           {children}

@@ -16,14 +16,14 @@ import Cookies from "js-cookie";
 import { authLogout } from "@/redux/features/AuthSlice/AuthSlice";
 
 export default function Sidebar() {
+  const sidebarButtonReducer = useAppSelector(
+    (state) => state.sidebarButtonReducer.value.sidebarButton
+  );
   const pathname = usePathname();
   const router = useRouter();
 
   const dispatch = useDispatch();
 
-  const sidebarButtonReducer = useAppSelector(
-    (state) => state.sidebarButtonReducer.value.sidebarButton
-  );
 
   const handleLogout = useCallback(async () => {
     try {
