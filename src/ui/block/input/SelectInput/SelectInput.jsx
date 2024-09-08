@@ -5,7 +5,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { motion } from "framer-motion";
 
-const CustomSelect = ({ onChange, defaultValue, options }) => {
+const CustomSelect = ({ onChange, defaultValue, options, variant }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(defaultValue || 0);
 
@@ -20,6 +20,16 @@ const CustomSelect = ({ onChange, defaultValue, options }) => {
     setIsOpen(false);
   };
 
+  const getBackgroundColor = () => {
+    if (variant === "primary") {
+      return "bg-input-bg dark:bg-primary";
+    } else if (variant === "component") {
+      return "bg-input-bg dark:bg-dark-input-bg";
+    } else {
+      return "bg-input-bg";
+    }
+  };
+
   return (
     <motion.div className="flex flex-col gap-8 w-full">
       <div className="relative w-full">
@@ -27,7 +37,7 @@ const CustomSelect = ({ onChange, defaultValue, options }) => {
           <InformationCircleIcon className="w-[18px] h-[18px] text-light" />
         </div>
         <motion.div
-          className="bg-input-bg dark:bg-dark-input-bg border border-input-border dark:border-dark-input-border text-primary dark:text-input-bg text-sm rounded-[10px] focus:ring-primary focus:border-primary focus:outline-none block w-full ps-40 px-16 py-8 cursor-pointer"
+          className={`border border-input-border dark:border-dark-input-border text-primary dark:text-input-bg text-sm rounded-[10px] focus:ring-primary focus:border-primary focus:outline-none block w-full ps-40 px-16 py-8 cursor-pointer ${getBackgroundColor()}`}
           onClick={() => setIsOpen(!isOpen)}
         >
           <h1 className="text-sm">{options[selectedOption]}</h1>
@@ -38,7 +48,9 @@ const CustomSelect = ({ onChange, defaultValue, options }) => {
           </motion.div>
         </motion.div>
         {isOpen && (
-          <motion.div className="absolute top-[110%] left-0 w-full rounded-[10px] shadow-4 z-50 border border-input-border dark:border-dark-input-border bg-input-bg dark:bg-dark-input-bg">
+          <motion.div
+            className={`absolute top-[110%] left-0 w-full rounded-[10px] shadow-4 z-50 border border-input-border dark:border-dark-input-border ${getBackgroundColor()}`}
+          >
             <div className="relative flex flex-col gap-0">
               {options.map((option, index) => (
                 <div

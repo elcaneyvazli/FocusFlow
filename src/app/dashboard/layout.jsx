@@ -13,8 +13,8 @@ export default function DashLayout({ children }) {
   const mobilescreen = useScreenWidth(1024);
 
   return (
-    <div className="flex flex-row gap-0 relative pb-80 lg:pb-32 bg-input-bg dark:bg-primary">
-      <div className="flex flex-col min-h-screen min-w-full bg-input-bg dark:bg-primary overflow-y-auto">
+    <div className="flex flex-row gap-0 relative pb-80 lg:pb-0 bg-input-bg dark:bg-primary">
+      <div className="flex flex-col min-h-screen min-w-full bg-input-bg dark:bg-primary">
         {mobilescreen ? (
           <div>
             <Navbar />
@@ -27,7 +27,12 @@ export default function DashLayout({ children }) {
             <Navbar />
           </div>
         )}
-        <div className="min-w-full h-full py-12 xl:py-16 z-50 container pb-[80px]">
+        <div
+          className="min-w-full py-12 xl:py-16 z-50 container pb-[80px]"
+          style={{
+            minHeight: "calc(100vh - 80px)",
+          }}
+        >
           {children}
         </div>
       </div>

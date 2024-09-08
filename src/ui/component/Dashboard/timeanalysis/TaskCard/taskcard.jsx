@@ -29,34 +29,40 @@ export default function Taskcard() {
     fetchData();
   }, []);
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16">
-      <TaskCardItem
-        title={"Total Task"}
-        icon={
-          <ClipboardDocumentListIcon className="h-full w-full text-primary dark:text-input-bg" />
-        }
-        data={total}
-        activity={true}
-        img={card2}
-      />
-      <TaskCardItem
-        title={"Completed Task"}
-        icon={
-          <ClipboardDocumentCheckIcon className="h-full w-full text-primary dark:text-input-bg" />
-        }
-        data={completed}
-        activity={false}
-        img={card1}
-      />
-      <TaskCardItem
-        title={"Pending Task"}
-        icon={
-          <DocumentMagnifyingGlassIcon className="h-full w-full text-primary dark:text-input-bg" />
-        }
-        data={pending}
-        activity={true}
-        img={card3}
-      />
+    <div className="grid grid-cols-12 gap-16 grid-rows-1">
+      <div className="col-span-12 lg:col-span-6 xl:col-span-4 row-span-1">
+        <TaskCardItem
+          title={"Total Task"}
+          icon={
+            <ClipboardDocumentListIcon className="h-32 w-32 text-primary dark:text-input-bg" />
+          }
+          data={total}
+          activity={true}
+          img={card2}
+        />
+      </div>
+      <div className="col-span-12 lg:col-span-6 xl:col-span-4 row-span-1">
+        <TaskCardItem
+          title={"Completed Task"}
+          icon={
+            <ClipboardDocumentCheckIcon className="h-32 w-32 text-primary dark:text-input-bg" />
+          }
+          data={completed}
+          activity={false}
+          img={card1}
+        />
+      </div>
+      <div className="col-span-12 lg:col-span-6 xl:col-span-4 row-span-1">
+        <TaskCardItem
+          title={"Pending Task"}
+          icon={
+            <DocumentMagnifyingGlassIcon className="h-32 w-32 text-primary dark:text-input-bg" />
+          }
+          data={pending}
+          activity={true}
+          img={card3}
+        />
+      </div>
     </div>
   );
 }
