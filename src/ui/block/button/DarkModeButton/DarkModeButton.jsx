@@ -14,8 +14,6 @@ export default function DarkModeButton() {
   const isDarkMode = useAppSelector((state) => state.darkMode.darkMode);
   const [mounted, setMounted] = useState(false);
 
-  console.log(isDarkMode);
-
   useEffect(() => {
     dispatch(initializeDarkMode());
     setMounted(true);

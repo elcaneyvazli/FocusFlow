@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 
 const Avvvatars = dynamic(() => import('avvvatars-react'), { ssr: false });
 
-export default function GroupCardItem() {
+export default function GroupCardItem({ item }) {
   return (
     <motion.div
       className="text-primary dark:text-input-bg col-span-12 md:col-span-6 lg:col-span-4 bg-white dark:bg-dark-input-bg border border-input-border dark:border-dark-input-border rounded-main p-12 flex flex-col gap-8 cursor-pointer"
@@ -16,10 +16,10 @@ export default function GroupCardItem() {
     >
       <div className="flex flex-col gap-0 pb-12 border-b-2 border-input-border dark:border-dark-input-border">
         <h1 className="text-md font-semibold text-primary dark:text-input-bg line-clamp-1">
-          Focus Flow
+            {item.name}
         </h1>
         <p className="text-sm font-normal text-primary dark:text-input-bg line-clamp-1">
-          Create Pomodoro and task managment app
+            {item.description}
         </p>
       </div>
       <div className="flex flex-row justify-between items-center">
