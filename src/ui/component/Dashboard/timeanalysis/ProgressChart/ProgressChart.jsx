@@ -27,7 +27,7 @@ export default function ProgressChart() {
   console.log(totalValue);
 
   return (
-    <div className="h-full w-full bg-white border border-input-border dark:bg-dark-input-bg dark:border-dark-input-border rounded-main flex flex-col justify-between p-16">
+    <div className="h-full w-full bg-white border border-input-border dark:bg-dark-input-bg dark:border-dark-input-border rounded-main flex flex-col justify-between gap-16 p-16 overflow-hidden">
       <div className="flex flex-col gap-16">
         <div className="flex flex-row items-center gap-12">
           <div className="p-8 bg-blue-light border border-blue-primary rounded-main">
@@ -58,20 +58,24 @@ export default function ProgressChart() {
           })}
         </div>
       </div>
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-8 h-full overflow-y-auto">
         {data.map((item) => {
           return (
             <div
               key={item.id}
-              className="flex flex-row items-center justify-between gap-4"
+              className="flex flex-row items-center justify-between gap-4 "
             >
               <div
                 className={`flex flex-row items-center gap-4 px-8`}
                 style={{ borderLeft: `4px solid ${item.color}` }}
               >
-                <p className="text-lg font-normal text-primary dark:text-input-bg">{item.name}:</p>
+                <p className="text-lg font-normal text-primary dark:text-input-bg">
+                  {item.name}:
+                </p>
               </div>
-              <p className="text-xl font-normal text-primary dark:text-input-bg">{item.value}</p>
+              <p className="text-xl font-normal text-primary dark:text-input-bg">
+                {item.value}
+              </p>
             </div>
           );
         })}

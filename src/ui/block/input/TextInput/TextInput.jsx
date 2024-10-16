@@ -11,7 +11,7 @@ export default function TextInput({
 }) {
   return (
     <div className="flex flex-col gap-8 w-full">
-      <h1 className="text-sm font-medium">{title}</h1>
+      <h1 className="text-sm font-medium text-primary dark:text-input-bg">{title}</h1>
       <div className="relative w-full">
         <div className="absolute inset-y-0 start-0 flex items-center ps-16 pointer-events-none">
           {icon}

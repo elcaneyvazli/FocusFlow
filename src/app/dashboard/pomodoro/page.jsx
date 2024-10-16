@@ -5,14 +5,16 @@ import { motion } from "framer-motion";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import TextInput from "@/ui/block/input/TextInput/TextInput";
 import TimeTrackerSelectItem from "@/ui/component/Dashboard/todotask/TimeTracker/TimeTrackerSelectItem";
+import PomodoroTimer from "@/ui/component/Dashboard/Pomodoro/PomodoroTimer";
 
 export default function page() {
   return (
     <div className="flex flex-col justify-between items-center min-h-full w-full">
-      <div className="w-[30%]">
+      {/* <div className="w-[30%]">
         <TimeTrackerSelectItem />
-      </div>
-      <div className="flex flex-col gap-16 items-center justify-center">
+      </div> */}
+      <PomodoroTimer />
+      {/* <div className="flex flex-col gap-16 items-center justify-center">
         <div className="w-[300px] h-[300px] bg-white dark:bg-dark-input-bg border border-input-border dark:border-dark-input-border rounded-full flex items-center justify-center">
           <div className="w-[250px] h-[250px] bg-[#037ef3] border border-input-border dark:border-dark-input-border rounded-full flex items-center justify-center"></div>
         </div>
@@ -57,7 +59,7 @@ export default function page() {
         >
           <PauseIcon className="w-40 h-40 text-gray-text" />
         </motion.button>
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -3,46 +3,48 @@ import axios from "axios";
 
 const baseUrl = process.env.NEXT_PUBLIC_API_KEY;
 
-export const getUser = createAsyncThunk(
-  "user/getUser",
+export const getGroup = createAsyncThunk(
+  "group/getGroup",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${baseUrl}/User`, {
+      const response = await axios.get(`${baseUrl}/Group`, {
         withCredentials: true,
       });
       return response.data;
     } catch (error) {
-      console.error("Error fetching user:", error);
       return rejectWithValue(error.response?.data || error.message);
     }
   }
 );
 
 const initialState = {
-  task: [],
-  status: "idle",
-  error: null,
+  group: [],
 };
 
-const userSlice = createSlice({
-  name: "user",
+const groupSlice = createSlice({
+  name: "group",
   initialState,
-  reducers: {},
+  reducers: {
+    setGroup: (state, action) => {
+      state.group = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
-      .addCase(getUser.pending, (state) => {
+      .addCase(getGroup.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(getUser.fulfilled, (state, action) => {
+      .addCase(getGroup.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.user = action.payload;
+        state.group = action.payload;
       })
-      .addCase(getUser.rejected, (state, action) => {
+      .addCase(getGroup.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
       });
   },
 });
 
-export const userReducer = userSlice.reducer;
-export default userReducer;
+export const groupReducer = groupSlice.reducer;
+export const { setGroup } = groupSlice.actions;
+export default groupReducer;

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import MobileKanbanCardItem from "./MobileKanbanCardItem";
-import EditTaskModul from "../modul/editTaskModul";
 
 const colorClasses = {
   red: {

@@ -13,7 +13,7 @@ import { useAppSelector } from "@/redux/store";
 export default function About() {
   const [hoveredCard, setHoveredCard] = useState(null);
   const [mousePosition, setMousePosition] = useState({ x: "50%", y: "50%" });
-  const DarkMode = useAppSelector((state) => state.darkModeReducer).darkMode;
+  const DarkMode = useAppSelector((state) => state.darkMode.darkMode);
 
   const handleMouseMove = (e, index) => {
     if (hoveredCard === index) {
@@ -74,7 +74,7 @@ export default function About() {
         return (
           <div
             key={index}
-            className="card flex flex-col gap-16 items-start border border-input-border dark:border-dark-input-border bg-input-bg dark:bg-dark-input-bg rounded-main p-16 col-span-2 sm:col-span-1 relative overflow-hidden"
+            className="card flex flex-col gap-16 items-start border border-input-border dark:border-dark-input-border bg-input-bg dark:bg-dark-input-bg rounded-main p-16 col-span-2 sm:col-span-1 relative overflow-hidden cursor-pointer"
             onMouseEnter={() => handleMouseEnter(index)}
             onMouseMove={(e) => handleMouseMove(e, index)}
             onMouseLeave={handleMouseLeave}
@@ -86,8 +86,8 @@ export default function About() {
                   style={{
                     background: DarkMode
                       ? `radial-gradient(circle at ${mousePosition.x} ${mousePosition.y}, rgba(255,255,255,0.3) 0%, transparent 100%)`
-                      : `radial-gradient(circle at ${mousePosition.x} ${mousePosition.y}, # 0%, transparent 100%)`,
-                    opacity: 0.2,
+                      : `radial-gradient(circle at ${mousePosition.x} ${mousePosition.y}, rgba(0,0,0,0.7) 0%, transparent 100%)`,
+                    opacity: 1,
                   }}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 0.2 }}

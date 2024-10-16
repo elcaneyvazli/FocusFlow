@@ -163,6 +163,7 @@ export default function NewTaskModul() {
                   "Won't Have",
                 ]}
                 onChange={handleSelectChange}
+                variant={"component"}
               />
               <DateInput
                 title="Due date"
@@ -173,6 +174,8 @@ export default function NewTaskModul() {
               <CustomSelect
                 options={["Todo", "In Progress", "Done"]}
                 onChange={handleSelectChangeStatus}
+                variant={"component"}
+
               />
             </div>
           </div>

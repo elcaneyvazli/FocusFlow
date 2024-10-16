@@ -15,7 +15,7 @@ import { useDispatch } from "react-redux";
 import { ListBulletIcon, Squares2X2Icon } from "@heroicons/react/24/outline";
 
 const Taskcard = dynamic(
-  () => import("@/ui/component/Dashboard/todotask/taskcard/taskcard"),
+  () => import("@/ui/component/Dashboard/timeanalysis/TaskCard/taskcard"),
   {
     loading: () => <TaskCardSkeleton />,
     ssr: false,
@@ -111,12 +111,14 @@ export default function Home() {
   return (
     <div className="flex flex-col gap-16 w-full relative h-full">
       {/* <TimeTrackerContainer data={columns} /> */}
-      <Taskcard
+      {/* <Taskcard
         total={total}
         pending={pending}
         completed={completed}
         error={error}
-      />
+      /> */}
+      <Taskcard />
+
       <Tab tabs={tabs} component={tabComponent} />
     </div>
   );

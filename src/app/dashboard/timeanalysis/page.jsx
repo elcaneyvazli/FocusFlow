@@ -1,5 +1,5 @@
 "use client";
-import DonutChart from "@/ui/component/Dashboard/timeanalysis/DonutChart/DonutChart";
+import ActivityChart from "@/ui/component/Dashboard/timeanalysis/ActivityChart/ActivityChart";
 import LineChart from "@/ui/component/Dashboard/timeanalysis/LineChart/LineChart";
 import ProgressChart from "@/ui/component/Dashboard/timeanalysis/ProgressChart/ProgressChart";
 import TaskCalendar from "@/ui/component/Dashboard/timeanalysis/TaskCalendar/TaskCalendar";
@@ -19,7 +19,7 @@ export default function TimeAnalysis() {
           <ProgressChart />
         </div>
         <div className="col-span-6  h-[300px]">
-          <DonutChart />
+          <ActivityChart />
         </div>
       </div>
       <div

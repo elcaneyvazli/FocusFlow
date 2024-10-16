@@ -2,7 +2,6 @@
 import "./globals.css";
 import { usePathname } from "next/navigation";
 import { ReduxProvider } from "@/redux/provider";
-import { ThemeProvider } from "next-themes";
 import dynamic from "next/dynamic";
 import Skeleton from "@/ui/block/Sekeleton/Skeleton";
 const Bg = dynamic(() => import("@/ui/layout/Bg/Bg"), {
@@ -41,18 +40,26 @@ export default function RootLayout({ children }) {
           href="/favicon-16x16.png"
         />
         <link rel="manifest" href="/site.webmanifest" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+            (function() {
+              const theme = localStorage.getItem('theme');
+              const isDarkMode = theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+              if (isDarkMode) {
+                document.documentElement.classList.add('dark');
+              } else {
+                document.documentElement.classList.remove('dark');
+              }
+            })();
+          `,
+          }}
+        />
       </head>
       <ReduxProvider>
         <body>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem={true}
-            storageKey="theme"
-          >
-            {showBg && <Bg />}
-            {children}
-          </ThemeProvider>
+          {showBg && <Bg />}
+          {children}
         </body>
       </ReduxProvider>
     </html>

@@ -7,16 +7,20 @@ import toastMessageReducer from "./features/ToastSlice/ToastSlice";
 import askaiReducer from "./features/AiSlice/AiSlice";
 import tasksReducer from "./features/TaskSlice/TaskSlice";
 import userReducer from "./features/UserSlice/UserSlice";
+import timerReducer from "./features/TimerSlice/TimerSlice";
+import groupReducer from "./features/GroupSlice/GroupSlice";
 
 export const store = configureStore({
   reducer: {
-    sidebarButtonReducer,
-    darkModeReducer,
+    sidebarButton: sidebarButtonReducer,
+    darkMode: darkModeReducer,
     pomodoro: pomodoroReducer,
     askai: askaiReducer,
     toastMessageReducer,
     tasks: tasksReducer,
     user: userReducer,
+    timer: timerReducer,
+    group: groupReducer,
   },
 });
 

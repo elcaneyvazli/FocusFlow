@@ -72,7 +72,7 @@ export default function LoginPage() {
         <LogoContainer />
         <div className="flex flex-col gap-32 w-full">
           <div className="flex flex-col px-12 border-l-2 border-primary dark:border-input-bg">
-            <h1 className="sm:text-3xl text-xl font-semibold">Welcome Back</h1>
+            <h1 className="sm:text-3xl text-xl font-semibold text-primary dark:text-input-bg">Welcome Back</h1>
             <p className="sm:text-lg text-md text-light font-light">
               Please sign in to your account
             </p>

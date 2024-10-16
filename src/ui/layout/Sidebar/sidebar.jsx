@@ -24,7 +24,6 @@ export default function Sidebar() {
 
   const dispatch = useDispatch();
 
-
   const handleLogout = useCallback(async () => {
     try {
       await dispatch(authLogout());

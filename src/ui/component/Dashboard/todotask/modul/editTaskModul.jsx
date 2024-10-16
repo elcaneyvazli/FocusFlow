@@ -157,12 +157,14 @@ export default function EditTaskModul() {
               options={["Must Have", "Should Have", "Could Have", "Won't Have"]}
               onChange={setSelectedPriority}
               defaultValue={task.priority}
+              variant={"component"}
             />
             <DateInput onSelect={setSelectedDate} defaultValue={task.dueDate} />
             <CustomSelect
               options={["Todo", "In Progress", "Done"]}
               onChange={setSelectedStatus}
               defaultValue={task.status}
+              variant={"component"}
             />
           </div>
         </div>

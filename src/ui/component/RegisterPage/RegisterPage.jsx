@@ -75,7 +75,7 @@ export default function RegisterPage() {
         <LogoContainer />
         <div className="flex flex-col gap-32 w-full">
           <div className="fle flex-col px-12 border-l-2 border-primary dark:border-input-border">
-            <h1 className="sm:text-3xl text:xl font-semibold">
+            <h1 className="sm:text-3xl text:xl font-semibold text-primary dark:text-input-bg">
               Welcome to our platform
             </h1>
             <p className="sm:text-lg text-md text-light font-light">

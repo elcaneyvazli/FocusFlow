@@ -1,7 +1,12 @@
-import React from 'react'
+"use client";
+import GroupCard from "@/ui/component/Dashboard/Group/GroupCard/GroupCard";
+import React from "react";
 
-export default function page() {
+export default function Page() {
+
   return (
-    <div>page</div>
-  )
+    <div>
+      <GroupCard />
+    </div>
+  );
 }

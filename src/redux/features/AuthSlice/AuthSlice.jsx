@@ -8,7 +8,7 @@ export const authLogin = createAsyncThunk(
   async ({ emailOrUsername, password }, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `${baseUrl}/api/auth/signin`,
+        `${baseUrl}/Auth/signin`,
         {
           emailOrUsername: emailOrUsername,
           password: password,
@@ -29,7 +29,7 @@ export const authRegister = createAsyncThunk(
   async ({ email, password, userName }, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `${baseUrl}/api/auth/signup`,
+        `${baseUrl}/Auth/signup`,
         {
           email: email,
           password: password,
@@ -47,10 +47,10 @@ export const authRegister = createAsyncThunk(
 );
 
 export const authLogout = createAsyncThunk(
-  "auth/logout",
+  "Auth/logout",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.head(`${baseUrl}/api/auth`, {
+      const response = await axios.head(`${baseUrl}/Auth`, {
         withCredentials: true,
       });
       return response.data;

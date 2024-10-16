@@ -1,3 +1,4 @@
+import { useAppSelector } from "@/redux/store";
 import React, { useEffect, useRef } from "react";
 
 const CircularChart = ({ progress }) => {
@@ -15,6 +16,10 @@ const CircularChart = ({ progress }) => {
     circle.style.strokeDashoffset = offset;
   }, [progress]);
 
+  const DarkMode = useAppSelector((state) => state.darkMode);
+
+  console.log(DarkMode);
+
   return (
     <div className="flex flex-col items-center p-4 bg-white shadow-md rounded-lg w-full max-w-sm">
       <h2 className="text-xl font-bold">Pomodoro</h2>
@@ -22,7 +27,9 @@ const CircularChart = ({ progress }) => {
       <div className="relative w-32 h-32 mt-4">
         <svg className="w-full h-full">
           <circle
-            className="text-gray-300"
+            className={`${
+              DarkMode ? "text-dark-input-border" : "text-input-border"
+            }`}
             strokeWidth="10"
             stroke="currentColor"
             fill="transparent"

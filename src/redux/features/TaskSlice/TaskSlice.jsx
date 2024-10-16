@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { Edit } from "lucide-react";
 
 const baseUrl = process.env.NEXT_PUBLIC_API_KEY;
 

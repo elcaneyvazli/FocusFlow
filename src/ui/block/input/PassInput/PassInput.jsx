@@ -6,7 +6,7 @@ export default function PassInput({ value, change, registername, error, register
 
   return (
     <div className="flex flex-col gap-8 w-full">
-      <h1 className="text-sm font-medium">Password:</h1>
+      <h1 className="text-sm font-medium text-primary dark:text-input-bg">Password:</h1>
       <div className="relative w-full">
         <div className="absolute inset-y-0 start-0 flex items-center ps-16 pointer-events-none">
           <ShieldCheckIcon className="w-[18px] h-[18px] text-light" />

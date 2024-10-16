@@ -1,19 +1,20 @@
+import { useAppSelector } from "@/redux/store";
 import React from "react";
 
-const HalfCircularProgressBar = ({
-  progress,
-  strokeColor = "#184BFE",
-  trailColor = "#9CA3AF",
-}) => {
+const HalfCircularProgressBar = ({ progress }) => {
   const radius = 140;
   const stroke = 20;
   const normalizedRadius = radius - stroke * 2;
   const circumference = normalizedRadius * Math.PI;
   const strokeDashoffset = circumference - (57 / 100) * circumference;
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.darkMode);
+  const strokeColor = isDarkMode ? "#184BFE" : "#184BFE";
+  const trailColor = isDarkMode ? "#ffffff" : "#232426";
+  
   return (
     <svg
-        // height={radius * 2}
+      // height={radius * 2}
       width={radius * 2}
       viewBox={`0 0 ${radius * 2} ${radius}`}
       className="rotate-[0deg]"
@@ -42,7 +43,10 @@ const HalfCircularProgressBar = ({
         textAnchor="middle"
         dy=".3em"
         className="text-xl text-gray-700 font-semibold"
-        style={{ fill: "#184BFE", fontSize: "36px" }}
+        style={{
+          fill: isDarkMode ? "#ffffff" : "#1a1a1a",
+          fontSize: "36px",
+        }}
       >
         {progress}
       </text>
