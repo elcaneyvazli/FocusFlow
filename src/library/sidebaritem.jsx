@@ -27,13 +27,6 @@ export const SideBarItem = [
     link: "/dashboard/timeanalysis",
   },
   {
-    title: "Calendar",
-    icon: (
-      <CalendarDaysIcon className="w-[20px] h-[20px] sm:w-[16px] sm:h-[16px]" />
-    ),
-    link: "/dashboard/calendar",
-  },
-  {
     title: "Group",
     icon: (
       <UserGroupIcon className="w-[20px] h-[20px] sm:w-[16px] sm:h-[16px]" />

@@ -8,6 +8,7 @@ import SelectedTaskModul from "@/ui/component/Dashboard/todotask/modul/SelectedT
 import Toast from "@/ui/block/Toast/Toast";
 import AiModul from "@/ui/component/Dashboard/todotask/modul/AiModul";
 import EditTaskModul from "@/ui/component/Dashboard/todotask/modul/editTaskModul";
+import NewGroupModal from "@/ui/component/Dashboard/Group/NewGroupModal/NewGroupModal";
 
 export default function DashLayout({ children }) {
   const mobilescreen = useScreenWidth(1024);
@@ -42,6 +43,7 @@ export default function DashLayout({ children }) {
         <Toast />
         <AiModul />
         <EditTaskModul />
+        <NewGroupModal />
       </div>
     </div>
   );
