@@ -18,7 +18,7 @@ export default function PassInput({ value, change, registername, error, register
           placeholder="123456789"
           {...register(registername)}
           autoComplete="on"
-          className="bg-input-bg dark:bg-dark-input-bg border border-input-border dark:border-dark-input-border text-sm rounded-[10px] focus:ring-primary focus:border-primary focus:outline-none block w-full ps-40 px-16 py-12"
+          className="bg-input-bg dark:bg-dark-input-bg border border-input-border dark:border-dark-input-border text-sm rounded-[10px] focus:ring-primary focus:border-primary focus:outline-none block w-full ps-40 px-16 py-12 text-primary dark:text-input-bg"
         />
         <button
           type="button"

@@ -23,7 +23,7 @@ export default function NavMenu() {
   return (
     <div className="w-full flex items-center justify-center"
       style={{
-        zIndex: 50,
+        zIndex: 60,
       }}
     >
       <div className="flex flex-row items-center justify-between lg:justify-center gap-8 border border-input-border dark:border-dark-input-border rounded-none lg:rounded-full w-full lg:w-fit p-8 lg:p-4 relative bg-input-bg dark:bg-dark-input-bg">

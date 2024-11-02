@@ -41,7 +41,7 @@ export default function UserBadge({ user }) {
           value={user?.username}
           border={false}
           size={40}
-          style="shape"
+          style="character"
         />
       </div>
       <div className="flex-col items-start gap-0 md:flex hidden">
@@ -59,7 +59,7 @@ export default function UserBadge({ user }) {
 
       {menu && (
         <motion.div
-          className="absolute top-[48px] right-0 bg-input-bg dark:bg-dark-input-bg border border-input-border dark:border-dark-input-border h-fit min-w-[150px] w-[200px] xl:w-full z-[70] rounded-main shadow-lg flex flex-col gap-0 p-8"
+          className="absolute top-[48px] right-0 bg-input-bg dark:bg-dark-input-bg border border-input-border dark:border-dark-input-border h-fit min-w-[150px] w-[200px] xl:w-full z-[80] rounded-main shadow-lg flex flex-col gap-0 p-8"
           initial={{ opacity: 0, scale: 0.5, y: 10, rotate: 15 }}
           animate={{ opacity: 1, scale: 1, y: 0, rotate: 0 }}
           exit={{ opacity: 0, scale: 0.5, y: 10, rotate: 8.5 }}

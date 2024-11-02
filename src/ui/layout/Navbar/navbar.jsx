@@ -34,7 +34,7 @@ export default function Navbar() {
 
 
   return (
-    <div className="bg-white dark:bg-primary container border-b border-input-border dark:border-dark-input-border z-50 min-w-full">
+    <div className="bg-white dark:bg-primary container border-b border-input-border dark:border-dark-input-border z-[70] min-w-full">
       <div className="min-h-80 h-80 max-h-80 flex flex-row justify-between items-center z-50 relative">
         <div className="flex flex-row gap-16 items-center">
           <LogoContainer />

@@ -5,6 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import Button from "@/ui/block/button/Button/Button";
 import useScreenWidth from "@/utils/useScreenWidth";
+import PrimaryButton from "@/ui/block/button/Button/PrimaryButton";
 
 export default function GroupFilter({ modal, toggleModal }) {
   const {
@@ -31,10 +32,11 @@ export default function GroupFilter({ modal, toggleModal }) {
           error={errors.search?.message}
           register={register}
         />
-        <Button
+        <PrimaryButton
           text="Add Group"
           width={isScreenSmall ? "full" : "fit"}
           onClick={toggleModal}
+          variant="primary"
         />
       </div>
     </div>

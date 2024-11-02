@@ -44,3 +44,9 @@ export const GroupSchema = yup.object({
     .min(3, "Label is too short, minimum 3 characters")
     .max(30, "Label is too long, maximum 30 characters"),
 });
+export const GroupMemberSchema = yup.object({
+  memberNameorUsername: yup
+    .string()
+    .required("Title is required")
+    .max(100, "Title is too long, maximum 100 characters"),
+});

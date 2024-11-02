@@ -1,13 +1,65 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import useSWR from "swr";
 
 const baseUrl = process.env.NEXT_PUBLIC_API_KEY;
 
-export const getGroup = createAsyncThunk(
-  "group/getGroup",
-  async (_, { rejectWithValue }) => {
+const fetcher = (url) =>
+  axios.get(url, { withCredentials: true }).then((res) => res.data);
+
+export const useGroups = () => {
+  const { data, error, mutate } = useSWR(`${baseUrl}/Group`, fetcher, {
+    refreshInterval: 1000,
+    revalidateOnFocus: true,
+  });
+
+  return {
+    groups: data,
+    isLoading: !error && !data,
+    isError: error,
+    mutate,
+  };
+};
+
+export const useGroupById = (id) => {
+  const { data, error, mutate } = useSWR(
+    id ? `${baseUrl}/Group/${id}` : null,
+    fetcher,
+    {
+      refreshInterval: 1000,
+      revalidateOnFocus: true,
+    }
+  );
+  return {
+    group: data,
+    isLoading: !error && !data,
+    isError: error,
+    mutate,
+  };
+};
+
+export const useGroupMembers = (id) => {
+  const { data, error, mutate } = useSWR(
+    id ? `${baseUrl}/Group/${id}/members` : null,
+    fetcher,
+    {
+      refreshInterval: 1000,
+      revalidateOnFocus: true,
+    }
+  );
+  return {
+    members: data,
+    isLoading: !error && !data,
+    isError: error,
+    mutate,
+  };
+};
+
+export const createGroup = createAsyncThunk(
+  "group/createGroup",
+  async (groupData, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${baseUrl}/Group`, {
+      const response = await axios.post(`${baseUrl}/Group`, groupData, {
         withCredentials: true,
       });
       return response.data;
@@ -17,15 +69,13 @@ export const getGroup = createAsyncThunk(
   }
 );
 
-export const createGroup = createAsyncThunk(
-  "group/createGroup",
+export const addGroupMember = createAsyncThunk(
+  "group/addGroupMember",
   async (groupData, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `${baseUrl}/Group`,
-        {
-          ...groupData,
-        },
+        `${baseUrl}/Group/${groupData.id}/add-user?usernameOrEmail=${groupData.usernameOrEmail}`,
+        {},
         {
           withCredentials: true,
         }
@@ -38,42 +88,42 @@ export const createGroup = createAsyncThunk(
 );
 
 const initialState = {
-  group: [],
   addGroupModal: false,
+  addGroupMemberModal: false,
+  status: "idle",
+  error: null,
 };
 
 const groupSlice = createSlice({
   name: "group",
   initialState,
   reducers: {
-    setGroup: (state, action) => {
-      state.group = action.payload;
-    },
     toggleAddGroupModal: (state) => {
       state.addGroupModal = !state.addGroupModal;
+    },
+    toggleAddGroupMemberModal: (state) => {
+      state.addGroupMemberModal = !state.addGroupMemberModal;
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getGroup.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(getGroup.fulfilled, (state, action) => {
-        state.status = "succeeded";
-        state.group = action.payload;
-      })
-      .addCase(getGroup.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.payload;
-      })
       .addCase(createGroup.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(createGroup.fulfilled, (state, action) => {
+      .addCase(createGroup.fulfilled, (state) => {
         state.status = "succeeded";
-        state.group = [...state.group, action.payload];
       })
       .addCase(createGroup.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      .addCase(addGroupMember.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(addGroupMember.fulfilled, (state) => {
+        state.status = "succeeded";
+      })
+      .addCase(addGroupMember.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
       });
@@ -81,5 +131,6 @@ const groupSlice = createSlice({
 });
 
 export const groupReducer = groupSlice.reducer;
-export const { setGroup, toggleAddGroupModal } = groupSlice.actions;
+export const { toggleAddGroupModal, toggleAddGroupMemberModal } =
+  groupSlice.actions;
 export default groupReducer;

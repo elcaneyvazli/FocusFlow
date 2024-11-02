@@ -1,55 +1,11 @@
-// import React, { useEffect, useState } from "react";
-// import GroupFilter from "./GroupFilter";
-// import { useAppSelector } from "@/redux/store";
-// import { useDispatch } from "react-redux";
-// import {
-//   getGroup,
-//   toggleAddGroupModal,
-// } from "@/redux/features/GroupSlice/GroupSlice";
-// import dynamic from "next/dynamic";
-
-// const GroupCardItem = dynamic(() => import("./GroupCardItem"), {
-//   loading: () => <GroupCardItemSkeleton />,
-//   ssr: false,
-// });
-
-// import { GroupCardItemSkeleton } from "./GroupCardItem";
-
-// export default function GroupCard() {
-//   const dispatch = useDispatch();
-//   const { group, addGroupModal } = useAppSelector((state) => state.group);
-//   const [mounted, setMounted] = useState(false);
-
-//   useEffect(() => {
-//     dispatch(getGroup());
-//   }, [dispatch]);
-
-//   const toggleModal = () => {
-//     dispatch(toggleAddGroupModal());
-//   };
-
-//   useEffect(() => {
-//     setMounted(true);
-//   }, []);
-
-//   if (!mounted) return null;
-
-//   return (
-//     <div className="grid grid-cols-12 gap-16">
-//       <GroupFilter modal={addGroupModal} toggleModal={toggleModal} />
-//       {group.map((item) => (
-//         <GroupCardItem key={item.id} item={item} />
-//       ))}
-//     </div>
-//   );
-// }
-
 import React from "react";
-import useSWR from "swr";
+import { useGroups } from "@/redux/features/GroupSlice/GroupSlice";
 import GroupFilter from "./GroupFilter";
 import { useDispatch } from "react-redux";
 import { toggleAddGroupModal } from "@/redux/features/GroupSlice/GroupSlice";
 import dynamic from "next/dynamic";
+import Image from "next/image";
+import GroupImg from "@/ui/assert/GroupImg.svg";
 
 const GroupCardItem = dynamic(() => import("./GroupCardItem"), {
   loading: () => <GroupCardItemSkeleton />,
@@ -58,36 +14,40 @@ const GroupCardItem = dynamic(() => import("./GroupCardItem"), {
 
 import { GroupCardItemSkeleton } from "./GroupCardItem";
 
-const fetcher = (url) =>
-  fetch(url, { credentials: "include" }).then((res) => res.json());
-
 export default function GroupCard() {
   const dispatch = useDispatch();
-  const {
-    data: groups,
-    error,
-    mutate,
-  } = useSWR(`${process.env.NEXT_PUBLIC_API_KEY}/Group`, fetcher, {
-    refreshInterval: 1000,
-  });
+  const { groups, isLoading, isError, mutate } = useGroups();
 
   const toggleModal = () => {
     dispatch(toggleAddGroupModal());
   };
 
-  if (error) return <div>Failed to load groups</div>;
-  if (!groups) return <div>Loading...</div>;
+  const refreshGroups = () => {
+    mutate();
+  };
+
+  if (isError) return <div>Failed to load groups</div>;
+  if (isLoading) return <div>Loading...</div>;
 
   return (
     <div className="grid grid-cols-12 gap-16">
       <GroupFilter modal={false} toggleModal={toggleModal} />
-      {
-        mutate()
-        ? groups.map((item) => <GroupCardItem key={item.id} item={item} />)
-        : Array(groups.length)
-            .fill(0)
-            .map((_, index) => <GroupCardItemSkeleton key={index} />)
-      }
+      {groups?.length === 0 ? (
+        <div className="col-span-12 flex flex-col items-center justify-center gap-8">
+          <Image
+            src={GroupImg}
+            alt="No groups"
+            width={0}
+          N  height={0}
+            className="w-full h-[400px]"
+          />
+          <p className="text-light text-lg font-semibold text-center">
+            Create your first group to start tracking your time
+          </p>
+        </div>
+      ) : (
+        groups?.map((item) => <GroupCardItem key={item.id} item={item} />)
+      )}
     </div>
   );
 }

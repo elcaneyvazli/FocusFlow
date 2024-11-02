@@ -110,13 +110,6 @@ export default function Home() {
 
   return (
     <div className="flex flex-col gap-16 w-full relative h-full">
-      {/* <TimeTrackerContainer data={columns} /> */}
-      {/* <Taskcard
-        total={total}
-        pending={pending}
-        completed={completed}
-        error={error}
-      /> */}
       <Taskcard />
 
       <Tab tabs={tabs} component={tabComponent} />
