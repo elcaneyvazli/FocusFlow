@@ -1,12 +1,24 @@
 import React, { useState } from "react";
-import { ShieldCheckIcon, EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
+import {
+  ShieldCheckIcon,
+  EyeIcon,
+  EyeSlashIcon,
+} from "@heroicons/react/24/outline";
 
-export default function PassInput({ value, change, registername, error, register }) {
+export default function PassInput({
+  value,
+  change,
+  registername,
+  error,
+  register,
+}) {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
     <div className="flex flex-col gap-8 w-full">
-      <h1 className="text-sm font-medium text-primary dark:text-input-bg">Password:</h1>
+      <h1 className="text-sm font-medium text-primary dark:text-input-bg">
+        Password:
+      </h1>
       <div className="relative w-full">
         <div className="absolute inset-y-0 start-0 flex items-center ps-16 pointer-events-none">
           <ShieldCheckIcon className="w-[18px] h-[18px] text-light" />

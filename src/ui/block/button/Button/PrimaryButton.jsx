@@ -17,9 +17,9 @@ export default function PrimaryButton({
       case "secondary":
         return `bg-input-bg dark:bg-primary border border-input-border dark:border-dark-input-border text-primary dark:text-input-bg px-32 py-8 h-40 w-${width}`;
       case "icon-primary":
-        return "bg-white dark:bg-dark-input-bg border border-input-border dark:border-dark-input-border text-primary dark:text-input-bg px-32 py-8 w-40 h-40";
+        return "bg-white dark:bg-dark-input-bg border border-input-border dark:border-dark-input-border text-primary dark:text-input-bg flex flex-row items-center justify-center w-40 h-40 min-w-40 min-h-40 max-w-40 max-h-40";
       case "icon-secondary":
-        return "bg-input-bg dark:bg-primary border border-input-border dark:border-dark-input-border text-primary dark:text-input-bg flex flex-row items-center justify-center w-40 h-40";
+        return "bg-input-bg dark:bg-primary border border-input-border dark:border-dark-input-border text-primary dark:text-input-bg flex flex-row items-center justify-center w-40 h-40 min-w-40 min-h-40 max-w-40 max-h-40";
       default:
         return color
           ? `bg-${color}-bg text-${color}-text px-32 py-8`

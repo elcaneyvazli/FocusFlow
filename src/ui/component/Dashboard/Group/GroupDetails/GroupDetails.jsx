@@ -18,6 +18,32 @@ export default function GroupDetails({ members, group }) {
         <h1 className="text-primary dark:text-input-bg text-lg">Group Info</h1>
         <div className="flex flex-row justify-between items-center border-b border-input-border dark:border-dark-input-border pb-12">
           <div className="flex flex-row items-center gap-4">
+            <IdentificationIcon className="h-[16px] w-[16px] text-primary dark:text-input-bg" />
+            <p className="text-primary dark:text-input-bg text-sm font-light">
+              Group name
+            </p>
+          </div>
+          <div className="flex flex-row items-center gap-4">
+            <p className="text-primary dark:text-input-bg text-sm font-medium">
+              {group.name}
+            </p>
+          </div>
+        </div>
+        <div className="flex flex-row justify-between items-center border-b border-input-border dark:border-dark-input-border pb-12 gap-16">
+          <div className="flex flex-row items-center gap-4">
+            <DocumentIcon className="h-[16px] w-[16px] text-primary dark:text-input-bg" />
+            <p className="text-primary dark:text-input-bg text-sm font-light whitespace-nowrap">
+              Group description
+            </p>
+          </div>
+          <div className="flex flex-row items-center gap-4 w-full line-clamp-1">
+            <p className="text-primary dark:text-input-bg text-sm font-medium line-clamp-1 text-right w-full">
+              {group.description}
+            </p>
+          </div>
+        </div>
+        <div className="flex flex-row justify-between items-center border-b border-input-border dark:border-dark-input-border pb-12">
+          <div className="flex flex-row items-center gap-4">
             <UserIcon className="h-[16px] w-[16px] text-primary dark:text-input-bg" />
             <p className="text-primary dark:text-input-bg text-sm font-light">
               Creator
@@ -43,32 +69,6 @@ export default function GroupDetails({ members, group }) {
                 day: "numeric",
                 year: "numeric",
               })}
-            </p>
-          </div>
-        </div>
-        <div className="flex flex-row justify-between items-center border-b border-input-border dark:border-dark-input-border pb-12">
-          <div className="flex flex-row items-center gap-4">
-            <IdentificationIcon className="h-[16px] w-[16px] text-primary dark:text-input-bg" />
-            <p className="text-primary dark:text-input-bg text-sm font-light">
-              Group name
-            </p>
-          </div>
-          <div className="flex flex-row items-center gap-4">
-            <p className="text-primary dark:text-input-bg text-sm font-medium">
-              {group.name}
-            </p>
-          </div>
-        </div>
-        <div className="flex flex-row justify-between items-center border-b border-input-border dark:border-dark-input-border pb-12 gap-16">
-          <div className="flex flex-row items-center gap-4">
-            <DocumentIcon className="h-[16px] w-[16px] text-primary dark:text-input-bg" />
-            <p className="text-primary dark:text-input-bg text-sm font-light whitespace-nowrap">
-              Group description
-            </p>
-          </div>
-          <div className="flex flex-row items-center gap-4 w-full line-clamp-1">
-            <p className="text-primary dark:text-input-bg text-sm font-medium line-clamp-1 text-right w-full">
-              {group.description}
             </p>
           </div>
         </div>

@@ -1,3 +1,4 @@
+import { add } from "@dnd-kit/utilities";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import useSWR from "swr";
@@ -55,6 +56,24 @@ export const useGroupMembers = (id) => {
   };
 };
 
+export const useGroupProject = (id) => {
+  const { data, error, mutate } = useSWR(
+    id ? `${baseUrl}/api/Project/${id}/all` : null,
+    fetcher,
+    {
+      refreshInterval: 1000,
+      revalidateOnFocus: true,
+    }
+  );
+
+  return {
+    groupProject: data,
+    isLoading: !error && !data,
+    isError: error,
+    mutate,
+  };
+};
+
 export const createGroup = createAsyncThunk(
   "group/createGroup",
   async (groupData, { rejectWithValue }) => {
@@ -87,9 +106,31 @@ export const addGroupMember = createAsyncThunk(
   }
 );
 
+export const addGroupProject = createAsyncThunk(
+  "group/addGroupProject",
+  async ({ projectData, id }, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${baseUrl}/api/project/${id}`,
+        {
+          name: projectData.name,
+          description: projectData.description,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
 const initialState = {
   addGroupModal: false,
   addGroupMemberModal: false,
+  addProjectModal: false,
   status: "idle",
   error: null,
 };
@@ -103,6 +144,9 @@ const groupSlice = createSlice({
     },
     toggleAddGroupMemberModal: (state) => {
       state.addGroupMemberModal = !state.addGroupMemberModal;
+    },
+    toggleAddProjectModal: (state) => {
+      state.addProjectModal = !state.addProjectModal;
     },
   },
   extraReducers: (builder) => {
@@ -126,11 +170,24 @@ const groupSlice = createSlice({
       .addCase(addGroupMember.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
+      })
+      .addCase(addGroupProject.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(addGroupProject.fulfilled, (state) => {
+        state.status = "succeeded";
+      })
+      .addCase(addGroupProject.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
       });
   },
 });
 
 export const groupReducer = groupSlice.reducer;
-export const { toggleAddGroupModal, toggleAddGroupMemberModal } =
-  groupSlice.actions;
+export const {
+  toggleAddGroupModal,
+  toggleAddGroupMemberModal,
+  toggleAddProjectModal,
+} = groupSlice.actions;
 export default groupReducer;
