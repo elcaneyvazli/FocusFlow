@@ -8,6 +8,7 @@ import {
 import { useAppSelector } from "@/redux/store";
 import { EllipsisVertical, Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
+import Button from "./Button";
 
 export default function DarkModeButton() {
   const dispatch = useDispatch();
@@ -36,24 +37,25 @@ export default function DarkModeButton() {
   }
 
   return (
-    <motion.button
+    <Button
+      size="medium"
+      type="icon-base"
+      icon={
+        isDarkMode ? (
+          <Moon
+            className="h-[18px] w-[18px] text-text"
+            strokeWidth={2}
+            size={18}
+          />
+        ) : (
+          <Sun
+            className="h-[18px] w-[18px] text-text"
+            strokeWidth={2}
+            size={18}
+          />
+        )
+      }
       onClick={toggleTheme}
-      whileTap={{ scale: 0.95 }}
-      className={`flex flex-row items-center gap-12 h-[36px] border border-border bg-elevation rounded-md w-[36px] justify-center`}
-    >
-      {isDarkMode ? (
-        <Moon
-          className="h-[18px] w-[18px] text-text"
-          strokeWidth={2}
-          size={20}
-        />
-      ) : (
-        <Sun
-          className="h-[18px] w-[18px] text-text"
-          strokeWidth={2}
-          size={20}
-        />
-      )}
-    </motion.button>
+    />
   );
 }

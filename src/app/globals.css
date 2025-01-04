@@ -1,5 +1,6 @@
 body {
-  overflow: auto !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
 }
 
 @tailwind base;

@@ -11,6 +11,12 @@ const HeroSection = dynamic(
     loading: () => <p>loading...</p>,
   }
 );
+const About = dynamic(
+  () => import("@/ui/module/components/LandingPage/About"),
+  {
+    loading: () => <p>loading...</p>,
+  }
+);
 
 export default function Home() {
   return (
@@ -22,7 +28,7 @@ export default function Home() {
     >
       <Navbar />
       <HeroSection />
-      
+      <About />
     </div>
   );
 }
