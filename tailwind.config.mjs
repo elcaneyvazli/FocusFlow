@@ -5,6 +5,7 @@ module.exports = {
   darkMode: "class",
   content: [
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/(auth)/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/ui/module/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/ui/module/blocks/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/ui/module/components/**/*.{js,ts,jsx,tsx,mdx}",

@@ -1,7 +1,6 @@
 export const metadata = {
-  title: "Mindix",
-  description:
-    "Mindix is a language learning platform that helps you learn a new language in a fun and interactive way.",
+  title: "Focus Flow",
+  description: "Focus Flow",
 };
 
 export default function MetadataLayout({ children }) {
