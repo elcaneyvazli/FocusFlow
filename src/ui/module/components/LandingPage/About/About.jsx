@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import Header from "./Header";
+import Header from "../Header";
 import AboutImg from "@/ui/assets/about.jpg";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";

@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
-import Logo from "../../blocks/Logo/Logo";
-import DarkModeButton from "../../blocks/Button/DarkModeButton";
-import Button from "../../blocks/Button/Button";
+import Logo from "../../../blocks/Logo/Logo";
+import DarkModeButton from "../../../blocks/Button/DarkModeButton";
+import Button from "../../../blocks/Button/Button";
 
 export default function Navbar() {
   return (

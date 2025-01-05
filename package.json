@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.5.0",
+    "avvvatars-react": "^0.4.2",
     "clsx": "^2.1.1",
+    "dayjs": "^1.11.13",
     "js-cookie": "^3.0.5",
     "lucide-react": "^0.469.0",
     "motion": "^11.15.0",

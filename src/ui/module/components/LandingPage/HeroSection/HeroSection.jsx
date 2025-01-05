@@ -3,7 +3,7 @@ import { motion, useScroll, useTransform } from "motion/react";
 import Page from "@/ui/assets/page.png";
 import Sticker from "@/ui/assets/sticker.svg";
 import Image from "next/image";
-import Button from "../../blocks/Button/Button";
+import Button from "@/ui/module/blocks/Button/Button";
 
 export default function HeroSection() {
   const { scrollYProgress } = useScroll();
