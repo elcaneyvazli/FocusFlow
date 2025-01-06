@@ -8,7 +8,7 @@ import { ArrowRight } from "lucide-react";
 
 export default function Footer() {
   return (
-    <div className="flex flex-col gap-32 items-start bg-elevation w-full px-16 xs:px-32 sm:px-48 lg:px-64 xl:px-80">
+    <div className="flex flex-col gap-32 items-start bg-elevation w-full px-16 xs:px-32 sm:px-48">
       <h1 className="text-text text-4xl xs:text-[64px] md:text-[96px] lg:text-[128px]">
         Want to Talk about a Project?
       </h1>

@@ -4,10 +4,12 @@ import Page from "@/ui/assets/page.png";
 import Sticker from "@/ui/assets/sticker.svg";
 import Image from "next/image";
 import Button from "@/ui/module/blocks/Button/Button";
+import { useRouter } from "next/navigation";
 
 export default function HeroSection() {
   const { scrollYProgress } = useScroll();
   const rotate = useTransform(scrollYProgress, [0, 0.2], [20, 0]);
+  const router = useRouter();
 
   return (
     <div
@@ -28,7 +30,14 @@ export default function HeroSection() {
             access and unlock peak productivity.
           </p>
         </div>
-        <Button text={"Get Started"} size={"medium"} type="primary" />
+        <Button
+          text={"Get Started"}
+          size={"medium"}
+          type="primary"
+          onClick={() => {
+            router.push("/login");
+          }}
+        />
       </motion.div>
       <motion.div
         className="w-full border-4 border-border rounded-md relative"
