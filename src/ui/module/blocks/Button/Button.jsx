@@ -54,7 +54,7 @@ export default function Button({
     <motion.button
       className={getTypeClasses()}
       whileTap={{ scale: 0.95 }}
-      type="button"
+      type="submit"
       onClick={onClick}
     >
       {icon && <span className="flex items-center">{icon}</span>}

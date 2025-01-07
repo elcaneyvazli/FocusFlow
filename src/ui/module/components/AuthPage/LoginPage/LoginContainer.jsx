@@ -25,10 +25,17 @@ export default function LoginContainer() {
           </div>
           <LoginForm />
         </div>
-        <Button
-          text={"Authorize with Google"}
-          icon={<Image src={Google} alt="logo" width={18} height={18} />}
-        />
+        <div className="flex flex-col gap-16">
+          <div className="flex flex-row items-center gap-12">
+            <div className="bg-border h-[1px] w-full"></div>
+            <p className="text-light font-medium text-xs">or</p>
+            <div className="bg-border h-[1px] w-full"></div>
+          </div>
+          <Button
+            text={"Authorize with Google"}
+            icon={<Image src={Google} alt="logo" width={18} height={18} />}
+          />
+        </div>
       </div>
     </div>
   );

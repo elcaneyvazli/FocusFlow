@@ -40,7 +40,7 @@ module.exports = {
           900: "#1E3A8A",
           950: "#1E3A8A",
         },
-        red: {
+        error: {
           50: "#FEF2F2",
           100: "#FEE2E2",
           200: "#FECACA",

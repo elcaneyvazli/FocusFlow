@@ -39,7 +39,7 @@ export default function Home() {
       }}
     >
       <div
-        className="flex flex-col gap-24 px-32 pt-16"
+        className="flex flex-col gap-24 px-16 md:px-32 pt-16"
         style={{
           perspective: "1000px",
         }}
