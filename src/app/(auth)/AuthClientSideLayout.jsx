@@ -1,7 +1,7 @@
 "use client";
 import { DM_Sans } from "next/font/google";
 import Bg from "@/ui/module/layout/Bg/Bg";
-import { useAppSelector } from "@/redux/store";
+import Toast from "@/ui/module/blocks/Toast/Toast";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -9,16 +9,13 @@ const dmSans = DM_Sans({
 });
 
 export default function AuthClientSideLayout({ children }) {
-  const darkMode = useAppSelector((state) => state.darkMode?.darkMode);
-
   return (
-    <html lang="en" className={darkMode ? "dark" : "light"}>
-      <body
-        className={`${dmSans.className} relative min-h-[100dvh] max-h-[100dvh] h-[100dvh]`}
-      >
-        {children}
-        <Bg />
-      </body>
-    </html>
+    <div
+      className={`${dmSans.className} min-h-[100dvh] max-h-[100dvh] h-[100dvh] relative`}
+    >
+      {children}
+      <Bg />
+      <Toast />
+    </div>
   );
-} 
+}

@@ -1,5 +1,5 @@
-import AuthClientSideLayout from "./AuthClientSideLayout";
+import DashClientSideLayout from "./DashClientSideLayout";
 
 export default function RootLayout({ children }) {
-  return <AuthClientSideLayout>{children}</AuthClientSideLayout>;
+  return <DashClientSideLayout>{children}</DashClientSideLayout>;
 }

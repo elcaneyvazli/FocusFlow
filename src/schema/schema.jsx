@@ -8,14 +8,18 @@ export const LoginSchema = yup.object({
 export const RegisterSchema = yup.object({
   email: yup
     .string()
-    .required("Email or Username is required")
+    .email("Please enter a valid email")
+    .required("Email is required")
     .matches(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, "Invalid email"),
-  password: yup.string().required("Password is required"),
   userName: yup
     .string()
-    .required("Username is required")
-    .min(3, "Username is too short min 3 characters")
-    .max(30, "Username is too long max 30 characters"),
+    .min(3, "Username must be at least 3 characters")
+    .max(30, "Username is too long max 30 characters")
+    .required("Username is required"),
+  password: yup
+    .string()
+    .min(3, "Password must be at least 6 characters")
+    .required("Password is required"),
 });
 
 export const TaskSchema = yup.object({

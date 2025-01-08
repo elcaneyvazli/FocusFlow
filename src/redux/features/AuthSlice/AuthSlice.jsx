@@ -19,7 +19,12 @@ export const authLogin = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data || error.message);
+      return rejectWithValue(
+        error.response?.data || {
+          title: "Error",
+          desc: error.message,
+        }
+      );
     }
   }
 );
@@ -41,7 +46,12 @@ export const authRegister = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data || error.message);
+      return rejectWithValue(
+        error.response?.data || {
+          title: "Error",
+          desc: error.message,
+        }
+      );
     }
   }
 );

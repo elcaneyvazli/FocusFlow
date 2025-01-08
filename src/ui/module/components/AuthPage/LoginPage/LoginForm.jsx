@@ -10,22 +10,37 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { LoginSchema } from "@/schema/schema";
 import { useDispatch } from "react-redux";
 import { authLogin } from "@/redux/features/AuthSlice/AuthSlice";
+import { addToast } from "@/redux/features/ToastSlice/ToastSlice";
 
 export default function LoginForm() {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const handleLogin = useCallback(
-    async (data) => {
-      try {
-        await dispatch(authLogin(data));
-        router.push("/dashboard");
-      } catch (error) {
-        console.error("Login error:", error);
-      }
-    },
-    [router, dispatch]
-  );
+  const handleLogin = async (data) => {
+    try {
+      await dispatch(authLogin(data)).unwrap();
+      router.push("/dashboard");
+
+      dispatch(
+        addToast({
+          id: Date.now(),
+          title: "Success",
+          message: "Successfully logged in!",
+          variant: "success",
+        })
+      );
+    } catch (error) {
+      console.log(error);
+      dispatch(
+        addToast({
+          id: Date.now(),
+          title: error.title || "Error",
+          message: error.desc || "Login failed. Please try again.",
+          variant: "error",
+        })
+      );
+    }
+  };
 
   const {
     handleSubmit,

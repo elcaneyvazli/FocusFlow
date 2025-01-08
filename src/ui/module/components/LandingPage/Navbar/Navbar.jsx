@@ -29,7 +29,7 @@ export default function Navbar() {
             }}
           />
         </div>
-        <DarkModeButton />
+        <DarkModeButton type={"icon-base"} />
       </div>
     </div>
   );

@@ -10,7 +10,7 @@ import { EllipsisVertical, Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 import Button from "./Button";
 
-export default function DarkModeButton() {
+export default function DarkModeButton({ type }) {
   const dispatch = useDispatch();
   const isDarkMode = useAppSelector((state) => state.darkMode.darkMode);
   const [mounted, setMounted] = useState(false);
@@ -39,7 +39,7 @@ export default function DarkModeButton() {
   return (
     <Button
       size="medium"
-      type="icon-base"
+      type={type}
       icon={
         isDarkMode ? (
           <Moon

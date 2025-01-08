@@ -5,10 +5,12 @@ import ClientSideLayout from "./ClientSideLayout";
 
 export default function RootLayout({ children }) {
   return (
-    <MetadataLayout>
-      <ReduxProvider>
-        <ClientSideLayout>{children}</ClientSideLayout>
-      </ReduxProvider>
-    </MetadataLayout>
+    <html lang="en">
+      <MetadataLayout>
+        <ReduxProvider>
+          <ClientSideLayout>{children}</ClientSideLayout>
+        </ReduxProvider>
+      </MetadataLayout>
+    </html>
   );
 }
