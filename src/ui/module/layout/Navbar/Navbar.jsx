@@ -17,12 +17,7 @@ export default function Navbar() {
       <Logo size={40} textSize={"text-xl"} />
       <div className="flex flex-row items-center gap-8">
         <DarkModeButton type={"icon-solid"} />
-        <UserBadge
-          user={{
-            username: "John Doe",
-            email: "johndoe@example.com",
-          }}
-        />
+        <UserBadge />
       </div>
     </div>
   );

@@ -70,8 +70,25 @@ export const authLogout = createAsyncThunk(
   }
 );
 
+export const getUser = createAsyncThunk(
+  "user/getUser",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${baseUrl}/User`, {
+        withCredentials: true,
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || {
+        title: "Error fetching user",
+        desc: error.message
+      });
+    }
+  }
+);
+
 const initialState = {
-  auth: [],
+  user: null,
   status: "idle",
   error: null,
 };
@@ -112,6 +129,17 @@ const authSlice = createSlice({
         state.auth = action.payload;
       })
       .addCase(authLogout.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      .addCase(getUser.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getUser.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.user = action.payload;
+      })
+      .addCase(getUser.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
       });

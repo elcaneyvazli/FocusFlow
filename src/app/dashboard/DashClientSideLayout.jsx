@@ -14,9 +14,8 @@ export default function DashClientSideLayout({ children }) {
       className={`${dmSans.className} relative min-h-[100dvh] max-h-[100dvh] h-[100dvh] flex flex-col gap-0 bg-elevation`}
     >
       <Navbar />
-      <div className="w-full h-full px-12 pb-12">
+      <div className="w-full h-full">
         <div className="w-full h-full bg-background border border-border rounded-md shadow-lg">
-          {" "}
           {children}
         </div>
       </div>
