@@ -14,8 +14,8 @@ export default function Footer() {
       </h1>
       <div className="bg-background flex flex-row gap-24 pr-4 pl-16 py-4 rounded-full items-center">
         <p className="text-text text-xl">Lets Talk</p>
-        <div className="flex items-center justify-center p-8 bg-elevation rounded-full">
-          <ArrowRight className="h-[24px] w-[24px] text-white" />
+        <div className="flex items-center justify-center p-8 bg-elevation border border-border rounded-full">
+          <ArrowRight className="h-[24px] w-[24px] text-text" />
         </div>
       </div>
       <div className="flex flex-col gap-8 items-start w-full">

@@ -35,7 +35,14 @@ export default function UserBadge() {
 
   if (!user || status === "loading") {
     return (
-      <div className="animate-pulse h-[32px] w-[32px] bg-gray-200 rounded-full" />
+      <div className="flex flex-row md:gap-8 gap-4 items-center animate-pulse">
+        <div className="h-[32px] w-[32px] bg-gray-300 dark:bg-gray-700 rounded-full" />
+        <div className="flex-col items-start gap-2 md:flex hidden">
+          <div className="h-[12px] w-[80px] bg-gray-300 dark:bg-gray-700 rounded-md" />
+          <div className="h-[12px] w-[120px] bg-gray-300 dark:bg-gray-700 rounded-md" />
+        </div>
+        <div className="h-[14px] w-[14px] bg-gray-300 dark:bg-gray-700 rounded-sm" />
+      </div>
     );
   }
 
