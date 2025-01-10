@@ -1,18 +1,34 @@
 import React from "react";
-import Logo from "../../blocks/Logo/Logo";
 import dynamic from "next/dynamic";
-import { EllipsisVertical } from "lucide-react";
+import { Bell, EllipsisVertical } from "lucide-react";
+const Logo = dynamic(() => import("../../blocks/Logo/Logo"), {
+  loading: () => (
+    <div className="w-[40px] h-[40px] animate-pulse rounded-md bg-gray-300 dark:bg-gray-700 border border-border"></div>
+  ),
+});
+const NavMenu = dynamic(() => import("./NavMenu"), {
+  loading: () => (
+    <div className="w-full flex items-center justify-center animate-pulse">
+      <div className="flex flex-row items-center justify-between lg:justify-center gap-8 rounded-none lg:rounded-full w-full lg:w-fit px-16 py-16 lg:p-4 relative lg:bg-transparent bg-elevation">
+        <div className="w-[120px] h-[30px] bg-gray-300 dark:bg-gray-700 rounded-full" />
+        <div className="w-[120px] h-[30px] bg-gray-300 dark:bg-gray-700 rounded-full" />
+        <div className="w-[120px] h-[30px] bg-gray-300 dark:bg-gray-700 rounded-full" />
+        <div className="w-[120px] h-[30px] bg-gray-300 dark:bg-gray-700 rounded-full" />
+        <div className="w-[120px] h-[30px] bg-gray-300 dark:bg-gray-700 rounded-full" />
+      </div>
+    </div>
+  ),
+});
+const Button = dynamic(() => import("../../blocks/Button/Button"), {
+  loading: () => (
+    <div className="w-[36px] h-[36px] flex items-center justify-center animate-pulse rounded-md bg-gray-300 dark:bg-gray-700 border border-border"></div>
+  ),
+});
 const DarkModeButton = dynamic(
   () => import("../../blocks/Button/DarkModeButton"),
   {
     loading: () => (
-      <div className="w-[36px] h-[36px] flex items-center justify-center animate-pulse rounded-main bg-background border border-border">
-        <EllipsisVertical
-          className="text-light animate-pulse"
-          strokeWidth={1}
-          size={20}
-        />
-      </div>
+      <div className="w-[36px] h-[36px] flex items-center justify-center animate-pulse rounded-md bg-gray-300 dark:bg-gray-700 border border-border"></div>
     ),
   }
 );
@@ -32,8 +48,17 @@ const UserBadge = dynamic(() => import("./UserBadge"), {
 export default function Navbar() {
   return (
     <div className="min-h-[64px] h-[64px] max-h-[64px] flex flex-row justify-between items-center px-24">
-      <Logo size={40} textSize={"text-xl"} />
       <div className="flex flex-row items-center gap-8">
+        <Logo size={40} textSize={"text-xl"} />
+        <div className="hidden lg:flex">
+          <NavMenu />
+        </div>
+      </div>
+      <div className="flex flex-row items-center gap-8">
+        <Button
+          type={"icon-solid"}
+          icon={<Bell className="text-text" strokeWidth={2} size={18} />}
+        />
         <DarkModeButton type={"icon-solid"} />
         <UserBadge />
       </div>
