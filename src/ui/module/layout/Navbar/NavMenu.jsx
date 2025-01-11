@@ -20,6 +20,7 @@ export default function NavMenu() {
     }
     return pathname.startsWith(link);
   };
+
   return (
     <div
       className="w-full flex items-center justify-center"
@@ -27,13 +28,19 @@ export default function NavMenu() {
         zIndex: 60,
       }}
     >
-      <div className="flex flex-row items-center justify-between lg:justify-center gap-8 rounded-none lg:rounded-full w-full lg:w-fit px-16 py-16 lg:p-4 relative lg:bg-transparent bg-elevation">
+      <div className="flex flex-row items-center justify-between lg:justify-center gap-8 rounded-none lg:rounded-full w-full lg:w-fit px-16 py-8 lg:p-4 relative lg:bg-transparent bg-elevation">
         {SideBarItem.map((item, index) => {
           const isActive = isLinkActive(item.link);
           return (
             <motion.button
               key={index}
-              className={`relative w-[36px] lg:w-fit h-[36px] lg:h-fit px-0 lg:px-12 py-0 lg:py-4 flex flex-col lg:flex-row items-center justify-center gap-4 rounded-main lg:rounded-full cursor-pointer whitespace-nowrap text-text`}
+              className={`relative w-[36px] lg:w-fit h-[36px] lg:h-fit px-0 lg:px-12 py-0 lg:py-4 flex flex-col lg:flex-row items-center justify-center gap-4 rounded-md cursor-pointer whitespace-nowrap text-text 
+                ${
+                  isActive
+                    ? ""
+                    : "hover:bg-background hover:border hover:border-border hover:px-[calc(12px-1px)] hover:py-[calc(4px-1px)]"
+                }
+                `}
               onClick={() => handleItemClick(index, item.link)}
               whileTap={{ scale: 0.98 }}
             >
@@ -54,7 +61,7 @@ export default function NavMenu() {
               </h1>
               {isActive && (
                 <motion.div
-                  className="absolute inset-0 rounded-md lg:rounded-full bg-gradient-to-b from-primary-600 to-primary-700 z-10 border border-primary-400 outline outline-2 outline-primary-200"
+                  className="absolute inset-0 rounded-md bg-gradient-to-b from-primary-600 to-primary-700 z-10 border border-primary-400 outline outline-2 outline-primary-200"
                   layout
                   layoutId="active"
                   initial={{ opacity: 1 }}

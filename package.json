@@ -24,6 +24,7 @@
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.54.2",
     "react-redux": "^9.2.0",
+    "swr": "^2.3.0",
     "yup": "^1.6.1"
   },
   "devDependencies": {
