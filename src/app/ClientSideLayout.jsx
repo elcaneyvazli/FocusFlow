@@ -26,7 +26,7 @@ export default function ClientSideLayout({ children }) {
 
   return (
     <body
-      className={`${dmSans.className} bg-background ${
+      className={`${dmSans.className} bg-elevation ${
         darkMode ? "dark" : "light"
       }`}
     >

@@ -1,86 +1,38 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-import useSWR from "swr";
-import Cookies from "js-cookie";
-
-const baseUrl = process.env.NEXT_PUBLIC_API_KEY;
-
-const fetcher = (url) =>
-  axios.get(url, { withCredentials: true }).then((res) => res.data);
-
-export const useTasks = () => {
-  const { data, error, mutate } = useSWR(
-    `${baseUrl}/UserTask/priority`,
-    fetcher,
-    {
-      refreshInterval: 1000,
-      revalidateOnFocus: true,
-      onError: (error) => {
-        if (error.response?.status === 401) {
-          Cookies.remove("acc");
-          window.location.href = "/login";
-        }
-      },
-    }
-  );
-
-  return {
-    tasks: data || [],
-    isLoading: !error && !data,
-    isError: error,
-    mutate,
-  };
-};
-
-export const getTasks = createAsyncThunk(
-  "user/getTask",
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await axios.get(`${baseUrl}/UserTask/priority`, {
-        withCredentials: true,
-      });
-      return response.data;
-    } catch (error) {
-      const authError = error.response?.status;
-      if (authError === 401) {
-        Cookies?.remove("acc");
-        window.location.href = "/login";
-      }
-      return rejectWithValue(
-        error.response?.data || {
-          title: "Error fetching user",
-          desc: error.message,
-        }
-      );
-    }
-  }
-);
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  task: [],
+  tasks: [],
+  labels: [],
   status: "idle",
   error: null,
+  editTask: null,
+  editTaskButton: false,
+  newTask: false,
+  selectTaskValue: false,
+  selectTask: null,
 };
 
-const taskSlice = createSlice({
+const tasksSlice = createSlice({
   name: "tasks",
   initialState,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder
-      .addCase(getTasks.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(getTasks.fulfilled, (state, action) => {
-        state.status = "succeeded";
-        state.task = action.payload;
-      })
-      .addCase(getTasks.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.payload;
-      });
+  reducers: {
+    toggleEditTask: (state) => {
+      state.editTaskButton = !state.editTaskButton;
+    },
+    addEditTask: (state, action) => {
+      state.editTask = action.payload;
+    },
+    toggleTask: (state) => {
+      state.newTask = !state.newTask;
+    },
+    toggleSelectTask: (state, action) => {
+      state.selectTaskValue = !state.selectTaskValue;
+      state.selectTask = action.payload;
+    },
   },
 });
 
-export const taskReducer = taskSlice.reducer;
-export default taskReducer;
+export const tasksReducer = tasksSlice.reducer;
+export const { toggleEditTask, addEditTask, toggleTask, toggleSelectTask } =
+  tasksSlice.actions;
+export default tasksReducer;

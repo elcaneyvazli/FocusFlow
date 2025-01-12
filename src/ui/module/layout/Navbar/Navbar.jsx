@@ -47,7 +47,7 @@ const UserBadge = dynamic(() => import("./UserBadge"), {
 
 export default function Navbar() {
   return (
-    <div className="min-h-[64px] h-[64px] max-h-[64px] flex flex-row justify-between items-center px-24">
+    <div className="min-h-[64px] h-[64px] max-h-[64px] flex flex-row justify-between items-center px-16">
       <div className="flex flex-row items-center gap-8">
         <Logo size={40} textSize={"text-xl"} />
         <div className="hidden lg:flex">

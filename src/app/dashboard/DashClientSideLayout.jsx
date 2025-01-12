@@ -38,8 +38,16 @@ export default function DashClientSideLayout({ children }) {
           <Navbar />
         </div>
       )}
-      <div className="w-full h-full bg-background border border-border rounded-lg">
-        {children}
+      <div
+        className="px-12 pb-12 w-full"
+        style={{
+          minHeight: "calc(100dvh - 64px)",
+          maxHeight: "calc(100dvh - 64px)",
+        }}
+      >
+        <div className="w-full min-h-full h-full max-h-full bg-background border border-border rounded-md overflow-y-auto">
+          {children}
+        </div>
       </div>
     </div>
   );

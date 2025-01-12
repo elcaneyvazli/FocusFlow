@@ -33,7 +33,7 @@ const Footer = dynamic(
 export default function Home() {
   return (
     <div
-      className="flex flex-col gap-24"
+      className="flex flex-col gap-24 bg-background"
       style={{
         perspective: "1000px",
       }}

@@ -3,7 +3,7 @@ import React from "react";
 
 export default function AnalysisCard({ title, icon, data }) {
   return (
-    <div className="col-span-12 md:col-span-6 lg:col-span-4 bg-elevation border border-border flex flex-col gap-8 items-start w-full rounded-md px-12 py-12 ">
+    <div className="col-span-12 md:col-span-6 lg:col-span-4 bg-elevation border border-border flex flex-col items-start justify-between w-full rounded-md px-12 py-12 h-[168px]">
       <div className="flex flex-row items-center justify-between w-full">
         <h1 className="text-text text-lg font-medium">{title}</h1>
         <div className="px-8 py-8 bg-background border border-border text-text rounded-md">
