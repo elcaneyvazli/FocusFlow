@@ -11,8 +11,11 @@ import {
   Trash as TrashIcon,
 } from "lucide-react";
 import { updateTask, deleteTask } from "@/services/task.services";
+import { useDispatch } from "react-redux";
+import { addToast } from "@/redux/features/ToastSlice/ToastSlice";
 
 export default function BoardItem({ task, onMutate }) {
+  const dispatch = useDispatch();
   const [isCompleted, setIsCompleted] = useState(task.isCompleted);
   const [editTask, setEditTaskState] = useState(false);
 
@@ -34,8 +37,24 @@ export default function BoardItem({ task, onMutate }) {
     try {
       await deleteTask(task.id);
       onMutate();
+      dispatch(
+        addToast({
+          id: Date.now(),
+          title: "Success",
+          message: "Task deleted successfully",
+          variant: "success",
+        })
+      );
     } catch (error) {
       console.error("Error deleting task:", error);
+      dispatch(
+        addToast({
+          id: Date.now(),
+          title: "Error",
+          message: "Failed to delete task",
+          variant: "error",
+        })
+      );
     }
   };
 
@@ -45,8 +64,26 @@ export default function BoardItem({ task, onMutate }) {
       await updateTask({ taskId: task.id, updatedData: updatedTask });
       setIsCompleted(!isCompleted);
       onMutate();
+      dispatch(
+        addToast({
+          id: Date.now(),
+          title: "Success",
+          message: `Task marked as ${
+            !isCompleted ? "completed" : "incomplete"
+          }`,
+          variant: "success",
+        })
+      );
     } catch (error) {
       console.error("Error updating task:", error);
+      dispatch(
+        addToast({
+          id: Date.now(),
+          title: "Error",
+          message: "Failed to update task status",
+          variant: "error",
+        })
+      );
     }
   };
 
@@ -109,11 +146,11 @@ export default function BoardItem({ task, onMutate }) {
             <p
               className={`text-xs text-${
                 task.status === 0
-                  ? "gray"
+                  ? "light"
                   : task.status === 1
-                  ? "blue"
-                  : "green"
-              }-text`}
+                  ? "white"
+                  : "white"
+              }`}
             >
               {task.status == 0
                 ? "To do"

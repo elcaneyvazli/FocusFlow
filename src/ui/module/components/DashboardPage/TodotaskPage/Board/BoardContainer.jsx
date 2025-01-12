@@ -12,8 +12,11 @@ import {
 } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
 import BoardItem from "./BoardItem";
+import { useDispatch } from "react-redux";
+import { addToast } from "@/redux/features/ToastSlice/ToastSlice";
 
 export default function BoardContainer() {
+  const dispatch = useDispatch();
   const { columns, isLoading, isError, mutate } = useTasks();
   const [localColumns, setLocalColumns] = useState([]);
   const [activeTask, setActiveTask] = useState(null);
@@ -95,12 +98,24 @@ export default function BoardContainer() {
           priority: destinationColumn.id,
         });
         mutate();
+        dispatch(addToast({
+          id: Date.now(),
+          title: "Success",
+          message: "Task priority updated successfully",
+          variant: "success"
+        }));
       } catch (error) {
         console.error("Error updating task priority:", error);
         setLocalColumns(columns);
+        dispatch(addToast({
+          id: Date.now(),
+          title: "Error",
+          message: "Failed to update task priority",
+          variant: "error"
+        }));
       }
     },
-    [localColumns, mutate, columns]
+    [localColumns, mutate, columns, dispatch]
   );
 
   if (isLoading) return <div>Loading...</div>;

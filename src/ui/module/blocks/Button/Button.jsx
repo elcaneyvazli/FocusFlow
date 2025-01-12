@@ -56,6 +56,14 @@ export default function Button({
       whileTap={{ scale: 0.95 }}
       type="submit"
       onClick={onClick}
+      initial={{
+        y: 20,
+        opacity: 0,
+      }}
+      animate={{
+        y: 0,
+        opacity: 1,
+      }}
     >
       {icon && <span className="flex items-center">{icon}</span>}
       {text && <p className={`text-sm whitespace-nowrap`}>{text}</p>}

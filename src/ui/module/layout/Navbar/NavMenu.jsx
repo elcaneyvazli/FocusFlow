@@ -22,10 +22,18 @@ export default function NavMenu() {
   };
 
   return (
-    <div
+    <motion.div
       className="w-full flex items-center justify-center"
       style={{
         zIndex: 60,
+      }}
+      initial={{
+        y: 20,
+        opacity: 0,
+      }}
+      animate={{
+        y: 0,
+        opacity: 1,
       }}
     >
       <div className="flex flex-row items-center justify-between lg:justify-center gap-8 rounded-none lg:rounded-full w-full lg:w-fit px-16 py-8 lg:p-4 relative lg:bg-transparent bg-elevation">
@@ -74,6 +82,6 @@ export default function NavMenu() {
           );
         })}
       </div>
-    </div>
+    </motion.div>
   );
 }

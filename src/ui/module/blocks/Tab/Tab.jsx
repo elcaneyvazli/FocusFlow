@@ -6,9 +6,19 @@ export default function Tab({ tabs, component }) {
   const [activeTab, setActiveTab] = useState(tabs[0]);
 
   return (
-    <div className="flex flex-col gap-16 w-full">
-      <div className="z-30 relative flex flex-col sm:flex-row items-center justify-between sm:gap-0 gap-12 border-b border-border">
-        <div className="flex flex-row gap-0 items-center w-full sm:w-fit relative">
+    <motion.div
+      className="flex flex-col gap-16 w-full"
+      initial={{
+        y: 20,
+        opacity: 0,
+      }}
+      animate={{
+        y: 0,
+        opacity: 1,
+      }}
+    >
+      <div className="z-30 relative flex flex-col sm:flex-row items-center justify-between sm:gap-0 gap-12 border-0 sm:border-b border-border">
+        <div className="flex flex-row gap-0 items-center w-full sm:w-fit min-w-fit relative border-b sm:border-y-0 border-border">
           {tabs.map((tab) => (
             <div
               key={tab.id}
@@ -52,6 +62,6 @@ export default function Tab({ tabs, component }) {
           </div>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 }

@@ -31,7 +31,17 @@ export default function BoardColumn({ column, onMutate }) {
   });
 
   return (
-    <div className="flex flex-col h-full">
+    <motion.div
+      className="flex flex-col h-full"
+      initial={{
+        y: 20,
+        opacity: 0,
+      }}
+      animate={{
+        y: 0,
+        opacity: 1,
+      }}
+    >
       <div
         className={`px-12 h-[36px] flex flex-row justify-between items-center w-full rounded-md ${columnColor.bg} mb-[10px]`}
       >
@@ -53,6 +63,6 @@ export default function BoardColumn({ column, onMutate }) {
           ))}
         </AnimatePresence>
       </div>
-    </div>
+    </motion.div>
   );
 }

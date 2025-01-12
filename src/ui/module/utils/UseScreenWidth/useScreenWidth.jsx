@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+"use client";
+import { useState, useEffect } from "react";
 
 function useScreenWidth(maxWidth) {
   const [isScreenSmall, setIsScreenSmall] = useState(false);
@@ -10,9 +11,9 @@ function useScreenWidth(maxWidth) {
 
     checkScreenWidth();
 
-    window.addEventListener('resize', checkScreenWidth);
+    window.addEventListener("resize", checkScreenWidth);
 
-    return () => window.removeEventListener('resize', checkScreenWidth);
+    return () => window.removeEventListener("resize", checkScreenWidth);
   }, [maxWidth]);
 
   return isScreenSmall;

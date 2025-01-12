@@ -47,7 +47,17 @@ export default function UserBadge() {
   }
 
   return (
-    <div className="relative">
+    <motion.div
+      className="relative"
+      initial={{
+        y: 20,
+        opacity: 0,
+      }}
+      animate={{
+        y: 0,
+        opacity: 1,
+      }}
+    >
       <motion.button
         className="flex flex-row md:gap-8 gap-4 items-center cursor-pointer"
         whileTap={{ scale: 0.95 }}
@@ -101,6 +111,6 @@ export default function UserBadge() {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </motion.div>
   );
 }

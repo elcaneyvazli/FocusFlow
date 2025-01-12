@@ -1,9 +1,20 @@
 import Link from "next/link";
 import React from "react";
+import { motion } from "motion/react";
 
 export default function AnalysisCard({ title, icon, data }) {
   return (
-    <div className="col-span-12 md:col-span-6 lg:col-span-4 bg-elevation border border-border flex flex-col items-start justify-between w-full rounded-md px-12 py-12 h-[168px]">
+    <motion.div
+      className="col-span-12 md:col-span-6 lg:col-span-4 bg-elevation border border-border flex flex-col items-start justify-between w-full rounded-md px-12 py-12 h-[168px]"
+      initial={{
+        y: 20,
+        opacity: 0,
+      }}
+      animate={{
+        y: 0,
+        opacity: 1,
+      }}
+    >
       <div className="flex flex-row items-center justify-between w-full">
         <h1 className="text-text text-lg font-medium">{title}</h1>
         <div className="px-8 py-8 bg-background border border-border text-text rounded-md">
@@ -11,9 +22,7 @@ export default function AnalysisCard({ title, icon, data }) {
         </div>
       </div>
       <div>
-        <h1 className="font-bold text-4xl text-primary dark:text-input-bg">
-          {data}
-        </h1>
+        <h1 className="font-bold text-4xl text-text">{data}</h1>
       </div>
       <div className="flex flex-row justify-between w-full pt-8 items-center border-t border-border ">
         <Link href={"/dashboard/timeanalysis"}>
@@ -23,6 +32,6 @@ export default function AnalysisCard({ title, icon, data }) {
         </Link>
         <h1 className="text-light text-xs">From the last week</h1>
       </div>
-    </div>
+    </motion.div>
   );
 }
