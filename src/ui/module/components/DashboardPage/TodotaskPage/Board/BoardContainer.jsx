@@ -2,88 +2,129 @@
 import React, { useState, useCallback, useEffect } from "react";
 import BoardColumn from "./BoardColumn";
 import { useTasks, updateTaskPriority } from "@/services/task.services";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import {
+  DndContext,
+  DragOverlay,
+  closestCenter,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import { arrayMove } from "@dnd-kit/sortable";
+import BoardItem from "./BoardItem";
 
 export default function BoardContainer() {
   const { columns, isLoading, isError, mutate } = useTasks();
   const [localColumns, setLocalColumns] = useState([]);
+  const [activeTask, setActiveTask] = useState(null);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    })
+  );
 
   useEffect(() => {
-    if (columns) {
-      setLocalColumns(columns);
+    if (columns && columns.length > 0) {
+      const filteredColumns = columns.map(column => ({
+        ...column,
+        items: column.items.filter(task => !task.isCompleted)
+      }));
+      setLocalColumns(filteredColumns);
     }
   }, [columns]);
 
-  const reorderColumns = useCallback((source, destination, draggableId) => {
-    const sourceCol = localColumns.find(col => String(col.id) === source.droppableId);
-    const destCol = localColumns.find(col => String(col.id) === destination.droppableId);
-    
-    if (!sourceCol || !destCol) return localColumns;
+  const handleDragStart = (event) => {
+    const { active } = event;
+    const activeColumn = localColumns.find((col) =>
+      col.items.some((item) => item.id === active.id)
+    );
+    const activeItem = activeColumn?.items.find(
+      (item) => item.id === active.id
+    );
+    setActiveTask(activeItem);
+  };
 
-    const sourceItems = Array.from(sourceCol.items);
-    const [movedItem] = sourceItems.splice(source.index, 1);
-    
-    if (source.droppableId === destination.droppableId) {
-      sourceItems.splice(destination.index, 0, movedItem);
-      return localColumns.map(col =>
-        String(col.id) === source.droppableId
-          ? { ...col, items: sourceItems }
-          : col
+  const handleDragEnd = useCallback(
+    async (event) => {
+      const { active, over } = event;
+      if (!over) return;
+
+      const activeId = active.id;
+      const overId = over.id;
+
+      const sourceColumn = localColumns.find((col) =>
+        col.items.some((item) => item.id === activeId)
       );
-    }
+      const destinationColumn = localColumns.find((col) => col.id === overId);
 
-    const destItems = Array.from(destCol.items);
-    destItems.splice(destination.index, 0, movedItem);
-    
-    return localColumns.map(col => {
-      if (String(col.id) === source.droppableId) return { ...col, items: sourceItems };
-      if (String(col.id) === destination.droppableId) return { ...col, items: destItems };
-      return col;
-    });
-  }, [localColumns]);
+      if (!sourceColumn || !destinationColumn) return;
 
-  const handleDragEnd = useCallback(async (result) => {
-    const { source, destination, draggableId } = result;
+      const taskToMove = sourceColumn.items.find(
+        (item) => item.id === activeId
+      );
+      if (!taskToMove) return;
 
-    if (!destination || 
-        (source.droppableId === destination.droppableId && 
-         source.index === destination.index)) {
-      return;
-    }
-
-    try {
-      // Optimistic update
-      setLocalColumns(prev => reorderColumns(source, destination, draggableId));
-
-      await updateTaskPriority({
-        taskId: parseInt(draggableId),
-        priority: parseInt(destination.droppableId)
+      const updatedColumns = localColumns.map((column) => {
+        if (column.id === sourceColumn.id) {
+          return {
+            ...column,
+            items: column.items.filter((item) => item.id !== activeId),
+          };
+        }
+        if (column.id === destinationColumn.id) {
+          return {
+            ...column,
+            items: [
+              ...column.items,
+              { ...taskToMove, priority: destinationColumn.id },
+            ],
+          };
+        }
+        return column;
       });
 
-      // Refresh data to ensure sync
-      mutate();
-    } catch (error) {
-      console.error("Error updating task priority:", error);
-      // Revert to server state on error
-      setLocalColumns(columns);
-    }
-  }, [columns, mutate, reorderColumns]);
+      setLocalColumns(updatedColumns);
+      setActiveTask(null);
 
-  if (isLoading) return <div className="flex items-center justify-center h-full">Loading...</div>;
-  if (isError) return <div className="text-error-600">Error loading tasks</div>;
+      try {
+        await updateTaskPriority({
+          taskId: activeId,
+          priority: destinationColumn.id,
+        });
+        mutate();
+      } catch (error) {
+        console.error("Error updating task priority:", error);
+        setLocalColumns(columns);
+      }
+    },
+    [localColumns, mutate, columns]
+  );
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error loading tasks</div>;
 
   return (
-    <DragDropContext onDragEnd={handleDragEnd}>
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+    >
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-16 pb-32">
         {localColumns?.map((column) => (
-          <BoardColumn 
-            key={column.id} 
-            column={column} 
-            onMutate={mutate} 
-          />
+          <BoardColumn key={column.id} column={column} onMutate={mutate} />
         ))}
       </div>
-    </DragDropContext>
+      <DragOverlay>
+        {activeTask ? (
+          <div className="transform scale-105 opacity-90">
+            <BoardItem task={activeTask} onMutate={mutate} />
+          </div>
+        ) : null}
+      </DragOverlay>
+    </DndContext>
   );
 }
-

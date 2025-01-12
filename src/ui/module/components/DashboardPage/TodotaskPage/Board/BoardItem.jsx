@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "motion/react";
+import { useDraggable } from "@dnd-kit/core";
 import {
   Check as CheckIcon,
   Ellipsis as EllipsisHorizontalIcon,
@@ -14,6 +15,16 @@ import { updateTask, deleteTask } from "@/services/task.services";
 export default function BoardItem({ task, onMutate }) {
   const [isCompleted, setIsCompleted] = useState(task.isCompleted);
   const [editTask, setEditTaskState] = useState(false);
+
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id: task.id,
+  });
+
+  const style = transform
+    ? {
+        transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+      }
+    : undefined;
 
   const handleEditTask = () => {
     setEditTaskState(false);
@@ -45,6 +56,10 @@ export default function BoardItem({ task, onMutate }) {
 
   return (
     <motion.div
+      ref={setNodeRef}
+      style={style}
+      {...listeners}
+      {...attributes}
       className="flex flex-col gap-16 cursor-pointer relative"
       whileHover={{ scale: 1.01 }}
       whileTap={{ scale: 0.95 }}
