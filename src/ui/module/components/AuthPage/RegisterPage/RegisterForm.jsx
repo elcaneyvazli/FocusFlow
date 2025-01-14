@@ -11,6 +11,7 @@ import { RegisterSchema } from "@/schema/schema";
 import { useDispatch } from "react-redux";
 import { authRegister } from "@/redux/features/AuthSlice/AuthSlice";
 import { addToast } from "@/redux/features/ToastSlice/ToastSlice";
+import { motion } from "motion/react";
 
 export default function RegisterForm() {
   const router = useRouter();
@@ -50,46 +51,69 @@ export default function RegisterForm() {
   });
 
   return (
-    <form
-      className="flex flex-col gap-16"
-      onSubmit={handleSubmit(handleRegister)}
+    <motion.div
+      className="flex flex-col gap-24 "
+      initial={{
+        y: 20,
+        opacity: 0,
+      }}
+      animate={{
+        y: 0,
+        opacity: 1,
+      }}
     >
-      <Input
-        title="Email"
-        required="true"
-        icon={<Mail size={16} className="text-text" />}
-        placeholder="Email address"
-        registername="email"
-        error={errors.email?.message}
-        register={register}
-      />
-      <Input
-        title="Username"
-        required="true"
-        icon={<User size={16} className="text-text" />}
-        placeholder="Username"
-        registername="userName"
-        error={errors.userName?.message}
-        register={register}
-      />
-      <div className="flex flex-col gap-4 items-end">
-        <PassInput
-          registername="password"
-          error={errors.password?.message}
-          register={register}
-          required="true"
-        />
-      </div>
-      <div className="flex flex-col gap-4 items-start w-full">
-        <Button text="Register" width="full" type="base" />
-        <p
-          className="text-light text-xs cursor-pointer font-normal"
-          onClick={() => router.push("/login")}
-        >
-          Already have an account?
-          <span className="text-text font-medium cursor-pointer"> Sign In</span>
+      <div className="flex flex-col gap-0 px-8 py-4 border-l-2 border-primary-600">
+        <p className="text-text font-medium text-3xl">
+          Welcome to our platform
+        </p>
+        <p className="text-light font-medium text-md">
+          Please create an account to continue
         </p>
       </div>
-    </form>
+      <form
+        className="flex flex-col gap-16"
+        onSubmit={handleSubmit(handleRegister)}
+      >
+        <Input
+          title="Email"
+          required="true"
+          icon={<Mail size={16} className="text-text" />}
+          placeholder="Email address"
+          registername="email"
+          error={errors.email?.message}
+          register={register}
+        />
+        <Input
+          title="Username"
+          required="true"
+          icon={<User size={16} className="text-text" />}
+          placeholder="Username"
+          registername="userName"
+          error={errors.userName?.message}
+          register={register}
+        />
+        <div className="flex flex-col gap-4 items-end">
+          <PassInput
+            registername="password"
+            error={errors.password?.message}
+            register={register}
+            required="true"
+          />
+        </div>
+        <div className="flex flex-col gap-4 items-start w-full">
+          <Button text="Register" width="full" type="base" />
+          <p
+            className="text-light text-xs cursor-pointer font-normal"
+            onClick={() => router.push("/login")}
+          >
+            Already have an account?
+            <span className="text-text font-medium cursor-pointer">
+              {" "}
+              Sign In
+            </span>
+          </p>
+        </div>
+      </form>{" "}
+    </motion.div>
   );
 }

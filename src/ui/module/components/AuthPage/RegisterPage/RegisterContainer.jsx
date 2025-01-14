@@ -17,17 +17,7 @@ export default function RegisterContainer() {
     <div className="w-full h-full z-50 relative px-0 py-0 lg:px-8 lg:py-8 2xl:w-[37%] xl:w-[37%] lg:w-[50%]">
       <div className="w-full h-full bg-background border border-border rounded-none lg:rounded-md z-50 flex flex-col justify-between p-16">
         <Logo text={"Focus Flow"} size={36} textSize={"text-sm"} />
-        <div className="flex flex-col gap-24 ">
-          <div className="flex flex-col gap-0 px-8 py-4 border-l-2 border-primary-600">
-            <p className="text-text font-medium text-3xl">
-              Welcome to our platform
-            </p>
-            <p className="text-light font-medium text-md">
-              Please create an account to continue
-            </p>
-          </div>
-          <RegisterForm />
-        </div>
+        <RegisterForm />
         <div className="flex flex-col gap-16">
           <div className="flex flex-row items-center gap-12">
             <div className="bg-border h-[1px] w-full"></div>
