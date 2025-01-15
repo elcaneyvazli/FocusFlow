@@ -4,6 +4,7 @@ import Navbar from "@/ui/module/layout/Navbar/Navbar";
 import useScreenWidth from "@/ui/module/utils/UseScreenWidth/useScreenWidth";
 import dynamic from "next/dynamic";
 import Toast from "@/ui/module/blocks/Toast/Toast";
+import NewTask from "@/ui/module/components/DashboardPage/TodotaskPage/Modal/NewTask/NewTask";
 const NavMenu = dynamic(() => import("@/ui/module/layout/Navbar/NavMenu"), {
   loading: () => (
     <div className="w-full flex items-center justify-between animate-pulse">
@@ -51,6 +52,7 @@ export default function DashClientSideLayout({ children }) {
         </div>
       </div>
       <Toast />
+      <NewTask />
     </div>
   );
 }

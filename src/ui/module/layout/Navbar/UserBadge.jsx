@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { authLogout, getUser } from "@/redux/features/AuthSlice/AuthSlice";
 import { useAppSelector } from "@/redux/store";
+import { addToast } from "@/redux/features/ToastSlice/ToastSlice";
 
 export default function UserBadge() {
   const [menu, setMenu] = useState(false);
@@ -27,9 +28,25 @@ export default function UserBadge() {
   const handleLogout = async () => {
     try {
       await dispatch(authLogout()).unwrap();
+      dispatch(
+        addToast({
+          id: Date.now(),
+          title: "Success",
+          message: "Logged out successfully",
+          variant: "success",
+        })
+      );
       router.push("/login");
     } catch (error) {
       console.error("Logout failed:", error);
+      dispatch(
+        addToast({
+          id: Date.now(),
+          title: "Error",
+          message: "Failed to logout. Please try again.",
+          variant: "error",
+        })
+      );
     }
   };
 

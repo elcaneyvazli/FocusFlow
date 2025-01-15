@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { CalendarIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
+import { Calendar, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
 import CalendarView from "./CalendarView";
 import dayjs from "dayjs";
@@ -36,10 +36,10 @@ const DateInput = ({ onSelect, defaultValue }) => {
       )}
       <div className="relative w-full">
         <div className="absolute inset-y-0 start-0 flex items-center ps-16 pointer-events-none">
-          <CalendarIcon className="w-[18px] h-[18px] text-light" />
+          <Calendar className="w-[18px] h-[18px] text-light" />
         </div>
         <motion.div
-          className="bg-input-bg dark:bg-dark-input-bg border border-input-border dark:border-dark-input-border text-primary dark:text-input-bg text-sm rounded-[10px] focus:ring-primary focus:border-primary focus:outline-none block w-full ps-40 px-16 py-8 cursor-pointer"
+          className="bg-elevation border border-border text-text text-sm rounded-md focus:ring-primary-600 focus:border-primary-600 focus:outline-none block w-full ps-40 px-16 py-8 cursor-pointer h-[36px]"
           onClick={() => setIsOpen(!isOpen)}
         >
           {selectedDate ? (
@@ -49,7 +49,7 @@ const DateInput = ({ onSelect, defaultValue }) => {
           )}
           <motion.div className="absolute inset-y-0 z-50 end-0 flex items-center pe-16 pointer-events-none">
             <motion.div animate={{ rotate: isOpen ? 90 : 0 }}>
-              <ChevronRightIcon className="w-[18px] h-[18px] text-light" />
+              <ChevronRight className="w-[18px] h-[18px] text-light" />
             </motion.div>
           </motion.div>
         </motion.div>

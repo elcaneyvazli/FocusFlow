@@ -1,7 +1,7 @@
 import { removeToast } from "@/redux/features/ToastSlice/ToastSlice";
 import { useAppSelector } from "@/redux/store";
 import { AlertTriangle, X, BadgeCheck, CircleX } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import clsx from "clsx";
 
@@ -9,8 +9,31 @@ export default function Toast() {
   const dispatch = useDispatch();
   const toasts = useAppSelector((state) => state.toast.toasts);
   const [isHovered, setIsHovered] = useState(false);
+  const audioRef = useRef(null);
+  const [prevToastCount, setPrevToastCount] = useState(0);
 
   useEffect(() => {
+    audioRef.current = new Audio("/audio2.mp3");
+
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    // Only play sound if number of toasts has increased
+    if (toasts.length > prevToastCount && audioRef.current) {
+      audioRef.current.currentTime = 0;
+      audioRef.current.play().catch((error) => {
+        console.warn("Toast notification sound couldn't be played:", error);
+      });
+    }
+    
+    setPrevToastCount(toasts.length);
+
     const timers = toasts.map((toast) =>
       setTimeout(() => {
         dispatch(removeToast(toast.id));

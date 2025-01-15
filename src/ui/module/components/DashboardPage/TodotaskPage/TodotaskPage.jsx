@@ -1,10 +1,16 @@
 "use client";
 import Button from "@/ui/module/blocks/Button/Button";
-import { LayoutGrid as GridIcon, List as ListIcon } from "lucide-react";
+import {
+  LayoutGrid as GridIcon,
+  LayoutDashboard,
+  List as ListIcon,
+} from "lucide-react";
 import useScreenWidth from "@/ui/module/utils/UseScreenWidth/useScreenWidth";
 import AnalysisCardContainer from "./AnalysisCard/AnalysisCardContainer";
 import dynamic from "next/dynamic";
 import Spinner from "@/ui/module/blocks/Spinner/Spinner";
+import { useDispatch } from "react-redux";
+import { toggleTask } from "@/redux/features/TaskSlice/TaskSlice";
 const BoardContainer = dynamic(() => import("./Board/BoardContainer"), {
   loading: () => <Spinner />,
 });
@@ -24,12 +30,13 @@ const Tab = dynamic(() => import("@/ui/module/blocks/Tab/Tab"), {
 
 export default function TodotaskPage() {
   const mobilescreen = useScreenWidth(640);
+  const dispatch = useDispatch();
 
   const tabs = [
     {
       id: "board",
       title: "Board View",
-      icons: <GridIcon size={18} />,
+      icons: <LayoutDashboard size={18} />,
       content: <BoardContainer />,
     },
     {
@@ -46,7 +53,11 @@ export default function TodotaskPage() {
       <Tab
         tabs={tabs}
         component={
-          <Button text="New Task" width={mobilescreen ? "full" : "fit"} />
+          <Button
+            text="New Task"
+            width={mobilescreen ? "full" : "fit"}
+            onClick={() => dispatch(toggleTask())}
+          />
         }
       />
     </div>

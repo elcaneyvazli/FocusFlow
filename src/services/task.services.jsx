@@ -23,7 +23,7 @@ export const useTasks = () => {
   );
 
   return {
-    columns: data?.tasks || [],
+    columns: data?.tasks || [], // Ensure we always return an array
     tasks: data || [],
     isLoading: !error && !data,
     isError: error,
@@ -36,7 +36,6 @@ export const useLabels = () => {
     `${baseUrl}/UserTask/labels`,
     fetcher,
     {
-      refreshInterval: 1000,
       revalidateOnFocus: true,
     }
   );
@@ -49,8 +48,19 @@ export const useLabels = () => {
   };
 };
 
-export const createTask = async (taskData) => {
+export const createTask = async (taskData, mutate) => {
   try {
+    mutate(
+      (currentData) => {
+        const newTasks = {
+          ...currentData,
+          tasks: [...(currentData?.tasks || []), taskData]
+        };
+        return newTasks;
+      },
+      false
+    );
+
     const response = await axios.post(
       `${baseUrl}/UserTask`,
       {
@@ -61,8 +71,11 @@ export const createTask = async (taskData) => {
         withCredentials: true,
       }
     );
+
+    mutate();
     return response.data;
   } catch (error) {
+    mutate();
     throw error.response?.data || error.message;
   }
 };

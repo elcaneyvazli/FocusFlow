@@ -30,10 +30,10 @@ export default function BoardContainer() {
   );
 
   useEffect(() => {
-    if (columns && columns.length > 0) {
+    if (columns && Array.isArray(columns)) {
       const filteredColumns = columns.map(column => ({
         ...column,
-        items: column.items.filter(task => !task.isCompleted)
+        items: column.items?.filter(task => !task.isCompleted) || []
       }));
       setLocalColumns(filteredColumns);
     }
@@ -120,6 +120,7 @@ export default function BoardContainer() {
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error loading tasks</div>;
+  if (!columns || !Array.isArray(columns)) return <div>No data available</div>;
 
   return (
     <DndContext
