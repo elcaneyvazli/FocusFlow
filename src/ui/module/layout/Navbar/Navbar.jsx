@@ -1,7 +1,7 @@
 import React from "react";
 import dynamic from "next/dynamic";
 import { Bell, EllipsisVertical } from "lucide-react";
-const Logo = dynamic(() => import("../../blocks/Logo/Logo"), {
+const LogoContainer = dynamic(() => import("./LogoContainer"), {
   loading: () => (
     <div className="w-[40px] h-[40px] animate-pulse rounded-md bg-gray-300 dark:bg-gray-700 border border-border"></div>
   ),
@@ -49,7 +49,7 @@ export default function Navbar() {
   return (
     <div className="min-h-[64px] h-[64px] max-h-[64px] flex flex-row justify-between items-center px-16">
       <div className="flex flex-row items-center gap-8">
-        <Logo size={40} textSize={"text-xl"} />
+        <LogoContainer />
         <div className="hidden lg:flex">
           <NavMenu />
         </div>

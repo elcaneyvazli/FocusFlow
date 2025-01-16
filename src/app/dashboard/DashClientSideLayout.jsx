@@ -5,6 +5,16 @@ import useScreenWidth from "@/ui/module/utils/UseScreenWidth/useScreenWidth";
 import dynamic from "next/dynamic";
 import Toast from "@/ui/module/blocks/Toast/Toast";
 import NewTask from "@/ui/module/components/DashboardPage/TodotaskPage/Modal/NewTask/NewTask";
+import Dialog from "@/ui/module/blocks/Dialog/Dialog";
+import { useCallback } from "react";
+import { closeDialog } from "@/redux/features/DialogSlice/DialogSlice";
+import { deleteTask } from "@/services/task.services";
+import { authLogout } from "@/redux/features/AuthSlice/AuthSlice";
+import { addToast } from "@/redux/features/ToastSlice/ToastSlice";
+import { useRouter } from "next/navigation";
+import { useAppSelector } from "@/redux/store";
+import { useDispatch } from "react-redux";
+
 const NavMenu = dynamic(() => import("@/ui/module/layout/Navbar/NavMenu"), {
   loading: () => (
     <div className="w-full flex items-center justify-between animate-pulse">
@@ -23,6 +33,59 @@ const dmSans = DM_Sans({
   weight: ["400", "500", "700"],
 });
 export default function DashClientSideLayout({ children }) {
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const { isOpen, title, message, variant, dialogType, data } = useAppSelector(
+    (state) => state.dialog
+  );
+
+  const handleConfirm = useCallback(async () => {
+    if (!dialogType) return;
+
+    try {
+      switch (dialogType) {
+        case "deleteTask":
+          await deleteTask(data.taskId);
+          if (data.onMutate) data.onMutate();
+          dispatch(
+            addToast({
+              id: Date.now(),
+              title: "Success",
+              message: "Task deleted successfully",
+              variant: "success",
+            })
+          );
+          break;
+
+        case "logout":
+          await dispatch(authLogout()).unwrap();
+          dispatch(
+            addToast({
+              id: Date.now(),
+              title: "Success",
+              message: "Logged out successfully",
+              variant: "success",
+            })
+          );
+          router.push("/login");
+          break;
+      }
+    } catch (error) {
+      dispatch(
+        addToast({
+          id: Date.now(),
+          title: "Error",
+          message: `Failed to ${
+            dialogType === "deleteTask" ? "delete task" : "logout"
+          }`,
+          variant: "error",
+        })
+      );
+    }
+
+    dispatch(closeDialog());
+  }, [dialogType, data, dispatch, router]);
+
   const mobilescreen = useScreenWidth(1024);
   return (
     <div
@@ -53,6 +116,14 @@ export default function DashClientSideLayout({ children }) {
       </div>
       <Toast />
       <NewTask />
+      <Dialog
+        isOpen={isOpen}
+        title={title}
+        message={message}
+        variant={variant}
+        onConfirm={handleConfirm}
+        onClose={() => dispatch(closeDialog())}
+      />
     </div>
   );
 }

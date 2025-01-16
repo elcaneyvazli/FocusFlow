@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { authLogout, getUser } from "@/redux/features/AuthSlice/AuthSlice";
 import { useAppSelector } from "@/redux/store";
 import { addToast } from "@/redux/features/ToastSlice/ToastSlice";
+import { openDialog } from "@/redux/features/DialogSlice/DialogSlice";
 
 export default function UserBadge() {
   const [menu, setMenu] = useState(false);
@@ -25,29 +26,16 @@ export default function UserBadge() {
     }
   }, [dispatch, user]);
 
-  const handleLogout = async () => {
-    try {
-      await dispatch(authLogout()).unwrap();
-      dispatch(
-        addToast({
-          id: Date.now(),
-          title: "Success",
-          message: "Logged out successfully",
-          variant: "success",
-        })
-      );
-      router.push("/login");
-    } catch (error) {
-      console.error("Logout failed:", error);
-      dispatch(
-        addToast({
-          id: Date.now(),
-          title: "Error",
-          message: "Failed to logout. Please try again.",
-          variant: "error",
-        })
-      );
-    }
+  const handleLogoutClick = () => {
+    setMenu(false);
+    dispatch(
+      openDialog({
+        title: "Confirm Logout",
+        message: "Are you sure you want to logout?",
+        variant: "default",
+        dialogType: 'logout'
+      })
+    );
   };
 
   if (!user || status === "loading") {
@@ -64,70 +52,72 @@ export default function UserBadge() {
   }
 
   return (
-    <motion.div
-      className="relative"
-      initial={{
-        y: 20,
-        opacity: 0,
-      }}
-      animate={{
-        y: 0,
-        opacity: 1,
-      }}
-    >
-      <motion.button
-        className="flex flex-row md:gap-8 gap-4 items-center cursor-pointer"
-        whileTap={{ scale: 0.95 }}
-        onClick={() => setMenu(!menu)}
+    <div>
+      <motion.div
+        className="relative"
+        initial={{
+          y: 20,
+          opacity: 0,
+        }}
+        animate={{
+          y: 0,
+          opacity: 1,
+        }}
       >
-        <div className="h-[32px] w-[32px] rounded-full">
-          <Avvvatars
-            value={user?.username || "User"}
-            border={false}
-            size={32}
-            style="character"
-            borderSize={2}
-            borderColor="#fff"
-          />
-        </div>
-        <div className="flex-col items-start gap-0 md:flex hidden">
-          <p className="text-xs font-medium text-text">
-            {user?.username || "User"}
-          </p>
-          <p className="text-xs font-normal text-light">
-            {user?.email || "Loading..."}
-          </p>
-        </div>
-        <motion.div
-          initial={{ rotate: 0 }}
-          animate={{ rotate: menu ? 180 : 0 }}
+        <motion.button
+          className="flex flex-row md:gap-8 gap-4 items-center cursor-pointer"
+          whileTap={{ scale: 0.95 }}
+          onClick={() => setMenu(!menu)}
         >
-          <ChevronDown className="h-[14px] w-[14px] text-text" />
-        </motion.div>
-      </motion.button>
-
-      <AnimatePresence>
-        {menu && (
+          <div className="h-[32px] w-[32px] rounded-full">
+            <Avvvatars
+              value={user?.username || "User"}
+              border={false}
+              size={32}
+              style="character"
+              borderSize={2}
+              borderColor="#fff"
+            />
+          </div>
+          <div className="flex-col items-start gap-0 md:flex hidden">
+            <p className="text-xs font-medium text-text">
+              {user?.username || "User"}
+            </p>
+            <p className="text-xs font-normal text-light">
+              {user?.email || "Loading..."}
+            </p>
+          </div>
           <motion.div
-            className="absolute top-[48px] right-0 bg-elevation border border-border h-fit min-w-[150px] w-[200px] xl:w-full z-[80] rounded-md shadow-lg flex flex-col gap-0 p-8"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
+            initial={{ rotate: 0 }}
+            animate={{ rotate: menu ? 180 : 0 }}
           >
-            <div className="flex items-center justify-start p-8 flex-row gap-8 hover:bg-background rounded-md hover:border hover:border-border">
-              <UserCircle className="h-[24px] w-[24px] text-text" />
-              <p className="text-sm font-medium text-text">Profile</p>
-            </div>
-            <div
-              className="flex items-center justify-start p-8 flex-row gap-8 hover:bg-background rounded-md hover:border hover:border-border cursor-pointer"
-              onClick={handleLogout}
-            >
-              <LogOut className="h-[24px] w-[24px] text-text" />
-              <p className="text-sm font-medium text-text">Logout</p>
-            </div>
+            <ChevronDown className="h-[14px] w-[14px] text-text" />
           </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
+        </motion.button>
+
+        <AnimatePresence>
+          {menu && (
+            <motion.div
+              className="absolute top-[48px] right-0 bg-elevation border border-border h-fit min-w-[150px] w-[200px] xl:w-full z-[80] rounded-md shadow-lg flex flex-col gap-0 p-8"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+            >
+              <div className="flex items-center justify-start p-8 flex-row gap-8 hover:bg-background rounded-md hover:border hover:border-border">
+                <UserCircle className="h-[24px] w-[24px] text-text" />
+                <p className="text-sm font-medium text-text">Profile</p>
+              </div>
+              <div
+                className="flex items-center justify-start p-8 flex-row gap-8 hover:bg-background rounded-md hover:border hover:border-border cursor-pointer"
+                onClick={handleLogoutClick}
+              >
+                <LogOut className="h-[24px] w-[24px] text-text" />
+                <p className="text-sm font-medium text-text">Logout</p>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    </div>
   );
 }

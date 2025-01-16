@@ -4,6 +4,7 @@ import darkModeReducer from "./features/DarkModeSlice/DarkModeSlice";
 import toastMessageReducer from "./features/ToastSlice/ToastSlice";
 import authReducer from "./features/AuthSlice/AuthSlice";
 import taskReducer from "./features/TaskSlice/TaskSlice";
+import dialogReducer from "./features/DialogSlice/DialogSlice";
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
     toast: toastMessageReducer,
     auth: authReducer,
     task: taskReducer,
+    dialog: dialogReducer,
   },
 });
 
