@@ -3,7 +3,7 @@ import useScreenWidth from "@/ui/module/utils/UseScreenWidth/useScreenWidth";
 import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
-import { useLabels, createTask, useTasks } from "@/services/task.services";
+import { useLabels, updateTask, useTasks } from "@/services/task.services";
 import { yupResolver } from "@hookform/resolvers/yup";
 import SelectInput from "@/ui/module/blocks/Input/SelectInput";
 import Button from "@/ui/module/blocks/Button/Button";
@@ -19,12 +19,12 @@ import { addToast } from "@/redux/features/ToastSlice/ToastSlice";
 dayjs.extend(utc);
 
 const TaskSchema = yup.object().shape({
-  taskTitle: yup.string().required("Title is required"),
-  taskDescription: yup.string().required("Description is required"),
-  taskLabel: yup.string().required("Label is required"),
+  editTitle: yup.string().required("Title is required"),
+  editDescription: yup.string().required("Description is required"),
+  editLabel: yup.string().required("Label is required"),
 });
 
-export default function NewTaskForm({ onClose }) {
+export default function EditTaskForm({ onClose, task }) {
   const { labels, mutate: labelsMutate } = useLabels();
   const { mutate: tasksMutate } = useTasks();
   const dispatch = useDispatch();
@@ -32,23 +32,6 @@ export default function NewTaskForm({ onClose }) {
   const formRef = useRef(null);
 
   const mobileValue = useScreenWidth(768);
-
-  const [labelValue, setLabelValue] = useState("");
-  const [columnValue, setColumnValue] = useState("");
-  const [activityValue, setActivityValue] = useState("");
-  const [selectedDate, setSelectedDate] = useState(dayjs());
-  console.log("NewTaskForm -> selectedDate", selectedDate);
-  const options = ["Must Have", "Should Have", "Could Have", "Won't Have"];
-  const activity = ["To Do", "In Progress", "Done"];
-  const {
-    handleSubmit,
-    formState: { errors },
-    register,
-    setValue,
-    watch,
-  } = useForm({
-    resolver: yupResolver(TaskSchema),
-  });
 
   const priorityMap = {
     "Must Have": 0,
@@ -63,39 +46,70 @@ export default function NewTaskForm({ onClose }) {
     Done: 2,
   };
 
+  // Initialize state with existing task data
+  const [labelValue, setLabelValue] = useState(task?.label || "");
+  const [columnValue, setColumnValue] = useState(
+    Object.keys(priorityMap).find(key => priorityMap[key] === task?.priority) || ""
+  );
+  const [activityValue, setActivityValue] = useState(
+    Object.keys(statusMap).find(key => statusMap[key] === task?.status) || ""
+  );
+  const [selectedDate, setSelectedDate] = useState(dayjs(task?.dueDate));
+  console.log("NewTaskForm -> selectedDate", selectedDate);
+  const options = ["Must Have", "Should Have", "Could Have", "Won't Have"];
+  const activity = ["To Do", "In Progress", "Done"];
+  const {
+    handleSubmit,
+    formState: { errors },
+    register,
+    setValue,
+    watch,
+  } = useForm({
+    resolver: yupResolver(TaskSchema),
+    defaultValues: {
+      editTitle: task?.title || "",
+      editDescription: task?.description || "",
+      editLabel: task?.label || "",
+    },
+  });
+
   const onSubmit = async (data) => {
     const taskData = {
-      title: data.taskTitle,
-      description: data.taskDescription,
-      label: data.taskLabel,
+      title: data.editTitle,
+      description: data.editDescription,
+      label: data.editLabel,
       dueDate: selectedDate.format('YYYY-MM-DD'),
       priority: priorityMap[columnValue],
       status: statusMap[activityValue],
-      isCompleted: false,
     };
 
     try {
-      await createTask(taskData, tasksMutate); // Pass mutate function here
+      await updateTask({ taskId: task.id, updatedData: taskData });
+      tasksMutate();
       labelsMutate();
-      dispatch(addToast({
-        title: "Task Created",
-        message: `${data.taskTitle} has been created successfully`,
-        variant: "success",
-      }));
+      dispatch(
+        addToast({
+          title: "Task Updated",
+          message: `${data.editTitle} has been updated successfully`,
+          variant: "success",
+        })
+      );
       onClose();
     } catch (error) {
-      console.error("Failed to create task:", error);
-      dispatch(addToast({
-        title: "Error",
-        message: "Failed to create task",
-        variant: "error",
-      }));
+      console.error("Failed to update task:", error);
+      dispatch(
+        addToast({
+          title: "Error",
+          message: "Failed to update task",
+          variant: "error",
+        })
+      );
     }
   };
 
   const handleLabelChange = (value) => {
     setLabelValue(value);
-    setValue("taskLabel", value);
+    setValue("editLabel", value);
   };
 
   const isMobile = useScreenWidth(768);
@@ -112,8 +126,8 @@ export default function NewTaskForm({ onClose }) {
         exit: { scale: 0, rotate: "0deg" },
       };
 
-  const titleValue = watch("taskTitle", "");
-  const descriptionValue = watch("taskDescription", "");
+  const titleValue = watch("editTitle", "");
+  const descriptionValue = watch("editDescription", "");
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -135,6 +149,18 @@ export default function NewTaskForm({ onClose }) {
     };
   }, [handleSubmit, onSubmit]);
 
+  useEffect(() => {
+    if (task) {
+      setValue('editTitle', task.title);
+      setValue('editDescription', task.description);
+      setValue('editLabel', task.label);
+      setLabelValue(task.label);
+      setColumnValue(Object.keys(priorityMap).find(key => priorityMap[key] === task.priority));
+      setActivityValue(Object.keys(statusMap).find(key => statusMap[key] === task.status));
+      setSelectedDate(dayjs(task.dueDate).utc());
+    }
+  }, [task, setValue]);
+
   return (
     <motion.form
       ref={formRef}
@@ -148,18 +174,18 @@ export default function NewTaskForm({ onClose }) {
             placeholder="Add task title"
             value={titleValue}
             register={register}
-            registername="taskTitle"
-            error={errors?.taskTitle?.message}
-            onChange={(e) => setValue("taskTitle", e.target.value)}
+            registername="editTitle"
+            error={errors?.editTitle?.message}
+            onChange={(e) => setValue("editTitle", e.target.value)}
             textSize="text-2xl"
           />
           <TextInputWithoutBg
             placeholder="Add task description"
             value={descriptionValue}
             register={register}
-            registername="taskDescription"
-            error={errors?.taskDescription?.message}
-            onChange={(e) => setValue("taskDescription", e.target.value)}
+            registername="editDescription"
+            error={errors?.editDescription?.message}
+            onChange={(e) => setValue("editDescription", e.target.value)}
             textSize="text-sm"
           />
         </div>
@@ -176,7 +202,7 @@ export default function NewTaskForm({ onClose }) {
           />
           <DateInput
             title="Due date"
-            defaultValue={dayjs().format('YYYY-MM-DD')}
+            defaultValue={task.dueDate} // Pass the task's due date
             onSelect={(date) => {
               setSelectedDate(date);
             }}
@@ -202,14 +228,14 @@ export default function NewTaskForm({ onClose }) {
           setValue={handleLabelChange}
           inputEnabled={true}
           icon={<Bookmark className="text-light" size={18} />}
-          registername="taskLabel"
+          registername="editLabel"
           size="medium"
           type="base"
           dropdownPosition={mobileValue ? "above" : "below"}
         />
         <div className="flex flex-row items-center justify-between md:justify-normal gap-16 w-full md:w-fit">
           <Button text="Cancel" onClick={onClose} type="base" />
-          <Button text="New Task" type="primary" />
+          <Button text="Update Task" type="primary" />
         </div>
       </div>
     </motion.form>

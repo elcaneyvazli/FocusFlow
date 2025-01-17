@@ -3,24 +3,23 @@ import { Calendar, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
 import CalendarView from "./CalendarView";
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+
+dayjs.extend(utc);
 
 const DateInput = ({ onSelect, defaultValue }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [today, setToday] = useState(dayjs());
-  const [selectedDate, setSelectedDate] = useState(dayjs(defaultValue));
-
-  useEffect(() => {
-    if (onSelect) {
-      onSelect(selectedDate);
-    }
-  }, [selectedDate, onSelect]);
+  const [selectedDate, setSelectedDate] = useState(
+    defaultValue ? dayjs(defaultValue) : dayjs()
+  );
 
   const handleDateSelect = (date) => {
-    const selectedDayjsDate = dayjs(date);
-    setSelectedDate(selectedDayjsDate);
+    const newDate = dayjs(date);
+    setSelectedDate(newDate);
     setIsOpen(false);
     if (onSelect) {
-      onSelect(selectedDayjsDate);
+      onSelect(newDate);
     }
   };
 
@@ -39,7 +38,11 @@ const DateInput = ({ onSelect, defaultValue }) => {
           <Calendar className="w-[18px] h-[18px] text-light" />
         </div>
         <motion.div
-          className="bg-elevation border border-border text-text text-sm rounded-md focus:ring-primary-600 focus:border-primary-600 focus:outline-none block w-full ps-40 px-16 py-8 cursor-pointer h-[36px]"
+          className={`bg-elevation border border-border hover:border-primary-600 text-text text-sm rounded-md block w-full ps-40 px-16 py-8 cursor-pointer h-[36px] transition-all ${
+            isOpen
+              ? "border-primary-600 outline outline-2 outline-primary-200"
+              : ""
+          }`}
           onClick={() => setIsOpen(!isOpen)}
         >
           {selectedDate ? (

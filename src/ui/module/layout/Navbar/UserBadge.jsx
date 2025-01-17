@@ -32,8 +32,8 @@ export default function UserBadge() {
       openDialog({
         title: "Confirm Logout",
         message: "Are you sure you want to logout?",
-        variant: "default",
-        dialogType: 'logout'
+        variant: "error",
+        dialogType: 'logout' 
       })
     );
   };

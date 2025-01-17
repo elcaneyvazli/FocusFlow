@@ -14,6 +14,7 @@ import { arrayMove } from "@dnd-kit/sortable";
 import BoardItem from "./BoardItem";
 import { useDispatch } from "react-redux";
 import { addToast } from "@/redux/features/ToastSlice/ToastSlice";
+import Spinner from "@/ui/module/blocks/Spinner/Spinner";
 
 export default function BoardContainer() {
   const dispatch = useDispatch();
@@ -31,9 +32,9 @@ export default function BoardContainer() {
 
   useEffect(() => {
     if (columns && Array.isArray(columns)) {
-      const filteredColumns = columns.map(column => ({
+      const filteredColumns = columns.map((column) => ({
         ...column,
-        items: column.items?.filter(task => !task.isCompleted) || []
+        items: column.items?.filter((task) => !task.isCompleted) || [],
       }));
       setLocalColumns(filteredColumns);
     }
@@ -98,28 +99,32 @@ export default function BoardContainer() {
           priority: destinationColumn.id,
         });
         mutate();
-        dispatch(addToast({
-          id: Date.now(),
-          title: "Success",
-          message: "Task priority updated successfully",
-          variant: "success"
-        }));
+        dispatch(
+          addToast({
+            id: Date.now(),
+            title: "Success",
+            message: "Task priority updated successfully",
+            variant: "success",
+          })
+        );
       } catch (error) {
         console.error("Error updating task priority:", error);
         setLocalColumns(columns);
-        dispatch(addToast({
-          id: Date.now(),
-          title: "Error",
-          message: "Failed to update task priority",
-          variant: "error"
-        }));
+        dispatch(
+          addToast({
+            id: Date.now(),
+            title: "Error",
+            message: "Failed to update task priority",
+            variant: "error",
+          })
+        );
       }
     },
     [localColumns, mutate, columns, dispatch]
   );
 
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error loading tasks</div>;
+  if (isLoading) return <Spinner />;
+  if (isError) return <Spinner />;
   if (!columns || !Array.isArray(columns)) return <div>No data available</div>;
 
   return (

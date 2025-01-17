@@ -95,7 +95,7 @@ const Dialog = ({ onConfirm, dialogKey }) => {
                     ) : null}
                   </div>
                 }
-                <div className="flex flex-col gap-8 w-full">
+                <div className="flex flex-col gap-0 w-full">
                   <div className="flex justify-between items-start">
                     <h1
                       className={`text-md font-semibold line-clamp-1
@@ -109,7 +109,7 @@ const Dialog = ({ onConfirm, dialogKey }) => {
                         className={`text-black cursor-pointer ${
                           variant === "default" ? "text-text" : "text-black"
                         }`}
-                        size={18}
+                        size={14}
                       />
                     </button>
                   </div>

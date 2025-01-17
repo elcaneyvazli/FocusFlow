@@ -14,6 +14,7 @@ import { addToast } from "@/redux/features/ToastSlice/ToastSlice";
 import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/redux/store";
 import { useDispatch } from "react-redux";
+import EditTask from "@/ui/module/components/DashboardPage/TodotaskPage/Modal/EditTask/EditTask";
 
 const NavMenu = dynamic(() => import("@/ui/module/layout/Navbar/NavMenu"), {
   loading: () => (
@@ -116,6 +117,7 @@ export default function DashClientSideLayout({ children }) {
       </div>
       <Toast />
       <NewTask />
+      <EditTask />
       <Dialog
         isOpen={isOpen}
         title={title}
