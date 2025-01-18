@@ -14,6 +14,27 @@ import { addToast } from "@/redux/features/ToastSlice/ToastSlice";
 import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/redux/store";
 import { useDispatch } from "react-redux";
+import localFont from "next/font/local";
+
+const satoshi = localFont({
+  src: [
+    {
+      path: "../../../public/fonts/Satoshi-Regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../../../public/fonts/Satoshi-Medium.woff2",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../../../public/fonts/Satoshi-Bold.woff2",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+});
 import EditTask from "@/ui/module/components/DashboardPage/TodotaskPage/Modal/EditTask/EditTask";
 
 const NavMenu = dynamic(() => import("@/ui/module/layout/Navbar/NavMenu"), {
@@ -90,7 +111,7 @@ export default function DashClientSideLayout({ children }) {
   const mobilescreen = useScreenWidth(1024);
   return (
     <div
-      className={`${dmSans.className} relative min-h-[100dvh] max-h-[100dvh] h-[100dvh] flex flex-col gap-0 bg-elevation`}
+      className={`${satoshi.className} relative min-h-[100dvh] max-h-[100dvh] h-[100dvh] flex flex-col gap-0 bg-elevation`}
     >
       {mobilescreen ? (
         <div className="z-[70]">

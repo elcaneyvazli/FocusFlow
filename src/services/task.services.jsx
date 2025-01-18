@@ -23,7 +23,7 @@ export const useTasks = () => {
   );
 
   return {
-    columns: data?.tasks || [], // Ensure we always return an array
+    columns: data?.tasks || [],
     tasks: data || [],
     isLoading: !error && !data,
     isError: error,

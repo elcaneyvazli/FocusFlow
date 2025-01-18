@@ -2,12 +2,27 @@
 import { useLayoutEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { initializeDarkMode } from "@/redux/features/DarkModeSlice/DarkModeSlice";
-import { DM_Sans } from "next/font/google";
 import { useAppSelector } from "@/redux/store";
+import localFont from "next/font/local";
 
-const dmSans = DM_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
+const satoshi = localFont({
+  src: [
+    {
+      path: "../../public/fonts/Satoshi-Regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/Satoshi-Medium.woff2",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/Satoshi-Bold.woff2",
+      weight: "700",
+      style: "normal",
+    },
+  ],
 });
 
 export default function ClientSideLayout({ children }) {
@@ -26,8 +41,8 @@ export default function ClientSideLayout({ children }) {
 
   return (
     <body
-      className={`${dmSans.className} bg-elevation ${
-        darkMode ? "dark" : "light"
+      className={`bg-elevation ${darkMode ? "dark" : "light"} ${
+        satoshi.className
       }`}
     >
       {children}

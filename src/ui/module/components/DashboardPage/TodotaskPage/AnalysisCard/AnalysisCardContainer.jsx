@@ -25,7 +25,7 @@ const AnalysisCard = dynamic(() => import("./AnalysisCard"), {
 });
 
 export default function AnalysisCardContainer() {
-  const { tasks } = useTasks();
+  const { tasks, isLoading } = useTasks();
 
   const totalTask = tasks.total;
   const completedTask = tasks.completed;
@@ -37,16 +37,19 @@ export default function AnalysisCardContainer() {
         title={"Total Task"}
         icon={<ClipboardList className="text-text" size={24} />}
         data={totalTask}
+        isLoading={isLoading}
       />
       <AnalysisCard
         title={"Completed Task"}
         icon={<ClipboardCheck className="text-text" size={24} />}
         data={completedTask}
+        isLoading={isLoading}
       />
       <AnalysisCard
         title={"Pending Task"}
         icon={<ClipboardPenLine className="text-text" size={24} />}
         data={pendingTask}
+        isLoading={isLoading}
       />
     </div>
   );
