@@ -2,10 +2,9 @@ body {
   overflow-y: auto !important;
   overflow-x: hidden !important;
 }
-
-
-
-
+.hide-days .flip-clock__unit:nth-child(1) {
+  display: none;
+}
 
 @tailwind base;
 @tailwind components;

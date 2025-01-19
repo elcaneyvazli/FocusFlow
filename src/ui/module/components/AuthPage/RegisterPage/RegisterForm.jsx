@@ -11,7 +11,7 @@ import { RegisterSchema } from "@/schema/schema";
 import { useDispatch } from "react-redux";
 import { authRegister } from "@/redux/features/AuthSlice/AuthSlice";
 import { addToast } from "@/redux/features/ToastSlice/ToastSlice";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 
 export default function RegisterForm() {
   const router = useRouter();

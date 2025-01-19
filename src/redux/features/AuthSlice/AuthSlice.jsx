@@ -79,10 +79,35 @@ export const getUser = createAsyncThunk(
       });
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data || {
-        title: "Error fetching user",
-        desc: error.message
-      });
+      return rejectWithValue(
+        error.response?.data || {
+          title: "Error fetching user",
+          desc: error.message,
+        }
+      );
+    }
+  }
+);
+
+export const googleAuth = createAsyncThunk(
+  "auth/google",
+  async (code, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `${baseUrl}/Auth/google?idToken=${code}`,
+        {
+          withCredentials: true,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Google auth error:", error);
+      return rejectWithValue(
+        error.response?.data || {
+          title: "Error",
+          desc: error.message,
+        }
+      );
     }
   }
 );
@@ -96,15 +121,22 @@ const initialState = {
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    resetAuthState: (state) => {
+      state.status = "idle";
+      state.error = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(authLogin.pending, (state) => {
         state.status = "loading";
+        state.error = null;
       })
       .addCase(authLogin.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.auth = action.payload;
+        state.user = action.payload;
+        state.error = null;
       })
       .addCase(authLogin.rejected, (state, action) => {
         state.status = "failed";
@@ -112,10 +144,12 @@ const authSlice = createSlice({
       })
       .addCase(authRegister.pending, (state) => {
         state.status = "loading";
+        state.error = null;
       })
       .addCase(authRegister.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.auth = action.payload;
+        state.user = action.payload;
+        state.error = null;
       })
       .addCase(authRegister.rejected, (state, action) => {
         state.status = "failed";
@@ -124,9 +158,10 @@ const authSlice = createSlice({
       .addCase(authLogout.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(authLogout.fulfilled, (state, action) => {
+      .addCase(authLogout.fulfilled, (state) => {
         state.status = "succeeded";
-        state.auth = action.payload;
+        state.user = null;
+        state.error = null;
       })
       .addCase(authLogout.rejected, (state, action) => {
         state.status = "failed";
@@ -138,13 +173,29 @@ const authSlice = createSlice({
       .addCase(getUser.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.user = action.payload;
+        state.error = null;
       })
       .addCase(getUser.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      .addCase(googleAuth.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(googleAuth.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.user = action.payload;
+        state.error = null;
+      })
+      .addCase(googleAuth.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
       });
   },
 });
 
+export const { resetAuthState } = authSlice.actions;
+export const selectAuth = (state) => state.auth;
 export const authReducer = authSlice.reducer;
 export default authReducer;

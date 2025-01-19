@@ -11,7 +11,7 @@ import { LoginSchema } from "@/schema/schema";
 import { useDispatch } from "react-redux";
 import { authLogin } from "@/redux/features/AuthSlice/AuthSlice";
 import { addToast } from "@/redux/features/ToastSlice/ToastSlice";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 
 export default function LoginForm() {
   const router = useRouter();

@@ -128,6 +128,7 @@ module.exports = {
         lg: "16px",
         xl: "24px",
       },
+      
     },
   },
   plugins: [
@@ -154,6 +155,17 @@ module.exports = {
     { pattern: /^hover:text-/ },
     { pattern: /^dark:hover:text-/ },
     { pattern: /^w-/ },
+    { pattern: /^transform/ },
+    { pattern: /^translate-/ },
+    { pattern: /^origin-/ },
+    { pattern: /^perspective-/ },
+    { pattern: /^backface-/ },
+    'fold',
+    'unfold',
+    'flip-top',
+    'flip-bottom',
+    'animate-flip-top',
+    'animate-flip-bottom',
   ],
   darkMode: "class",
 };
