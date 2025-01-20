@@ -12,7 +12,6 @@ import {
   selectAuth,
   resetAuthState,
 } from "@/redux/features/AuthSlice/AuthSlice";
-import { motion } from "framer-motion";
 
 const Logo = dynamic(() => import("@/ui/module/blocks/Logo/Logo"), {
   loading: () => <p>loading...</p>,
@@ -38,6 +37,7 @@ export default function LoginContainer() {
   const handleGoogleSuccess = async (codeResponse) => {
     try {
       if (codeResponse.code) {
+        console.log("Google code response:", codeResponse);
         const result = await dispatch(googleAuth(codeResponse.code)).unwrap();
         if (result) {
           router.push("/dashboard");

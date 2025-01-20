@@ -24,14 +24,13 @@ export default function Toast() {
   }, []);
 
   useEffect(() => {
-    // Only play sound if number of toasts has increased
     if (toasts.length > prevToastCount && audioRef.current) {
       audioRef.current.currentTime = 0;
       audioRef.current.play().catch((error) => {
         console.warn("Toast notification sound couldn't be played:", error);
       });
     }
-    
+
     setPrevToastCount(toasts.length);
 
     const timers = toasts.map((toast) =>
@@ -111,14 +110,15 @@ export default function Toast() {
               ) : null}
             </div>
           )}
-          <div className="flex flex-col gap-0 w-full">
-            <h1 className="text-black text-md font-semibold line-clamp-1">
+          <div className="flex flex-col gap-0 w-full max-w-full">
+            <h1 className="text-black text-md font-semibold line-clamp-1 w-full">
               {toast.title || "Task"}
             </h1>
             <p className="text-black text-sm">{toast.message}</p>
           </div>
           <X
-            className="h-[18px] w-[18px] text-black cursor-pointer"
+            className="h-[18px] w-[18px] min-w-[18px] min-h-[18px] text-black cursor-pointer"
+            size={18}
             onClick={() => handleClose(toast.id)}
           />
         </div>

@@ -132,7 +132,7 @@ export default function DashClientSideLayout({ children }) {
           maxHeight: "calc(100dvh - 64px)",
         }}
       >
-        <div className="w-full min-h-full h-full max-h-full bg-background border border-border rounded-md overflow-y-auto">
+        <div className="w-full min-h-full h-full max-h-full bg-background border border-border rounded-md overflow-hidden">
           {children}
         </div>
       </div>

@@ -1,5 +1,6 @@
+import TimeAnalysisPage from "@/ui/module/components/DashboardPage/TimeAnalysisPage/TimeAnalysisPage";
 import React from "react";
 
 export default function page() {
-  return <div>page</div>;
+  return <TimeAnalysisPage />;
 }

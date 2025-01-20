@@ -35,6 +35,20 @@ export const generateDate = (
   return arrayOfDate;
 };
 
+export const generateWeekDates = (date = dayjs()) => {
+  const startOfWeek = date.startOf('week');
+  const arrayOfDate = [];
+
+  for (let i = 0; i < 7; i++) {
+    arrayOfDate.push({
+      date: startOfWeek.add(i, 'day'),
+      today: startOfWeek.add(i, 'day').isSame(dayjs(), 'day'),
+    });
+  }
+
+  return arrayOfDate;
+};
+
 export const months = [
   "January",
   "February",

@@ -203,7 +203,7 @@ export default function TodotaskPage() {
   ];
 
   return (
-    <div className="flex flex-col gap-24 w-full h-full p-12">
+    <div className="flex flex-col gap-24 w-full h-full p-12 overflow-y-auto">
       <AnalysisCardContainer />
       <Tab
         tabs={tabs}

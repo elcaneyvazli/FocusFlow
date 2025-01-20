@@ -50,14 +50,16 @@ export default function RegisterContainer() {
             })
           );
         }
+      } else {
+        throw new Error("No code received from Google");  // Code kontrolü eklenmeli
       }
     } catch (error) {
       console.error("Google registration error:", error);
       dispatch(
         addToast({
           id: Date.now(),
-          title: error?.title || "Error",
-          message: error?.desc || "Google registration failed. Please try again.",
+          title: "Error",
+          message: "Google registration failed. Please try again.",
           variant: "error",
         })
       );

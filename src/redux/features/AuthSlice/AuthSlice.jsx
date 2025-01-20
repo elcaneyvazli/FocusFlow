@@ -93,6 +93,7 @@ export const googleAuth = createAsyncThunk(
   "auth/google",
   async (code, { rejectWithValue }) => {
     try {
+      // URL'de idToken yerine code kullanılıyor, backend'in beklentisine göre değiştirilmeli
       const response = await axios.get(
         `${baseUrl}/Auth/google?idToken=${code}`,
         {
@@ -101,11 +102,12 @@ export const googleAuth = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
+      // Error handling iyileştirilmeli
       console.error("Google auth error:", error);
       return rejectWithValue(
         error.response?.data || {
           title: "Error",
-          desc: error.message,
+          desc: "Google authentication failed",  // Daha spesifik hata mesajı
         }
       );
     }

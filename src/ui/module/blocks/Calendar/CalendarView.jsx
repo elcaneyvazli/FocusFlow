@@ -18,7 +18,7 @@ export default function CalendarView({
     >
       <div className="col-span-7 flex flex-row justify-between items-center row-span-1 text-lg border-b border-border">
         <button
-          className="h-16 w-16 text-light cursor-pointer"
+          className="text-light cursor-pointer"
           onClick={() => {
             setToday(today.subtract(1, "month"));
           }}
@@ -38,7 +38,7 @@ export default function CalendarView({
         </button>
 
         <button
-          className="h-16 w-16 text-light cursor-pointer"
+          className="text-light cursor-pointer"
           onClick={() => {
             setToday(today.add(1, "month"));
           }}
