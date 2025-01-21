@@ -91,23 +91,22 @@ export const getUser = createAsyncThunk(
 
 export const googleAuth = createAsyncThunk(
   "auth/google",
-  async (code, { rejectWithValue }) => {
+  async (credential, { rejectWithValue }) => {
     try {
-      // URL'de idToken yerine code kullanılıyor, backend'in beklentisine göre değiştirilmeli
+      console.log("Sending credential to backend",credential);
       const response = await axios.get(
-        `${baseUrl}/Auth/google?idToken=${code}`,
+        `${baseUrl}/Auth/google?idToken=${credential}`,
         {
-          withCredentials: true,
+          withCredentials: true
         }
       );
       return response.data;
     } catch (error) {
-      // Error handling iyileştirilmeli
       console.error("Google auth error:", error);
       return rejectWithValue(
         error.response?.data || {
           title: "Error",
-          desc: "Google authentication failed",  // Daha spesifik hata mesajı
+          desc: "Google authentication failed",
         }
       );
     }
