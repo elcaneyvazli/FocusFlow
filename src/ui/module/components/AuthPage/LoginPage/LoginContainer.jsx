@@ -38,20 +38,16 @@ export default function LoginContainer() {
     try {
       if (credentialResponse.credential) {
         console.log("Google credential response:", credentialResponse);
-        const result = await dispatch(
-          googleAuth(credentialResponse.credential)
-        ).unwrap();
-        if (result) {
-          router.push("/dashboard");
-          dispatch(
-            addToast({
-              id: Date.now(),
-              title: "Success",
-              message: "Successfully logged in with Google!",
-              variant: "success",
-            })
-          );
-        }
+        await dispatch(googleAuth(credentialResponse.credential)).unwrap();
+        router.push("/dashboard");
+        dispatch(
+          addToast({
+            id: Date.now(),
+            title: "Success",
+            message: "Successfully logged in with Google!",
+            variant: "success",
+          })
+        );
       }
     } catch (error) {
       console.error("Google login error:", error);
@@ -78,13 +74,6 @@ export default function LoginContainer() {
     );
   };
 
-  // const googleLogin = useGoogleLogin({
-  //   flow: "auth-code",
-  //   onSuccess: handleGoogleSuccess,
-  //   onError: handleGoogleError,
-  //   scope: "email profile",
-  // });
-
   return (
     <div className="w-full h-full z-50 relative px-0 py-0 lg:px-8 lg:py-8 2xl:w-[37%] xl:w-[37%] lg:w-[50%]">
       <div className="w-full h-full bg-background border border-border rounded-none lg:rounded-md z-50 flex flex-col justify-between p-16">
@@ -96,33 +85,22 @@ export default function LoginContainer() {
             <p className="text-light font-medium text-xs">or</p>
             <div className="bg-border h-[1px] w-full"></div>
           </div>
-          {/* <Button
-            text={status === "loading" ? "Loading..." : "Authorize with Google"}
-            icon={<Image src={Google} alt="logo" width={18} height={18} />}
-            onClick={() => googleLogin()}
-            disabled={status === "loading"}
-          /> */}
-
-          <GoogleLogin
-            onSuccess={handleGoogleSuccess}
-            onError={handleGoogleError}
-            useOneTap
-            type="standard"
-            theme="filled_blue"
-            size="large"
-            shape="circle"
-          >
-            {({ onClick }) => (
-              <Button
-                text={
-                  status === "loading" ? "Loading..." : "Authorize with Google"
-                }
-                icon={<Image src={Google} alt="logo" width={18} height={18} />}
-                onClick={onClick}
-                disabled={status === "loading"}
+          <div className="w-full flex justify-center">
+            <div className="w-full">
+              <GoogleLogin
+                onSuccess={handleGoogleSuccess}
+                onError={handleGoogleError}
+                useOneTap
+                type="standard"
+                theme="filled_blue"
+                size="large"
+                shape="circle"
+                width="full"
+                className="w-full"
+                style={{ width: "100%" }}
               />
-            )}
-          </GoogleLogin>
+            </div>
+          </div>
         </div>
       </div>
     </div>

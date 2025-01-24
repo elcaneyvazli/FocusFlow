@@ -51,7 +51,7 @@ export default function RegisterContainer() {
           );
         }
       } else {
-        throw new Error("No code received from Google");  // Code kontrolü eklenmeli
+        throw new Error("No code received from Google"); // Code kontrolü eklenmeli
       }
     } catch (error) {
       console.error("Google registration error:", error);
