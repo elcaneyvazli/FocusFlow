@@ -28,6 +28,31 @@ const Tab = dynamic(() => import("@/ui/module/blocks/Tab/Tab"), {
   ),
 });
 
+const StatsCardContainer = dynamic(
+  () =>
+    import(
+      "@/ui/module/components/DashboardPage/TimeAnalysisPage/TaskAnalysis/StatsCard/StatsCardContainer"
+    ),
+  {
+    loading: () => (
+      <div className="animate-pulse bg-elevation border border-border rounded-md w-full p-12 grid grid-cols-12 gap-16">
+        {[...Array(3)].map((_, index) => (
+          <div className="col-span-4 flex flex-col gap-16 w-full" key={index}>
+            <div className="flex flex-row items-start justify-between w-full">
+              <div className="animate-pulse bg-gray-300 dark:bg-gray-700 w-64 h-24 rounded-md"></div>
+              <div className="animate-pulse bg-gray-300 dark:bg-gray-700 w-32 h-32 rounded-md"></div>
+            </div>
+            <div className="flex flex-row items-start justify-between w-full">
+              <Spinner />
+              <div className="w-64 h-64 animate-pulse bg-gray-300 dark:bg-gray-700 rounded-md"></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    ),
+  }
+);
+
 export default function TodotaskPage() {
   const mobilescreen = useScreenWidth(640);
   const dispatch = useDispatch();
@@ -204,7 +229,7 @@ export default function TodotaskPage() {
 
   return (
     <div className="flex flex-col gap-24 w-full h-full p-12 overflow-y-auto">
-      <AnalysisCardContainer />
+      <StatsCardContainer />
       <Tab
         tabs={tabs}
         component={

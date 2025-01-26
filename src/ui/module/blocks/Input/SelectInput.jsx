@@ -8,7 +8,7 @@ export default function SelectInput({
   register,
   registername,
   errors,
-  data,
+  data = [],
   value,
   setValue,
   inputEnabled = true,
@@ -91,7 +91,7 @@ export default function SelectInput({
             onBlur={() => setIsFocused(false)}
           />
         ) : (
-          <p className="text-sm text-text w-full">{value ? value : label}</p>
+          <p className="text-sm text-text w-full">{value || label}</p>
         )}
         <ChevronRight
           size={16}
@@ -119,12 +119,6 @@ export default function SelectInput({
               className="cursor-pointer text-sm text-text hover:bg-border px-12 py-8"
               onClick={() => {
                 setValue(item);
-                if (register && registername) {
-                  const event = {
-                    target: { value: item }
-                  };
-                  register(registername).onChange(event);
-                }
                 setSelectShow(false);
               }}
             >

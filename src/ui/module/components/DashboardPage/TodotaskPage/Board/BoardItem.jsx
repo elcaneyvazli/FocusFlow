@@ -101,25 +101,27 @@ export default function BoardItem({ task, onMutate }) {
         whileTap={{ scale: 0.95 }}
       >
         <div className="flex flex-col gap-8 bg-elevation border border-border p-16 rounded-md z-10 relative">
-          <div className="flex flex-row justify-between items-center">
-            <motion.div
-              className={`flex items-center justify-center border border-input-border dark:border-0 h-[20px] w-[20px] rounded-full cursor-pointer ${
-                isCompleted ? "bg-primary-600" : "bg-white"
-              }`}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={handleToggleCompleted}
-            >
-              {isCompleted && <CheckIcon className={"text-white"} size={12} />}
-            </motion.div>
-            <div
-              className="rounded-md hover:bg-background p-8"
-              onClick={toggleMenu}
-            >
-              <EllipsisHorizontalIcon className="text-text" size={18} />
-            </div>
-          </div>
           <div className="flex flex-col gap-0 cursor-pointer w-full h-full">
+            <div className="flex flex-row justify-between items-center">
+              <motion.div
+                className={`flex items-center justify-center border border-input-border dark:border-0 h-[20px] w-[20px] rounded-full cursor-pointer ${
+                  isCompleted ? "bg-primary-600" : "bg-white"
+                }`}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={handleToggleCompleted}
+              >
+                {isCompleted && (
+                  <CheckIcon className={"text-white"} size={12} />
+                )}
+              </motion.div>
+              <div
+                className="rounded-md hover:bg-background p-8"
+                onClick={toggleMenu}
+              >
+                <EllipsisHorizontalIcon className="text-text" size={18} />
+              </div>
+            </div>
             <h1 className="text-md font-bold text-text max-w-full line-clamp-3">
               {task.title}
             </h1>

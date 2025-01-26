@@ -128,7 +128,9 @@ module.exports = {
         lg: "16px",
         xl: "24px",
       },
-      
+      gridTemplateColumns: {
+        '52': 'repeat(52, minmax(0, 1fr))',
+      },
     },
   },
   plugins: [

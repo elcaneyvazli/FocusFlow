@@ -35,7 +35,7 @@ export default function CalendarTaskContainer() {
   const tasksForSelectedDate = getTasksForSelectedDate();
 
   return (
-    <div className="col-span-4 bg-elevation border border-border w-full h-full max-h-full text-text rounded-md p-8 overflow-hidden flex flex-col gap-16">
+    <div className="col-span-12 lg:col-span-4 bg-elevation border border-border w-full min-h-[800px] lg:min-h-0 h-auto lg:h-full max-h-full text-text rounded-md p-8 overflow-hidden flex flex-col gap-16">
       <WeeklyCalendar
         today={today}
         setToday={setToday}
