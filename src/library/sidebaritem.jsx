@@ -13,11 +13,6 @@ export const SideBarItem = [
     link: "/dashboard",
   },
   {
-    title: "Pomodoro",
-    icon: <Hourglass strokeWidth={1.5} size={16} />,
-    link: "/dashboard/pomodoro",
-  },
-  {
     title: "Time Analysis",
     icon: <ChartNoAxesCombined strokeWidth={1.5} size={16} />,
     link: "/dashboard/timeanalysis",

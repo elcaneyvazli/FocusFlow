@@ -36,12 +36,12 @@ const satoshi = localFont({
   ],
 });
 import EditTask from "@/ui/module/components/DashboardPage/TodotaskPage/Modal/EditTask/EditTask";
+import NewGroupModal from "@/ui/module/components/DashboardPage/GroupPage/AllGroup/Modal/NewGroupModal";
 
 const NavMenu = dynamic(() => import("@/ui/module/layout/Navbar/NavMenu"), {
   loading: () => (
     <div className="w-full flex items-center justify-between animate-pulse">
       <div className="flex flex-row items-center justify-between lg:justify-center gap-8 rounded-none lg:rounded-full w-full lg:w-fit px-16 py-16 lg:p-4 relative lg:bg-transparent bg-elevation">
-        <div className="w-[36px] h-[36px] bg-gray-300 dark:bg-gray-700 rounded-md" />
         <div className="w-[36px] h-[36px] bg-gray-300 dark:bg-gray-700 rounded-md" />
         <div className="w-[36px] h-[36px] bg-gray-300 dark:bg-gray-700 rounded-md" />
         <div className="w-[36px] h-[36px] bg-gray-300 dark:bg-gray-700 rounded-md" />
@@ -139,6 +139,7 @@ export default function DashClientSideLayout({ children }) {
       <Toast />
       <NewTask />
       <EditTask />
+      <NewGroupModal />
       <Dialog
         isOpen={isOpen}
         title={title}

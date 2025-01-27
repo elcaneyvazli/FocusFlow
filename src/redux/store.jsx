@@ -6,6 +6,7 @@ import authReducer from "./features/AuthSlice/AuthSlice";
 import taskReducer from "./features/TaskSlice/TaskSlice";
 import dialogReducer from "./features/DialogSlice/DialogSlice";
 import timerReducer from "./features/TimerSlice/TimerSlice";
+import groupReducer from "./features/GroupSlice/GroupSlice";
 
 export const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
     task: taskReducer,
     dialog: dialogReducer,
     timer: timerReducer,
+    group: groupReducer,
   },
 });
 

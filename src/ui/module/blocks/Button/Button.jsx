@@ -37,15 +37,15 @@ export default function Button({
       },
       isIconType
         ? {
-            "w-[32px]": size === "small",
-            "w-[36px]": size === "medium",
-            "w-[40px]": size === "large",
+            "w-[32px] min-w-[32px] max-w-[32px]": size === "small",
+            "w-[36px] min-w-[36px] max-w-[36px]": size === "medium",
+            "w-[40px] min-w-[40px] max-w-[40px]": size === "large",
           }
         : width && `w-${width}`,
       {
-        "h-[32px]": size === "small",
-        "h-[36px]": size === "medium",
-        "h-[40px]": size === "large",
+        "h-[32px] min-h-[32px] max-h-[32px]": size === "small",
+        "h-[36px] min-h-[36px] max-h-[36px]": size === "medium",
+        "h-[40px] min-h-[40px] max-h-[40px]": size === "large",
       }
     );
   };
