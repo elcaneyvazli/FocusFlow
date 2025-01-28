@@ -38,6 +38,7 @@ const ProjectCardContainer = dynamic(
 );
 
 export default function GroupPage() {
+
   return (
     <div className="grid grid-cols-12 gap-16 p-12 h-full w-full">
       <div className="h-full w-full col-span-8 flex flex-col gap-16 overflow-y-auto">

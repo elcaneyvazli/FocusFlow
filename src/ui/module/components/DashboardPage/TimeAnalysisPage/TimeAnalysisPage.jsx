@@ -1,6 +1,18 @@
 import React from "react";
-import CalendarTaskContainer from "./CalendarTask/CalendarTaskContainer";
-import TaskAnalysisContainer from "./TaskAnalysis/TaskAnalysisContainer";
+import Spinner from "@/ui/module/blocks/Spinner/Spinner";
+import dynamic from "next/dynamic";
+const CalendarTaskContainer = dynamic(
+  () => import("./CalendarTask/CalendarTaskContainer"),
+  {
+    loading: () => <Spinner />,
+  }
+);
+const TaskAnalysisContainer = dynamic(
+  () => import("./TaskAnalysis/TaskAnalysisContainer"),
+  {
+    loading: () => <Spinner />,
+  }
+);
 
 export default function TimeAnalysisPage() {
   return (

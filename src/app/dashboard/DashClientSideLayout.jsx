@@ -37,6 +37,7 @@ const satoshi = localFont({
 });
 import EditTask from "@/ui/module/components/DashboardPage/TodotaskPage/Modal/EditTask/EditTask";
 import NewGroupModal from "@/ui/module/components/DashboardPage/GroupPage/AllGroup/Modal/NewGroupModal";
+import NewProjectModal from "@/ui/module/components/DashboardPage/GroupPage/Group/Modal/NewProject/NewProjectModal";
 
 const NavMenu = dynamic(() => import("@/ui/module/layout/Navbar/NavMenu"), {
   loading: () => (
@@ -140,6 +141,7 @@ export default function DashClientSideLayout({ children }) {
       <NewTask />
       <EditTask />
       <NewGroupModal />
+      <NewProjectModal />
       <Dialog
         isOpen={isOpen}
         title={title}

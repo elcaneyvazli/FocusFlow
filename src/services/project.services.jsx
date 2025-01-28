@@ -23,31 +23,23 @@ export const useAllProject = (id) => {
   };
 };
 
-export const createProject = async (groupData, mutate) => {
+export const createProject = async (projectData, mutate) => {
   try {
-    mutate((currentData) => {
-      const newGroup = {
-        ...currentData,
-        groups: [...(currentData?.groups || []), groupData],
-      };
-      return newGroup;
-    }, false);
-
     const response = await axios.post(
-      `${baseUrl}/Group`,
+      `${baseUrl}/api/Project/${projectData.groupId}`,
       {
-        name: groupData.groupName,
-        description: groupData.groupDescription,
+        name: projectData.projectName,
+        description: projectData.projectDescription,
       },
       {
         withCredentials: true,
       }
     );
 
-    mutate();
+    await mutate();
+    
     return response.data;
   } catch (error) {
-    mutate();
     throw error.response?.data || error.message;
   }
 };

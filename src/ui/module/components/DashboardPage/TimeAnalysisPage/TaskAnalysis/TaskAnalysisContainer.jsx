@@ -1,8 +1,6 @@
 import React from "react";
 import dynamic from "next/dynamic";
-import LineChartContainer from "./LineChart/LineChartContainer";
 import Spinner from "@/ui/module/blocks/Spinner/Spinner";
-import ActivityChartContainer from "./ActivityChart/ActivityChartContainer";
 
 const StatsCardContainer = dynamic(
   () => import("./StatsCard/StatsCardContainer"),
@@ -23,6 +21,18 @@ const StatsCardContainer = dynamic(
         ))}
       </div>
     ),
+  }
+);
+const LineChartContainer = dynamic(
+  () => import("./LineChart/LineChartContainer"),
+  {
+    loading: () => <Spinner />,
+  }
+);
+const ActivityChartContainer = dynamic(
+  () => import("./ActivityChart/ActivityChartContainer"),
+  {
+    loading: () => <Spinner />,
   }
 );
 

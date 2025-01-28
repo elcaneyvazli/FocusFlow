@@ -2,10 +2,12 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { setToggleGroup } from "@/redux/features/GroupSlice/GroupSlice";
+import {
+  setToggleProject,
+} from "@/redux/features/GroupSlice/GroupSlice";
 import Button from "@/ui/module/blocks/Button/Button";
 import Input from "@/ui/module/blocks/Input/Input";
-import { ArrowLeft, CircleArrowLeft, Search } from "lucide-react";
+import { CircleArrowLeft, Search } from "lucide-react";
 import React from "react";
 import { motion } from "motion/react";
 import { useRouter } from "next/navigation";
@@ -46,9 +48,9 @@ export default function GroupForm() {
         register={register}
       />
       <Button
-        text="Add new group"
+        text="Add new project"
         type={"primary"}
-        onClick={() => dispath(setToggleGroup())}
+        onClick={() => dispath(setToggleProject())}
       />
     </motion.div>
   );

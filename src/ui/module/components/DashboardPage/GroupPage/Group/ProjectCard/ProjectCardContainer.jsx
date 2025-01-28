@@ -9,8 +9,6 @@ export default function ProjectCardContainer() {
   const { id } = useParams();
   const { projects, isLoading, isError, mutate } = useAllProject(id);
 
-  console.log(projects);
-
   if (isLoading) {
     return (
       <div className="grid grid-cols-12 gap-16 col-span-8">
