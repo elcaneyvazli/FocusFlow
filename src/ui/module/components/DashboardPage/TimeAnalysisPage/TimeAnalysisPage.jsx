@@ -1,14 +1,9 @@
 import React from "react";
 import Spinner from "@/ui/module/blocks/Spinner/Spinner";
 import dynamic from "next/dynamic";
+import TaskAnalysisContainer from "./TaskAnalysis/TaskAnalysisContainer";
 const CalendarTaskContainer = dynamic(
   () => import("./CalendarTask/CalendarTaskContainer"),
-  {
-    loading: () => <Spinner />,
-  }
-);
-const TaskAnalysisContainer = dynamic(
-  () => import("./TaskAnalysis/TaskAnalysisContainer"),
   {
     loading: () => <Spinner />,
   }

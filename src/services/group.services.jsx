@@ -60,3 +60,19 @@ export const useGroupById = (id) => {
     mutate,
   };
 };
+export const useGroupMember = (id) => {
+  const { data, error, mutate } = useSWR(
+    `${baseUrl}/Group/${id}/members`,
+    fetcher,
+    {
+      revalidateOnFocus: true,
+    }
+  );
+
+  return {
+    member: data || [],
+    isLoading: !error && !data,
+    isError: error,
+    mutate,
+  };
+};
