@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import Empty from "@/ui/assets/empty.svg";
 import Image from "next/image";
 import { useTasks } from "@/services/task.services";
+import CalendarTaskItem from "./CalendarTaskItem";
 
 export default function CalendarTaskContainer() {
   const [today, setToday] = useState(dayjs());
@@ -13,8 +14,9 @@ export default function CalendarTaskContainer() {
 
   const getTasksForSelectedDate = () => {
     const tasks = [];
+    console.log("start");
     columns?.forEach((column) => {
-      column.items.forEach((task) => {
+      column.items?.forEach((task) => {
         if (
           dayjs(task.dueDate).format("YYYY-MM-DD") ===
           selectedDate.format("YYYY-MM-DD")
@@ -27,6 +29,7 @@ export default function CalendarTaskContainer() {
         }
       });
     });
+    console.log("end");
     return tasks;
   };
 
@@ -44,7 +47,7 @@ export default function CalendarTaskContainer() {
       {tasksForSelectedDate.length > 0 ? (
         <div className="w-full h-full overflow-y-auto flex flex-col gap-16">
           {tasksForSelectedDate.map((task) => (
-            <CalendarTaskContainer key={task.id} task={task} mutate={mutate} />
+            <CalendarTaskItem key={task.id} task={task} mutate={mutate} />
           ))}
         </div>
       ) : (
