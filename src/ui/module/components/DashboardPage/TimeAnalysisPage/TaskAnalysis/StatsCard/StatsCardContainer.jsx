@@ -4,6 +4,7 @@ import { ClipboardCheck, ClipboardList, ClipboardPenLine } from "lucide-react";
 import { useTasks } from "@/services/task.services";
 import StatsCard from "./StatsCard";
 import Spinner from "@/ui/module/blocks/Spinner/Spinner";
+import { motion } from "motion/react";
 
 export default function StatsCardContainer() {
   const { tasks, isLoading } = useTasks();
@@ -55,7 +56,17 @@ export default function StatsCardContainer() {
   ];
 
   return (
-    <div className="bg-elevation border border-border rounded-md w-full grid grid-cols-12">
+    <motion.div
+      className="bg-elevation border border-border rounded-md w-full grid grid-cols-12"
+      initial={{
+        y: 20,
+        opacity: 0,
+      }}
+      animate={{
+        y: 0,
+        opacity: 1,
+      }}
+    >
       {Stats.map((task, index) => (
         <StatsCard
           key={index}
@@ -67,6 +78,6 @@ export default function StatsCardContainer() {
           isLoading={isLoading}
         />
       ))}
-    </div>
+    </motion.div>
   );
 }

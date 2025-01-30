@@ -12,7 +12,7 @@ export const useGroup = () => {
   });
 
   return {
-    groups: data || [],
+    groups: data || {},
     isLoading: !error && !data,
     isError: error,
     mutate,

@@ -1,7 +1,7 @@
 "use client";
 import useScreenWidth from "@/ui/module/utils/UseScreenWidth/useScreenWidth";
 import React, { useState, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { useLabels, createTask, useTasks } from "@/services/task.services";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -12,7 +12,7 @@ import TextInputWithoutBg from "@/ui/module/blocks/Input/TextInputWithoutBg";
 import * as yup from "yup";
 import DateInput from "@/ui/module/blocks/Calendar/DateInput";
 import dayjs from "dayjs";
-import utc from 'dayjs/plugin/utc';
+import utc from "dayjs/plugin/utc";
 import { useDispatch } from "react-redux";
 import { addToast } from "@/redux/features/ToastSlice/ToastSlice";
 
@@ -37,7 +37,6 @@ export default function NewTaskForm({ onClose }) {
   const [columnValue, setColumnValue] = useState("");
   const [activityValue, setActivityValue] = useState("");
   const [selectedDate, setSelectedDate] = useState(dayjs());
-  console.log("NewTaskForm -> selectedDate", selectedDate);
   const options = ["Must Have", "Should Have", "Could Have", "Won't Have"];
   const activity = ["To Do", "In Progress", "Done"];
   const {
@@ -68,7 +67,7 @@ export default function NewTaskForm({ onClose }) {
       title: data.taskTitle,
       description: data.taskDescription,
       label: data.taskLabel,
-      dueDate: selectedDate.format('YYYY-MM-DD'),
+      dueDate: selectedDate.format("YYYY-MM-DD"),
       priority: priorityMap[columnValue],
       status: statusMap[activityValue],
       isCompleted: false,
@@ -77,19 +76,23 @@ export default function NewTaskForm({ onClose }) {
     try {
       await createTask(taskData, tasksMutate); // Pass mutate function here
       labelsMutate();
-      dispatch(addToast({
-        title: "Task Created",
-        message: `${data.taskTitle} has been created successfully`,
-        variant: "success",
-      }));
+      dispatch(
+        addToast({
+          title: "Task Created",
+          message: `${data.taskTitle} has been created successfully`,
+          variant: "success",
+        })
+      );
       onClose();
     } catch (error) {
       console.error("Failed to create task:", error);
-      dispatch(addToast({
-        title: "Error",
-        message: "Failed to create task",
-        variant: "error",
-      }));
+      dispatch(
+        addToast({
+          title: "Error",
+          message: "Failed to create task",
+          variant: "error",
+        })
+      );
     }
   };
 
@@ -140,7 +143,8 @@ export default function NewTaskForm({ onClose }) {
       ref={formRef}
       onSubmit={handleSubmit(onSubmit)}
       className="fixed top-[40%] md:top-64 w-[100%] md:w-[90%] lg:w-[65%] h-[60%] md:h-fit bg-background z-50 rounded-t-md md:rounded-md border border-border shadow-lg flex flex-col md:justify-normal justify-between"
-      {...formMotionProps}
+      initial={{ scale: 0, rotate: "8.5deg" }}
+      animate={{ scale: 1, rotate: "0deg" }}
     >
       <div className="flex flex-col gap-16 px-16 py-16 ">
         <div className="flex flex-col gap-8 items-start relative">
@@ -176,7 +180,7 @@ export default function NewTaskForm({ onClose }) {
           />
           <DateInput
             title="Due date"
-            defaultValue={dayjs().format('YYYY-MM-DD')}
+            defaultValue={dayjs().format("YYYY-MM-DD")}
             onSelect={(date) => {
               setSelectedDate(date);
             }}

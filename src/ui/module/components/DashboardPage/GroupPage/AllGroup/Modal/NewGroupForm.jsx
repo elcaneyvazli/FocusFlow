@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { motion } from "motion/react";
 import Button from "@/ui/module/blocks/Button/Button";
 import Input from "@/ui/module/blocks/Input/Input";
-import { Users } from "lucide-react";
+import { Text, Users } from "lucide-react";
 import { createGroup, useGroup } from "@/services/group.services";
 import * as yup from "yup";
 import { useDispatch } from "react-redux";
@@ -37,21 +37,6 @@ export default function NewGroupForm() {
     }
   };
 
-  const mobileValue = useScreenWidth(768);
-  const isMobile = useScreenWidth(768);
-  const formMotionProps = isMobile
-    ? {
-        initial: { y: "100%", opacity: 0 },
-        animate: { y: "0%", opacity: 1 },
-        exit: { y: "100%", opacity: 0 },
-        transition: { duration: 0.2 },
-      }
-    : {
-        initial: { scale: 0, rotate: "8.5deg" },
-        animate: { scale: 1, rotate: "0deg" },
-        exit: { scale: 0, rotate: "0deg" },
-      };
-
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === "Enter") {
@@ -77,7 +62,8 @@ export default function NewGroupForm() {
       ref={formRef}
       onSubmit={handleSubmit(onSubmit)}
       className="fixed top-[40%] md:top-64 w-[100%] md:w-[90%] lg:w-[65%] h-[60%] md:h-fit bg-background z-50 rounded-t-md md:rounded-md border border-border shadow-lg flex flex-col md:justify-normal justify-between"
-      {...formMotionProps}
+      initial={{ scale: 0, rotate: "8.5deg" }}
+      animate={{ scale: 1, rotate: "0deg" }}
     >
       <div className="p-12 flex flex-col gap-12">
         <Input
@@ -90,7 +76,7 @@ export default function NewGroupForm() {
           required={true}
         />
         <Input
-          icon={<Users size={16} className="text-text" />}
+          icon={<Text size={16} className="text-text" />}
           placeholder={"Description"}
           title="Group Description"
           registername="groupDescription"

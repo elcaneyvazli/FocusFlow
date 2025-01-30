@@ -4,6 +4,7 @@ import LineChart from "./LineChart";
 import chartData from "@/library/chartdata";
 import SelectInput from "@/ui/module/blocks/Input/SelectInput";
 import { ChartLine, Presentation } from "lucide-react";
+import { motion } from "motion/react";
 
 export default function LineChartContainer() {
   const rangeOptions = ["Last 7 days", "Last 30 days", "Last 90 days"];
@@ -31,9 +32,19 @@ export default function LineChartContainer() {
   };
 
   return (
-    <div className="min-h-[400px] h-[400px] max-h-[400px] w-full bg-elevation border border-border rounded-md flex flex-col gap-16 p-16">
-      <div className="flex flex-row justify-between items-center">
-        <div className="flex flex-row items-center gap-12">
+    <motion.div
+      className="min-h-[400px] h-[400px] max-h-[400px] w-full bg-elevation border border-border rounded-md flex flex-col gap-16 p-16"
+      initial={{
+        y: 20,
+        opacity: 0,
+      }}
+      animate={{
+        y: 0,
+        opacity: 1,
+      }}
+    >
+      <div className="flex flex-col lg:flex-row justify-between items-center w-full gap-12 lg:gap-0">
+        <div className="flex flex-row items-center gap-12 w-full">
           <div className="p-8 bg-primary-100 border border-primary-600 rounded-md">
             <ChartLine className=" text-primary-600" size={24} />
           </div>
@@ -47,7 +58,7 @@ export default function LineChartContainer() {
             </p>
           </div>
         </div>
-        <div className="w-[50%]">
+        <div className="w-full lg:w-[50%]">
           <SelectInput
             data={rangeOptions}
             value={rangeOptions[selectedRangeIndex]}
@@ -64,6 +75,6 @@ export default function LineChartContainer() {
         </div>
       </div>
       <LineChart chartData={filteredData} />
-    </div>
+    </motion.div>
   );
 }

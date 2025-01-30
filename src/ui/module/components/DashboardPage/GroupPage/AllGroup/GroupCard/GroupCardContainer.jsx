@@ -7,8 +7,6 @@ import { motion } from "motion/react";
 export default function GroupCardContainer() {
   const { groups, isLoading, isError } = useGroup();
 
-  console.log(groups);
-
   if (isLoading) {
     return (
       <div className="grid grid-cols-12 gap-16">
@@ -53,7 +51,7 @@ export default function GroupCardContainer() {
         opacity: 1,
       }}
     >
-      {groups.length === 0 ? (
+      {!groups || groups.length === 0 ? (
         <div className="col-span-12 flex flex-col justify-center items-center">
           <svg
             viewBox="0 0 400 400"
@@ -404,6 +402,7 @@ export default function GroupCardContainer() {
           <p className="text-light text-lg">No groups available</p>
         </div>
       ) : (
+        Array.isArray(groups) &&
         groups.map((group) => <GroupCard key={group.id} group={group} />)
       )}
     </motion.div>

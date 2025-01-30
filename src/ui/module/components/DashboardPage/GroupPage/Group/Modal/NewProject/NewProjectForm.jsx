@@ -38,31 +38,19 @@ export default function NewProjectForm() {
 
   const onSubmit = async (data) => {
     try {
-      await createProject({
-        projectName: data.projectName,
-        projectDescription: data.projectDescription,
-        groupId: id
-      }, mutate);
+      await createProject(
+        {
+          projectName: data.projectName,
+          projectDescription: data.projectDescription,
+          groupId: id,
+        },
+        mutate
+      );
       dispatch(setToggleProject());
     } catch (err) {
       console.error(err);
     }
   };
-
-  const mobileValue = useScreenWidth(768);
-  const isMobile = useScreenWidth(768);
-  const formMotionProps = isMobile
-    ? {
-        initial: { y: "100%", opacity: 0 },
-        animate: { y: "0%", opacity: 1 },
-        exit: { y: "100%", opacity: 0 },
-        transition: { duration: 0.2 },
-      }
-    : {
-        initial: { scale: 0, rotate: "8.5deg" },
-        animate: { scale: 1, rotate: "0deg" },
-        exit: { scale: 0, rotate: "0deg" },
-      };
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -88,7 +76,8 @@ export default function NewProjectForm() {
       ref={formRef}
       onSubmit={handleSubmit(onSubmit)}
       className="fixed top-[40%] md:top-64 w-[100%] md:w-[90%] lg:w-[65%] h-[60%] md:h-fit bg-background z-50 rounded-t-md md:rounded-md border border-border shadow-lg flex flex-col md:justify-normal justify-between"
-      {...formMotionProps}
+      initial={{ scale: 0, rotate: "8.5deg" }}
+      animate={{ scale: 1, rotate: "0deg" }}
     >
       <div className="p-12 flex flex-col gap-12">
         <Input

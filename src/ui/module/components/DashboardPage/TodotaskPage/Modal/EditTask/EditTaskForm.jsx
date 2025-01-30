@@ -12,7 +12,7 @@ import TextInputWithoutBg from "@/ui/module/blocks/Input/TextInputWithoutBg";
 import * as yup from "yup";
 import DateInput from "@/ui/module/blocks/Calendar/DateInput";
 import dayjs from "dayjs";
-import utc from 'dayjs/plugin/utc';
+import utc from "dayjs/plugin/utc";
 import { useDispatch } from "react-redux";
 import { addToast } from "@/redux/features/ToastSlice/ToastSlice";
 
@@ -49,10 +49,12 @@ export default function EditTaskForm({ onClose, task }) {
   // Initialize state with existing task data
   const [labelValue, setLabelValue] = useState(task?.label || "");
   const [columnValue, setColumnValue] = useState(
-    Object.keys(priorityMap).find(key => priorityMap[key] === task?.priority) || ""
+    Object.keys(priorityMap).find(
+      (key) => priorityMap[key] === task?.priority
+    ) || ""
   );
   const [activityValue, setActivityValue] = useState(
-    Object.keys(statusMap).find(key => statusMap[key] === task?.status) || ""
+    Object.keys(statusMap).find((key) => statusMap[key] === task?.status) || ""
   );
   const [selectedDate, setSelectedDate] = useState(dayjs(task?.dueDate));
   console.log("NewTaskForm -> selectedDate", selectedDate);
@@ -78,7 +80,7 @@ export default function EditTaskForm({ onClose, task }) {
       title: data.editTitle,
       description: data.editDescription,
       label: data.editLabel,
-      dueDate: selectedDate.format('YYYY-MM-DD'),
+      dueDate: selectedDate.format("YYYY-MM-DD"),
       priority: priorityMap[columnValue],
       status: statusMap[activityValue],
     };
@@ -112,20 +114,6 @@ export default function EditTaskForm({ onClose, task }) {
     setValue("editLabel", value);
   };
 
-  const isMobile = useScreenWidth(768);
-  const formMotionProps = isMobile
-    ? {
-        initial: { y: "100%", opacity: 0 },
-        animate: { y: "0%", opacity: 1 },
-        exit: { y: "100%", opacity: 0 },
-        transition: { duration: 0.2 },
-      }
-    : {
-        initial: { scale: 0, rotate: "8.5deg" },
-        animate: { scale: 1, rotate: "0deg" },
-        exit: { scale: 0, rotate: "0deg" },
-      };
-
   const titleValue = watch("editTitle", "");
   const descriptionValue = watch("editDescription", "");
 
@@ -151,12 +139,18 @@ export default function EditTaskForm({ onClose, task }) {
 
   useEffect(() => {
     if (task) {
-      setValue('editTitle', task.title);
-      setValue('editDescription', task.description);
-      setValue('editLabel', task.label);
+      setValue("editTitle", task.title);
+      setValue("editDescription", task.description);
+      setValue("editLabel", task.label);
       setLabelValue(task.label);
-      setColumnValue(Object.keys(priorityMap).find(key => priorityMap[key] === task.priority));
-      setActivityValue(Object.keys(statusMap).find(key => statusMap[key] === task.status));
+      setColumnValue(
+        Object.keys(priorityMap).find(
+          (key) => priorityMap[key] === task.priority
+        )
+      );
+      setActivityValue(
+        Object.keys(statusMap).find((key) => statusMap[key] === task.status)
+      );
       setSelectedDate(dayjs(task.dueDate).utc());
     }
   }, [task, setValue]);
@@ -166,7 +160,8 @@ export default function EditTaskForm({ onClose, task }) {
       ref={formRef}
       onSubmit={handleSubmit(onSubmit)}
       className="fixed top-[40%] md:top-64 w-[100%] md:w-[90%] lg:w-[65%] h-[60%] md:h-fit bg-background z-50 rounded-t-md md:rounded-md border border-border shadow-lg flex flex-col md:justify-normal justify-between"
-      {...formMotionProps}
+      initial={{ scale: 0, rotate: "8.5deg" }}
+      animate={{ scale: 1, rotate: "0deg" }}
     >
       <div className="flex flex-col gap-16 px-16 py-16 ">
         <div className="flex flex-col gap-8 items-start relative">

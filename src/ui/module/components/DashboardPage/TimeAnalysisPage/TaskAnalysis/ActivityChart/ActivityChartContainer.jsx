@@ -2,6 +2,7 @@
 import React from "react";
 import ActivityChart from "./ActivityChart";
 import { ChartBar } from "lucide-react";
+import { motion } from "motion/react";
 
 const generateActivityData = () => {
   const data = [];
@@ -31,7 +32,17 @@ export default function ActivityChartContainer() {
   const data = generateActivityData();
 
   return (
-    <div className="relative h-fit w-full bg-elevation border border-border rounded-md flex flex-col justify-between gap-16 p-16 z-40">
+    <motion.div
+      className="relative h-fit w-full bg-elevation border border-border rounded-md flex flex-col justify-between gap-16 p-16 z-40"
+      initial={{
+        y: 20,
+        opacity: 0,
+      }}
+      animate={{
+        y: 0,
+        opacity: 1,
+      }}
+    >
       <div className="flex flex-row items-center gap-12 z-40">
         <div className="p-8 bg-primary-100 border border-primary-600 rounded-md">
           <ChartBar className="text-primary-600" size={24} />
@@ -48,6 +59,6 @@ export default function ActivityChartContainer() {
       <div className="w-full h-full overflow-x-auto overflow-y-hidden z-50">
         <ActivityChart data={data} />
       </div>
-    </div>
+    </motion.div>
   );
 }

@@ -6,6 +6,7 @@ import Empty from "@/ui/assets/empty.svg";
 import Image from "next/image";
 import { useTasks } from "@/services/task.services";
 import CalendarTaskItem from "./CalendarTaskItem";
+import { motion } from "motion/react";
 
 export default function CalendarTaskContainer() {
   const [today, setToday] = useState(dayjs());
@@ -36,7 +37,17 @@ export default function CalendarTaskContainer() {
   const tasksForSelectedDate = getTasksForSelectedDate();
 
   return (
-    <div className="col-span-12 lg:col-span-4 bg-elevation border border-border w-full min-h-[800px] lg:min-h-0 h-auto lg:h-full max-h-full text-text rounded-md p-8 overflow-hidden flex flex-col gap-16">
+    <motion.div
+      className="col-span-12 lg:col-span-4 bg-elevation border border-border w-full min-h-[800px] lg:min-h-0 h-auto lg:h-full max-h-full text-text rounded-md p-8 overflow-hidden flex flex-col gap-16"
+      initial={{
+        y: 20,
+        opacity: 0,
+      }}
+      animate={{
+        y: 0,
+        opacity: 1,
+      }}
+    >
       <WeeklyCalendar
         today={today}
         setToday={setToday}
@@ -65,6 +76,6 @@ export default function CalendarTaskContainer() {
           </h1>
         </div>
       )}
-    </div>
+    </motion.div>
   );
 }

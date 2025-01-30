@@ -15,7 +15,7 @@ export default function NewTask() {
 
   const onClose = () => {
     dispatch(toggleTask());
-    mutate(); // Refresh the task list
+    mutate();
   };
 
   return (
