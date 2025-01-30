@@ -10,6 +10,7 @@ import { createGroup, useGroup } from "@/services/group.services";
 import * as yup from "yup";
 import { useDispatch } from "react-redux";
 import { setToggleGroup } from "@/redux/features/GroupSlice/GroupSlice";
+import { addToast } from "@/redux/features/ToastSlice/ToastSlice";
 
 const validationSchema = yup.object().shape({
   groupName: yup.string().required("Group Name is required"),
@@ -31,9 +32,25 @@ export default function NewGroupForm() {
   const onSubmit = async (data) => {
     try {
       await createGroup(data, mutate);
+      dispatch(
+        addToast({
+          id: Date.now(),
+          title: "Success",
+          message: "Group created successfully!",
+          variant: "success",
+        })
+      );
       dispatch(setToggleGroup());
     } catch (err) {
       console.error(err);
+      dispatch(
+        addToast({
+          id: Date.now(),
+          title: "Error",
+          message: "Failed to create group. Please try again.",
+          variant: "error",
+        })
+      );
     }
   };
 

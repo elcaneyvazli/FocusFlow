@@ -15,6 +15,7 @@ import {
 } from "@/redux/features/GroupSlice/GroupSlice";
 import { useParams } from "next/navigation";
 import { createProject, useAllProject } from "@/services/project.services";
+import { addToast } from "@/redux/features/ToastSlice/ToastSlice";
 
 const validationSchema = yup.object().shape({
   projectName: yup.string().required("Project Name is required"),
@@ -26,8 +27,6 @@ export default function NewProjectForm() {
   const { id } = useParams();
   const { mutate, isLoading, isError } = useAllProject(id);
   const dispatch = useDispatch();
-
-  console.log(id);
   const {
     handleSubmit,
     formState: { errors },
@@ -47,8 +46,24 @@ export default function NewProjectForm() {
         mutate
       );
       dispatch(setToggleProject());
+      dispatch(
+        addToast({
+          id: Date.now(),
+          title: "Success",
+          message: "Project created successfully!",
+          variant: "success",
+        })
+      );
     } catch (err) {
       console.error(err);
+      dispatch(
+        addToast({
+          id: Date.now(),
+          title: "Error",
+          message: "Failed to create project. Please try again.",
+          variant: "error",
+        })
+      );
     }
   };
 
@@ -103,7 +118,7 @@ export default function NewProjectForm() {
         <Button
           type="base"
           text="Cancel"
-          onClick={() => dispatch(setToggleGroup())}
+          onClick={() => dispatch(setToggleProject())}
           disabled={isLoading}
         />
         <Button

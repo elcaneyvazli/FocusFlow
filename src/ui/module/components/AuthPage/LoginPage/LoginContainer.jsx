@@ -86,7 +86,7 @@ export default function LoginContainer() {
             <div className="bg-border h-[1px] w-full"></div>
           </div>
           <div className="w-full flex justify-center">
-            <div className="w-full">
+            <div className="w-">
               <GoogleLogin
                 onSuccess={handleGoogleSuccess}
                 onError={handleGoogleError}
@@ -95,9 +95,8 @@ export default function LoginContainer() {
                 theme="filled_blue"
                 size="large"
                 shape="circle"
-                width="full"
+                width="10000"
                 className="w-full"
-                style={{ width: "100%" }}
               />
             </div>
           </div>

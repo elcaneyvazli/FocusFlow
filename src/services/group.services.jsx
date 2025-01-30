@@ -76,3 +76,25 @@ export const useGroupMember = (id) => {
     mutate,
   };
 };
+
+export const addGroupMember = async (id, memberName, mutate) => {
+  try {
+    mutate((currentData) => {
+      return [...(currentData || []), { name: memberName }];
+    }, false);
+
+    const response = await axios.post(
+      `${baseUrl}/Group/${id}/add-user?usernameOrEmail=${encodeURIComponent(memberName)}`,
+      {},  
+      {
+        withCredentials: true,
+      }
+    );
+
+    mutate();
+    return response.data;
+  } catch (error) {
+    mutate();
+    throw error.response?.data || error.message;
+  }
+};
