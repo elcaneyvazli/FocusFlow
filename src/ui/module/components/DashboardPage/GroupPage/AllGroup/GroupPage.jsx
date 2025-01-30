@@ -7,7 +7,7 @@ const GroupCardContainer = dynamic(
       <div className="grid grid-cols-12 gap-16">
         {[0, 1, 2, 3, 4, 5].map((index) => (
           <div
-            className="w-full col-span-4 bg-elevation border border-border flex flex-col gap-0 rounded-md cursor-pointer animate-pulse"
+            className="w-full col-span-12 sm:col-span-6 lg:col-span-4 bg-elevation border border-border flex flex-col gap-0 rounded-md cursor-pointer animate-pulse"
             key={index}
           >
             <div className="flex flex-col gap-4 p-12">

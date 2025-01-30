@@ -18,8 +18,8 @@ const Tab = dynamic(() => import("@/ui/module/blocks/Tab/Tab"), {
   loading: () => (
     <div className="relative flex flex-col sm:flex-row items-center justify-between sm:gap-0 gap-4 border-0 sm:border-b border-border">
       <div className="flex flex-row items-center justify-center gap-8 px-16 py-12 w-full sm:w-fit relative border-0 text-light">
-        <div className="h-[36px] w-64 bg-gray-300 dark:bg-gray-700 rounded-md" />
-        <div className="h-[36px] w-64 bg-gray-300 dark:bg-gray-700 rounded-md" />
+        <div className="h-[36px] w-full sm:w-64 bg-gray-300 dark:bg-gray-700 rounded-md" />
+        <div className="h-[36px] w-full sm:w-64 bg-gray-300 dark:bg-gray-700 rounded-md" />
       </div>
       <div className="flex flex-row gap-16 items-end justify-end w-full">
         <div className="h-[36px] w-full sm:w-64 bg-gray-300 dark:bg-gray-700 rounded-md" />
@@ -37,7 +37,10 @@ const StatsCardContainer = dynamic(
     loading: () => (
       <div className="animate-pulse bg-elevation border border-border rounded-md w-full p-12 grid grid-cols-12 gap-16">
         {[...Array(3)].map((_, index) => (
-          <div className="col-span-4 flex flex-col gap-16 w-full" key={index}>
+          <div
+            className="col-span-12 md:col-span-6 xl:col-span-4 flex flex-col gap-16 w-full"
+            key={index}
+          >
             <div className="flex flex-row items-start justify-between w-full">
               <div className="animate-pulse bg-gray-300 dark:bg-gray-700 w-64 h-24 rounded-md"></div>
               <div className="animate-pulse bg-gray-300 dark:bg-gray-700 w-32 h-32 rounded-md"></div>

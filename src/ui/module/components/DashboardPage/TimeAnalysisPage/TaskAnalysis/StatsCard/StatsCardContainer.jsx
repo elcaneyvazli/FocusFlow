@@ -13,7 +13,10 @@ export default function StatsCardContainer() {
     return (
       <div className="animate-pulse bg-elevation border border-border rounded-md w-full p-12 grid grid-cols-12 gap-16">
         {[...Array(3)].map((_, index) => (
-          <div className="col-span-4 flex flex-col gap-16 w-full" key={index}>
+          <div
+            className="col-span-12 md:col-span-6 xl:col-span-4 flex flex-col gap-16 w-full"
+            key={index}
+          >
             <div className="flex flex-row items-start justify-between w-full">
               <div className="animate-pulse bg-gray-300 dark:bg-gray-700 w-64 h-24 rounded-md"></div>
               <div className="animate-pulse bg-gray-300 dark:bg-gray-700 w-32 h-32 rounded-md"></div>
