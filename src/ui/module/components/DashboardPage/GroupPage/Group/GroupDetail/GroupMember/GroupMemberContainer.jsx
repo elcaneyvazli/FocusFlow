@@ -7,14 +7,30 @@ import React from "react";
 import GroupMember from "./GroupMember";
 import { useDispatch } from "react-redux";
 import { setToggleNewMember } from "@/redux/features/GroupSlice/GroupSlice";
+import { motion } from "motion/react";
+import Spinner from "@/ui/module/blocks/Spinner/Spinner";
 
 export default function GroupMemberContainer() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { member, isError, isLoading } = useGroupMember(id);
 
+  if (isLoading) {
+    return <Spinner />;
+  }
+
   return (
-    <div className="flex flex-col gap-8 h-full overflow-y-auto">
+    <motion.div
+      className="flex flex-col gap-8 h-full overflow-y-auto"
+      initial={{
+        y: 20,
+        opacity: 0,
+      }}
+      animate={{
+        y: 0,
+        opacity: 1,
+      }}
+    >
       <div className="flex flex-row items-center justify-between py-8">
         <h1 className="text-lg text-text font-medium leading-none">
           Group Members
@@ -35,9 +51,9 @@ export default function GroupMemberContainer() {
       </div>
       <div className="flex flex-col gap-12 overflow-y-auto h-full">
         {member.map((member) => (
-          <GroupMember key={member.id} member={member} />
+          <GroupMember key={member.id} member={member} isLoading={isLoading} />
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 }

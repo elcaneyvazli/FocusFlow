@@ -7,10 +7,10 @@ import {
   DragOverlay,
   closestCenter,
   PointerSensor,
+  TouchSensor,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import { arrayMove } from "@dnd-kit/sortable";
 import BoardItem from "./BoardItem";
 import { useDispatch } from "react-redux";
 import { addToast } from "@/redux/features/ToastSlice/ToastSlice";
@@ -26,6 +26,12 @@ export default function BoardContainer() {
     useSensor(PointerSensor, {
       activationConstraint: {
         distance: 8,
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 250,
+        tolerance: 5,
       },
     })
   );

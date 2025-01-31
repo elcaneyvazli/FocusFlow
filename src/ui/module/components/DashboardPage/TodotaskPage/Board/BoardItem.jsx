@@ -26,13 +26,17 @@ export default function BoardItem({ task, onMutate }) {
 
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: task.id,
+    data: {
+      task,
+    },
   });
 
   const style = transform
     ? {
         transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+        touchAction: 'none',
       }
-    : undefined;
+    : { touchAction: 'none' };
 
   const handleEditTask = () => {
     setEditTaskState(false);

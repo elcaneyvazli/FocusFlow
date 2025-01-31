@@ -403,6 +403,7 @@ export default function ProjectCardContainer() {
           <p className="text-light text-lg">No groups available</p>
         </div>
       ) : (
+        Array.isArray(projects) &&
         projects.map((project) => (
           <ProjectCard key={project.id} project={project} id={id} />
         ))

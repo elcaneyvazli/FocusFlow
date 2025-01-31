@@ -13,8 +13,12 @@ export default function GroupCard({ group }) {
       onClick={() => router.push(`/dashboard/group/${group.id}`)}
     >
       <div className="flex flex-col gap-4 p-12">
-        <h1 className="text-md text-text">{group.name}</h1>
-        <p className="text-sm text-text">{group.description}</p>
+        <h1 className="text-md text-text line-clamp-1 leading-tight">
+          {group.name}
+        </h1>
+        <p className="text-sm text-light line-clamp-1 leading-tight">
+          {group.description}
+        </p>
       </div>
       <div className="border-t border-border flex flex-row justify-between items-end p-12">
         <div className="relative w-[64px] h-[24px]">

@@ -1,7 +1,6 @@
-import React from 'react'
+import ProjectPage from "@/ui/module/components/DashboardPage/GroupPage/ProjectPage/ProjectPage";
+import React from "react";
 
 export default function page() {
-  return (
-    <div>page</div>
-  )
+  return <ProjectPage />;
 }
