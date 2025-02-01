@@ -27,6 +27,25 @@ const Tab = dynamic(() => import("@/ui/module/blocks/Tab/Tab"), {
     </div>
   ),
 });
+const PomodoroContainer = dynamic(
+  () =>
+    import(
+      "@/ui/module/components/DashboardPage/TodotaskPage/Pomodoro/PomodoroContainer"
+    ),
+  {
+    loading: () => (
+      <div className="relative flex flex-col sm:flex-row items-center justify-between sm:gap-0 gap-4 border-0 sm:border-b border-border">
+        <div className="flex flex-row items-center justify-center gap-8 px-16 py-12 w-full sm:w-fit relative border-0 text-light">
+          <div className="h-[36px] w-full sm:w-64 bg-gray-300 dark:bg-gray-700 rounded-md" />
+          <div className="h-[36px] w-full sm:w-64 bg-gray-300 dark:bg-gray-700 rounded-md" />
+        </div>
+        <div className="flex flex-row gap-16 items-end justify-end w-full">
+          <div className="h-[36px] w-full sm:w-64 bg-gray-300 dark:bg-gray-700 rounded-md" />
+        </div>
+      </div>
+    ),
+  }
+);
 
 const StatsCardContainer = dynamic(
   () =>
@@ -232,6 +251,7 @@ export default function TodotaskPage() {
 
   return (
     <div className="flex flex-col gap-24 w-full h-full p-12 overflow-y-auto">
+      <PomodoroContainer />
       <StatsCardContainer />
       <Tab
         tabs={tabs}
