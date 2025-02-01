@@ -48,10 +48,12 @@ jobs:
           SSH_USER: ${{ secrets.USERNAME }}
           SSH_HOST: ${{ secrets.HOST }}
           WORK_DIR: ${{ secrets.WORK_DIR }}
+          WORK_DIR_DOCKER: ${{ secrets.WORK_DIR_DOCKER }}
         run: |
           ssh -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "
             cd $WORK_DIR && \
             git pull origin main && \
+            cd $WORK_DIR_DOCKER
             docker compose up -d --build && \
             if [ $? -eq 0 ]; then
               echo 'Deployment successful!'
