@@ -18,9 +18,11 @@ import {
   toggleEditTask,
   addEditTask,
 } from "@/redux/features/TaskSlice/TaskSlice";
+import { useAppSelector } from "@/redux/store";
 
 export default function BoardItem({ task, onMutate }) {
   const dispatch = useDispatch();
+  const isDragging = useAppSelector((state) => state.drag.isDragging);
   const [isCompleted, setIsCompleted] = useState(task.isCompleted);
   const [editTask, setEditTaskState] = useState(false);
 
@@ -34,9 +36,9 @@ export default function BoardItem({ task, onMutate }) {
   const style = transform
     ? {
         transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
-        touchAction: 'none',
+        touchAction: "none",
       }
-    : { touchAction: 'none' };
+    : { touchAction: "none" };
 
   const handleEditTask = () => {
     setEditTaskState(false);
@@ -97,7 +99,11 @@ export default function BoardItem({ task, onMutate }) {
     <>
       <motion.div
         ref={setNodeRef}
-        style={style}
+        style={{
+          ...style,
+          opacity: isDragging && !transform ? 0.4 : 1,
+          pointerEvents: isDragging && !transform ? "none" : "auto",
+        }}
         {...listeners}
         {...attributes}
         className="flex flex-col gap-16 cursor-pointer relative"
