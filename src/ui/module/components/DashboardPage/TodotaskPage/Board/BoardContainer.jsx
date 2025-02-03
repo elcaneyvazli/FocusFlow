@@ -15,6 +15,7 @@ import BoardItem from "./BoardItem";
 import { useDispatch } from "react-redux";
 import { addToast } from "@/redux/features/ToastSlice/ToastSlice";
 import Spinner from "@/ui/module/blocks/Spinner/Spinner";
+import { setIsDragging } from '@/redux/features/DragSlice/DragSlice';
 
 export default function BoardContainer() {
   const dispatch = useDispatch();
@@ -55,10 +56,12 @@ export default function BoardContainer() {
       (item) => item.id === active.id
     );
     setActiveTask(activeItem);
+    dispatch(setIsDragging(true));  // Add this line
   };
 
   const handleDragEnd = useCallback(
     async (event) => {
+      dispatch(setIsDragging(false));  // Add this line at the beginning
       const { active, over } = event;
       if (!over) return;
 

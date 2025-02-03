@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import dynamic from "next/dynamic";
 import Google from "@/ui/assets/google.png";
 import Image from "next/image";
-import { useGoogleLogin } from "@react-oauth/google";
+import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { addToast } from "@/redux/features/ToastSlice/ToastSlice";
@@ -31,35 +31,30 @@ export default function RegisterContainer() {
   const { status, error } = useSelector(selectAuth);
 
   useEffect(() => {
-    // Reset auth state when component mounts
     dispatch(resetAuthState());
   }, [dispatch]);
 
-  const handleGoogleSuccess = async (codeResponse) => {
+  const handleGoogleSuccess = async (credentialResponse) => {
     try {
-      if (codeResponse.code) {
-        const result = await dispatch(googleAuth(codeResponse.code)).unwrap();
-        if (result) {
-          router.push("/dashboard");
-          dispatch(
-            addToast({
-              id: Date.now(),
-              title: "Success",
-              message: "Successfully registered with Google!",
-              variant: "success",
-            })
-          );
-        }
-      } else {
-        throw new Error("No code received from Google"); // Code kontrolü eklenmeli
+      if (credentialResponse.credential) {
+        await dispatch(googleAuth(credentialResponse.credential)).unwrap();
+        router.push("/dashboard");
+        dispatch(
+          addToast({
+            id: Date.now(),
+            title: "Success",
+            message: "Successfully logged in with Google!",
+            variant: "success",
+          })
+        );
       }
     } catch (error) {
-      console.error("Google registration error:", error);
+      console.error("Google login error:", error);
       dispatch(
         addToast({
           id: Date.now(),
-          title: "Error",
-          message: "Google registration failed. Please try again.",
+          title: error?.title || "Error",
+          message: error?.desc || "Google login failed. Please try again.",
           variant: "error",
         })
       );
@@ -78,13 +73,6 @@ export default function RegisterContainer() {
     );
   };
 
-  const googleLogin = useGoogleLogin({
-    flow: "auth-code",
-    onSuccess: handleGoogleSuccess,
-    onError: handleGoogleError,
-    scope: "email profile",
-  });
-
   return (
     <div className="w-full h-full z-50 relative px-0 py-0 lg:px-8 lg:py-8 2xl:w-[37%] xl:w-[37%] lg:w-[50%]">
       <div className="w-full h-full bg-background border border-border rounded-none lg:rounded-md z-50 flex flex-col justify-between p-16">
@@ -96,12 +84,21 @@ export default function RegisterContainer() {
             <p className="text-light font-medium text-xs">or</p>
             <div className="bg-border h-[1px] w-full"></div>
           </div>
-          <Button
-            text={status === "loading" ? "Loading..." : "Authorize with Google"}
-            icon={<Image src={Google} alt="logo" width={18} height={18} />}
-            onClick={() => googleLogin()}
-            disabled={status === "loading"}
-          />
+          <div className="w-full flex justify-center">
+            <div className="w-">
+              <GoogleLogin
+                onSuccess={handleGoogleSuccess}
+                onError={handleGoogleError}
+                useOneTap
+                type="standard"
+                theme="filled_blue"
+                size="large"
+                shape="circle"
+                width="10000"
+                className="w-full"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>

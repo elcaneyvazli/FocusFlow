@@ -37,7 +37,6 @@ export default function LoginContainer() {
   const handleGoogleSuccess = async (credentialResponse) => {
     try {
       if (credentialResponse.credential) {
-        console.log("Google credential response:", credentialResponse);
         await dispatch(googleAuth(credentialResponse.credential)).unwrap();
         router.push("/dashboard");
         dispatch(
