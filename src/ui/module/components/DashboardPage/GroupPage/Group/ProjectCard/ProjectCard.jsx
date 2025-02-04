@@ -10,7 +10,7 @@ export default function ProjectCard({ project, id }) {
     <motion.div
       className="w-full col-span-12 sm:col-span-6 bg-elevation border border-border flex flex-col gap-0 rounded-md cursor-pointer h-fit"
       whileTap={{ scale: 0.99 }}
-      onClick={() => router.push(`/dashboard/group/project/${project.id}`)}
+      onClick={() => router.push(`/dashboard/group/${id}/${project.id}`)}
     >
       <div className="flex flex-col gap-4 p-12">
         <h1 className="text-md text-text">{project.name}</h1>

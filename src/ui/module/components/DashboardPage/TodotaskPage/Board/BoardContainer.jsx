@@ -15,11 +15,15 @@ import BoardItem from "./BoardItem";
 import { useDispatch } from "react-redux";
 import { addToast } from "@/redux/features/ToastSlice/ToastSlice";
 import Spinner from "@/ui/module/blocks/Spinner/Spinner";
-import { setIsDragging } from '@/redux/features/DragSlice/DragSlice';
+import { setIsDragging } from "@/redux/features/DragSlice/DragSlice";
 
-export default function BoardContainer() {
+export default function BoardContainer({
+  columns,
+  mutate,
+  isLoading,
+  isError,
+}) {
   const dispatch = useDispatch();
-  const { columns, isLoading, isError, mutate } = useTasks();
   const [localColumns, setLocalColumns] = useState([]);
   const [activeTask, setActiveTask] = useState(null);
 
@@ -56,12 +60,12 @@ export default function BoardContainer() {
       (item) => item.id === active.id
     );
     setActiveTask(activeItem);
-    dispatch(setIsDragging(true));  // Add this line
+    dispatch(setIsDragging(true)); // Add this line
   };
 
   const handleDragEnd = useCallback(
     async (event) => {
-      dispatch(setIsDragging(false));  // Add this line at the beginning
+      dispatch(setIsDragging(false)); // Add this line at the beginning
       const { active, over } = event;
       if (!over) return;
 

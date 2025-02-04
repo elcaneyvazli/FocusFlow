@@ -37,9 +37,26 @@ export const createProject = async (projectData, mutate) => {
     );
 
     await mutate();
-    
+
     return response.data;
   } catch (error) {
     throw error.response?.data || error.message;
   }
+};
+
+export const useProjectById = (groupId, projectId) => {
+  const { data, error, mutate } = useSWR(
+    `${baseUrl}/api/Project/${groupId}/${projectId}`,
+    fetcher,
+    {
+      revalidateOnFocus: true,
+    }
+  );
+
+  return {
+    project: data || {},
+    isLoading: !error && !data,
+    isError: error,
+    mutate,
+  };
 };

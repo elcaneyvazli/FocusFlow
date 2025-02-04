@@ -7,6 +7,7 @@ export default function ActivityChart({ data }) {
     x: 0,
     y: 0,
     content: null,
+    position: 'top' // Add position state
   });
   const chartRef = useRef(null);
 
@@ -26,8 +27,9 @@ export default function ActivityChart({ data }) {
           style={{
             left: `${tooltip.x}px`,
             top: `${tooltip.y}px`,
-            transform: "translate(-50%, -100%)",
-            marginTop: "-8px",
+            transform: tooltip.position === 'top' 
+              ? 'translate(-50%, -100%)' 
+              : 'translate(-50%, 8px)',
           }}
         >
           <div className="min-w-[5px] w-[6px] h-[24px] min-h-full bg-primary-600 rounded-md"></div>
@@ -56,15 +58,19 @@ export default function ActivityChart({ data }) {
               onMouseEnter={(e) => {
                 const rect = e.target.getBoundingClientRect();
                 const chartRect = chartRef.current.getBoundingClientRect();
+                const topSpace = rect.top - chartRect.top;
+                const position = topSpace < 60 ? 'bottom' : 'top';
+                
                 setTooltip({
                   show: true,
                   x: rect.left - chartRect.left + rect.width / 2,
                   y: rect.top - chartRect.top,
                   content: day,
+                  position
                 });
               }}
               onMouseLeave={() =>
-                setTooltip({ show: false, x: 0, y: 0, content: null })
+                setTooltip({ show: false, x: 0, y: 0, content: null, position: 'top' })
               }
             />
           ))}

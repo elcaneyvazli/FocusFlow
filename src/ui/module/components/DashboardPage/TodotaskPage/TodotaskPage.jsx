@@ -11,6 +11,7 @@ import dynamic from "next/dynamic";
 import Spinner from "@/ui/module/blocks/Spinner/Spinner";
 import { useDispatch } from "react-redux";
 import { toggleTask } from "@/redux/features/TaskSlice/TaskSlice";
+import { useTasks } from "@/services/task.services";
 const BoardContainer = dynamic(() => import("./Board/BoardContainer"), {
   loading: () => <Spinner />,
 });
@@ -78,13 +79,19 @@ const StatsCardContainer = dynamic(
 export default function TodotaskPage() {
   const mobilescreen = useScreenWidth(640);
   const dispatch = useDispatch();
+  const { columns, isLoading, isError, mutate } = useTasks();
 
   const tabs = [
     {
       id: "board",
       title: "Board View",
       icons: <LayoutDashboard size={18} />,
-      content: <BoardContainer />,
+      content: <BoardContainer 
+        columns={columns} 
+        isLoading={isLoading} 
+        isError={isError} 
+        mutate={mutate}
+      />,
     },
     {
       id: "list",

@@ -15,7 +15,6 @@ export default function CalendarTaskContainer() {
 
   const getTasksForSelectedDate = () => {
     const tasks = [];
-    console.log("start");
     columns?.forEach((column) => {
       column.items?.forEach((task) => {
         if (
@@ -30,7 +29,6 @@ export default function CalendarTaskContainer() {
         }
       });
     });
-    console.log("end");
     return tasks;
   };
 
