@@ -8,35 +8,6 @@ const nextConfig = {
   },
   output: "standalone",
   reactStrictMode: false,
-
-  webpack: (config, { dev, isServer }) => {
-    config.optimization = {
-      ...config.optimization,
-      usedExports: true,
-      sideEffects: true
-    }
-
-    if (!dev && !isServer) {
-      config.optimization.minimize = true;
-    }
-
-    return config;
-  },
-
-  experimental: {
-    optimizeFonts: true,
-    optimizePackageImports: ['@lucide-react', 'redux']
-  },
-  
-  optimization: {
-    moduleIds: 'deterministic',
-    runtimeChunk: 'single',
-    splitChunks: {
-      chunks: 'all',
-      maxInitialRequests: 25,
-      minSize: 20000
-    }
-  }
 };
 
 export default nextConfig;
