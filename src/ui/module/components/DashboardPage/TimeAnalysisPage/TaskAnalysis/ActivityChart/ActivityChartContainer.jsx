@@ -8,7 +8,8 @@ const generateActivityData = () => {
   const data = [];
   const today = new Date();
 
-  for (let i = 363; i >= 0; i--) {
+  // Adjust to 364 days to get exactly 52 weeks
+  for (let i = 364; i >= 0; i--) {
     const date = new Date();
     date.setDate(today.getDate() - i);
 
@@ -56,7 +57,7 @@ export default function ActivityChartContainer() {
           </p>
         </div>
       </div>
-      <div className="w-full h-full overflow-x-auto overflow-y-hidden z-50">
+      <div className="w-full h-full overflow-x-auto overflow-y-hidden pb-4 pr-4">
         <ActivityChart data={data} />
       </div>
     </motion.div>

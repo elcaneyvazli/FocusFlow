@@ -1,5 +1,4 @@
 import React, { useState, useRef } from "react";
-import { createPortal } from "react-dom";
 
 export default function ActivityChart({ data }) {
   const [tooltip, setTooltip] = useState({
@@ -7,29 +6,31 @@ export default function ActivityChart({ data }) {
     x: 0,
     y: 0,
     content: null,
-    position: 'top' // Add position state
+    position: "top",
+    horizontalPosition: "center"
   });
   const chartRef = useRef(null);
 
   const weeks = [];
-  for (let i = 0; i < data.length; i += 7) {
+  for (let i = 0; i < 364; i += 7) {
     weeks.push(data.slice(i, i + 7));
   }
 
   return (
-    <div
-      className="w-full h-full flex flex-row gap-4 relative z-40"
-      ref={chartRef}
-    >
+    <div className="w-fit h-full flex flex-row gap-4 relative z-40" ref={chartRef}>
       {tooltip.show && (
         <div
           className="absolute bg-elevation border border-border rounded-md p-8 pointer-events-none shadow-lg z-50 flex flex-row gap-12 w-fit h-fit min-w-fit min-h-fit"
           style={{
             left: `${tooltip.x}px`,
             top: `${tooltip.y}px`,
-            transform: tooltip.position === 'top' 
-              ? 'translate(-50%, -100%)' 
-              : 'translate(-50%, 8px)',
+            transform: `translate(${
+              tooltip.horizontalPosition === "right"
+                ? "8px"
+                : tooltip.horizontalPosition === "left"
+                ? "calc(-100% - 8px)"
+                : "-50%"
+            }, ${tooltip.position === "top" ? "-100%" : "8px"})`
           }}
         >
           <div className="min-w-[5px] w-[6px] h-[24px] min-h-full bg-primary-600 rounded-md"></div>
@@ -59,18 +60,38 @@ export default function ActivityChart({ data }) {
                 const rect = e.target.getBoundingClientRect();
                 const chartRect = chartRef.current.getBoundingClientRect();
                 const topSpace = rect.top - chartRect.top;
-                const position = topSpace < 60 ? 'bottom' : 'top';
+                const leftSpace = rect.left - chartRect.left;
+                const rightSpace = chartRect.right - rect.right;
                 
+                // Determine vertical position
+                const position = topSpace < 60 ? "bottom" : "top";
+                
+                // Determine horizontal position
+                let horizontalPosition = "center";
+                if (leftSpace < 100) {
+                  horizontalPosition = "right";
+                } else if (rightSpace < 100) {
+                  horizontalPosition = "left";
+                }
+
                 setTooltip({
                   show: true,
                   x: rect.left - chartRect.left + rect.width / 2,
                   y: rect.top - chartRect.top,
                   content: day,
-                  position
+                  position,
+                  horizontalPosition
                 });
               }}
               onMouseLeave={() =>
-                setTooltip({ show: false, x: 0, y: 0, content: null, position: 'top' })
+                setTooltip({
+                  show: false,
+                  x: 0,
+                  y: 0,
+                  content: null,
+                  position: "top",
+                  horizontalPosition: "center"
+                })
               }
             />
           ))}
