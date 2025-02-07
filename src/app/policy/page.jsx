@@ -187,13 +187,10 @@ export default function page() {
         </p>
         <ul className="list-disc ml-6 space-y-2">
           <li>
-            <strong>Email:</strong> [Your Email Address]
+            <strong>Email:</strong> elcaneyvazli77@gmail.com
           </li>
           <li>
-            <strong>Address:</strong> [Your Physical Address, if applicable]
-          </li>
-          <li>
-            <strong>Website:</strong> [Your Website URL]
+            <strong>Website:</strong> www.focusflow.com
           </li>
         </ul>
       </section>
