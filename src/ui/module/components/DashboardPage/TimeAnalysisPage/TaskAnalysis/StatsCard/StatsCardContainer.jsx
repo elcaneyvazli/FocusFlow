@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useMemo } from "react";
 import { ClipboardCheck, ClipboardList, ClipboardPenLine } from "lucide-react";
 import { useTasks } from "@/services/task.services";
 import StatsCard from "./StatsCard";
@@ -31,48 +31,40 @@ export default function StatsCardContainer() {
     );
   }
 
-  const totalTask = tasks.total;
-  const completedTask = tasks.completed;
-  const pendingTask = tasks.pending;
-  const Stats = [
+  const Stats = useMemo(() => [
     {
       title: "Total Task",
       percentage: 15,
       status: "success",
-      value: totalTask,
+      value: tasks?.total || 0,
       icon: <ClipboardList className="text-text" size={24} />,
     },
     {
       title: "Completed Tasks",
       percentage: 23,
       status: "error",
-      value: completedTask,
+      value: tasks?.completed || 0,
       icon: <ClipboardCheck className="text-text" size={24} />,
     },
     {
       title: "Pending Task",
       percentage: 32,
       status: "success",
-      value: pendingTask,
+      value: tasks?.pending || 0,
       icon: <ClipboardPenLine className="text-text" size={24} />,
     },
-  ];
+  ], [tasks]);
 
   return (
     <motion.div
       className="bg-elevation border border-border rounded-md w-full grid grid-cols-12"
-      initial={{
-        y: 20,
-        opacity: 0,
-      }}
-      animate={{
-        y: 0,
-        opacity: 1,
-      }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
     >
       {Stats.map((task, index) => (
         <StatsCard
-          key={index}
+          key={task.title}
           title={task.title}
           percentage={task.percentage}
           type={task.status}
