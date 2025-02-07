@@ -4,9 +4,6 @@ export default function page() {
   return (
     <div className="p-32 bg-background text-text">
       <h1 className="text-3xl font-bold mb-4">Privacy Policy</h1>
-      <p className="mb-6">
-        <strong>Effective Date:</strong> [Effective Date]
-      </p>
 
       <section className="mb-8">
         <h2 className="text-2xl font-semibold mb-2">1. Introduction</h2>
