@@ -6,8 +6,7 @@ import StatsCard from "./StatsCard";
 import Spinner from "@/ui/module/blocks/Spinner/Spinner";
 import { motion } from "motion/react";
 
-export default function StatsCardContainer() {
-  const { tasks, isLoading } = useTasks();
+export default function StatsCardContainer({ tasks, isLoading }) {
 
   if (isLoading) {
     return (
@@ -31,29 +30,32 @@ export default function StatsCardContainer() {
     );
   }
 
-  const Stats = useMemo(() => [
-    {
-      title: "Total Task",
-      percentage: 15,
-      status: "success",
-      value: tasks?.total || 0,
-      icon: <ClipboardList className="text-text" size={24} />,
-    },
-    {
-      title: "Completed Tasks",
-      percentage: 23,
-      status: "error",
-      value: tasks?.completed || 0,
-      icon: <ClipboardCheck className="text-text" size={24} />,
-    },
-    {
-      title: "Pending Task",
-      percentage: 32,
-      status: "success",
-      value: tasks?.pending || 0,
-      icon: <ClipboardPenLine className="text-text" size={24} />,
-    },
-  ], [tasks]);
+  const Stats = useMemo(
+    () => [
+      {
+        title: "Total Task",
+        percentage: 15,
+        status: "success",
+        value: tasks?.total || 0,
+        icon: <ClipboardList className="text-text" size={24} />,
+      },
+      {
+        title: "Completed Tasks",
+        percentage: 23,
+        status: "error",
+        value: tasks?.completed || 0,
+        icon: <ClipboardCheck className="text-text" size={24} />,
+      },
+      {
+        title: "Pending Task",
+        percentage: 32,
+        status: "success",
+        value: tasks?.pending || 0,
+        icon: <ClipboardPenLine className="text-text" size={24} />,
+      },
+    ],
+    [tasks]
+  );
 
   return (
     <motion.div

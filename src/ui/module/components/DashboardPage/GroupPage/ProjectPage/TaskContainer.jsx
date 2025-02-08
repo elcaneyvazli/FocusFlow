@@ -1,79 +1,16 @@
 "use client";
+import React from "react";
+import { LayoutDashboard, ListIcon } from "lucide-react";
+import Tab from "@/ui/module/blocks/Tab/Tab";
 import Button from "@/ui/module/blocks/Button/Button";
-import {
-  LayoutGrid as GridIcon,
-  LayoutDashboard,
-  List as ListIcon,
-} from "lucide-react";
 import useScreenWidth from "@/ui/module/utils/UseScreenWidth/useScreenWidth";
-import dynamic from "next/dynamic";
-import Spinner from "@/ui/module/blocks/Spinner/Spinner";
-import { useDispatch } from "react-redux";
-import { toggleTask } from "@/redux/features/TaskSlice/TaskSlice";
-import { useTasks } from "@/services/task.services";
-const BoardContainer = dynamic(() => import("./Board/BoardContainer"), {
-  loading: () => <Spinner />,
-});
-const Tab = dynamic(() => import("@/ui/module/blocks/Tab/Tab"), {
-  loading: () => (
-    <div className="relative flex flex-col sm:flex-row items-center justify-between sm:gap-0 gap-4 border-0 sm:border-b border-border">
-      <div className="flex flex-row items-center justify-center gap-8 px-16 py-12 w-full sm:w-fit relative border-0 text-light">
-        <div className="h-[36px] w-full sm:w-64 bg-gray-300 dark:bg-gray-700 rounded-md" />
-        <div className="h-[36px] w-full sm:w-64 bg-gray-300 dark:bg-gray-700 rounded-md" />
-      </div>
-      <div className="flex flex-row gap-16 items-end justify-end w-full">
-        <div className="h-[36px] w-full sm:w-64 bg-gray-300 dark:bg-gray-700 rounded-md" />
-      </div>
-    </div>
-  ),
-});
-const PomodoroContainer = dynamic(
-  () =>
-    import(
-      "@/ui/module/components/DashboardPage/TodotaskPage/Pomodoro/PomodoroContainer"
-    ),
-  {
-    loading: () => (
-      <div className="relative flex flex-col sm:flex-row items-center justify-between sm:gap-0 gap-4 border-0 sm:border-b border-border">
-        <div className="flex flex-row items-center justify-center gap-8 px-16 py-12 w-full sm:w-fit relative border-0 text-light">
-          <div className="h-[36px] w-full sm:w-64 bg-gray-300 dark:bg-gray-700 rounded-md" />
-          <div className="h-[36px] w-full sm:w-64 bg-gray-300 dark:bg-gray-700 rounded-md" />
-        </div>
-        <div className="flex flex-row gap-16 items-end justify-end w-full">
-          <div className="h-[36px] w-full sm:w-64 bg-gray-300 dark:bg-gray-700 rounded-md" />
-        </div>
-      </div>
-    ),
-  }
-);
+import BoardContainer from "../../TodotaskPage/Board/BoardContainer";
 
-const AnalysisCard = dynamic(() => import("./AnalysisCard/AnalysisCard"), {
-  loading: () => (
-    <div className="animate-pulse bg-elevation border border-border rounded-md w-full p-12 grid grid-cols-12 gap-16">
-      {[...Array(3)].map((_, index) => (
-        <div
-          className="col-span-12 md:col-span-6 xl:col-span-4 flex flex-col gap-16 w-full"
-          key={index}
-        >
-          <div className="flex flex-row items-start justify-between w-full">
-            <div className="animate-pulse bg-gray-300 dark:bg-gray-700 w-64 h-24 rounded-md"></div>
-            <div className="animate-pulse bg-gray-300 dark:bg-gray-700 w-32 h-32 rounded-md"></div>
-          </div>
-          <div className="flex flex-row items-start justify-between w-full">
-            <Spinner />
-            <div className="w-64 h-64 animate-pulse bg-gray-300 dark:bg-gray-700 rounded-md"></div>
-          </div>
-        </div>
-      ))}
-    </div>
-  ),
-});
-
-export default function TodotaskPage() {
+export default function TaskContainer({ project, isLoading, isError, mutate }) {
   const mobilescreen = useScreenWidth(640);
-  const dispatch = useDispatch();
-  const { columns, tasks, isLoading, isError, mutate } = useTasks();
 
+  if (isLoading) return;
+  if (isError) return <div>Error loading project</div>;
   const tabs = [
     {
       id: "board",
@@ -81,7 +18,7 @@ export default function TodotaskPage() {
       icons: <LayoutDashboard size={18} />,
       content: (
         <BoardContainer
-          columns={columns}
+          columns={project.taskInformation.tasks}
           isLoading={isLoading}
           isError={isError}
           mutate={mutate}
@@ -250,21 +187,12 @@ export default function TodotaskPage() {
       ),
     },
   ];
-
   return (
-    <div className="flex flex-col gap-24 w-full h-full p-12 overflow-y-auto">
-      <PomodoroContainer />
-      <AnalysisCard tasks={tasks} isLoading={isLoading} />
-      <Tab
-        tabs={tabs}
-        component={
-          <Button
-            text="New Task"
-            width={mobilescreen ? "full" : "fit"}
-            onClick={() => dispatch(toggleTask())}
-          />
-        }
-      />
-    </div>
+    <Tab
+      tabs={tabs}
+      component={
+        <Button text="New Task" width={mobilescreen ? "full" : "fit"} />
+      }
+    />
   );
 }
