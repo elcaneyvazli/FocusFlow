@@ -32,15 +32,18 @@ export default function MonthView({
           >
             {day.format("D")}
           </p>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-row flex-wrap md:flex-nowrap md:flex-col gap-4">
             {events
               .filter((event) => event.start.isSame(day, "day"))
               .map((event) => (
                 <div
                   key={event.id}
-                  className={`${event.color} text-white text-xs px-8 py-4 rounded-md truncate`}
+                  className={`${event.color} w-[12px] h-[12px] md:w-full md:h-full  px-8 py-4 rounded-[2px] md:rounded-md truncate`}
                 >
-                  {event.title}
+                  <p className="text-xs text-white hidden md:flex">
+                    {" "}
+                    {event.title}
+                  </p>
                 </div>
               ))}
           </div>

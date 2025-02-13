@@ -3,18 +3,18 @@ import { motion } from "framer-motion";
 
 const ViewSelector = ({ currentView, setCurrentView, viewOptions }) => {
   return (
-    <div className="flex bg-background rounded-md p-1">
+    <div className="flex flex-row justify-between bg-background rounded-md p-2 w-full md:w-fit">
       {viewOptions.map((view) => (
         <motion.button
           key={view.id}
-          className={`relative px-32 py-6 flex flex-row items-center justify-center gap-4 rounded-md cursor-pointer whitespace-nowrap ${
+          className={`relative px-32 py-6 flex flex-row items-center justify-center gap-4 rounded-md cursor-pointer whitespace-nowrap w-full md:w-fit ${
             currentView === view.id ? "text-white" : "text-text"
           }`}
           onClick={() => setCurrentView(view.id)}
           whileTap={{ scale: 0.98 }}
         >
           <h1
-            className={`hidden lg:block text-sm font-normal z-20 line-clamp-1 ${
+            className={`text-sm font-normal z-20 line-clamp-1 ${
               currentView === view.id ? "text-white" : "text-text"
             }`}
           >
