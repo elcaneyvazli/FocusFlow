@@ -3,6 +3,7 @@ import { ArrowUp } from "lucide-react";
 import ErrorGraph from "../Graphs/ErrorGraph";
 import SuccessGraph from "../Graphs/SuccessGraph";
 import Spinner from "@/ui/module/blocks/Spinner/Spinner";
+import NumberFlow from "@number-flow/react";
 
 const StatsCard = memo(
   ({ title, value, percentage, type, icon, isLoading }) => {
@@ -32,7 +33,7 @@ const StatsCard = memo(
               ) : (
                 <>
                   <p className="text-text text-4xl font-medium leading-none">
-                    {value}
+                    <NumberFlow value={value} />
                   </p>
                   <div className="flex flex-row items-center gap-4">
                     <div
@@ -45,7 +46,7 @@ const StatsCard = memo(
                         textClasses + " text-sm font-semibold leading-none"
                       }
                     >
-                      {percentage}%
+                      <NumberFlow value={percentage} />%
                     </p>
                   </div>
                 </>

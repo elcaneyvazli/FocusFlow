@@ -16,6 +16,7 @@
     "@dnd-kit/utilities": "^3.2.2",
     "@hookform/resolvers": "^3.10.0",
     "@leenguyen/react-flip-clock-countdown": "^1.6.0",
+    "@number-flow/react": "^0.5.5",
     "@pqina/flip": "^1.8.4",
     "@react-oauth/google": "^0.12.1",
     "@reduxjs/toolkit": "^2.5.0",
