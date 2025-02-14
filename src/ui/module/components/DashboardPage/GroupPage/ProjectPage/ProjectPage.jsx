@@ -12,6 +12,7 @@ export default function ProjectPage() {
   const slug = params.slug[0];
 
   const { project, isLoading, isError, mutate } = useProjectById(id, slug);
+  console.log(project);
 
   if (isLoading) return <Spinner />;
   if (isError)

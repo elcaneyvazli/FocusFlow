@@ -30,6 +30,7 @@ export default function NewTaskForm({ onClose }) {
   const dispatch = useDispatch();
 
   const formRef = useRef(null);
+  const titleInputRef = useRef(null);
 
   const mobileValue = useScreenWidth(768);
 
@@ -138,6 +139,11 @@ export default function NewTaskForm({ onClose }) {
     };
   }, [handleSubmit, onSubmit]);
 
+  useEffect(() => {
+    // Focus the title input when component mounts
+    titleInputRef.current?.focus();
+  }, []);
+
   return (
     <motion.form
       ref={formRef}
@@ -156,6 +162,7 @@ export default function NewTaskForm({ onClose }) {
             error={errors?.taskTitle?.message}
             onChange={(e) => setValue("taskTitle", e.target.value)}
             textSize="text-2xl"
+            inputRef={titleInputRef}
           />
           <TextInputWithoutBg
             placeholder="Add task description"
