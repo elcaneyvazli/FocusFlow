@@ -8,6 +8,7 @@ import dialogReducer from "./features/DialogSlice/DialogSlice";
 import timerReducer from "./features/TimerSlice/TimerSlice";
 import groupReducer from "./features/GroupSlice/GroupSlice";
 import dragReducer from "./features/DragSlice/DragSlice";
+import projectReducer from "./features/ProjectSlice/ProjectSlice";
 
 export const store = configureStore({
   reducer: {
@@ -19,6 +20,7 @@ export const store = configureStore({
     timer: timerReducer,
     group: groupReducer,
     drag: dragReducer,
+    project: projectReducer,
   },
 });
 

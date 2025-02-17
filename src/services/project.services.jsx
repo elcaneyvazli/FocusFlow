@@ -60,3 +60,43 @@ export const useProjectById = (groupId, projectId) => {
     mutate,
   };
 };
+
+export const createProjectTask = async (
+  taskData,
+  mutate,
+  groupId,
+  projectId
+) => {
+  if (!groupId || !projectId) {
+    throw new Error("Group ID and Project ID are required");
+  }
+
+  try {
+    const response = await axios.post(
+      `${baseUrl}/api/Project/${groupId}/${projectId}/tasks`,
+      {
+        ...taskData,
+        usernamesOrEmails: Array.isArray(taskData.usernamesOrEmails) 
+          ? taskData.usernamesOrEmails 
+          : [],
+        priority: Number(taskData.priority),
+        status: Number(taskData.status)
+      },
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (typeof mutate === "function") {
+      await mutate();
+    }
+
+    return response.data;
+  } catch (error) {
+    console.error("API Error:", error.response?.data || error.message);
+    throw new Error(error.response?.data?.title || "Failed to create task");
+  }
+};

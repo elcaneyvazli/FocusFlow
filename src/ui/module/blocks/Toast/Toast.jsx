@@ -76,7 +76,7 @@ export default function Toast() {
     >
       {[...toasts].reverse().map((toast, index) => (
         <div
-          key={toast.id}
+          key={toast.id || Date.now().toString()} // Ensure key exists
           className={clsx(
             "relative min-w-full sm:w-[344px] h-fit px-8 py-8 flex flex-row justify-between items-start gap-8",
             getVariantStyles(toast.variant)

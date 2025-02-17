@@ -9,7 +9,12 @@ const toastMessage = createSlice({
   initialState,
   reducers: {
     addToast: (state, action) => {
-      state.toasts.push(action.payload);
+      // Add unique ID when creating toast
+      const newToast = {
+        ...action.payload,
+        id: Date.now().toString() // Add unique timestamp ID
+      };
+      state.toasts.push(newToast);
     },
     removeToast: (state, action) => {
       state.toasts = state.toasts.filter(
