@@ -7,9 +7,7 @@ const fetcher = (url) =>
   axios.get(url, { withCredentials: true }).then((res) => res.data);
 
 export const useGroup = () => {
-  const { data, error, mutate } = useSWR(`${baseUrl}/Group`, fetcher, {
-    revalidateOnFocus: true,
-  });
+  const { data, error, mutate } = useSWR(`${baseUrl}/Group`, fetcher, {});
 
   return {
     groups: data || {},
@@ -49,9 +47,7 @@ export const createGroup = async (groupData, mutate) => {
 };
 
 export const useGroupById = (id) => {
-  const { data, error, mutate } = useSWR(`${baseUrl}/Group/${id}`, fetcher, {
-    revalidateOnFocus: true,
-  });
+  const { data, error, mutate } = useSWR(`${baseUrl}/Group/${id}`, fetcher, {});
 
   return {
     group: data || {},
@@ -64,9 +60,7 @@ export const useGroupMember = (id) => {
   const { data, error, mutate } = useSWR(
     `${baseUrl}/Group/${id}/members`,
     fetcher,
-    {
-      revalidateOnFocus: true,
-    }
+    {}
   );
 
   return {
@@ -84,8 +78,10 @@ export const addGroupMember = async (id, memberName, mutate) => {
     }, false);
 
     const response = await axios.post(
-      `${baseUrl}/Group/${id}/add-user?usernameOrEmail=${encodeURIComponent(memberName)}`,
-      {},  
+      `${baseUrl}/Group/${id}/add-user?usernameOrEmail=${encodeURIComponent(
+        memberName
+      )}`,
+      {},
       {
         withCredentials: true,
       }

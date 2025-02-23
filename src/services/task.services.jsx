@@ -12,7 +12,6 @@ export const useTasks = () => {
     `${baseUrl}/UserTask/status`,
     fetcher,
     {
-      revalidateOnFocus: true,
       onError: (error) => {
         if (error.response?.status === 401) {
           Cookies.remove("acc");
@@ -35,9 +34,7 @@ export const useLabels = () => {
   const { data, error, mutate } = useSWR(
     `${baseUrl}/UserTask/labels`,
     fetcher,
-    {
-      revalidateOnFocus: true,
-    }
+    {}
   );
 
   return {

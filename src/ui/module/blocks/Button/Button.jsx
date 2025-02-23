@@ -10,15 +10,32 @@ export default function Button({
   type = "primary",
   icon,
   size = "medium",
+  iconPosition = "left",
+  color,
 }) {
   const getTypeClasses = () => {
     const isIconType = type.startsWith("icon");
+
+    const colorVariants = {
+      primary:
+        "bg-gradient-to-b from-primary-600 to-primary-700 border-primary-400 hover:outline-primary-200",
+      error:
+        "bg-gradient-to-b from-error-600 to-error-700 border-error-400 hover:outline-error-200",
+      success:
+        "bg-gradient-to-b from-success-600 to-success-700 border-success-400 hover:outline-success-200",
+      warning:
+        "bg-gradient-to-b from-warning-600 to-warning-700 border-warning-400 hover:outline-warning-200",
+    };
+
+    const buttonColorClass =
+      type === "primary" && color
+        ? colorVariants[color]
+        : colorVariants.primary;
+
     return clsx(
-      [
-        `rounded-md whitespace-nowrap relative flex flex-row items-center justify-center gap-8 cursor-pointer ease-in-out`,
-      ],
+      "rounded-md whitespace-nowrap relative flex flex-row items-center justify-center gap-8 cursor-pointer ease-in-out",
       {
-        "px-16 bg-gradient-to-b from-primary-600 to-primary-700 border border-primary-400 text-white  hover:outline hover:outline-2 hover:outline-primary-200":
+        [`px-16 ${buttonColorClass} border text-white hover:outline hover:outline-2`]:
           type === "primary",
         "px-16 bg-elevation border border-border text-text hover:outline hover:outline-2 hover:outline-primary-200 hover:border-primary-600":
           type === "base",
@@ -65,8 +82,13 @@ export default function Button({
         opacity: 1,
       }}
     >
-      {icon && <span className="flex items-center">{icon}</span>}
+      {icon && iconPosition === "left" && (
+        <span className="flex items-center">{icon}</span>
+      )}
       {text && <p className={`text-sm whitespace-nowrap`}>{text}</p>}
+      {icon && iconPosition === "right" && (
+        <span className="flex items-center">{icon}</span>
+      )}
     </motion.button>
   );
 }

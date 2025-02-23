@@ -8,8 +8,6 @@ const initialState = {
   editTask: null,
   editTaskButton: false,
   newTask: false,
-  selectTaskValue: false,
-  selectTask: null,
 };
 
 const tasksSlice = createSlice({
@@ -25,14 +23,9 @@ const tasksSlice = createSlice({
     toggleTask: (state) => {
       state.newTask = !state.newTask;
     },
-    toggleSelectTask: (state, action) => {
-      state.selectTaskValue = !state.selectTaskValue;
-      state.selectTask = action.payload;
-    },
   },
 });
 
 export const tasksReducer = tasksSlice.reducer;
-export const { toggleEditTask, addEditTask, toggleTask, toggleSelectTask } =
-  tasksSlice.actions;
+export const { toggleEditTask, addEditTask, toggleTask } = tasksSlice.actions;
 export default tasksReducer;

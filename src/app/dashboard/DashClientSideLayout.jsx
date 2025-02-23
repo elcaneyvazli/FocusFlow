@@ -39,6 +39,8 @@ import EditTask from "@/ui/module/components/DashboardPage/TodotaskPage/Modal/Ed
 import NewGroupModal from "@/ui/module/components/DashboardPage/GroupPage/AllGroup/Modal/NewGroupModal";
 import NewProjectModal from "@/ui/module/components/DashboardPage/GroupPage/Group/Modal/NewProject/NewProjectModal";
 import AddMemberModal from "@/ui/module/components/DashboardPage/GroupPage/Group/Modal/AddMember/AddMemberModal";
+import AddTask from "@/ui/module/components/DashboardPage/TodotaskPage/Modal/AddTask/AddTask";
+import FullScreenPomodoro from "@/ui/module/components/DashboardPage/TodotaskPage/Pomodoro/FullScreenPomodoro";
 
 const NavMenu = dynamic(() => import("@/ui/module/layout/Navbar/NavMenu"), {
   loading: () => (
@@ -144,6 +146,8 @@ export default function DashClientSideLayout({ children }) {
       <NewGroupModal />
       <NewProjectModal />
       <AddMemberModal />
+      <AddTask />
+      <FullScreenPomodoro />
       <Dialog
         isOpen={isOpen}
         title={title}

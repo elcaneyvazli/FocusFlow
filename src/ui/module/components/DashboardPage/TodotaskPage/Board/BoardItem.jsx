@@ -22,9 +22,9 @@ import {
 import { useAppSelector } from "@/redux/store";
 
 const priorityLabels = {
-  0: { text: "Must Have", class: "bg-error-600 text-white" },
-  1: { text: "Should Have", class: "bg-warning-600 text-white" },
-  2: { text: "Could Have", class: "bg-success-600 text-white" },
+  0: { text: "Must Have", class: "bg-error-50 text-error-600" },
+  1: { text: "Should Have", class: "bg-warning-50 text-warning-600" },
+  2: { text: "Could Have", class: "bg-success-50 text-success-600" },
   3: { text: "Won't Have", class: "bg-border text-light" },
 };
 
@@ -182,14 +182,14 @@ export default function BoardItem({ task, onMutate }) {
               })}
             </p>
           </div>
-          <div className="flex flex-row items-center gap-8">
+          <div className="flex flex-row items-center gap-8 w-full">
             <div className="flex flex-row gap-4 items-center">
               <BookmarkIcon className="text-text" size={14} />
               <p className="text-sm text-text">Label</p>
             </div>
             <p className="text-sm text-text">-</p>
-            <div className="px-8 py-4 flex items-center justify-center border border-border bg-background rounded-md whitespace-nowrap">
-              <p className="text-xs text-text">{task.label.toLowerCase()}</p>
+            <div className="px-8 py-4 flex items-center justify-center border border-border bg-background rounded-md w-fit max-w-full">
+              <p className="text-xs text-text line-clamp-1 ">{task.label.toLowerCase()}</p>
             </div>
           </div>
           {editTask && (

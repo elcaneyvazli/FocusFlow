@@ -1,10 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  time: 1500,
+  time: 50,
   isActive: false,
   isDragging: false,
   startAngle: 0,
+  selectTaskValue: false,
+  selectTask: null,
+  pomodoroTask: false,
+  fullScreen: false,
 };
 
 export const timerSlice = createSlice({
@@ -32,6 +36,16 @@ export const timerSlice = createSlice({
       state.time = 1500;
       state.isActive = false;
     },
+    toggleSelectTask: (state, action) => {
+      state.selectTaskValue = !state.selectTaskValue;
+      state.selectTask = action.payload;
+    },
+    togglePomodoroTask: (state) => {
+      state.pomodoroTask = !state.pomodoroTask;
+    },
+    toggleFullScreen: (state) => {
+      state.fullScreen = !state.fullScreen;
+    },
   },
 });
 
@@ -42,6 +56,9 @@ export const {
   setIsDragging,
   setStartAngle,
   resetTimer,
+  toggleSelectTask,
+  togglePomodoroTask,
+  toggleFullScreen,
 } = timerSlice.actions;
 export const timerReducer = timerSlice.reducer;
 export default timerReducer;
