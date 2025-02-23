@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useCallback, useEffect } from "react";
 import BoardColumn from "./BoardColumn";
-import { useTasks, updateTaskPriority } from "@/services/task.services";
+import { updateTaskStatus } from "@/services/task.services";
 import {
   DndContext,
   DragOverlay,
@@ -60,12 +60,12 @@ export default function BoardContainer({
       (item) => item.id === active.id
     );
     setActiveTask(activeItem);
-    dispatch(setIsDragging(true)); // Add this line
+    dispatch(setIsDragging(true));
   };
 
   const handleDragEnd = useCallback(
     async (event) => {
-      dispatch(setIsDragging(false)); // Add this line at the beginning
+      dispatch(setIsDragging(false));
       const { active, over } = event;
       if (!over) return;
 
@@ -96,7 +96,7 @@ export default function BoardContainer({
             ...column,
             items: [
               ...column.items,
-              { ...taskToMove, priority: destinationColumn.id },
+              { ...taskToMove, status: destinationColumn.id },
             ],
           };
         }
@@ -107,27 +107,27 @@ export default function BoardContainer({
       setActiveTask(null);
 
       try {
-        await updateTaskPriority({
+        await updateTaskStatus({
           taskId: activeId,
-          priority: destinationColumn.id,
+          status: destinationColumn.id,
         });
         mutate();
         dispatch(
           addToast({
             id: Date.now(),
             title: "Success",
-            message: "Task priority updated successfully",
+            message: "Task status updated successfully",
             variant: "success",
           })
         );
       } catch (error) {
-        console.error("Error updating task priority:", error);
+        console.error("Error updating task status:", error);
         setLocalColumns(columns);
         dispatch(
           addToast({
             id: Date.now(),
             title: "Error",
-            message: "Failed to update task priority",
+            message: "Failed to update task status",
             variant: "error",
           })
         );

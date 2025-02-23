@@ -12,6 +12,7 @@ export default function TextInputWithoutBg({
   textSize = "text-sm",
   onFocus,
   onBlur,
+  inputRef,
 }) {
   const inputClasses = clsx(
     "focus:ring-none focus:border-none focus:outline-none",
@@ -40,6 +41,7 @@ export default function TextInputWithoutBg({
         onBlur={onBlur}
         value={value}
         onChange={onChange}
+        ref={inputRef}
       />
       {errorMessage && (
         <p className="text-xs text-error-600 absolute bottom-[-10px]">

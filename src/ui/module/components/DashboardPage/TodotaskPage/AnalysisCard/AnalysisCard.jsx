@@ -4,6 +4,5 @@ import StatsCardContainer from "../../TimeAnalysisPage/TaskAnalysis/StatsCard/St
 import { useTasks } from "@/services/task.services";
 
 export default function AnalysisCard({ tasks, isLoading }) {
-  console.log("tasks", tasks);
   return <StatsCardContainer tasks={tasks} isLoading={isLoading} />;
 }

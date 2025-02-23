@@ -9,10 +9,9 @@ const fetcher = (url) =>
 
 export const useTasks = () => {
   const { data, error, mutate } = useSWR(
-    `${baseUrl}/UserTask/priority`,
+    `${baseUrl}/UserTask/status`,
     fetcher,
     {
-      revalidateOnFocus: true,
       onError: (error) => {
         if (error.response?.status === 401) {
           Cookies.remove("acc");
@@ -35,9 +34,7 @@ export const useLabels = () => {
   const { data, error, mutate } = useSWR(
     `${baseUrl}/UserTask/labels`,
     fetcher,
-    {
-      revalidateOnFocus: true,
-    }
+    {}
   );
 
   return {
@@ -50,16 +47,13 @@ export const useLabels = () => {
 
 export const createTask = async (taskData, mutate) => {
   try {
-    mutate(
-      (currentData) => {
-        const newTasks = {
-          ...currentData,
-          tasks: [...(currentData?.tasks || []), taskData]
-        };
-        return newTasks;
-      },
-      false
-    );
+    mutate((currentData) => {
+      const newTasks = {
+        ...currentData,
+        tasks: [...(currentData?.tasks || []), taskData],
+      };
+      return newTasks;
+    }, false);
 
     const response = await axios.post(
       `${baseUrl}/UserTask`,
@@ -116,6 +110,24 @@ export const updateTaskPriority = async ({ taskId, priority }) => {
       {
         id: taskId,
         priority: priority,
+      },
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
+};
+
+export const updateTaskStatus = async ({ taskId, status }) => {
+  try {
+    const response = await axios.patch(
+      `${baseUrl}/UserTask/status`,
+      {
+        id: taskId,
+        status: status,
       },
       {
         withCredentials: true,

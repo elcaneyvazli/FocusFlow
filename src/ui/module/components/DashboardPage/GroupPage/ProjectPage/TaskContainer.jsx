@@ -5,12 +5,43 @@ import Tab from "@/ui/module/blocks/Tab/Tab";
 import Button from "@/ui/module/blocks/Button/Button";
 import useScreenWidth from "@/ui/module/utils/UseScreenWidth/useScreenWidth";
 import BoardContainer from "../../TodotaskPage/Board/BoardContainer";
+import { useDispatch } from "react-redux";
+import { setToggleProject } from "@/redux/features/ProjectSlice/ProjectSlice";
+import { useAppSelector } from "@/redux/store";
 
-export default function TaskContainer({ project, isLoading, isError, mutate }) {
+export default function TaskContainer({
+  project,
+  groupId,
+  projectId,
+  isLoading,
+  isError,
+  mutate,
+}) {
+  console.log("TaskContainer - Received props:", { groupId, projectId });
+
   const mobilescreen = useScreenWidth(640);
+  const dispatch = useDispatch();
+  const projectValue = useAppSelector((state) => state.project.newProject);
 
-  if (isLoading) return;
+  // Ensure props are valid before rendering
+  if (!groupId || !projectId) {
+    console.error("TaskContainer - Missing required IDs:", {
+      groupId,
+      projectId,
+    });
+    dispatch(
+      addToast({
+        title: "Error",
+        message: "Missing required group or project ID",
+        variant: "error",
+      })
+    );
+    return null;
+  }
+
+  if (isLoading) return <Spinner />;
   if (isError) return <div>Error loading project</div>;
+
   const tabs = [
     {
       id: "board",
@@ -187,12 +218,19 @@ export default function TaskContainer({ project, isLoading, isError, mutate }) {
       ),
     },
   ];
+
   return (
-    <Tab
-      tabs={tabs}
-      component={
-        <Button text="New Task" width={mobilescreen ? "full" : "fit"} />
-      }
-    />
+    <div className="relative w-full">
+      <Tab
+        tabs={tabs}
+        component={
+          <Button
+            text="New Project Task"
+            width={mobilescreen ? "full" : "fit"}
+            onClick={() => dispatch(setToggleProject())}
+          />
+        }
+      />
+    </div>
   );
 }

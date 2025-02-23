@@ -253,7 +253,7 @@ export default function TodotaskPage() {
 
   return (
     <div className="flex flex-col gap-24 w-full h-full p-12 overflow-y-auto">
-      <PomodoroContainer />
+      <PomodoroContainer columns={columns} />
       <AnalysisCard tasks={tasks} isLoading={isLoading} />
       <Tab
         tabs={tabs}

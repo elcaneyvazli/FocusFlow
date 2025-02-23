@@ -1,4 +1,3 @@
-const { Warning } = require("postcss");
 const { createThemes } = require("tw-colors");
 
 /** @type {import('tailwindcss').Config} */
@@ -18,9 +17,9 @@ module.exports = {
         xs: "16px",
         sm: "32px",
         md: "32px",
-        lg: "32px ",
-        xl: "32px ",
-        "2xl": "32px ",
+        lg: "32px", 
+        xl: "32px", 
+        "2xl": "32px", 
       },
     },
     extend: {
@@ -162,6 +161,11 @@ module.exports = {
     { pattern: /^origin-/ },
     { pattern: /^perspective-/ },
     { pattern: /^backface-/ },
+    { pattern: /^from-(.+)-[0-9]+/ },
+    { pattern: /^to-(.+)-[0-9]+/ },
+    { pattern: /^border-(.+)-[0-9]+/ },
+    { pattern: /^hover:outline-(.+)-[0-9]+/ },
+    { pattern: /^bg-gradient-to-b/ },
     "fold",
     "unfold",
     "flip-top",
@@ -169,5 +173,4 @@ module.exports = {
     "animate-flip-top",
     "animate-flip-bottom",
   ],
-  darkMode: "class",
 };
