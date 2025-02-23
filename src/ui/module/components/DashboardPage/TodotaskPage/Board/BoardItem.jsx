@@ -9,6 +9,7 @@ import {
   Bookmark as BookmarkIcon,
   Pencil as PencilIcon,
   Trash as TrashIcon,
+  LayoutDashboard,
 } from "lucide-react";
 import { updateTask, deleteTask } from "@/services/task.services";
 import { useDispatch } from "react-redux";
@@ -19,6 +20,20 @@ import {
   addEditTask,
 } from "@/redux/features/TaskSlice/TaskSlice";
 import { useAppSelector } from "@/redux/store";
+
+const priorityLabels = {
+  0: { text: "Must Have", class: "bg-error-600 text-white" },
+  1: { text: "Should Have", class: "bg-warning-600 text-white" },
+  2: { text: "Could Have", class: "bg-success-600 text-white" },
+  3: { text: "Won't Have", class: "bg-border text-light" },
+};
+
+const statusMap = {
+  0: { text: "Backlog", class: "bg-border text-light" },
+  1: { text: "To Do", class: "bg-error-600 text-white" },
+  2: { text: "In Progress", class: "bg-primary-600 text-white" },
+  3: { text: "Done", class: "bg-success-600 text-white" },
+};
 
 export default function BoardItem({ task, onMutate }) {
   const dispatch = useDispatch();
@@ -141,36 +156,16 @@ export default function BoardItem({ task, onMutate }) {
           </div>
           <div className="flex flex-row gap-8 items-center">
             <div className="flex flex-row gap-4 items-center">
-              <ClockIcon className="text-text" size={14} />
-              <p className="text-sm text-text">Activity</p>
+              <LayoutDashboard className="text-text" size={14} />
+              <p className="text-sm text-text">Priority</p>
             </div>
             <p className="text-sm text-text">-</p>
             <div
-              className={`px-8 py-4 flex items-center justify-center border border-border rounded-md whitespace-nowrap ${
-                task.status === 0
-                  ? "bg-border"
-                  : task.status === 1
-                  ? "bg-primary-600 "
-                  : task.status === 2
-                  ? "bg-success-600"
-                  : "border"
+              className={`px-8 py-4 rounded-md ${
+                priorityLabels[task.priority].class
               }`}
             >
-              <p
-                className={`text-xs text-${
-                  task.status === 0
-                    ? "light"
-                    : task.status === 1
-                    ? "white"
-                    : "white"
-                }`}
-              >
-                {task.status == 0
-                  ? "To do"
-                  : task.status == 1
-                  ? "In Progress"
-                  : "Done"}
-              </p>
+              <p className="text-xs">{priorityLabels[task.priority].text}</p>
             </div>
           </div>
           <div className="flex flex-row gap-8 items-center">

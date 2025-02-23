@@ -39,7 +39,7 @@ export default function NewTaskForm({ onClose }) {
   const [activityValue, setActivityValue] = useState("");
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const options = ["Must Have", "Should Have", "Could Have", "Won't Have"];
-  const activity = ["To Do", "In Progress", "Done"];
+  const activity = ["Backlog", "To Do", "In Progress", "Done"];
   const {
     handleSubmit,
     formState: { errors },
@@ -58,9 +58,10 @@ export default function NewTaskForm({ onClose }) {
   };
 
   const statusMap = {
-    "To Do": 0,
-    "In Progress": 1,
-    Done: 2,
+    Backlog: 0,
+    "To Do": 1,
+    "In Progress": 2,
+    Done: 3,
   };
 
   const onSubmit = async (data) => {
@@ -140,7 +141,6 @@ export default function NewTaskForm({ onClose }) {
   }, [handleSubmit, onSubmit]);
 
   useEffect(() => {
-    // Focus the title input when component mounts
     titleInputRef.current?.focus();
   }, []);
 
@@ -176,9 +176,9 @@ export default function NewTaskForm({ onClose }) {
         </div>
         <div className="flex flex-col md:flex-row justify-center gap-16">
           <SelectInput
-            data={options}
-            value={columnValue}
-            setValue={setColumnValue}
+            data={activity}
+            value={activityValue}
+            setValue={setActivityValue}
             inputEnabled={false}
             label="Select Priority"
             icon={<LayoutDashboard className="text-light" size={18} />}
@@ -193,9 +193,9 @@ export default function NewTaskForm({ onClose }) {
             }}
           />
           <SelectInput
-            data={activity}
-            value={activityValue}
-            setValue={setActivityValue}
+            data={options}
+            value={columnValue}
+            setValue={setColumnValue}
             inputEnabled={false}
             label="Select Priority"
             icon={<Activity className="text-light" size={18} />}

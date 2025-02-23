@@ -8,10 +8,16 @@ import BoardContainer from "../../TodotaskPage/Board/BoardContainer";
 import { useDispatch } from "react-redux";
 import { setToggleProject } from "@/redux/features/ProjectSlice/ProjectSlice";
 import { useAppSelector } from "@/redux/store";
-import NewProjectTask from "./Modal/NewTask/NewTask";
 
-export default function TaskContainer({ project, groupId, projectId, isLoading, isError, mutate }) {
-  console.log('TaskContainer - Received props:', { groupId, projectId });
+export default function TaskContainer({
+  project,
+  groupId,
+  projectId,
+  isLoading,
+  isError,
+  mutate,
+}) {
+  console.log("TaskContainer - Received props:", { groupId, projectId });
 
   const mobilescreen = useScreenWidth(640);
   const dispatch = useDispatch();
@@ -19,8 +25,18 @@ export default function TaskContainer({ project, groupId, projectId, isLoading, 
 
   // Ensure props are valid before rendering
   if (!groupId || !projectId) {
-    console.error('TaskContainer - Missing required IDs', { groupId, projectId });
-    return <div>Error: Missing required IDs</div>;
+    console.error("TaskContainer - Missing required IDs:", {
+      groupId,
+      projectId,
+    });
+    dispatch(
+      addToast({
+        title: "Error",
+        message: "Missing required group or project ID",
+        variant: "error",
+      })
+    );
+    return null;
   }
 
   if (isLoading) return <Spinner />;
@@ -215,14 +231,6 @@ export default function TaskContainer({ project, groupId, projectId, isLoading, 
           />
         }
       />
-      {projectValue && groupId && projectId && (
-        <NewProjectTask 
-          groupId={groupId.toString()} 
-          projectId={projectId.toString()}
-          projectUsers={project?.users || []}
-          mutate={mutate}
-        />
-      )}
     </div>
   );
 }

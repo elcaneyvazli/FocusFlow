@@ -5,39 +5,44 @@ import { useProjectById } from "@/services/project.services";
 import Spinner from "@/ui/module/blocks/Spinner/Spinner";
 import TaskContainer from "./TaskContainer";
 import TaskCard from "./TaskCard";
+import { useDispatch } from "react-redux";
+import { addToast } from "@/redux/features/ToastSlice/ToastSlice";
 
 export default function ProjectPage() {
   const params = useParams();
+  const dispatch = useDispatch();
   
-  // Extract IDs from params and ensure they're strings
   const groupId = params?.id?.toString();
   const projectId = params?.slug?.[0]?.toString();
 
-  // Debug logging
   console.log('ProjectPage - Raw Params:', params);
   console.log('ProjectPage - Extracted IDs:', { groupId, projectId });
 
   const { project, isLoading, isError, mutate } = useProjectById(groupId, projectId);
 
-  // Early return if IDs are missing
   if (!groupId || !projectId) {
     console.error('ProjectPage - Missing IDs:', { groupId, projectId });
-    return (
-      <div className="flex justify-center items-center h-full">
-        <p className="text-red-500">Missing required IDs. Please check the URL.</p>
-      </div>
+    dispatch(
+      addToast({
+        title: "Error",
+        message: "Invalid URL parameters",
+        variant: "error",
+      })
     );
+    return null;
   }
 
   if (isLoading) return <Spinner />;
-  if (isError)
-    return (
-      <div className="flex justify-center items-center h-full">
-        <p className="text-red-500">
-          Error loading project. Please try again later.
-        </p>
-      </div>
+  if (isError) {
+    dispatch(
+      addToast({
+        title: "Error",
+        message: "Failed to load project data",
+        variant: "error",
+      })
     );
+    return null;
+  }
 
   return (
     <div className="flex flex-col gap-12 p-12 pb-32 md:pb-0 overflow-auto">

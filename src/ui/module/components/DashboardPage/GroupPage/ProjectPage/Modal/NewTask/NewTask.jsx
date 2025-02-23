@@ -5,16 +5,33 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import NewTaskForm from "./NewTaskForm";
 import { setToggleProject } from "@/redux/features/ProjectSlice/ProjectSlice";
+import { addToast } from "@/redux/features/ToastSlice/ToastSlice";
 
-export default function NewProjectTask({ groupId, projectId, projectUsers, mutate }) {
+export default function NewProjectTask({
+  groupId,
+  projectId,
+  projectUsers,
+  mutate,
+}) {
   const dispatch = useDispatch();
   const projectValue = useAppSelector((state) => state.project.newProject);
 
-  // Add validation here
-  if (!groupId || !projectId) {
-    console.error("NewProjectTask - Missing IDs:", { groupId, projectId });
-    return null;
-  }
+  React.useEffect(() => {
+    if (!groupId || !projectId) {
+      console.error("NewProjectTask - Missing IDs:", { groupId, projectId });
+      dispatch(
+        addToast({
+          title: "Error",
+          message: "Missing required group or project ID",
+          variant: "error",
+        })
+      );
+      dispatch(setToggleProject()); // Close the modal
+    }
+  }, [groupId, projectId, dispatch]);
+
+  // Don't render if IDs are missing
+  if (!groupId || !projectId) return null;
 
   const onClose = () => {
     dispatch(setToggleProject());

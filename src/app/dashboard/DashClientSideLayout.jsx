@@ -39,7 +39,6 @@ import EditTask from "@/ui/module/components/DashboardPage/TodotaskPage/Modal/Ed
 import NewGroupModal from "@/ui/module/components/DashboardPage/GroupPage/AllGroup/Modal/NewGroupModal";
 import NewProjectModal from "@/ui/module/components/DashboardPage/GroupPage/Group/Modal/NewProject/NewProjectModal";
 import AddMemberModal from "@/ui/module/components/DashboardPage/GroupPage/Group/Modal/AddMember/AddMemberModal";
-import NewProjectTask from "@/ui/module/components/DashboardPage/GroupPage/ProjectPage/Modal/NewTask/NewTask";
 
 const NavMenu = dynamic(() => import("@/ui/module/layout/Navbar/NavMenu"), {
   loading: () => (
@@ -145,7 +144,6 @@ export default function DashClientSideLayout({ children }) {
       <NewGroupModal />
       <NewProjectModal />
       <AddMemberModal />
-      <NewProjectTask />
       <Dialog
         isOpen={isOpen}
         title={title}

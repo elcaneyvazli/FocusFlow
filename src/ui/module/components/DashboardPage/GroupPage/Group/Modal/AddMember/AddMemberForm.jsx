@@ -10,7 +10,7 @@ import { useDispatch } from "react-redux";
 import { setToggleNewMember } from "@/redux/features/GroupSlice/GroupSlice";
 import { useParams } from "next/navigation";
 import { addGroupMember, useGroupMember } from "@/services/group.services";
-import { addToast } from "@/redux/features/ToastSlice/ToastSlice";  // Add this import
+import { addToast } from "@/redux/features/ToastSlice/ToastSlice"; // Add this import
 
 const validationSchema = yup.object().shape({
   usernameOrEmail: yup.string().required("Username or email is required"),
@@ -47,8 +47,8 @@ export default function AddMemberForm() {
       dispatch(
         addToast({
           id: Date.now(),
-          title: "Error",
-          message: err?.errors?.usernameOrEmail?.[0] || "Failed to add member",
+          title: err?.title,
+          message: err?.desc,
           variant: "error",
         })
       );
@@ -91,7 +91,7 @@ export default function AddMemberForm() {
           placeholder="Username or email"
           title="User Name or email"
           registername="usernameOrEmail"
-          error={errors.usernameOrEmail?.message }
+          error={errors.usernameOrEmail?.message}
           register={register}
           required={true}
         />
