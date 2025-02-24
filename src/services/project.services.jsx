@@ -44,55 +44,53 @@ export const createProject = async (projectData, mutate) => {
 
 export const useProjectById = (groupId, projectId) => {
   const { data, error, mutate } = useSWR(
-    `${baseUrl}/api/Project/${groupId}/${projectId}`,
+    groupId && projectId ? `${baseUrl}/api/Project/${groupId}/${projectId}` : null,
     fetcher,
-    {}
+    {
+      revalidateOnFocus: true,
+      revalidateOnMount: true
+    }
   );
 
   return {
     project: data || {},
+    tasks: data?.tasks || [],
     isLoading: !error && !data,
     isError: error,
     mutate,
   };
 };
 
-export const createProjectTask = async (
-  taskData,
-  mutate,
-  groupId,
-  projectId
-) => {
-  if (!groupId || !projectId) {
-    throw new Error("Group ID and Project ID are required");
-  }
-
+export const createProjectTask = async (groupId, projectId, taskData, mutate) => {
   try {
+    mutate((currentData) => {
+      if (!currentData) return currentData;
+      return {
+        ...currentData,
+        tasks: [...(currentData.tasks || []), taskData],
+      };
+    }, false);
+
     const response = await axios.post(
       `${baseUrl}/api/Project/${groupId}/${projectId}/tasks`,
       {
-        ...taskData,
-        usernamesOrEmails: Array.isArray(taskData.usernamesOrEmails)
-          ? taskData.usernamesOrEmails
-          : [],
-        priority: Number(taskData.priority),
-        status: Number(taskData.status),
+        title: taskData.title,
+        description: taskData.description,
+        label: taskData.label,
+        dueDate: taskData.dueDate,
+        status: taskData.status,
+        priority: taskData.priority,
+        usernamesOrEmails: taskData.usernamesOrEmails,
       },
       {
         withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-        },
       }
     );
 
-    if (typeof mutate === "function") {
-      await mutate();
-    }
-
+    await mutate();
     return response.data;
   } catch (error) {
-    console.error("API Error:", error.response?.data || error.message);
-    throw new Error(error.response?.data?.title || "Failed to create task");
+    await mutate();
+    throw error.response?.data || error.message;
   }
 };

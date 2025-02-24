@@ -6,7 +6,10 @@ import Button from "@/ui/module/blocks/Button/Button";
 import useScreenWidth from "@/ui/module/utils/UseScreenWidth/useScreenWidth";
 import BoardContainer from "../../TodotaskPage/Board/BoardContainer";
 import { useDispatch } from "react-redux";
-import { setToggleProject } from "@/redux/features/ProjectSlice/ProjectSlice";
+import {
+  setToggleProject,
+  setToggleProjectTask,
+} from "@/redux/features/ProjectSlice/ProjectSlice";
 import { useAppSelector } from "@/redux/store";
 
 export default function TaskContainer({
@@ -17,13 +20,11 @@ export default function TaskContainer({
   isError,
   mutate,
 }) {
-  console.log("TaskContainer - Received props:", { groupId, projectId });
 
   const mobilescreen = useScreenWidth(640);
   const dispatch = useDispatch();
   const projectValue = useAppSelector((state) => state.project.newProject);
 
-  // Ensure props are valid before rendering
   if (!groupId || !projectId) {
     console.error("TaskContainer - Missing required IDs:", {
       groupId,
@@ -227,7 +228,7 @@ export default function TaskContainer({
           <Button
             text="New Project Task"
             width={mobilescreen ? "full" : "fit"}
-            onClick={() => dispatch(setToggleProject())}
+            onClick={() => dispatch(setToggleProjectTask())}
           />
         }
       />
