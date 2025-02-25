@@ -4,20 +4,29 @@ import Button from "@/ui/module/blocks/Button/Button";
 import Input from "@/ui/module/blocks/Input/Input";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Search } from "lucide-react";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { motion } from "framer-motion";
 
-export default function GroupForm() {
+export default function GroupForm({ onSearch }) {
   const dispath = useDispatch();
   const {
-    handleSubmit,
-    formState: { errors },
     register,
+    formState: { errors },
+    setValue,
+    watch,
   } = useForm({
-    resolver: yupResolver(),
+    defaultValues: {
+      groupSearch: "",
+    },
   });
+
+  const searchValue = watch("groupSearch");
+
+  useEffect(() => {
+    onSearch(searchValue);
+  }, [searchValue, onSearch]);
 
   return (
     <motion.div
@@ -35,8 +44,8 @@ export default function GroupForm() {
         icon={<Search size={16} className="text-text" />}
         placeholder={"Search group"}
         registername="groupSearch"
-        error={errors.groupSearch?.message}
         register={register}
+        error={errors.groupSearch?.message}
       />
       <Button
         text="Add new group"

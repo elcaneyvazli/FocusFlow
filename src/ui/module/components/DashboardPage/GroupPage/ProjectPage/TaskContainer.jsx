@@ -4,7 +4,7 @@ import { LayoutDashboard, ListIcon } from "lucide-react";
 import Tab from "@/ui/module/blocks/Tab/Tab";
 import Button from "@/ui/module/blocks/Button/Button";
 import useScreenWidth from "@/ui/module/utils/UseScreenWidth/useScreenWidth";
-import BoardContainer from "../../TodotaskPage/Board/BoardContainer";
+import BoardContainer from "./Board/BoardContainer";
 import { useDispatch } from "react-redux";
 import {
   setToggleProject,
@@ -20,7 +20,6 @@ export default function TaskContainer({
   isError,
   mutate,
 }) {
-
   const mobilescreen = useScreenWidth(640);
   const dispatch = useDispatch();
   const projectValue = useAppSelector((state) => state.project.newProject);
@@ -54,6 +53,8 @@ export default function TaskContainer({
           isLoading={isLoading}
           isError={isError}
           mutate={mutate}
+          groupId={groupId}    // Add these props
+          projectId={projectId}
         />
       ),
     },

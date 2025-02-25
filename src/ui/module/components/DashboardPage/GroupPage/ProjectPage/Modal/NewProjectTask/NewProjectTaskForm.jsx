@@ -25,7 +25,7 @@ const TaskSchema = yup.object().shape({
   taskLabel: yup.string().required("Label is required"),
 });
 
-export default function NewProjectTaskForm({ onClose, project, groupId, projectId }) {
+export default function NewProjectTaskForm({ onClose, project, groupId, projectId, mutate }) {
   const { labels, mutate: labelsMutate } = useLabels();
   const { mutate: tasksMutate } = useTasks();
   const dispatch = useDispatch();
@@ -90,10 +90,10 @@ export default function NewProjectTaskForm({ onClose, project, groupId, projectI
     };
 
     try {
-      await createProjectTask(groupId, projectId, taskData, tasksMutate);
+      await createProjectTask(groupId, projectId, taskData, mutate); // Use the passed mutate function
       dispatch(
         addToast({
-          title: "Task Created",
+          title: "Success",
           message: `${data.taskTitle} has been created successfully`,
           variant: "success",
         })

@@ -15,7 +15,7 @@ export default function NewProjectTask() {
   const groupId = params?.id?.toString();
   const projectId = params?.slug?.[0]?.toString();
 
-  const { project, isLoading, isError, mutate } = useProjectById(
+  const { project, isLoading, isError, mutate: projectMutate } = useProjectById(
     groupId,
     projectId
   );
@@ -23,6 +23,7 @@ export default function NewProjectTask() {
   console.log("Project data:", { project, groupId, projectId });
 
   const onClose = () => {
+    projectMutate(); // Add this to force refresh when modal closes
     dispatch(setToggleProjectTask());
   };
 
@@ -46,6 +47,7 @@ export default function NewProjectTask() {
           project={project}
           groupId={groupId}
           projectId={projectId}
+          mutate={projectMutate} // Pass the project mutate function
         />
       </div>
     )

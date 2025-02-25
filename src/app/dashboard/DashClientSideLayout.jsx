@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/redux/store";
 import { useDispatch } from "react-redux";
 import localFont from "next/font/local";
+import { handleDialogConfirm } from "@/redux/features/DialogSlice/DialogSlice";
 
 const satoshi = localFont({
   src: [
@@ -66,52 +67,12 @@ export default function DashClientSideLayout({ children }) {
     (state) => state.dialog
   );
 
-  const handleConfirm = useCallback(async () => {
-    if (!dialogType) return;
-
-    try {
-      switch (dialogType) {
-        case "deleteTask":
-          await deleteTask(data.taskId);
-          if (data.onMutate) data.onMutate();
-          dispatch(
-            addToast({
-              id: Date.now(),
-              title: "Success",
-              message: "Task deleted successfully",
-              variant: "success",
-            })
-          );
-          break;
-
-        case "logout":
-          await dispatch(authLogout()).unwrap();
-          dispatch(
-            addToast({
-              id: Date.now(),
-              title: "Success",
-              message: "Logged out successfully",
-              variant: "success",
-            })
-          );
-          router.push("/login");
-          break;
-      }
-    } catch (error) {
-      dispatch(
-        addToast({
-          id: Date.now(),
-          title: "Error",
-          message: `Failed to ${
-            dialogType === "deleteTask" ? "delete task" : "logout"
-          }`,
-          variant: "error",
-        })
-      );
+  const handleConfirm = useCallback(() => {
+    const handler = handleDialogConfirm(dialogType, data, dispatch);
+    if (handler) {
+      handler();
     }
-
-    dispatch(closeDialog());
-  }, [dialogType, data, dispatch, router]);
+  }, [dialogType, data, dispatch]);
 
   const mobilescreen = useScreenWidth(1024);
   return (

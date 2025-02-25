@@ -9,22 +9,33 @@ import {
 import Button from "@/ui/module/blocks/Button/Button";
 import Input from "@/ui/module/blocks/Input/Input";
 import { CircleArrowLeft, CirclePlus, ReceiptText, Search } from "lucide-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { useRouter } from "next/navigation";
 import useScreenWidth from "@/ui/module/utils/UseScreenWidth/useScreenWidth";
 
-export default function GroupForm() {
+export default function GroupForm({ onSearch }) {
   const dispath = useDispatch();
   const router = useRouter();
   const isMobile = useScreenWidth(768);
+
   const {
-    handleSubmit,
-    formState: { errors },
     register,
+    formState: { errors },
+    setValue,
+    watch,
   } = useForm({
-    resolver: yupResolver(),
+    defaultValues: {
+      groupSearch: "",
+    },
   });
+
+  const searchValue = watch("groupSearch");
+
+  useEffect(() => {
+    onSearch(searchValue);
+  }, [searchValue, onSearch]);
+
   return (
     <motion.div
       className="flex flex-col sm:flex-row items-center gap-12"
@@ -48,8 +59,8 @@ export default function GroupForm() {
           icon={<Search size={16} className="text-text" />}
           placeholder={"Search group"}
           registername="groupSearch"
-          error={errors.groupSearch?.message}
           register={register}
+          error={errors.groupSearch?.message}
         />
         <Button
           text={isMobile ? "" : "Add new project"}

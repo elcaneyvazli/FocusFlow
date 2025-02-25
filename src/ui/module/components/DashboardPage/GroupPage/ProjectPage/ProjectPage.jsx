@@ -46,7 +46,7 @@ export default function ProjectPage() {
   }
 
   return (
-    <div className="flex flex-col gap-12 p-12 pb-32 md:pb-0 overflow-y-auto">
+    <div className="flex flex-col gap-12 px-12 pt-12 pb-72 h-screen overflow-y-auto scrollbar-thin scrollbar-thumb-border scrollbar-track-background">
       <PomodoroContainer />
       <TaskCard
         project={project.taskInformation}

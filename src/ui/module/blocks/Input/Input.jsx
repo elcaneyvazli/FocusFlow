@@ -54,7 +54,7 @@ export default function Input({
             type="text"
             placeholder={placeholder}
             className={` ${getTypeClasses()}`}
-            {...register(registername)}
+            {...(register && registername ? register(registername) : {})}
           />
         </div>
         {error ? (

@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import dynamic from "next/dynamic";
 const GroupCardContainer = dynamic(
   () => import("./GroupCard/GroupCardContainer"),
@@ -44,10 +45,15 @@ const GroupForm = dynamic(() => import("./GroupForm"), {
 });
 
 export default function GroupPage() {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+  };
   return (
     <div className="flex flex-col gap-16 p-12 h-full w-full overflow-y-auto">
-      <GroupForm />
-      <GroupCardContainer />
+      <GroupForm onSearch={handleSearch} />
+      <GroupCardContainer searchQuery={searchQuery} />
     </div>
   );
 }
