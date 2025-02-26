@@ -29,9 +29,6 @@ export default function BoardContainer({
   const [localColumns, setLocalColumns] = useState([]);
   const [activeTask, setActiveTask] = useState(null);
 
-  // Add console.log for debugging
-  console.log('BoardContainer IDs:', { groupId, projectId });
-
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {

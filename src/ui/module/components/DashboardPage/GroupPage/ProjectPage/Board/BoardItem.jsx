@@ -10,9 +10,9 @@ import {
   Pencil as PencilIcon,
   Trash as TrashIcon,
   LayoutDashboard,
+  User as UserIcon,
 } from "lucide-react";
-import { updateTask, deleteTask } from "@/services/task.services";
-import { deleteProjectTask } from "@/services/project.services"; // Add this import
+import { updateTask } from "@/services/task.services";
 import { useDispatch } from "react-redux";
 import { addToast } from "@/redux/features/ToastSlice/ToastSlice";
 import { openDialog } from "@/redux/features/DialogSlice/DialogSlice";
@@ -21,6 +21,7 @@ import {
   addEditTask,
 } from "@/redux/features/TaskSlice/TaskSlice";
 import { useAppSelector } from "@/redux/store";
+import { setToggleEditProjectTask } from "@/redux/features/ProjectSlice/ProjectSlice";
 
 const priorityLabels = {
   0: { text: "Must Have", class: "bg-error-50 text-error-600" },
@@ -36,7 +37,7 @@ const statusMap = {
   3: { text: "Done", class: "bg-success-600 text-white" },
 };
 
-export default function BoardItem({ task, onMutate, groupId, projectId }) { // Add groupId and projectId props
+export default function BoardItem({ task, onMutate, groupId, projectId }) {
   const dispatch = useDispatch();
   const isDragging = useAppSelector((state) => state.drag.isDragging);
   const [isCompleted, setIsCompleted] = useState(task.isCompleted);
@@ -69,11 +70,11 @@ export default function BoardItem({ task, onMutate, groupId, projectId }) { // A
         title: "Confirm Delete",
         message: "Are you sure you want to Delete Task?",
         variant: "warning",
-        dialogType: "deleteProjectTask", // Change this to differentiate from regular tasks
+        dialogType: "deleteProjectTask",
         data: {
           taskId: task.id,
-          groupId, // Add groupId
-          projectId, // Add projectId
+          groupId,
+          projectId,
           onMutate,
         },
       })
@@ -111,6 +112,10 @@ export default function BoardItem({ task, onMutate, groupId, projectId }) { // A
 
   const toggleMenu = () => {
     setEditTaskState(!editTask);
+  };
+
+  const handleEditClick = () => {
+    dispatch(setToggleEditProjectTask({ task, isOpen: true }));
   };
 
   return (
@@ -192,7 +197,26 @@ export default function BoardItem({ task, onMutate, groupId, projectId }) { // A
             </div>
             <p className="text-sm text-text">-</p>
             <div className="px-8 py-4 flex items-center justify-center border border-border bg-background rounded-md w-fit max-w-full">
-              <p className="text-xs text-text line-clamp-1 ">{task.label.toLowerCase()}</p>
+              <p className="text-xs text-text line-clamp-1 ">
+                {task.label.toLowerCase()}
+              </p>
+            </div>
+          </div>
+          <div className="flex flex-row items-center gap-8 w-full">
+            <div className="flex flex-row gap-4 items-center">
+              <UserIcon className="text-text" size={14} />
+              <p className="text-sm text-text">Assigned Users</p>
+            </div>
+            <p className="text-sm text-text">-</p>
+            <div className="flex flex-wrap gap-2">
+              {task.assignedUsers.map((user) => (
+                <div
+                  key={user.id}
+                  className="px-8 py-4 border border-border bg-background rounded-md"
+                >
+                  <p className="text-xs text-text">{user.username}</p>
+                </div>
+              ))}
             </div>
           </div>
           {editTask && (
@@ -214,6 +238,9 @@ export default function BoardItem({ task, onMutate, groupId, projectId }) { // A
             </div>
           )}
         </div>
+        <button onClick={handleEditClick}>
+          <PencilIcon className="h-4 w-4" />
+        </button>
       </motion.div>
     </>
   );

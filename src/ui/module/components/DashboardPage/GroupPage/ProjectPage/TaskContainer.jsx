@@ -53,7 +53,7 @@ export default function TaskContainer({
           isLoading={isLoading}
           isError={isError}
           mutate={mutate}
-          groupId={groupId}    // Add these props
+          groupId={groupId}
           projectId={projectId}
         />
       ),

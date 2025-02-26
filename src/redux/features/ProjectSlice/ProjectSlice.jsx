@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   newProject: false,
   newProjectTask: false,
+  editProjectTask: false,
 };
 
 const projectSlice = createSlice({
@@ -15,9 +16,16 @@ const projectSlice = createSlice({
     setToggleProjectTask: (state) => {
       state.newProjectTask = !state.newProjectTask;
     },
+    setToggleEditProjectTask: (state) => {
+      state.editProjectTask = !state;
+    },
   },
 });
 
 export const projectReducer = projectSlice.reducer;
-export const { setToggleProject, setToggleProjectTask } = projectSlice.actions;
+export const {
+  setToggleProject,
+  setToggleProjectTask,
+  setToggleEditProjectTask,
+} = projectSlice.actions;
 export default projectReducer;

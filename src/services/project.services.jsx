@@ -1,6 +1,5 @@
 import axios from "axios";
 import useSWR from "swr";
-import Cookies from "js-cookie";
 
 const baseUrl = process.env.NEXT_PUBLIC_API_KEY;
 
@@ -64,16 +63,13 @@ export const useProjectById = (groupId, projectId) => {
 
 export const createProjectTask = async (groupId, projectId, taskData, mutate) => {
   try {
-    // Optimistic update with proper task structure
     mutate((currentData) => {
       if (!currentData) return currentData;
-      
       const newTask = {
-        id: Date.now(), // Temporary ID
+        id: Date.now(), 
         ...taskData,
         isCompleted: false
       };
-
       return {
         ...currentData,
         taskInformation: {
@@ -91,18 +87,15 @@ export const createProjectTask = async (groupId, projectId, taskData, mutate) =>
       };
     }, false);
 
-    // Make the actual API call
     const response = await axios.post(
       `${baseUrl}/api/Project/${groupId}/${projectId}/tasks`,
       taskData,
       { withCredentials: true }
     );
 
-    // No need to await mutate() here since we already have optimistic update
     mutate();
     return response.data;
   } catch (error) {
-    // Revalidate on error to restore correct state
     await mutate();
     throw error.response?.data || error.message;
   }
@@ -135,31 +128,32 @@ export const deleteProjectTask = async (groupId, projectId, taskId, mutate) => {
       { withCredentials: true }
     );
 
-    // Final revalidation
     await mutate();
     return response.data;
   } catch (error) {
-    // Revalidate on error
     await mutate();
     throw error.response?.data || error.message;
   }
 };
 
-// Also add updateProjectTask similar to updateTask
 export const updateProjectTask = async (groupId, projectId, taskId, updatedData) => {
   try {
+    if (!groupId || !projectId || !taskId) {
+      throw new Error('Missing required parameters');
+    }
+
     const response = await axios.put(
-      `${baseUrl}/api/Project/${groupId}/${projectId}/tasks/${taskId}`,
+      `${baseUrl}/api/Project/${groupId}/${projectId}/tasks`,
       updatedData,
       { withCredentials: true }
     );
+
     return response.data;
   } catch (error) {
     throw error.response?.data || error.message;
   }
 };
 
-// Add updateProjectTaskStatus similar to updateTaskStatus
 export const updateProjectTaskStatus = async (groupId, projectId, taskId, status) => {
   try {
     const response = await axios.patch(

@@ -50,7 +50,7 @@ export default function BoardColumn({ column, onMutate, groupId, projectId }) {
       </div>
       <div
         ref={setNodeRef}
-        className={`flex flex-col flex-1 gap-8 p-4 transition-colors duration-200 min-h-[100px] rounded-md
+        className={`flex flex-col flex-1 gap-8 p-2 transition-colors duration-200 min-h-[100px] rounded-md
           ${
             isOver
               ? "bg-elevation border-2 border-primary-400"

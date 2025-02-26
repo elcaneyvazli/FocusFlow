@@ -3,27 +3,29 @@ import { useAppSelector } from "@/redux/store";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { motion } from "framer-motion";
-import NewProjectTaskForm from "./NewProjectTaskForm";
 import { useProjectById } from "@/services/project.services";
 import { useParams } from "next/navigation";
+import NewProjectTaskForm from "./NewProjectTaskForm";
 
 export default function NewProjectTask() {
   const dispatch = useDispatch();
   const params = useParams();
-  const newProjectTask = useAppSelector((state) => state.project.newProjectTask);
+  const newProjectTask = useAppSelector(
+    (state) => state.project.newProjectTask
+  );
 
   const groupId = params?.id?.toString();
   const projectId = params?.slug?.[0]?.toString();
 
-  const { project, isLoading, isError, mutate: projectMutate } = useProjectById(
-    groupId,
-    projectId
-  );
-
-  console.log("Project data:", { project, groupId, projectId });
+  const {
+    project,
+    isLoading,
+    isError,
+    mutate: projectMutate,
+  } = useProjectById(groupId, projectId);
 
   const onClose = () => {
-    projectMutate(); // Add this to force refresh when modal closes
+    projectMutate();
     dispatch(setToggleProjectTask());
   };
 
@@ -42,12 +44,12 @@ export default function NewProjectTask() {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
         ></motion.div>
-        <NewProjectTaskForm 
-          onClose={onClose} 
+        <NewProjectTaskForm
+          onClose={onClose}
           project={project}
           groupId={groupId}
           projectId={projectId}
-          mutate={projectMutate} // Pass the project mutate function
+          mutate={projectMutate}
         />
       </div>
     )

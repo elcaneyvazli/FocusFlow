@@ -8,9 +8,6 @@ import NewTask from "@/ui/module/components/DashboardPage/TodotaskPage/Modal/New
 import Dialog from "@/ui/module/blocks/Dialog/Dialog";
 import { useCallback } from "react";
 import { closeDialog } from "@/redux/features/DialogSlice/DialogSlice";
-import { deleteTask } from "@/services/task.services";
-import { authLogout } from "@/redux/features/AuthSlice/AuthSlice";
-import { addToast } from "@/redux/features/ToastSlice/ToastSlice";
 import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/redux/store";
 import { useDispatch } from "react-redux";
@@ -43,6 +40,7 @@ import AddMemberModal from "@/ui/module/components/DashboardPage/GroupPage/Group
 import AddTask from "@/ui/module/components/DashboardPage/TodotaskPage/Modal/AddTask/AddTask";
 import FullScreenPomodoro from "@/ui/module/components/DashboardPage/TodotaskPage/Pomodoro/FullScreenPomodoro";
 import NewProjectTask from "@/ui/module/components/DashboardPage/GroupPage/ProjectPage/Modal/NewProjectTask/NewProjectTask";
+import EditProjectTask from "@/ui/module/components/DashboardPage/GroupPage/ProjectPage/Modal/NewProjectTask/NewProjectTask";
 
 const NavMenu = dynamic(() => import("@/ui/module/layout/Navbar/NavMenu"), {
   loading: () => (
