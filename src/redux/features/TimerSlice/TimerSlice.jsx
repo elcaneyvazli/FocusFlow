@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  time: 50,
+  time: 1500,
   isActive: false,
   isDragging: false,
   startAngle: 0,

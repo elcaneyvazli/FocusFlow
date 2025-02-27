@@ -57,11 +57,11 @@ export default function PomodoroContainer({ columns }) {
           <div className="flex flex-row items-center gap-4">
             {selectedTask ? (
               <>
-                <p className="text-text text-sm font-medium leading-none line-clamp-1">
+                <p className="text-text text-sm font-medium line-clamp-1">
                   {selectedTask.title}
                 </p>
                 {selectedTask.description && (
-                  <p className="text-light text-sm leading-none ml-4 line-clamp-1">
+                  <p className="text-light text-sm ml-4 line-clamp-1">
                     - {selectedTask.description}
                   </p>
                 )}
@@ -69,7 +69,7 @@ export default function PomodoroContainer({ columns }) {
             ) : (
               <>
                 <Plus size={18} className="text-text" />
-                <p className="text-text text-sm font-medium leading-none">
+                <p className="text-text text-sm font-medium">
                   Add Project
                 </p>
               </>
