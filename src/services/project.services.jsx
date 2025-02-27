@@ -142,14 +142,36 @@ export const updateProjectTask = async (groupId, projectId, taskId, updatedData)
       throw new Error('Missing required parameters');
     }
 
+    // Format the request data according to the API requirements
+    const requestData = {
+      taskId: parseInt(taskId), // Ensure taskId is a number
+      title: updatedData.title,
+      description: updatedData.description,
+      label: updatedData.label || "",
+      dueDate: new Date(updatedData.dueDate).toISOString(), // Ensure proper date format
+      priority: parseInt(updatedData.priority), // Ensure priority is a number
+      status: parseInt(updatedData.status), // Ensure status is a number
+      usernamesOrEmails: Array.isArray(updatedData.usernamesOrEmails) 
+        ? updatedData.usernamesOrEmails 
+        : []
+    };
+
+    console.log('Sending update request with data:', requestData); // Debug log
+
     const response = await axios.put(
       `${baseUrl}/api/Project/${groupId}/${projectId}/tasks`,
-      updatedData,
-      { withCredentials: true }
+      requestData,
+      { 
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
     );
 
     return response.data;
   } catch (error) {
+    console.error('Update task error details:', error.response?.data);
     throw error.response?.data || error.message;
   }
 };
@@ -157,12 +179,13 @@ export const updateProjectTask = async (groupId, projectId, taskId, updatedData)
 export const updateProjectTaskStatus = async (groupId, projectId, taskId, status) => {
   try {
     const response = await axios.patch(
-      `${baseUrl}/api/Project/${groupId}/${projectId}/tasks/${taskId}/status`,
-      { status },
+      `${baseUrl}/api/Project/${groupId}/${projectId}/${taskId}/status?status=${status}`,
+      {},
       { withCredentials: true }
     );
     return response.data;
   } catch (error) {
+    console.error('Update status error:', error);
     throw error.response?.data || error.message;
   }
 };

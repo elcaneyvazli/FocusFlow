@@ -4,6 +4,7 @@ const initialState = {
   newProject: false,
   newProjectTask: false,
   editProjectTask: false,
+  editProjectTaskData: null,
 };
 
 const projectSlice = createSlice({
@@ -17,7 +18,10 @@ const projectSlice = createSlice({
       state.newProjectTask = !state.newProjectTask;
     },
     setToggleEditProjectTask: (state) => {
-      state.editProjectTask = !state;
+      state.editProjectTask = !state.editProjectTask;
+    },
+    setEditProjectTaskData: (state, action) => {
+      state.editProjectTaskData = action.payload;
     },
   },
 });
@@ -27,5 +31,6 @@ export const {
   setToggleProject,
   setToggleProjectTask,
   setToggleEditProjectTask,
+  setEditProjectTaskData,
 } = projectSlice.actions;
 export default projectReducer;

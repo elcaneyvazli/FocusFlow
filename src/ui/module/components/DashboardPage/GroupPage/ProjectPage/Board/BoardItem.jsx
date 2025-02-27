@@ -16,12 +16,12 @@ import { updateTask } from "@/services/task.services";
 import { useDispatch } from "react-redux";
 import { addToast } from "@/redux/features/ToastSlice/ToastSlice";
 import { openDialog } from "@/redux/features/DialogSlice/DialogSlice";
-import {
-  toggleEditTask,
-  addEditTask,
-} from "@/redux/features/TaskSlice/TaskSlice";
+
 import { useAppSelector } from "@/redux/store";
-import { setToggleEditProjectTask } from "@/redux/features/ProjectSlice/ProjectSlice";
+import {
+  setEditProjectTaskData,
+  setToggleEditProjectTask,
+} from "@/redux/features/ProjectSlice/ProjectSlice";
 
 const priorityLabels = {
   0: { text: "Must Have", class: "bg-error-50 text-error-600" },
@@ -59,8 +59,8 @@ export default function BoardItem({ task, onMutate, groupId, projectId }) {
 
   const handleEditTask = () => {
     setEditTaskState(false);
-    dispatch(addEditTask(task));
-    dispatch(toggleEditTask());
+    dispatch(setEditProjectTaskData(task));
+    dispatch(setToggleEditProjectTask());
   };
 
   const handleDeleteClick = () => {
@@ -209,12 +209,14 @@ export default function BoardItem({ task, onMutate, groupId, projectId }) {
             </div>
             <p className="text-sm text-text">-</p>
             <div className="flex flex-wrap gap-2">
-              {task.assignedUsers.map((user) => (
+              {Array.isArray(task.assignedUsers) && task.assignedUsers.map((user) => (
                 <div
-                  key={user.id}
+                  key={typeof user === 'object' ? user.id : user}
                   className="px-8 py-4 border border-border bg-background rounded-md"
                 >
-                  <p className="text-xs text-text">{user.username}</p>
+                  <p className="text-xs text-text">
+                    {typeof user === 'object' ? user.username : user}
+                  </p>
                 </div>
               ))}
             </div>

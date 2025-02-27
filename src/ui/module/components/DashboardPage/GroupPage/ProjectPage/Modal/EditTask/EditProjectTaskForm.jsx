@@ -29,6 +29,7 @@ export default function EditProjectTaskForm({ onClose, task, project, groupId, p
   const { labels } = useLabels();
   const dispatch = useDispatch();
   const formRef = useRef(null);
+  const titleInputRef = useRef(null);
   const mobileValue = useScreenWidth(768);
 
   const priorityMap = {
@@ -45,19 +46,27 @@ export default function EditProjectTaskForm({ onClose, task, project, groupId, p
     Done: 3,
   };
 
+  const getPriorityText = (priority) => {
+    return Object.keys(priorityMap).find(key => priorityMap[key] === priority) || "Must Have";
+  };
+  
+  const getStatusText = (status) => {
+    return Object.keys(statusMap).find(key => statusMap[key] === status) || "Backlog";
+  };
+
   const [labelValue, setLabelValue] = useState(task?.label || "");
-  const [columnValue, setColumnValue] = useState(
-    Object.keys(priorityMap).find(key => priorityMap[key] === task?.priority) || ""
-  );
-  const [activityValue, setActivityValue] = useState(
-    Object.keys(statusMap).find(key => statusMap[key] === task?.status) || ""
-  );
+  const [columnValue, setColumnValue] = useState(getPriorityText(task?.priority));
+  const [activityValue, setActivityValue] = useState(getStatusText(task?.status));
   const [selectedDate, setSelectedDate] = useState(dayjs(task?.dueDate));
-  const [assignValue, setAssignValue] = useState(task?.assignedUsers?.[0] || "");
+  const [assignValue, setAssignValue] = useState(
+    task?.assignedUsers?.[0]?.username || task?.assignedUsers?.[0] || ""
+  );
 
   const options = ["Must Have", "Should Have", "Could Have", "Won't Have"];
   const activity = ["Backlog", "To Do", "In Progress", "Done"];
-  const userOptions = project.users.map(user => user.username);
+  const userOptions = project.users.map(user => 
+    typeof user === 'object' ? user.username : user
+  );
 
   const {
     handleSubmit,
@@ -74,21 +83,45 @@ export default function EditProjectTaskForm({ onClose, task, project, groupId, p
     },
   });
 
+  const titleValue = watch("editTitle", "");
+  const descriptionValue = watch("editDescription", "");
+
+  useEffect(() => {
+    if (task) {
+      setValue("editTitle", task.title);
+      setValue("editDescription", task.description);
+      setValue("editLabel", task.label);
+      setLabelValue(task.label);
+      setColumnValue(
+        Object.keys(priorityMap).find(
+          (key) => priorityMap[key] === task.priority
+        )
+      );
+      setActivityValue(
+        Object.keys(statusMap).find((key) => statusMap[key] === task.status)
+      );
+      setSelectedDate(dayjs(task.dueDate).utc());
+      setAssignValue(task?.assignedUsers?.[0]?.username || task?.assignedUsers?.[0] || "");
+    }
+  }, [task, setValue]);
+
   const onSubmit = async (data) => {
     const taskData = {
-      taskId: task.id,
-      title: data.editTitle,
-      description: data.editDescription,
-      label: data.editLabel,
-      dueDate: selectedDate.toISOString(),
-      priority: priorityMap[columnValue],
-      status: statusMap[activityValue],
-      usernamesOrEmails: assignValue ? [assignValue] : []
+      taskId: parseInt(task.id),
+      title: data.editTitle.trim(),
+      description: data.editDescription.trim(),
+      label: labelValue.trim(),
+      dueDate: dayjs(selectedDate).toISOString(),
+      priority: parseInt(priorityMap[columnValue]),
+      status: parseInt(statusMap[activityValue]),
+      usernamesOrEmails: assignValue ? [assignValue.trim()] : []
     };
+
+    console.log('Submitting task update with data:', taskData); // Debug log
 
     try {
       await updateProjectTask(groupId, projectId, task.id, taskData);
-      mutate();
+      await mutate();
       dispatch(
         addToast({
           title: "Task Updated",
@@ -102,18 +135,16 @@ export default function EditProjectTaskForm({ onClose, task, project, groupId, p
       dispatch(
         addToast({
           title: "Error",
-          message: "Failed to update task",
+          message: error.detail || "Failed to update task",
           variant: "error",
         })
       );
     }
   };
 
-  // ... Rest of the component remains the same as your existing EditTaskForm ...
-
   const handleLabelChange = (value) => {
     setLabelValue(value);
-    setValue("taskLabel", value);
+    setValue("editLabel", value);
   };
 
   const isMobile = useScreenWidth(768);
@@ -129,9 +160,6 @@ export default function EditProjectTaskForm({ onClose, task, project, groupId, p
         animate: { scale: 1, rotate: "0deg" },
         exit: { scale: 0, rotate: "0deg" },
       };
-
-  const titleValue = watch("taskTitle", "");
-  const descriptionValue = watch("taskDescription", "");
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -171,9 +199,9 @@ export default function EditProjectTaskForm({ onClose, task, project, groupId, p
             placeholder="Add task title"
             value={titleValue}
             register={register}
-            registername="taskTitle"
-            error={errors?.taskTitle?.message}
-            onChange={(e) => setValue("taskTitle", e.target.value)}
+            registername="editTitle"
+            error={errors?.editTitle?.message}
+            onChange={(e) => setValue("editTitle", e.target.value)}
             textSize="text-2xl"
             inputRef={titleInputRef}
           />
@@ -181,9 +209,9 @@ export default function EditProjectTaskForm({ onClose, task, project, groupId, p
             placeholder="Add task description"
             value={descriptionValue}
             register={register}
-            registername="taskDescription"
-            error={errors?.taskDescription?.message}
-            onChange={(e) => setValue("taskDescription", e.target.value)}
+            registername="editDescription"
+            error={errors?.editDescription?.message}
+            onChange={(e) => setValue("editDescription", e.target.value)}
             textSize="text-sm"
           />
         </div>
@@ -193,14 +221,14 @@ export default function EditProjectTaskForm({ onClose, task, project, groupId, p
             value={activityValue}
             setValue={setActivityValue}
             inputEnabled={false}
-            label="Select Priority"
+            label="Select Status"
             icon={<LayoutDashboard className="text-light" size={18} />}
             size="medium"
             type="base"
           />
           <DateInput
             title="Due date"
-            defaultValue={dayjs().format("YYYY-MM-DD")}
+            defaultValue={selectedDate.format("YYYY-MM-DD")}
             onSelect={(date) => {
               setSelectedDate(date);
             }}
@@ -236,14 +264,14 @@ export default function EditProjectTaskForm({ onClose, task, project, groupId, p
           setValue={handleLabelChange}
           inputEnabled={true}
           icon={<Bookmark className="text-light" size={18} />}
-          registername="taskLabel"
+          registername="editLabel"
           size="medium"
           type="base"
           dropdownPosition={mobileValue ? "above" : "below"}
         />
         <div className="flex flex-row items-center justify-between md:justify-normal gap-16 w-full md:w-fit">
           <Button text="Cancel" onClick={onClose} type="base" />
-          <Button text="New Task" type="primary" />
+          <Button text="Update Task" type="primary" />
         </div>
       </div>
     </motion.form>

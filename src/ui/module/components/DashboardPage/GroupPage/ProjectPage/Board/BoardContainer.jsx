@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useCallback, useEffect } from "react";
 import BoardColumn from "./BoardColumn";
-import { updateTaskStatus } from "@/services/task.services";
+import { updateProjectTaskStatus } from "@/services/project.services";
 import {
   DndContext,
   DragOverlay,
@@ -86,6 +86,7 @@ export default function BoardContainer({
       );
       if (!taskToMove) return;
 
+      // Optimistically update the UI
       const updatedColumns = localColumns.map((column) => {
         if (column.id === sourceColumn.id) {
           return {
@@ -109,10 +110,13 @@ export default function BoardContainer({
       setActiveTask(null);
 
       try {
-        await updateTaskStatus({
-          taskId: activeId,
-          status: destinationColumn.id,
-        });
+        // Update the task status using the new service
+        await updateProjectTaskStatus(
+          groupId,
+          projectId,
+          activeId,
+          destinationColumn.id
+        );
         mutate();
         dispatch(
           addToast({
@@ -124,7 +128,7 @@ export default function BoardContainer({
         );
       } catch (error) {
         console.error("Error updating task status:", error);
-        setLocalColumns(columns);
+        setLocalColumns(columns); // Revert to original state on error
         dispatch(
           addToast({
             id: Date.now(),
@@ -135,7 +139,7 @@ export default function BoardContainer({
         );
       }
     },
-    [localColumns, mutate, columns, dispatch]
+    [localColumns, mutate, columns, dispatch, groupId, projectId]
   );
 
   if (isLoading) return <Spinner />;
