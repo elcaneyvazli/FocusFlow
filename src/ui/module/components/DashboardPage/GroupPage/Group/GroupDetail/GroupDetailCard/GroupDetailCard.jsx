@@ -18,7 +18,7 @@ export default function GroupDetailCard({
         <Spinner size={12}/>
       ) : (
         <p className="w-full text-text text-sm line-clamp-1 text-end whitespace-nowrap leading-none">
-          {description}{" "}
+          {description}
         </p>
       )}
     </div>

@@ -47,8 +47,7 @@ export const useProjectById = (groupId, projectId) => {
     groupId && projectId ? `${baseUrl}/api/Project/${groupId}/${projectId}` : null,
     fetcher,
     {
-      revalidateOnFocus: true,
-      revalidateOnMount: true
+     
     }
   );
 
@@ -107,7 +106,6 @@ export const deleteProjectTask = async (groupId, projectId, taskId, mutate) => {
   }
 
   try {
-    // Optimistic delete
     mutate((currentData) => {
       if (!currentData) return currentData;
       
@@ -142,21 +140,18 @@ export const updateProjectTask = async (groupId, projectId, taskId, updatedData)
       throw new Error('Missing required parameters');
     }
 
-    // Format the request data according to the API requirements
     const requestData = {
-      taskId: parseInt(taskId), // Ensure taskId is a number
+      taskId: parseInt(taskId),
       title: updatedData.title,
       description: updatedData.description,
       label: updatedData.label || "",
-      dueDate: new Date(updatedData.dueDate).toISOString(), // Ensure proper date format
-      priority: parseInt(updatedData.priority), // Ensure priority is a number
-      status: parseInt(updatedData.status), // Ensure status is a number
+      dueDate: new Date(updatedData.dueDate).toISOString(), 
+      priority: parseInt(updatedData.priority),
+      status: parseInt(updatedData.status),
       usernamesOrEmails: Array.isArray(updatedData.usernamesOrEmails) 
         ? updatedData.usernamesOrEmails 
         : []
     };
-
-    console.log('Sending update request with data:', requestData); // Debug log
 
     const response = await axios.put(
       `${baseUrl}/api/Project/${groupId}/${projectId}/tasks`,

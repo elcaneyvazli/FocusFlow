@@ -94,3 +94,53 @@ export const addGroupMember = async (id, memberName, mutate) => {
     throw error.response?.data || error.message;
   }
 };
+
+export const removeGroupMember = async (groupId, username, mutate) => {
+  try {
+    const response = await axios.post(
+      `${baseUrl}/Group/${groupId}/remove-user?usernameOrEmail=${encodeURIComponent(
+        username
+      )}`,
+      {},
+      {
+        withCredentials: true,
+      }
+    );
+    mutate();
+    return response.data;
+  } catch (error) {
+    if (error.response?.status === 404) {
+      throw new Error("Member not found or already removed");
+    }
+    throw error.response?.data || error.message;
+  }
+};
+
+export const deleteGroup = async (groupId) => {
+  try {
+    const response = await axios.delete(`${baseUrl}/Group/${groupId}`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
+};
+
+export const updateGroup = async (groupId, data) => {
+  try {
+    const response = await axios.put(
+      `${baseUrl}/Group/${groupId}`,
+      {
+        name: data.name,
+        description: data.description,
+      },
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
+};

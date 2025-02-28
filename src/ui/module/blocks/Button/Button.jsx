@@ -27,10 +27,9 @@ export default function Button({
         "bg-gradient-to-b from-warning-600 to-warning-700 border-warning-400 hover:outline-warning-200",
     };
 
-    const buttonColorClass =
-      type === "primary" && color
-        ? colorVariants[color]
-        : colorVariants.primary;
+    const buttonColorClass = (type === "primary" || type === "icon-primary") && color
+      ? colorVariants[color]
+      : colorVariants.primary;
 
     return clsx(
       "rounded-md whitespace-nowrap relative flex flex-row items-center justify-center gap-8 cursor-pointer ease-in-out",
@@ -43,7 +42,7 @@ export default function Button({
           type === "solid",
         "px-16 bg-transparent border border-transparent text-text hover:outline hover:outline-2 hover:outline-primary-200 hover:border-primary-600":
           type === "text",
-        "bg-gradient-to-b from-primary-600 to-primary-700 border border-primary-400 text-white  hover:outline hover:outline-2 hover:outline-primary-200":
+        [`${buttonColorClass} border text-white hover:outline hover:outline-2`]:
           type === "icon-primary",
         "bg-elevation border border-border text-text hover:outline hover:outline-2 hover:outline-primary-200 hover:border-primary-600":
           type === "icon-base",
@@ -83,11 +82,13 @@ export default function Button({
       }}
     >
       {icon && iconPosition === "left" && (
-        <span className="flex items-center">{icon}</span>
+        <span className="flex items-center leading-none">{icon}</span>
       )}
-      {text && <p className={`text-sm whitespace-nowrap`}>{text}</p>}
+      {text && (
+        <p className={`text-sm whitespace-nowrap leading-none`}>{text}</p>
+      )}
       {icon && iconPosition === "right" && (
-        <span className="flex items-center">{icon}</span>
+        <span className="flex items-center leading-none">{icon}</span>
       )}
     </motion.button>
   );

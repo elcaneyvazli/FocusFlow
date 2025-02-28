@@ -6,6 +6,7 @@ import {
   Calendar,
   Component,
   Contact,
+  Settings2,
   Text,
   UsersRound,
   X,
@@ -13,13 +14,19 @@ import {
 import { useParams } from "next/navigation";
 import { useGroupById } from "@/services/group.services";
 import { motion } from "motion/react";
-import { setToggleGroupDetail } from "@/redux/features/GroupSlice/GroupSlice";
+import {
+  setToggleGroupDetail,
+  setToggleGroupSettings,
+} from "@/redux/features/GroupSlice/GroupSlice";
 import { useDispatch } from "react-redux";
+import Button from "@/ui/module/blocks/Button/Button";
+import useScreenWidth from "@/ui/module/utils/UseScreenWidth/useScreenWidth";
 
 export default function GroupDetailCardContainer() {
   const { id } = useParams();
   const { group, isLoading } = useGroupById(id);
   const dispatch = useDispatch();
+  const mobile = useScreenWidth(640);
 
   const date = new Date(group?.createdDate).toLocaleDateString("en-UK", {
     day: "numeric",
@@ -72,12 +79,22 @@ export default function GroupDetailCardContainer() {
     >
       <div className="flex flex-row items-center justify-between">
         <h1 className="text-lg text-text font-semibold">Group Information</h1>
-        <button
-          onClick={() => dispatch(setToggleGroupDetail())}
-          className="block xl:hidden"
-        >
-          <X size={18} className="text-text" strokeWidth={1.8} />
-        </button>
+        <div className="flex flex-row items-center gap-8">
+          <Button
+            type={mobile ? "icon-primary" : "primary"}
+            icon={<Settings2 size={18} className="text-white" />}
+            size="small"
+            text={mobile ? "" : "Edit Group"}
+            iconPosition="right"
+            onClick={() => dispatch(setToggleGroupSettings())}
+          />
+          <button
+            onClick={() => dispatch(setToggleGroupDetail())}
+            className="block xl:hidden"
+          >
+            <X size={18} className="text-text" strokeWidth={1.8} />
+          </button>
+        </div>
       </div>
       <div className="flex flex-col gap-16">
         {icon.map((item, index) => (

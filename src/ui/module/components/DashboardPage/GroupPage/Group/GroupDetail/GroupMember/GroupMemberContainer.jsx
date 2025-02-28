@@ -42,11 +42,7 @@ export default function GroupMemberContainer() {
             size="small"
             onClick={() => dispatch(setToggleNewMember())}
           />
-          <Button
-            type="icon-solid"
-            icon={<Settings2 size={18} className="text-text" />}
-            size="small"
-          />
+          
         </div>
       </div>
       <div className="flex flex-col gap-12 overflow-y-auto h-full">
