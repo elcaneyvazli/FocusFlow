@@ -1,13 +1,11 @@
 "use client";
 import React, { useMemo } from "react";
 import { ClipboardCheck, ClipboardList, ClipboardPenLine } from "lucide-react";
-import { useTasks } from "@/services/task.services";
 import StatsCard from "./StatsCard";
 import Spinner from "@/ui/module/blocks/Spinner/Spinner";
 import { motion } from "motion/react";
 
 export default function StatsCardContainer({ tasks, isLoading }) {
-
   if (isLoading) {
     return (
       <div className="animate-pulse bg-elevation border border-border rounded-md w-full p-12 grid grid-cols-12 gap-16">
@@ -33,7 +31,7 @@ export default function StatsCardContainer({ tasks, isLoading }) {
   const Stats = useMemo(
     () => [
       {
-        title: "Total Task",
+        title: "Total Tasks",
         percentage: 15,
         status: "success",
         value: tasks?.total || 0,

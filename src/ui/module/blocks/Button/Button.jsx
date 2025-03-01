@@ -1,7 +1,8 @@
 "use client";
 import React from "react";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import clsx from "clsx";
+import Ripple from "./Ripple";
 
 export default function Button({
   text,
@@ -13,6 +14,13 @@ export default function Button({
   iconPosition = "left",
   color,
 }) {
+  const { ripples, addRipple } = Ripple();
+
+  const handleClick = (e) => {
+    addRipple(e);
+    onClick && onClick(e);
+  };
+
   const getTypeClasses = () => {
     const isIconType = type.startsWith("icon");
 
@@ -68,10 +76,10 @@ export default function Button({
 
   return (
     <motion.button
-      className={getTypeClasses()}
+      className={clsx(getTypeClasses(), "overflow-hidden")}
       whileTap={{ scale: 0.95 }}
       type="submit"
-      onClick={onClick}
+      onClick={handleClick}
       initial={{
         y: 20,
         opacity: 0,
@@ -90,6 +98,7 @@ export default function Button({
       {icon && iconPosition === "right" && (
         <span className="flex items-center leading-none">{icon}</span>
       )}
+      {ripples}
     </motion.button>
   );
 }
