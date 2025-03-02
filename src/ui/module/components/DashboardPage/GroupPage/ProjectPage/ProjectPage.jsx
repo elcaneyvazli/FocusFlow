@@ -8,6 +8,7 @@ import TaskCard from "./TaskCard";
 import { useDispatch } from "react-redux";
 import { addToast } from "@/redux/features/ToastSlice/ToastSlice";
 import PomodoroContainer from "../../TodotaskPage/Pomodoro/PomodoroContainer";
+import ProjectDetail from "./ProjectDetail";
 
 export default function ProjectPage() {
   const params = useParams();
@@ -47,6 +48,7 @@ export default function ProjectPage() {
 
   return (
     <div className="flex flex-col gap-12 px-12 pt-12 pb-72 h-screen overflow-y-auto scrollbar-thin scrollbar-thumb-border scrollbar-track-background">
+      <ProjectDetail project={project} />
       <PomodoroContainer />
       <TaskCard
         project={project.taskInformation}

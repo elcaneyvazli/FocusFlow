@@ -5,6 +5,7 @@ import {
   removeGroupMember,
   useGroupById,
   updateGroup,
+  changeUserRole,
 } from "@/services/group.services";
 import { Target, Text, Trash2 } from "lucide-react";
 import Button from "@/ui/module/blocks/Button/Button";
@@ -16,6 +17,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Input from "@/ui/module/blocks/Input/Input";
+import SelectInput from "@/ui/module/blocks/Input/SelectInput";
 
 const validationSchema = yup.object().shape({
   name: yup.string().required("Group name is required"),
@@ -41,6 +43,16 @@ export default function GroupSettingsForm({ onClick }) {
     },
   });
 
+  const roleOptions = ["Admin", "User"];
+
+  const getRoleId = (roleName) => {
+    return roleName === "Admin" ? "1" : "2";
+  };
+
+  const getRoleName = (roleId) => {
+    return roleId === 1 ? "Admin" : "User";
+  };
+
   const handleRemoveMember = async (username) => {
     try {
       await removeGroupMember(id, username, memberMutate);
@@ -56,6 +68,27 @@ export default function GroupSettingsForm({ onClick }) {
         addToast({
           title: "Error",
           message: error.message || "Failed to remove member",
+          variant: "error",
+        })
+      );
+    }
+  };
+
+  const handleRoleChange = async (username, roleId) => {
+    try {
+      await changeUserRole(id, username, roleId, memberMutate);
+      dispatch(
+        addToast({
+          title: "Success",
+          message: "User role updated successfully",
+          variant: "success",
+        })
+      );
+    } catch (error) {
+      dispatch(
+        addToast({
+          title: "Error",
+          message: error.message || "Failed to update user role",
           variant: "error",
         })
       );
@@ -144,9 +177,24 @@ export default function GroupSettingsForm({ onClick }) {
           {member.map((user, index) => (
             <div
               key={index}
-              className="flex justify-between items-center p-8 bg-elevation border border-border rounded-md"
+              className="flex items-center gap-12 p-8 bg-elevation border border-border rounded-md"
             >
-              <span className="text-text">{user.username}</span>
+              <p className="text-text text-md w-full">{user.username}</p>
+              <div className="w-[50%] md:w-[40%]">
+                <SelectInput
+                  data={roleOptions}
+                  value={getRoleName(user.roleId || 2)}
+                  setValue={(roleName) =>
+                    handleRoleChange(user.username, getRoleId(roleName))
+                  }
+                  inputEnabled={false}
+                  size="small"
+                  type="solid"
+                  label="Select Role"
+                  dropdownPosition="above"
+                />
+              </div>
+
               <Button
                 type="icon-primary"
                 color={"error"}

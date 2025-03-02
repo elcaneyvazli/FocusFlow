@@ -184,3 +184,56 @@ export const updateProjectTaskStatus = async (groupId, projectId, taskId, status
     throw error.response?.data || error.message;
   }
 };
+
+export const addProjectMember = async (groupId, projectId, username, mutate) => {
+  try {
+    const response = await axios.post(
+      `${baseUrl}/api/Project/${groupId}/${projectId}/assign?usernameOrEmail=${encodeURIComponent(username)}`,
+      {},
+      { withCredentials: true }
+    );
+    
+    await mutate();
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
+};
+
+export const removeProjectMember = async (groupId, projectId, username, mutate) => {
+  try {
+    const response = await axios.post(
+      `${baseUrl}/api/Project/${groupId}/${projectId}/unassign?usernameOrEmail=${encodeURIComponent(username)}`,
+      {},
+      { withCredentials: true }
+    );
+    
+    await mutate();
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
+};
+
+export const updateProject = async (groupId, projectId, data) => {
+  try {
+    const response = await axios.put(
+      `${baseUrl}/api/Project/${groupId}/${projectId}`,
+      {
+        id: parseInt(projectId),
+        name: data.name,
+        description: data.description,
+        dueDate: new Date().toISOString() // You can add dueDate input if needed
+      },
+      { 
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
+};

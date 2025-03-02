@@ -153,9 +153,27 @@ export const useUserRole = (groupId) => {
   );
 
   return {
-    role: data?.role || "", // Change this line to access the role property
+    role: data?.role || "",
     isLoading: !error && !data,
     isError: error,
     mutate,
   };
+};
+
+export const changeUserRole = async (groupId, username, roleId, mutate) => {
+  try {
+    const response = await axios.post(
+      `${baseUrl}/Group/${groupId}/change-role?usernameOrEmail=${encodeURIComponent(
+        username
+      )}&roleId=${roleId}`,
+      {},
+      {
+        withCredentials: true,
+      }
+    );
+    mutate();
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
 };
