@@ -1,7 +1,7 @@
-const { createThemes } = require("tw-colors");
+import { createThemes } from "tw-colors";
 
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+const config = {
   darkMode: "class",
   content: [
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
@@ -17,9 +17,9 @@ module.exports = {
         xs: "16px",
         sm: "32px",
         md: "32px",
-        lg: "32px", 
-        xl: "32px", 
-        "2xl": "32px", 
+        lg: "32px",
+        xl: "32px",
+        "2xl": "32px",
       },
     },
     extend: {
@@ -130,6 +130,15 @@ module.exports = {
       gridTemplateColumns: {
         52: "repeat(52, minmax(0, 1fr))",
       },
+      keyframes: {
+        ripple: {
+          '0%': { transform: 'scale(0)', opacity: '0.5' },
+          '100%': { transform: 'scale(4)', opacity: '0' },
+        },
+      },
+      animation: {
+        ripple: 'ripple 1s linear forwards',
+      },
     },
   },
   plugins: [
@@ -174,3 +183,5 @@ module.exports = {
     "animate-flip-bottom",
   ],
 };
+
+export default config;

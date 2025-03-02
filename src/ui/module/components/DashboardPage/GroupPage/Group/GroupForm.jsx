@@ -9,22 +9,38 @@ import {
 import Button from "@/ui/module/blocks/Button/Button";
 import Input from "@/ui/module/blocks/Input/Input";
 import { CircleArrowLeft, CirclePlus, ReceiptText, Search } from "lucide-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { useRouter } from "next/navigation";
 import useScreenWidth from "@/ui/module/utils/UseScreenWidth/useScreenWidth";
+import { useParams } from "next/navigation";
+import { useUserRole } from "@/services/group.services";
 
-export default function GroupForm() {
-  const dispath = useDispatch();
+export default function GroupForm({ onSearch }) {
+  const dispatch = useDispatch();
   const router = useRouter();
   const isMobile = useScreenWidth(768);
+  const { id } = useParams();
+  const { role, isLoading } = useUserRole(id);
+  const isAdmin = role === "Admin";
+
   const {
-    handleSubmit,
-    formState: { errors },
     register,
+    formState: { errors },
+    setValue,
+    watch,
   } = useForm({
-    resolver: yupResolver(),
+    defaultValues: {
+      groupSearch: "",
+    },
   });
+
+  const searchValue = watch("groupSearch");
+
+  useEffect(() => {
+    onSearch(searchValue);
+  }, [searchValue, onSearch]);
+
   return (
     <motion.div
       className="flex flex-col sm:flex-row items-center gap-12"
@@ -48,14 +64,15 @@ export default function GroupForm() {
           icon={<Search size={16} className="text-text" />}
           placeholder={"Search group"}
           registername="groupSearch"
-          error={errors.groupSearch?.message}
           register={register}
+          error={errors.groupSearch?.message}
         />
         <Button
           text={isMobile ? "" : "Add new project"}
           icon={isMobile ? <CirclePlus size={16} className="text-text" /> : ""}
           type={isMobile ? "icon-primary" : "primary"}
-          onClick={() => dispath(setToggleProject())}
+          onClick={() => !isLoading && isAdmin && dispatch(setToggleProject())}
+          disabled={isLoading || !isAdmin}
         />
       </div>
       <div className="w-full sm:w-fit h-fit flex xl:hidden text-text">
@@ -63,7 +80,7 @@ export default function GroupForm() {
           type={"primary"}
           text={"Group Detail"}
           icon={<ReceiptText size={16} className="text-white" />}
-          onClick={() => dispath(setToggleGroupDetail())}
+          onClick={() => dispatch(setToggleGroupDetail())}
           size="medium"
           width={"[100%]"}
         />

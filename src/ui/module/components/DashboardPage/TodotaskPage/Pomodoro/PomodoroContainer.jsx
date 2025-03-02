@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import Button from "@/ui/module/blocks/Button/Button";
 import { ChevronDown, Expand, Plus, Settings2, Timer } from "lucide-react";
 import { motion } from "framer-motion";
@@ -11,13 +11,21 @@ import {
   decrementTime,
 } from "@/redux/features/TimerSlice/TimerSlice";
 import NumberFlow from "@number-flow/react";
+import { useAppSelector } from "@/redux/store";
 
 export default function PomodoroContainer({ columns }) {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
-  const selectedTask = useSelector((state) => state.timer.selectTask);
-  const isActive = useSelector((state) => state.timer.isActive);
-  const time = useSelector((state) => state.timer.time);
+  const selectedTask = useAppSelector((state) => state.timer.selectTask);
+  const isActive = useAppSelector((state) => state.timer.isActive);
+  const time = useAppSelector((state) => state.timer.time);
+
+  useEffect(() => {
+    const savedTime = localStorage.getItem("pomodoroTime");
+    if (savedTime) {
+      dispatch(setTime(Number(savedTime)));
+    }
+  }, [dispatch]);
 
   useEffect(() => {
     let interval;
@@ -29,12 +37,17 @@ export default function PomodoroContainer({ columns }) {
     return () => clearInterval(interval);
   }, [isActive, time, dispatch]);
 
+  useEffect(() => {
+    localStorage.setItem("pomodoroTime", time);
+  }, [time]);
+
   const formatTime = (seconds) => {
     const minutes = Math.floor((seconds % 3600) / 60);
     const remainingSeconds = seconds % 60;
     return {
       minutes: minutes < 10 ? `0${minutes}` : `${minutes}`,
-      seconds: remainingSeconds < 10 ? `0${remainingSeconds}` : `${remainingSeconds}`,
+      seconds:
+        remainingSeconds < 10 ? `0${remainingSeconds}` : `${remainingSeconds}`,
     };
   };
 
@@ -46,7 +59,7 @@ export default function PomodoroContainer({ columns }) {
 
   return (
     <div className="relative">
-      <div className="bg-elevation border border-border rounded-md flex flex-row gap-12 p-8 items-center hover:border-primary-500 hover:outline hover:outline-primary-700">
+      <div className="bg-elevation border border-border rounded-md flex flex-col sm:flex-row gap-12 p-8 items-center hover:border-primary-500 hover:outline hover:outline-primary-700">
         <motion.button
           className="rounded-md flex flex-row items-center justify-between bg-background border border-border px-12 py-8 w-full"
           whileTap={{ scale: 0.99 }}
@@ -57,11 +70,11 @@ export default function PomodoroContainer({ columns }) {
           <div className="flex flex-row items-center gap-4">
             {selectedTask ? (
               <>
-                <p className="text-text text-sm font-medium leading-none line-clamp-1">
+                <p className="text-text text-sm font-medium line-clamp-1">
                   {selectedTask.title}
                 </p>
                 {selectedTask.description && (
-                  <p className="text-light text-sm leading-none ml-4 line-clamp-1">
+                  <p className="text-light text-sm ml-4 line-clamp-1">
                     - {selectedTask.description}
                   </p>
                 )}
@@ -69,9 +82,7 @@ export default function PomodoroContainer({ columns }) {
             ) : (
               <>
                 <Plus size={18} className="text-text" />
-                <p className="text-text text-sm font-medium leading-none">
-                  Add Project
-                </p>
+                <p className="text-text text-sm font-medium">Add Project</p>
               </>
             )}
           </div>
@@ -84,13 +95,13 @@ export default function PomodoroContainer({ columns }) {
         </motion.button>
         <div className="flex flex-row items-center gap-12 border-l border-border pl-8">
           <div className="border-r border-border pr-8 flex flex-row items-center gap-4">
-            <Button
+            {/* <Button
               type="icon-text"
               size="medium"
               icon={<Settings2 size={20} />}
               iconPosition="right"
               color={"success"}
-            />
+            /> */}
             <Button
               type="icon-text"
               size="medium"
@@ -103,14 +114,14 @@ export default function PomodoroContainer({ columns }) {
             />
           </div>
           <div className="flex flex-row items-center gap-1">
-            <NumberFlow 
-              value={timeObj.minutes} 
+            <NumberFlow
+              value={timeObj.minutes}
               className="text-text text-md font-medium"
               duration={200}
             />
             <span className="text-text text-md font-medium">:</span>
-            <NumberFlow 
-              value={timeObj.seconds} 
+            <NumberFlow
+              value={timeObj.seconds}
               className="text-text text-md font-medium"
               duration={200}
             />

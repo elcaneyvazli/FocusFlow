@@ -1,17 +1,23 @@
-import { setToggleProjectTask } from "@/redux/features/ProjectSlice/ProjectSlice";
+import {
+  setToggleEditProjectTask,
+  setToggleProjectTask,
+} from "@/redux/features/ProjectSlice/ProjectSlice";
 import { useAppSelector } from "@/redux/store";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { motion } from "framer-motion";
 import { useProjectById } from "@/services/project.services";
 import { useParams } from "next/navigation";
-import NewProjectTaskForm from "./NewProjectTaskForm";
+import EditProjectTaskForm from "./EditProjectTaskForm";
 
-export default function NewProjectTask() {
+export default function EditProjectTask() {
   const dispatch = useDispatch();
   const params = useParams();
-  const newProjectTask = useAppSelector(
-    (state) => state.project.newProjectTask
+  const editProjectTask = useAppSelector(
+    (state) => state.project.editProjectTask
+  );
+  const taskData = useAppSelector(
+    (state) => state.project.editProjectTaskData
   );
 
   const groupId = params?.id?.toString();
@@ -26,15 +32,15 @@ export default function NewProjectTask() {
 
   const onClose = () => {
     projectMutate();
-    dispatch(setToggleProjectTask());
+    dispatch(setToggleEditProjectTask());
   };
 
-  if (isLoading || !project) {
+  if (isLoading || !project || !taskData) {
     return null;
   }
 
   return (
-    newProjectTask && (
+    editProjectTask && (
       <div className="fixed top-0 left-0 w-full h-full md:h-screen flex justify-center z-[100]">
         <motion.div
           className="fixed inset-0 bg-black bg-opacity-20 z-40 backdrop-blur-sm"
@@ -44,8 +50,9 @@ export default function NewProjectTask() {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
         ></motion.div>
-        <NewProjectTaskForm
+        <EditProjectTaskForm
           onClose={onClose}
+          task={taskData}
           project={project}
           groupId={groupId}
           projectId={projectId}

@@ -1,5 +1,5 @@
 "use client";
-import { useGroupMember } from "@/services/group.services";
+import { useGroupMember, useUserRole } from "@/services/group.services";
 import Button from "@/ui/module/blocks/Button/Button";
 import { CirclePlus, Settings2 } from "lucide-react";
 import { useParams } from "next/navigation";
@@ -13,7 +13,11 @@ import Spinner from "@/ui/module/blocks/Spinner/Spinner";
 export default function GroupMemberContainer() {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { member, isError, isLoading } = useGroupMember(id);
+  const { member, isError, isLoading: memberLoading } = useGroupMember(id);
+  const { role, isLoading: roleLoading } = useUserRole(id);
+
+  const isAdmin = role === "Admin";
+  const isLoading = memberLoading || roleLoading;
 
   if (isLoading) {
     return <Spinner />;
@@ -40,12 +44,8 @@ export default function GroupMemberContainer() {
             type="icon-primary"
             icon={<CirclePlus size={18} className="text-white" />}
             size="small"
-            onClick={() => dispatch(setToggleNewMember())}
-          />
-          <Button
-            type="icon-solid"
-            icon={<Settings2 size={18} className="text-text" />}
-            size="small"
+            onClick={() => !isLoading && isAdmin && dispatch(setToggleNewMember())}
+            disabled={isLoading || !isAdmin}
           />
         </div>
       </div>

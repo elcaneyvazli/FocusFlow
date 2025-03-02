@@ -8,13 +8,11 @@ import NewTask from "@/ui/module/components/DashboardPage/TodotaskPage/Modal/New
 import Dialog from "@/ui/module/blocks/Dialog/Dialog";
 import { useCallback } from "react";
 import { closeDialog } from "@/redux/features/DialogSlice/DialogSlice";
-import { deleteTask } from "@/services/task.services";
-import { authLogout } from "@/redux/features/AuthSlice/AuthSlice";
-import { addToast } from "@/redux/features/ToastSlice/ToastSlice";
 import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/redux/store";
 import { useDispatch } from "react-redux";
 import localFont from "next/font/local";
+import { handleDialogConfirm } from "@/redux/features/DialogSlice/DialogSlice";
 
 const satoshi = localFont({
   src: [
@@ -41,6 +39,11 @@ import NewProjectModal from "@/ui/module/components/DashboardPage/GroupPage/Grou
 import AddMemberModal from "@/ui/module/components/DashboardPage/GroupPage/Group/Modal/AddMember/AddMemberModal";
 import AddTask from "@/ui/module/components/DashboardPage/TodotaskPage/Modal/AddTask/AddTask";
 import FullScreenPomodoro from "@/ui/module/components/DashboardPage/TodotaskPage/Pomodoro/FullScreenPomodoro";
+import NewProjectTask from "@/ui/module/components/DashboardPage/GroupPage/ProjectPage/Modal/NewProjectTask/NewProjectTask";
+import EditProjectTask from "@/ui/module/components/DashboardPage/GroupPage/ProjectPage/Modal/EditTask/EditProjectTask";
+import GroupSettings from "@/ui/module/components/DashboardPage/GroupPage/Group/Modal/GroupSettings/GroupSettings";
+import AddMember from "@/ui/module/components/DashboardPage/GroupPage/ProjectPage/Modal/AddMember/AddMember";
+import EditProject from "@/ui/module/components/DashboardPage/GroupPage/ProjectPage/Modal/EditProject/EditProject";
 
 const NavMenu = dynamic(() => import("@/ui/module/layout/Navbar/NavMenu"), {
   loading: () => (
@@ -65,52 +68,12 @@ export default function DashClientSideLayout({ children }) {
     (state) => state.dialog
   );
 
-  const handleConfirm = useCallback(async () => {
-    if (!dialogType) return;
-
-    try {
-      switch (dialogType) {
-        case "deleteTask":
-          await deleteTask(data.taskId);
-          if (data.onMutate) data.onMutate();
-          dispatch(
-            addToast({
-              id: Date.now(),
-              title: "Success",
-              message: "Task deleted successfully",
-              variant: "success",
-            })
-          );
-          break;
-
-        case "logout":
-          await dispatch(authLogout()).unwrap();
-          dispatch(
-            addToast({
-              id: Date.now(),
-              title: "Success",
-              message: "Logged out successfully",
-              variant: "success",
-            })
-          );
-          router.push("/login");
-          break;
-      }
-    } catch (error) {
-      dispatch(
-        addToast({
-          id: Date.now(),
-          title: "Error",
-          message: `Failed to ${
-            dialogType === "deleteTask" ? "delete task" : "logout"
-          }`,
-          variant: "error",
-        })
-      );
+  const handleConfirm = useCallback(() => {
+    const handler = handleDialogConfirm(dialogType, data, dispatch);
+    if (handler) {
+      handler();
     }
-
-    dispatch(closeDialog());
-  }, [dialogType, data, dispatch, router]);
+  }, [dialogType, data, dispatch]);
 
   const mobilescreen = useScreenWidth(1024);
   return (
@@ -148,6 +111,11 @@ export default function DashClientSideLayout({ children }) {
       <AddMemberModal />
       <AddTask />
       <FullScreenPomodoro />
+      <NewProjectTask />
+      <EditProjectTask />
+      <GroupSettings />
+      <AddMember />
+      <EditProject />
       <Dialog
         isOpen={isOpen}
         title={title}

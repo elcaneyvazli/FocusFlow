@@ -1,9 +1,9 @@
 "use client";
 import useScreenWidth from "@/ui/module/utils/UseScreenWidth/useScreenWidth";
 import React, { useState, useEffect, useRef } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
-import { useLabels, useTasks } from "@/services/task.services";
+import { useLabels } from "@/services/task.services";
 import { yupResolver } from "@hookform/resolvers/yup";
 import SelectInput from "@/ui/module/blocks/Input/SelectInput";
 import Button from "@/ui/module/blocks/Button/Button";
@@ -15,43 +15,22 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import { useDispatch } from "react-redux";
 import { addToast } from "@/redux/features/ToastSlice/ToastSlice";
-import { createProjectTask } from "@/services/project.services";
+import { updateProjectTask } from "@/services/project.services";
 
 dayjs.extend(utc);
 
 const TaskSchema = yup.object().shape({
-  taskTitle: yup.string().required("Title is required"),
-  taskDescription: yup.string().required("Description is required"),
-  taskLabel: yup.string().required("Label is required"),
+  editTitle: yup.string().required("Title is required"),
+  editDescription: yup.string().required("Description is required"),
+  editLabel: yup.string().required("Label is required"),
 });
 
-export default function NewProjectTaskForm({ onClose, project, groupId, projectId, mutate }) {
-  const { labels, mutate: labelsMutate } = useLabels();
-  const { mutate: tasksMutate } = useTasks();
+export default function EditProjectTaskForm({ onClose, task, project, groupId, projectId, mutate }) {
+  const { labels } = useLabels();
   const dispatch = useDispatch();
-
   const formRef = useRef(null);
   const titleInputRef = useRef(null);
-
   const mobileValue = useScreenWidth(768);
-
-  const [labelValue, setLabelValue] = useState("");
-  const [columnValue, setColumnValue] = useState("");
-  const [activityValue, setActivityValue] = useState("");
-  const [selectedDate, setSelectedDate] = useState(dayjs());
-  const [assignValue, setAssignValue] = useState("");
-  const options = ["Must Have", "Should Have", "Could Have", "Won't Have"];
-  const activity = ["Backlog", "To Do", "In Progress", "Done"];
-  const userOptions = project.users.map((user) => user.username);
-  const {
-    handleSubmit,
-    formState: { errors },
-    register,
-    setValue,
-    watch,
-  } = useForm({
-    resolver: yupResolver(TaskSchema),
-  });
 
   const priorityMap = {
     "Must Have": 0,
@@ -67,44 +46,96 @@ export default function NewProjectTaskForm({ onClose, project, groupId, projectI
     Done: 3,
   };
 
-  const onSubmit = async (data) => {
-    if (!groupId || !projectId) {
-      dispatch(
-        addToast({
-          title: "Error",
-          message: "Missing group or project ID",
-          variant: "error",
-        })
-      );
-      return;
-    }
+  const getPriorityText = (priority) => {
+    return Object.keys(priorityMap).find(key => priorityMap[key] === priority) || "Must Have";
+  };
+  
+  const getStatusText = (status) => {
+    return Object.keys(statusMap).find(key => statusMap[key] === status) || "Backlog";
+  };
 
+  const [labelValue, setLabelValue] = useState(task?.label || "");
+  const [columnValue, setColumnValue] = useState(getPriorityText(task?.priority));
+  const [activityValue, setActivityValue] = useState(getStatusText(task?.status));
+  const [selectedDate, setSelectedDate] = useState(dayjs(task?.dueDate));
+  const [assignValue, setAssignValue] = useState(
+    task?.assignedUsers?.[0]?.username || task?.assignedUsers?.[0] || ""
+  );
+
+  const options = ["Must Have", "Should Have", "Could Have", "Won't Have"];
+  const activity = ["Backlog", "To Do", "In Progress", "Done"];
+  const userOptions = project.users.map(user => 
+    typeof user === 'object' ? user.username : user
+  );
+
+  const {
+    handleSubmit,
+    formState: { errors },
+    register,
+    setValue,
+    watch,
+  } = useForm({
+    resolver: yupResolver(TaskSchema),
+    defaultValues: {
+      editTitle: task?.title || "",
+      editDescription: task?.description || "",
+      editLabel: task?.label || "",
+    },
+  });
+
+  const titleValue = watch("editTitle", "");
+  const descriptionValue = watch("editDescription", "");
+
+  useEffect(() => {
+    if (task) {
+      setValue("editTitle", task.title);
+      setValue("editDescription", task.description);
+      setValue("editLabel", task.label);
+      setLabelValue(task.label);
+      setColumnValue(
+        Object.keys(priorityMap).find(
+          (key) => priorityMap[key] === task.priority
+        )
+      );
+      setActivityValue(
+        Object.keys(statusMap).find((key) => statusMap[key] === task.status)
+      );
+      setSelectedDate(dayjs(task.dueDate).utc());
+      setAssignValue(task?.assignedUsers?.[0]?.username || task?.assignedUsers?.[0] || "");
+    }
+  }, [task, setValue]);
+
+  const onSubmit = async (data) => {
     const taskData = {
-      title: data.taskTitle,
-      description: data.taskDescription,
-      label: data.taskLabel,
-      dueDate: selectedDate.toISOString(),
-      priority: priorityMap[columnValue],
-      status: statusMap[activityValue],
-      usernamesOrEmails: assignValue ? [assignValue] : []
+      taskId: parseInt(task.id),
+      title: data.editTitle.trim(),
+      description: data.editDescription.trim(),
+      label: labelValue.trim(),
+      dueDate: dayjs(selectedDate).toISOString(),
+      priority: parseInt(priorityMap[columnValue]),
+      status: parseInt(statusMap[activityValue]),
+      usernamesOrEmails: assignValue ? [assignValue.trim()] : []
     };
 
+    console.log('Submitting task update with data:', taskData); // Debug log
+
     try {
-      await createProjectTask(groupId, projectId, taskData, mutate); // Use the passed mutate function
+      await updateProjectTask(groupId, projectId, task.id, taskData);
+      await mutate();
       dispatch(
         addToast({
-          title: "Success",
-          message: `${data.taskTitle} has been created successfully`,
+          title: "Task Updated",
+          message: `${data.editTitle} has been updated successfully`,
           variant: "success",
         })
       );
       onClose();
     } catch (error) {
-      console.error("Failed to create task:", error);
+      console.error("Failed to update task:", error);
       dispatch(
         addToast({
           title: "Error",
-          message: "Failed to create task",
+          message: error.detail || "Failed to update task",
           variant: "error",
         })
       );
@@ -113,7 +144,7 @@ export default function NewProjectTaskForm({ onClose, project, groupId, projectI
 
   const handleLabelChange = (value) => {
     setLabelValue(value);
-    setValue("taskLabel", value);
+    setValue("editLabel", value);
   };
 
   const isMobile = useScreenWidth(768);
@@ -129,9 +160,6 @@ export default function NewProjectTaskForm({ onClose, project, groupId, projectI
         animate: { scale: 1, rotate: "0deg" },
         exit: { scale: 0, rotate: "0deg" },
       };
-
-  const titleValue = watch("taskTitle", "");
-  const descriptionValue = watch("taskDescription", "");
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -171,9 +199,9 @@ export default function NewProjectTaskForm({ onClose, project, groupId, projectI
             placeholder="Add task title"
             value={titleValue}
             register={register}
-            registername="taskTitle"
-            error={errors?.taskTitle?.message}
-            onChange={(e) => setValue("taskTitle", e.target.value)}
+            registername="editTitle"
+            error={errors?.editTitle?.message}
+            onChange={(e) => setValue("editTitle", e.target.value)}
             textSize="text-2xl"
             inputRef={titleInputRef}
           />
@@ -181,9 +209,9 @@ export default function NewProjectTaskForm({ onClose, project, groupId, projectI
             placeholder="Add task description"
             value={descriptionValue}
             register={register}
-            registername="taskDescription"
-            error={errors?.taskDescription?.message}
-            onChange={(e) => setValue("taskDescription", e.target.value)}
+            registername="editDescription"
+            error={errors?.editDescription?.message}
+            onChange={(e) => setValue("editDescription", e.target.value)}
             textSize="text-sm"
           />
         </div>
@@ -193,14 +221,14 @@ export default function NewProjectTaskForm({ onClose, project, groupId, projectI
             value={activityValue}
             setValue={setActivityValue}
             inputEnabled={false}
-            label="Select Priority"
+            label="Select Status"
             icon={<LayoutDashboard className="text-light" size={18} />}
             size="medium"
             type="base"
           />
           <DateInput
             title="Due date"
-            defaultValue={dayjs().format("YYYY-MM-DD")}
+            defaultValue={selectedDate.format("YYYY-MM-DD")}
             onSelect={(date) => {
               setSelectedDate(date);
             }}
@@ -236,14 +264,14 @@ export default function NewProjectTaskForm({ onClose, project, groupId, projectI
           setValue={handleLabelChange}
           inputEnabled={true}
           icon={<Bookmark className="text-light" size={18} />}
-          registername="taskLabel"
+          registername="editLabel"
           size="medium"
           type="base"
           dropdownPosition={mobileValue ? "above" : "below"}
         />
         <div className="flex flex-row items-center justify-between md:justify-normal gap-16 w-full md:w-fit">
           <Button text="Cancel" onClick={onClose} type="base" />
-          <Button text="New Task" type="primary" />
+          <Button text="Update Task" type="primary" />
         </div>
       </div>
     </motion.form>

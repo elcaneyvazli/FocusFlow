@@ -4,8 +4,21 @@ import GroupCard from "./GroupCard";
 import { useGroup } from "@/services/group.services";
 import { motion } from "motion/react";
 
-export default function GroupCardContainer() {
+export default function GroupCardContainer({ searchQuery }) {
   const { groups, isLoading, isError } = useGroup();
+
+  // Make sure groups is an array before filtering
+  const filteredGroups = React.useMemo(() => {
+    if (!Array.isArray(groups)) return [];
+    
+    if (!searchQuery) return groups;
+
+    const lowercaseQuery = searchQuery.toLowerCase();
+    return groups.filter((group) => 
+      group?.name?.toLowerCase().includes(lowercaseQuery) ||
+      group?.description?.toLowerCase().includes(lowercaseQuery)
+    );
+  }, [groups, searchQuery]);
 
   if (isLoading) {
     return (
@@ -39,6 +52,14 @@ export default function GroupCardContainer() {
     );
   }
 
+  if (isError) {
+    return (
+      <div className="col-span-12 flex flex-col justify-center items-center">
+        <p className="text-light text-lg">Error loading groups</p>
+      </div>
+    );
+  }
+
   return (
     <motion.div
       className="grid grid-cols-12 gap-16"
@@ -51,7 +72,7 @@ export default function GroupCardContainer() {
         opacity: 1,
       }}
     >
-      {!groups || groups.length === 0 ? (
+      {!filteredGroups.length ? (
         <div className="col-span-12 flex flex-col justify-center items-center">
           <svg
             viewBox="0 0 400 400"
@@ -402,8 +423,9 @@ export default function GroupCardContainer() {
           <p className="text-light text-lg">No groups available</p>
         </div>
       ) : (
-        Array.isArray(groups) &&
-        groups.map((group) => <GroupCard key={group.id} group={group} />)
+        filteredGroups.map((group) => (
+          <GroupCard key={group.id} group={group} />
+        ))
       )}
     </motion.div>
   );

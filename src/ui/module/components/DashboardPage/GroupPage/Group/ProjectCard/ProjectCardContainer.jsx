@@ -5,9 +5,20 @@ import ProjectCard from "./ProjectCard";
 import { useAllProject } from "@/services/project.services";
 import { useParams } from "next/navigation";
 
-export default function ProjectCardContainer() {
+export default function ProjectCardContainer({ searchQuery }) {
   const { id } = useParams();
-  const { projects, isLoading, isError, mutate } = useAllProject(id);
+  const { projects, isLoading, isError } = useAllProject(id);
+
+  const filteredProjects = React.useMemo(() => {
+    if (!Array.isArray(projects)) return [];
+    
+    if (!searchQuery) return projects;
+
+    const lowercaseQuery = searchQuery.toLowerCase();
+    return projects.filter((project) => 
+      project?.name?.toLowerCase().includes(lowercaseQuery)
+    );
+  }, [projects, searchQuery]);
 
   if (isLoading) {
     return (
@@ -40,6 +51,15 @@ export default function ProjectCardContainer() {
       </div>
     );
   }
+
+  if (isError) {
+    return (
+      <div className="col-span-12 flex flex-col justify-center items-center">
+        <p className="text-light text-lg">Error loading projects</p>
+      </div>
+    );
+  }
+
   return (
     <motion.div
       className="grid grid-cols-12 gap-16 w-full"
@@ -52,7 +72,7 @@ export default function ProjectCardContainer() {
         opacity: 1,
       }}
     >
-      {projects.length === 0 ? (
+      {!filteredProjects.length ? (
         <div className="col-span-12 flex flex-col justify-center items-center">
           <svg
             viewBox="0 0 400 400"
@@ -400,11 +420,10 @@ export default function ProjectCardContainer() {
               stroke-width="1"
             ></path>
           </svg>
-          <p className="text-light text-lg">No groups available</p>
+          <p className="text-light text-lg">No projects available</p>
         </div>
       ) : (
-        Array.isArray(projects) &&
-        projects.map((project) => (
+        filteredProjects.map((project) => (
           <ProjectCard key={project.id} project={project} id={id} />
         ))
       )}

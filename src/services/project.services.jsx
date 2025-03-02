@@ -44,55 +44,196 @@ export const createProject = async (projectData, mutate) => {
 
 export const useProjectById = (groupId, projectId) => {
   const { data, error, mutate } = useSWR(
-    `${baseUrl}/api/Project/${groupId}/${projectId}`,
+    groupId && projectId ? `${baseUrl}/api/Project/${groupId}/${projectId}` : null,
     fetcher,
-    {}
+    {
+     
+    }
   );
 
   return {
     project: data || {},
+    tasks: data?.tasks || [],
     isLoading: !error && !data,
     isError: error,
     mutate,
   };
 };
 
-export const createProjectTask = async (
-  taskData,
-  mutate,
-  groupId,
-  projectId
-) => {
-  if (!groupId || !projectId) {
-    throw new Error("Group ID and Project ID are required");
+export const createProjectTask = async (groupId, projectId, taskData, mutate) => {
+  try {
+    mutate((currentData) => {
+      if (!currentData) return currentData;
+      const newTask = {
+        id: Date.now(), 
+        ...taskData,
+        isCompleted: false
+      };
+      return {
+        ...currentData,
+        taskInformation: {
+          ...currentData.taskInformation,
+          tasks: currentData.taskInformation.tasks.map(column => {
+            if (column.id === taskData.status) {
+              return {
+                ...column,
+                items: [...column.items, newTask]
+              };
+            }
+            return column;
+          })
+        }
+      };
+    }, false);
+
+    const response = await axios.post(
+      `${baseUrl}/api/Project/${groupId}/${projectId}/tasks`,
+      taskData,
+      { withCredentials: true }
+    );
+
+    mutate();
+    return response.data;
+  } catch (error) {
+    await mutate();
+    throw error.response?.data || error.message;
+  }
+};
+
+export const deleteProjectTask = async (groupId, projectId, taskId, mutate) => {
+  if (!groupId || !projectId || !taskId) {
+    throw new Error('Missing required parameters');
   }
 
   try {
-    const response = await axios.post(
+    mutate((currentData) => {
+      if (!currentData) return currentData;
+      
+      return {
+        ...currentData,
+        taskInformation: {
+          ...currentData.taskInformation,
+          tasks: currentData.taskInformation.tasks.map(column => ({
+            ...column,
+            items: column.items.filter(task => task.id !== taskId)
+          }))
+        }
+      };
+    }, false);
+
+    const response = await axios.delete(
+      `${baseUrl}/api/Project/${groupId}/${projectId}/tasks/${taskId}`,
+      { withCredentials: true }
+    );
+
+    await mutate();
+    return response.data;
+  } catch (error) {
+    await mutate();
+    throw error.response?.data || error.message;
+  }
+};
+
+export const updateProjectTask = async (groupId, projectId, taskId, updatedData) => {
+  try {
+    if (!groupId || !projectId || !taskId) {
+      throw new Error('Missing required parameters');
+    }
+
+    const requestData = {
+      taskId: parseInt(taskId),
+      title: updatedData.title,
+      description: updatedData.description,
+      label: updatedData.label || "",
+      dueDate: new Date(updatedData.dueDate).toISOString(), 
+      priority: parseInt(updatedData.priority),
+      status: parseInt(updatedData.status),
+      usernamesOrEmails: Array.isArray(updatedData.usernamesOrEmails) 
+        ? updatedData.usernamesOrEmails 
+        : []
+    };
+
+    const response = await axios.put(
       `${baseUrl}/api/Project/${groupId}/${projectId}/tasks`,
-      {
-        ...taskData,
-        usernamesOrEmails: Array.isArray(taskData.usernamesOrEmails)
-          ? taskData.usernamesOrEmails
-          : [],
-        priority: Number(taskData.priority),
-        status: Number(taskData.status),
-      },
-      {
+      requestData,
+      { 
         withCredentials: true,
         headers: {
-          "Content-Type": "application/json",
-        },
+          'Content-Type': 'application/json'
+        }
       }
     );
 
-    if (typeof mutate === "function") {
-      await mutate();
-    }
-
     return response.data;
   } catch (error) {
-    console.error("API Error:", error.response?.data || error.message);
-    throw new Error(error.response?.data?.title || "Failed to create task");
+    console.error('Update task error details:', error.response?.data);
+    throw error.response?.data || error.message;
+  }
+};
+
+export const updateProjectTaskStatus = async (groupId, projectId, taskId, status) => {
+  try {
+    const response = await axios.patch(
+      `${baseUrl}/api/Project/${groupId}/${projectId}/${taskId}/status?status=${status}`,
+      {},
+      { withCredentials: true }
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Update status error:', error);
+    throw error.response?.data || error.message;
+  }
+};
+
+export const addProjectMember = async (groupId, projectId, username, mutate) => {
+  try {
+    const response = await axios.post(
+      `${baseUrl}/api/Project/${groupId}/${projectId}/assign?usernameOrEmail=${encodeURIComponent(username)}`,
+      {},
+      { withCredentials: true }
+    );
+    
+    await mutate();
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
+};
+
+export const removeProjectMember = async (groupId, projectId, username, mutate) => {
+  try {
+    const response = await axios.post(
+      `${baseUrl}/api/Project/${groupId}/${projectId}/unassign?usernameOrEmail=${encodeURIComponent(username)}`,
+      {},
+      { withCredentials: true }
+    );
+    
+    await mutate();
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
+};
+
+export const updateProject = async (groupId, projectId, data) => {
+  try {
+    const response = await axios.put(
+      `${baseUrl}/api/Project/${groupId}/${projectId}`,
+      {
+        id: parseInt(projectId),
+        name: data.name,
+        description: data.description,
+        dueDate: new Date().toISOString() // You can add dueDate input if needed
+      },
+      { 
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message;
   }
 };

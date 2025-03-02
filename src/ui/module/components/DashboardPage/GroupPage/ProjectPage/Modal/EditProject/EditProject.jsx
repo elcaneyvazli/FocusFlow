@@ -1,40 +1,31 @@
-import { setToggleProjectTask } from "@/redux/features/ProjectSlice/ProjectSlice";
+import { setToggleEditProject } from "@/redux/features/ProjectSlice/ProjectSlice";
 import { useAppSelector } from "@/redux/store";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { motion } from "framer-motion";
 import { useProjectById } from "@/services/project.services";
 import { useParams } from "next/navigation";
-import NewProjectTaskForm from "./NewProjectTaskForm";
+import EditProjectForm from "./EditProjectForm";
 
-export default function NewProjectTask() {
+export default function EditProject() {
   const dispatch = useDispatch();
   const params = useParams();
-  const newProjectTask = useAppSelector(
-    (state) => state.project.newProjectTask
-  );
+  const editProject = useAppSelector((state) => state.project.editProject);
 
   const groupId = params?.id?.toString();
   const projectId = params?.slug?.[0]?.toString();
 
-  const {
-    project,
-    isLoading,
-    isError,
-    mutate: projectMutate,
-  } = useProjectById(groupId, projectId);
+  const { project, isLoading, isError, mutate } = useProjectById(
+    groupId,
+    projectId
+  );
 
   const onClose = () => {
-    projectMutate();
-    dispatch(setToggleProjectTask());
+    dispatch(setToggleEditProject());
   };
 
-  if (isLoading || !project) {
-    return null;
-  }
-
   return (
-    newProjectTask && (
+    editProject && (
       <div className="fixed top-0 left-0 w-full h-full md:h-screen flex justify-center z-[100]">
         <motion.div
           className="fixed inset-0 bg-black bg-opacity-20 z-40 backdrop-blur-sm"
@@ -44,12 +35,12 @@ export default function NewProjectTask() {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
         ></motion.div>
-        <NewProjectTaskForm
+        <EditProjectForm
           onClose={onClose}
           project={project}
           groupId={groupId}
           projectId={projectId}
-          mutate={projectMutate}
+          mutate={mutate}
         />
       </div>
     )

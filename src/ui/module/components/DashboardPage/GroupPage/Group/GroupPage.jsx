@@ -1,6 +1,8 @@
+"use client";
 import GroupDetailContainer from "./GroupDetail/GroupDetailContainer";
 import dynamic from "next/dynamic";
 import GroupForm from "./GroupForm";
+import { useState } from "react";
 
 const ProjectCardContainer = dynamic(
   () => import("./ProjectCard/ProjectCardContainer"),
@@ -38,12 +40,17 @@ const ProjectCardContainer = dynamic(
 );
 
 export default function GroupPage() {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+  };
 
   return (
     <div className="grid grid-cols-12 gap-16 p-12 h-full w-full">
       <div className="h-full w-full col-span-12 xl:col-span-8 flex flex-col gap-16 overflow-y-auto">
-        <GroupForm />
-        <ProjectCardContainer />
+        <GroupForm onSearch={handleSearch} />
+        <ProjectCardContainer searchQuery={searchQuery} />
       </div>
       <div className="h-full w-full col-span-4">
         <GroupDetailContainer />

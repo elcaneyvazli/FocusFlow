@@ -37,7 +37,7 @@ export default function FullScreenPomodoro() {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.9 }}
           transition={{ duration: 0.3 }}
-          className="fixed top-0 left-0 w-full h-full md:h-screen flex flex-col items-center justify-between z-[100] bg-background p-12"
+          className="fixed top-0 left-0 w-full h-full md:h-screen flex flex-col items-center justify-between z-[100] bg-background p-12 md:rotate-0 rotate-90"
         >
           <div className="w-full flex flex-row justify-end">
             <Button
@@ -48,8 +48,8 @@ export default function FullScreenPomodoro() {
             />
           </div>
 
-          <div className="flex flex-row items-center gap-4 scale-150">
-            <div className="flex items-center justify-center p-12 bg-elevation border border-border rounded-md">
+          <div className="flex flex-row items-center gap-4 scale-150 md:rotate-0 rotate-90">
+            <div className="flex items-center justify-center p-12 bg-elevation border border-border rounded-md min-w-[250px]">
               <NumberFlow
                 value={timeObj.minutes}
                 className="text-text text-[96px] font-medium"
@@ -57,7 +57,7 @@ export default function FullScreenPomodoro() {
               />
             </div>
             <span className="text-text text-4xl font-medium">:</span>
-            <div className="flex items-center justify-center p-12 bg-elevation border border-border rounded-md">
+            <div className="flex items-center justify-center p-12 bg-elevation border border-border rounded-md min-w-[250px]">
               <NumberFlow
                 value={timeObj.seconds}
                 className="text-text text-[96px] font-medium"

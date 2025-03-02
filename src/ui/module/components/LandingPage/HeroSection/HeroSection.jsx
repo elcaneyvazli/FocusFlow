@@ -1,12 +1,16 @@
 "use client";
 import { motion, useScroll, useTransform } from "motion/react";
-import Page from "@/ui/assets/page.png";
+import Screen from "@/ui/assets/Screen.png";
+import ScreenDark from "@/ui/assets/ScreenDark.png";
 import Sticker from "@/ui/assets/sticker.svg";
 import Image from "next/image";
 import Button from "@/ui/module/blocks/Button/Button";
 import { useRouter } from "next/navigation";
+import { useAppSelector } from "@/redux/store";
 
 export default function HeroSection() {
+  const DarkMode = useAppSelector((state) => state.darkMode.darkMode);
+
   const { scrollYProgress } = useScroll();
   const rotate = useTransform(scrollYProgress, [0, 0.2], [20, 0]);
   const router = useRouter();
@@ -46,7 +50,7 @@ export default function HeroSection() {
         }}
       >
         <Image
-          src={Page}
+          src={DarkMode ? ScreenDark : Screen}
           alt="landing"
           width={0}
           height={0}

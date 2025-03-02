@@ -3,34 +3,52 @@ import React from "react";
 import ActivityChart from "./ActivityChart";
 import { ChartBar } from "lucide-react";
 import { motion } from "motion/react";
+import { useActivity } from "@/services/activity.services";
 
-const generateActivityData = () => {
-  const data = [];
-  const today = new Date();
+export default function ActivityChartContainer() {
+  const { activities, isLoading } = useActivity();
 
-  // Adjust to 364 days to get exactly 52 weeks
-  for (let i = 364; i >= 0; i--) {
-    const date = new Date();
-    date.setDate(today.getDate() - i);
+  const generateLast365Days = () => {
+    const days = [];
+    const today = new Date();
+    
+    for (let i = 364; i >= 0; i--) {
+      const date = new Date(today);
+      date.setDate(today.getDate() - i);
+      days.push({
+        date: date.toISOString().split('T')[0],
+        taskCount: 0
+      });
+    }
+    return days;
+  };
 
-    data.push({
-      date: date
-        .toLocaleDateString("en-US", {
+  const processedData = React.useMemo(() => {
+    const allDays = generateLast365Days();
+    const activityMap = new Map(
+      activities?.map(item => [
+        item.date.split('T')[0],
+        item
+      ])
+    );
+
+    return allDays.map(day => {
+      const activityData = activityMap.get(day.date) || { taskCount: 0 };
+      return {
+        date: new Date(day.date).toLocaleDateString("en-US", {
           month: "2-digit",
           day: "2-digit",
           year: "numeric",
-        })
-        .replace(/\//g, "."),
-      desktop: Math.round(Math.random()),
-      completedTasks: Math.floor(Math.random() * 10),
+        }).replace(/\//g, "."),
+        desktop: activityData.taskCount > 0 ? 1 : 0,
+        completedTasks: activityData.taskCount
+      };
     });
+  }, [activities]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
   }
-
-  return data;
-};
-
-export default function ActivityChartContainer() {
-  const data = generateActivityData();
 
   return (
     <motion.div
@@ -58,7 +76,7 @@ export default function ActivityChartContainer() {
         </div>
       </div>
       <div className="w-full h-full overflow-x-auto overflow-y-hidden pb-4 pr-4">
-        <ActivityChart data={data} />
+        <ActivityChart data={processedData} />
       </div>
     </motion.div>
   );

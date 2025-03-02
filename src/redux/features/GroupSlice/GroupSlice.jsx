@@ -6,6 +6,7 @@ const initialState = {
   newProject: false,
   groupDetail: false,
   newMember: false,
+  groupSettings: false,
 };
 
 const groupSlice = createSlice({
@@ -24,10 +25,18 @@ const groupSlice = createSlice({
     setToggleNewMember: (state) => {
       state.newMember = !state.newMember;
     },
+    setToggleGroupSettings: (state) => {
+      state.groupSettings = !state.groupSettings;
+    },
   },
 });
 
 export const groupReducer = groupSlice.reducer;
-export const { setToggleGroup, setToggleProject, setToggleGroupDetail,setToggleNewMember } =
-  groupSlice.actions;
+export const {
+  setToggleGroup,
+  setToggleProject,
+  setToggleGroupDetail,
+  setToggleNewMember,
+  setToggleGroupSettings,
+} = groupSlice.actions;
 export default groupReducer;

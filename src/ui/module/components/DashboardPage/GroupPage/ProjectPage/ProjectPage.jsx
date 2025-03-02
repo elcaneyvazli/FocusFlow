@@ -7,21 +7,23 @@ import TaskContainer from "./TaskContainer";
 import TaskCard from "./TaskCard";
 import { useDispatch } from "react-redux";
 import { addToast } from "@/redux/features/ToastSlice/ToastSlice";
+import PomodoroContainer from "../../TodotaskPage/Pomodoro/PomodoroContainer";
+import ProjectDetail from "./ProjectDetail";
 
 export default function ProjectPage() {
   const params = useParams();
   const dispatch = useDispatch();
-  
+
   const groupId = params?.id?.toString();
   const projectId = params?.slug?.[0]?.toString();
 
-  console.log('ProjectPage - Raw Params:', params);
-  console.log('ProjectPage - Extracted IDs:', { groupId, projectId });
-
-  const { project, isLoading, isError, mutate } = useProjectById(groupId, projectId);
+  const { project, isLoading, isError, mutate } = useProjectById(
+    groupId,
+    projectId
+  );
 
   if (!groupId || !projectId) {
-    console.error('ProjectPage - Missing IDs:', { groupId, projectId });
+    console.error("ProjectPage - Missing IDs:", { groupId, projectId });
     dispatch(
       addToast({
         title: "Error",
@@ -45,7 +47,9 @@ export default function ProjectPage() {
   }
 
   return (
-    <div className="flex flex-col gap-12 p-12 pb-32 md:pb-0 overflow-auto">
+    <div className="flex flex-col gap-12 px-12 pt-12 pb-72 h-screen overflow-y-auto scrollbar-thin scrollbar-thumb-border scrollbar-track-background">
+      <ProjectDetail project={project} />
+      <PomodoroContainer />
       <TaskCard
         project={project.taskInformation}
         isLoading={isLoading}

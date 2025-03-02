@@ -1,4 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { deleteTask } from "@/services/task.services";
+import { deleteProjectTask } from "@/services/project.services"; // Add this import
+import { deleteGroup, removeGroupMember } from "@/services/group.services";
+import { addToast } from "../ToastSlice/ToastSlice";
 
 const initialState = {
   isOpen: false,
@@ -26,6 +30,75 @@ const dialogSlice = createSlice({
     },
   },
 });
+
+export const handleDialogConfirm = (dialogType, data, dispatch) => {
+  if (!dialogType) return;
+
+  return async () => {
+    try {
+      switch (dialogType) {
+        case "deleteTask":
+          await deleteTask(data.taskId);
+          if (data.onMutate) data.onMutate();
+          dispatch(
+            addToast({
+              title: "Success",
+              message: "Task deleted successfully",
+              variant: "success",
+            })
+          );
+          break;
+
+        case "deleteProjectTask":
+          await deleteProjectTask(data.groupId, data.projectId, data.taskId, data.onMutate);
+          dispatch(
+            addToast({
+              title: "Success",
+              message: "Project task deleted successfully",
+              variant: "success",
+            })
+          );
+          break;
+
+        case "deleteGroup":
+          await deleteGroup(data.groupId);
+          dispatch(
+            addToast({
+              title: "Success",
+              message: "Group deleted successfully",
+              variant: "success",
+            })
+          );
+          if (data.onSuccess) {
+            data.onSuccess();
+          }
+          break;
+
+        case "logout":
+          // ...existing logout code...
+          break;
+      }
+    } catch (error) {
+      dispatch(
+        addToast({
+          title: "Error",
+          message: `Failed to ${
+            dialogType === "deleteTask" 
+              ? "delete task" 
+              : dialogType === "deleteProjectTask"
+              ? "delete project task"
+              : dialogType === "deleteGroup"
+              ? "delete group"
+              : "logout"
+          }`,
+          variant: "error",
+        })
+      );
+    }
+
+    dispatch(closeDialog());
+  };
+};
 
 export const { openDialog, closeDialog } = dialogSlice.actions;
 export const dialogReducer = dialogSlice.reducer;
