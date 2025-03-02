@@ -12,7 +12,7 @@ import {
   X,
 } from "lucide-react";
 import { useParams } from "next/navigation";
-import { useGroupById } from "@/services/group.services";
+import { useGroupById, useUserRole } from "@/services/group.services";
 import { motion } from "motion/react";
 import {
   setToggleGroupDetail,
@@ -24,9 +24,13 @@ import useScreenWidth from "@/ui/module/utils/UseScreenWidth/useScreenWidth";
 
 export default function GroupDetailCardContainer() {
   const { id } = useParams();
-  const { group, isLoading } = useGroupById(id);
+  const { group, isLoading: groupLoading } = useGroupById(id);
+  const { role, isLoading: roleLoading } = useUserRole(id);
   const dispatch = useDispatch();
   const mobile = useScreenWidth(640);
+
+  const isAdmin = role === "Admin";
+  const isLoading = groupLoading || roleLoading;
 
   const date = new Date(group?.createdDate).toLocaleDateString("en-UK", {
     day: "numeric",
@@ -86,7 +90,10 @@ export default function GroupDetailCardContainer() {
             size="small"
             text={mobile ? "" : "Edit Group"}
             iconPosition="right"
-            onClick={() => dispatch(setToggleGroupSettings())}
+            onClick={() =>
+              !isLoading && isAdmin && dispatch(setToggleGroupSettings())
+            }
+            disabled={isLoading || !isAdmin}
           />
           <button
             onClick={() => dispatch(setToggleGroupDetail())}

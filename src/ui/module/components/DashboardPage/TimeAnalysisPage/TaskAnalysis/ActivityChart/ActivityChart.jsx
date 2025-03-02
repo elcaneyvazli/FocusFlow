@@ -12,8 +12,8 @@ export default function ActivityChart({ data }) {
   const chartRef = useRef(null);
 
   const weeks = [];
-  for (let i = 0; i < 364; i += 7) {
-    weeks.push(data.slice(i, i + 7));
+  for (let i = 0; i < 365; i += 7) {
+    weeks.push(data.slice(i, Math.min(i + 7, data.length)));
   }
 
   return (
@@ -63,10 +63,8 @@ export default function ActivityChart({ data }) {
                 const leftSpace = rect.left - chartRect.left;
                 const rightSpace = chartRect.right - rect.right;
                 
-                // Determine vertical position
                 const position = topSpace < 60 ? "bottom" : "top";
                 
-                // Determine horizontal position
                 let horizontalPosition = "center";
                 if (leftSpace < 100) {
                   horizontalPosition = "right";

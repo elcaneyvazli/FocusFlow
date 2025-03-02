@@ -13,11 +13,16 @@ import React, { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { useRouter } from "next/navigation";
 import useScreenWidth from "@/ui/module/utils/UseScreenWidth/useScreenWidth";
+import { useParams } from "next/navigation";
+import { useUserRole } from "@/services/group.services";
 
 export default function GroupForm({ onSearch }) {
-  const dispath = useDispatch();
+  const dispatch = useDispatch();
   const router = useRouter();
   const isMobile = useScreenWidth(768);
+  const { id } = useParams();
+  const { role, isLoading } = useUserRole(id);
+  const isAdmin = role === "Admin";
 
   const {
     register,
@@ -66,7 +71,8 @@ export default function GroupForm({ onSearch }) {
           text={isMobile ? "" : "Add new project"}
           icon={isMobile ? <CirclePlus size={16} className="text-text" /> : ""}
           type={isMobile ? "icon-primary" : "primary"}
-          onClick={() => dispath(setToggleProject())}
+          onClick={() => !isLoading && isAdmin && dispatch(setToggleProject())}
+          disabled={isLoading || !isAdmin}
         />
       </div>
       <div className="w-full sm:w-fit h-fit flex xl:hidden text-text">
@@ -74,7 +80,7 @@ export default function GroupForm({ onSearch }) {
           type={"primary"}
           text={"Group Detail"}
           icon={<ReceiptText size={16} className="text-white" />}
-          onClick={() => dispath(setToggleGroupDetail())}
+          onClick={() => dispatch(setToggleGroupDetail())}
           size="medium"
           width={"[100%]"}
         />

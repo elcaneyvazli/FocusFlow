@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import clsx from "clsx";
 import Ripple from "./Ripple";
 
@@ -13,12 +13,18 @@ export default function Button({
   size = "medium",
   iconPosition = "left",
   color,
+  disabled,
 }) {
   const { ripples, addRipple } = Ripple();
 
   const handleClick = (e) => {
+    if (disabled) {
+      e.preventDefault();
+      e.stopPropagation();
+      return;
+    }
     addRipple(e);
-    onClick && onClick(e);
+    onClick?.(e);
   };
 
   const getTypeClasses = () => {
@@ -35,17 +41,16 @@ export default function Button({
         "bg-gradient-to-b from-warning-600 to-warning-700 border-warning-400 hover:outline-warning-200",
     };
 
-    const buttonColorClass = (type === "primary" || type === "icon-primary") && color
-      ? colorVariants[color]
-      : colorVariants.primary;
+    const buttonColorClass =
+      (type === "primary" || type === "icon-primary") && color
+        ? colorVariants[color]
+        : colorVariants.primary;
 
     return clsx(
-      "rounded-md whitespace-nowrap relative flex flex-row items-center justify-center gap-8 cursor-pointer ease-in-out",
+      "rounded-md whitespace-nowrap relative flex flex-row items-center justify-center gap-8 ease-in-out",
       {
         [`px-16 ${buttonColorClass} border text-white hover:outline hover:outline-2`]:
           type === "primary",
-        "px-16 bg-elevation border border-border text-text hover:outline hover:outline-2 hover:outline-primary-200 hover:border-primary-600":
-          type === "base",
         "px-16 bg-background border border-border text-text hover:outline hover:outline-2 hover:outline-primary-200 hover:border-primary-600":
           type === "solid",
         "px-16 bg-transparent border border-transparent text-text hover:outline hover:outline-2 hover:outline-primary-200 hover:border-primary-600":
@@ -58,6 +63,9 @@ export default function Button({
           type === "icon-solid",
         "bg-transparent border border-transparent text-text hover:outline hover:outline-2 hover:outline-primary-200 hover:border-primary-600":
           type === "icon-text",
+        "opacity-50 pointer-events-none select-none grayscale cursor-not-allowed hover:outline-none hover:border-border filter saturate-50 bg-opacity-75":
+          disabled,
+        "cursor-pointer": !disabled,
       },
       isIconType
         ? {
@@ -77,9 +85,10 @@ export default function Button({
   return (
     <motion.button
       className={clsx(getTypeClasses(), "overflow-hidden")}
-      whileTap={{ scale: 0.95 }}
+      whileTap={!disabled ? { scale: 0.95 } : undefined}
       type="submit"
       onClick={handleClick}
+      disabled={disabled}
       initial={{
         y: 20,
         opacity: 0,
@@ -90,15 +99,21 @@ export default function Button({
       }}
     >
       {icon && iconPosition === "left" && (
-        <span className="flex items-center leading-none">{icon}</span>
+        <span className={`flex items-center leading-none`}>{icon}</span>
       )}
       {text && (
-        <p className={`text-sm whitespace-nowrap leading-none`}>{text}</p>
+        <p
+          className={`text-sm whitespace-nowrap leading-none ${
+            disabled ? "text-light" : ""
+          }`}
+        >
+          {text}
+        </p>
       )}
       {icon && iconPosition === "right" && (
-        <span className="flex items-center leading-none">{icon}</span>
+        <span className={`flex items-center leading-none`}>{icon}</span>
       )}
-      {ripples}
+      {!disabled && ripples}
     </motion.button>
   );
 }

@@ -144,3 +144,18 @@ export const updateGroup = async (groupId, data) => {
     throw error.response?.data || error.message;
   }
 };
+
+export const useUserRole = (groupId) => {
+  const { data, error, mutate } = useSWR(
+    `${baseUrl}/Group/${groupId}/user-role`,
+    fetcher,
+    {}
+  );
+
+  return {
+    role: data?.role || "", // Change this line to access the role property
+    isLoading: !error && !data,
+    isError: error,
+    mutate,
+  };
+};

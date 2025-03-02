@@ -24,8 +24,8 @@ const validationSchema = yup.object().shape({
 
 export default function GroupSettingsForm({ onClick }) {
   const { id } = useParams();
-  const { member, mutate } = useGroupMember(id);
-  const { group } = useGroupById(id);
+  const { member, mutate: memberMutate } = useGroupMember(id);
+  const { group, mutate: groupMutate } = useGroupById(id);
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -43,7 +43,7 @@ export default function GroupSettingsForm({ onClick }) {
 
   const handleRemoveMember = async (username) => {
     try {
-      await removeGroupMember(id, username, mutate);
+      await removeGroupMember(id, username, memberMutate);
       dispatch(
         addToast({
           title: "Success",
@@ -84,6 +84,7 @@ export default function GroupSettingsForm({ onClick }) {
   const onSubmit = async (data) => {
     try {
       await updateGroup(id, data);
+      await groupMutate();
       dispatch(
         addToast({
           title: "Success",

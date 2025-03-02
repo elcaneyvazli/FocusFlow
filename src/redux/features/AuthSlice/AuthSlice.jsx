@@ -93,7 +93,6 @@ export const googleAuth = createAsyncThunk(
   "auth/google",
   async (credential, { rejectWithValue }) => {
     try {
-      console.log("Sending credential to backend", credential);
       const response = await axios.post(
         `${baseUrl}/Auth/google`,
         {
