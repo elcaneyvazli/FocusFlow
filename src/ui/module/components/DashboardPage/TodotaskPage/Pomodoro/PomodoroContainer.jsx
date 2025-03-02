@@ -59,7 +59,7 @@ export default function PomodoroContainer({ columns }) {
 
   return (
     <div className="relative">
-      <div className="bg-elevation border border-border rounded-md flex flex-row gap-12 p-8 items-center hover:border-primary-500 hover:outline hover:outline-primary-700">
+      <div className="bg-elevation border border-border rounded-md flex flex-col sm:flex-row gap-12 p-8 items-center hover:border-primary-500 hover:outline hover:outline-primary-700">
         <motion.button
           className="rounded-md flex flex-row items-center justify-between bg-background border border-border px-12 py-8 w-full"
           whileTap={{ scale: 0.99 }}
@@ -95,13 +95,13 @@ export default function PomodoroContainer({ columns }) {
         </motion.button>
         <div className="flex flex-row items-center gap-12 border-l border-border pl-8">
           <div className="border-r border-border pr-8 flex flex-row items-center gap-4">
-            <Button
+            {/* <Button
               type="icon-text"
               size="medium"
               icon={<Settings2 size={20} />}
               iconPosition="right"
               color={"success"}
-            />
+            /> */}
             <Button
               type="icon-text"
               size="medium"

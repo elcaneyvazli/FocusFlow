@@ -53,6 +53,8 @@ export default function Button({
           type === "primary",
         "px-16 bg-background border border-border text-text hover:outline hover:outline-2 hover:outline-primary-200 hover:border-primary-600":
           type === "solid",
+        "px-16 bg-elevation border border-border text-text hover:outline hover:outline-2 hover:outline-primary-200 hover:border-primary-600":
+          type === "base",
         "px-16 bg-transparent border border-transparent text-text hover:outline hover:outline-2 hover:outline-primary-200 hover:border-primary-600":
           type === "text",
         [`${buttonColorClass} border text-white hover:outline hover:outline-2`]:
